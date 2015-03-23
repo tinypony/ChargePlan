@@ -3,7 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /            					controllers.Assets.at(path="/public", file="index.html")
+POST    /api/configuration/schedule 	controllers.ScheduleImport.uploadGtfs()
+
+#Resouces
+GET 	/assets/*name				controllers.Assets.at(path="/public", name)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+#GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -1,5 +1,11 @@
 resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/"
 
+resolvers += "Maven Central Server" at "http://repo1.maven.org/maven2"
+
+resolvers += "Neo4j Scala Repo" at "http://m2.neo4j.org/content/repositories/releases"
+
+resolvers += "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
 // The Play plugin
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.8")
 
