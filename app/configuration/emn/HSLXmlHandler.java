@@ -11,12 +11,14 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
+import utils.MongoUtils;
+
 import com.mongodb.DBCollection;
 
 import models.BusTrip;
 
 public class HSLXmlHandler {
-
+/*
     public DBHandler parse(InputStream xmlInput) throws ParserConfigurationException, SAXException, IOException {
 
         SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -41,5 +43,5 @@ public class HSLXmlHandler {
     
     public void parseAndDump(InputStream input) throws UnknownHostException, ParserConfigurationException, SAXException, IOException {
     	this.dumpData(this.parse(input).getBuses());
-    }
+    }*/
 }

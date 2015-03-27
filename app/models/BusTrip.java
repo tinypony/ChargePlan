@@ -16,34 +16,30 @@ import com.mongodb.BasicDBObject;
 import org.mongodb.morphia.annotations.*;
 
 @Entity
-public class BusTrip implements Jsonable, Mongoable {
+public class BusTrip /*implements Jsonable, Mongoable*/ {
 	@Id
 	ObjectId id;
 	private String serviceId;
 	private String serviceNbr;
-
-	@Embedded
-	private ArrayList<ScheduleStop> stops; // stop
-
 	private String route;
+	@Transient
+	private BusRoute routeRef;
 	private String companyId;
 	private String footnoteId;
+	private String direction;
+	private List<String> dates;
+	
+	@Embedded
+	private ArrayList<ScheduleStop> stops; // stop
 	
 	@Transient
 	private String firstDate;
-	
-	private List<String> dates;
-
 	@Transient
 	private String vector;
 	@Transient 
 	private String trnsMode;
-
-
-
 	@Transient
 	private String dataSource;
-	private String direction;
 
 	public BusTrip() {
 		this.stops = new ArrayList<ScheduleStop>();
@@ -88,7 +84,7 @@ public class BusTrip implements Jsonable, Mongoable {
 	public String getCompany() {
 		return this.companyId;
 	}
-
+/*
 	@Override
 	public JSONObject toJson() {
 		JSONObject jBus = new JSONObject();
@@ -105,7 +101,7 @@ public class BusTrip implements Jsonable, Mongoable {
 		jBus.put("stops", jstops);
 
 		return jBus;
-	}
+	}*/
 
 	public BasicDBList getDates() {
 		BasicDBList dates = new BasicDBList();
@@ -152,7 +148,7 @@ public class BusTrip implements Jsonable, Mongoable {
 		return cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
 				+ "-" + cal.get(Calendar.DATE);
 	}
-
+/*
 	@Override
 	public BasicDBObject toMongoObj() {
 		Collections.sort(this.stops);
@@ -168,15 +164,15 @@ public class BusTrip implements Jsonable, Mongoable {
 				.append("dates", this.getDates());
 
 		return obj;
-	}
+	}*/
 
-	private List<BasicDBObject> getDBStops() {
+/*	private List<BasicDBObject> getDBStops() {
 		ArrayList<BasicDBObject> stops = new ArrayList<BasicDBObject>();
 		for (ScheduleStop stop : this.getStops()) {
 			stops.add(stop.toMongoObj());
 		}
 		return stops;
-	}
+	}*/
 
 	public String getFootnoteId() {
 		return footnoteId;
@@ -225,4 +221,14 @@ public class BusTrip implements Jsonable, Mongoable {
 	public void setTrnsmode(String trnsMode) {
 		this.trnsMode = trnsMode;
 	}
+
+	public BusRoute getRouteRef() {
+		return routeRef;
+	}
+
+	public void setRouteRef(BusRoute routeRef) {
+		this.routeRef = routeRef;
+	}
+	
+	
 }

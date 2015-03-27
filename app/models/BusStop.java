@@ -12,6 +12,8 @@ public class BusStop {
     private String name;
     private String x;
     private String y;
+	private boolean isFirst;
+	private boolean isLast;
     
     public BusStop(Attributes atts) {
         String name = atts.getValue("Name");
@@ -83,4 +85,20 @@ public class BusStop {
     public void setY(String y) {
         this.y = y;
     }
+
+	public boolean isFirst() {
+		return isFirst;
+	}
+
+	public void setFirst(boolean isFirst) {
+		this.isFirst = isFirst;
+	}
+
+	public boolean isLast() {
+		return isLast;
+	}
+
+	public void setLast(boolean isLast) {
+		this.isLast = isLast;
+	}
 }

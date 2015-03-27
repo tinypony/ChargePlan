@@ -6,6 +6,8 @@
 GET     /            					controllers.Assets.at(path="/public", file="index.html")
 POST    /api/configuration/schedule 	controllers.ScheduleImport.uploadGtfs()
 
+GET     /ws/jobmonitor                 	controllers.JobMonitorController.socket()
+
 #Resouces
 GET 	/assets/*name				controllers.Assets.at(path="/public", name)
 

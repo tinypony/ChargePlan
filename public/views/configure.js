@@ -3,7 +3,49 @@ define([ 'jquery', 'underscore', 'backbone', 'hbs!templates/configure', 'knob', 
 
   var ConfigurationView = Backbone.View.extend({
     initialize: function(options) {
+      this.connectToMonitor();
+    },
+    
+    connectToMonitor: function() {
+      var self = this;
+      this.connection = new WebSocket('ws://'+window.location.hostname+':'+window.location.port+'/ws/jobmonitor');
+  
       
+      this.connection.onmessage = function(msg) {
+        var message = JSON.parse(msg.data);
+        console.log(message);
+        
+        if(message.messageType === 'newJob' && message.job.type === 'ScheduleImport') {
+          self.monitorJob(message.job.id);
+        } else if(message.messageType === 'activeJobs') {
+          _.each(message.jobs, function(job) {
+            console.log(job);
+            if(job.type === 'ScheduleImport') {
+              self.monitorJob(job.id);
+            }
+          });
+        } else {
+          console.log('Unhandled message');
+        }
+      };
+      
+      this.connection.onopen = function() {
+        self.connection.send(JSON.stringify({
+          action: 'listJobs'
+        }));
+      };
+
+      // Log errors
+      this.connection.onerror = function (error) {
+        console.log('WebSocket Error ' + error);
+      };
+    },
+    
+    monitorJob: function(jobId) {
+      this.connection.send(JSON.stringify({
+        action: 'monitor',
+        jobs: [jobId]
+      }));
     },
     
     render: function() {

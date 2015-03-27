@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
+import models.BusRoute;
 import models.BusStop;
 import models.BusTrip;
 import models.ScheduleStop;
 
+import org.mongodb.morphia.Datastore;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.ServiceCalendarDate;
@@ -19,143 +21,161 @@ import org.onebusaway.gtfs.model.Trip;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.serialization.GtfsReader;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-
+import dto.jobstate.ScheduleImportJobState;
+import play.Logger;
+import utils.MongoUtils;
 
 public class RuterGTFSHandler {
 
-    private GtfsReader reader;
-    private GtfsDaoImpl store;
-    private static int  BUS_ROUTE_TYPE = 3;
-    
-    HashMap<String, Route> routes = new HashMap<String, Route>();
-    HashMap<String, List<ServiceCalendarDate>> opDates = new HashMap<String, List<ServiceCalendarDate>>();
-    HashMap<String, BusTrip> trips = new HashMap<String, BusTrip>();
-    HashMap<String, BusStop> stops = new HashMap<String, BusStop>();
-    
-    
-    public RuterGTFSHandler(String gtfsDir) throws IOException {
-        this.reader = new GtfsReader();
-        this.reader.setInputLocation(new File(gtfsDir));
-        this.store = new GtfsDaoImpl();
-        this.reader.setEntityStore(this.store);
-    }
-    
-    public void parseInput() throws IOException {
-        this.reader.run();
-        System.out.println("GTFS files fully read");
-    }
-    
-    public GtfsDaoImpl getStore() {
-    	return this.store;
-    }
-    
-    public void parseAndDump() throws IOException {
-    	this.parseInput();
-        DBCollection routesColl, tripsColl;
-        
-        routesColl = MongoUtils.getDB("ruter").getCollection("routes");
-        routesColl.drop();
-        routesColl = MongoUtils.getDB().getCollection("routes");
-        
-        tripsColl = MongoUtils.getDB("ruter").getCollection("trips");
-        tripsColl.drop();
-        tripsColl = MongoUtils.getDB().getCollection("trips");
-        
+	private GtfsReader reader;
+	private GtfsDaoImpl store;
+	private static int BUS_ROUTE_TYPE = 3;
+	
+	public RuterGTFSHandler(String gtfsDir) throws IOException {
+		this.reader = new GtfsReader();
+		this.reader.setInputLocation(new File(gtfsDir));
+		this.store = new GtfsDaoImpl();
+		this.reader.setEntityStore(this.store);
+	}
 
-        
-        this.processRoutes(routesColl);
-        this.processDates();
-        this.processTrips();
-        this.processStops();
-        
-        Set<String> keySet = trips.keySet();
-        int i=0;
-        
-        for(String tripId: keySet) {
-        	BusTrip trip = trips.get(tripId);
-        	tripsColl.insert(trip.toMongoObj());
-        	i++;
-        	System.out.println("Imported " + i + " trips out of "+keySet.size() + " \r");
-        }
-        
-        System.out.println("Imported " + trips.size() + " bus trips");
-    }
+	public void parseInput() throws IOException {
+		this.reader.run();
+	}
 
-	private void processStops() {
-		for(StopTime st: store.getAllStopTimes()) {
-        	BusStop busStop;
-        	BusTrip busTrip = trips.get(st.getTrip().getId().getId());
-        	String stopId = st.getStop().getId().getId();
+	public GtfsDaoImpl getStore() {
+		return this.store;
+	}
+	
+	public void dumpData() {
+		Datastore ds = MongoUtils.ds();
+		ds.delete(ds.createQuery(BusRoute.class));
+		ds.delete(ds.createQuery(BusStop.class));
+		ds.delete(ds.createQuery(BusTrip.class));
 
-        	if(busTrip == null) {
-        		continue;
-        	}
-        	
-        	if(stops.containsKey(stopId)) {
-        		busStop = stops.get(stopId);
-        	} else {
-        		Stop stop = st.getStop();
-        		busStop = new BusStop(stop);
-        		stops.put(busStop.getStopId(), busStop);
-        	}
-        	
-        	ScheduleStop scheduleStop = new ScheduleStop(st, busStop);
-        	busTrip.addStop(scheduleStop);
-        }
+		Map<String, BusRoute> routes = this.processRoutes();
+		Map<String, List<ServiceCalendarDate>> opDates = this.processDates();
 		
-		System.out.println("Detected "+ stops.size() + " bus stops");
+		Map<String, BusTrip> trips = this.processTrips(routes, opDates);
+		Map<String, BusStop> stops = this.processStops(trips);
+		this.postprocessTrips(trips);
+
+		ds.save(stops.values());
+		Logger.info(stops.size() + " stops imported");
+
+		ds.save(routes.values());
+		Logger.info(routes.size() + " routes imported");
+
+		ds.save(trips.values());
+		Logger.info(trips.size() + " trips imported");
 	}
 
-	private void processTrips() {
-		for(Trip t: store.getAllTrips()) {
-            BusTrip trip = new BusTrip();
-            trip.setDates(opDates.get(t.getServiceId().getId()));
-            trip.setDataSource("ruter");
-            String tripId = t.getId().getId();
-            
-            trip.setServiceID(tripId);
-            trip.setFootnoteId(t.getServiceId().getId()); //references service id in calendar dates
-            trip.setRoute(t.getRoute().getShortName());
-            trip.setServiceNbr(t.getRoute().getId().getId());
-            trip.setDirection(t.getDirectionId());
-            trips.put(tripId, trip);
-        }
+	private void postprocessTrips(Map<String, BusTrip> trips) {
+		for (BusTrip trip : trips.values()) {
+			BusRoute route = trip.getRouteRef();
+
+			if (route.getWaypoints().size() == 0) {
+				for (ScheduleStop stop : trip.getStops()) {
+					route.getWaypoints().add(stop.getStop());
+				}
+				int stopsTotal = trip.getStops().size();
+				//determine end stops
+				trip.getStops().get(0).getStop().setFirst(true);
+				trip.getStops().get(stopsTotal-1).getStop().setLast(true);
+			}
+		}
 	}
 
-	private void processDates() {
-		for(ServiceCalendarDate scd: this.store.getAllCalendarDates()) {
-        	//Service is not operating on that day
-        	if(scd.getExceptionType() == 2) {
-        		continue;
-        	}
-        	
-        	String serviceId = scd.getServiceId().getId();
-        	
-        	if(opDates.containsKey(serviceId)) {
-        		opDates.get(serviceId).add(scd);
-        	} else {
-        		List<ServiceCalendarDate> list = new ArrayList<ServiceCalendarDate>();
-        		list.add(scd);
-            	opDates.put(serviceId, list);
-        	}
-        }
+	private Map<String, BusStop> processStops(Map<String, BusTrip> trips) {
+		HashMap<String, BusStop> stops = new HashMap<String, BusStop>();
+
+		for (StopTime st : store.getAllStopTimes()) {
+			BusStop busStop;
+			BusTrip busTrip = trips.get(st.getTrip().getId().getId());
+			String stopId = st.getStop().getId().getId();
+
+			if (busTrip == null) {
+				continue;
+			}
+
+			if (stops.containsKey(stopId)) {
+				busStop = stops.get(stopId);
+			} else {
+				Stop stop = st.getStop();
+				busStop = new BusStop(stop);
+				stops.put(busStop.getStopId(), busStop);
+			}
+
+			ScheduleStop scheduleStop = new ScheduleStop(st, busStop);
+			busTrip.addStop(scheduleStop);
+		}
+		return stops;
 	}
 
-	private void processRoutes(DBCollection routesColl) {
-		for(Route r: this.store.getAllRoutes()) {
-            if(r.getType() == BUS_ROUTE_TYPE) {
-                BasicDBObject route = new BasicDBObject();
-                route.append("id", r.getId().getId())
-                .append("description", r.getDesc())
-                .append("name", r.getShortName());
-                
-                routesColl.insert(route);
-                routes.put(r.getId().getId().toString(), r);
-            }
-        }
+	private Map<String, BusTrip> processTrips(Map<String, BusRoute> busRoutes,
+			Map<String, List<ServiceCalendarDate>> opDates) {
+		HashMap<String, BusTrip> trips = new HashMap<String, BusTrip>();
 
-        System.out.println("Imported " + routes.size() + " routes");
-	}    
+		for (Trip t : store.getAllTrips()) {
+			BusRoute route = busRoutes.get(t.getRoute().getId().getId());
+			if(route == null || t.getRoute().getType() != BUS_ROUTE_TYPE) {
+				continue;
+			}
+			
+			BusTrip trip = new BusTrip();
+			trip.setDates(opDates.get(t.getServiceId().getId()));
+			trip.setDataSource("ruter");
+			String tripId = t.getId().getId();
+
+			trip.setServiceID(tripId);
+			trip.setFootnoteId(t.getServiceId().getId()); // references service
+															// id in calendar
+															// dates
+			trip.setRoute(t.getRoute().getShortName());
+			trip.setServiceNbr(t.getRoute().getId().getId());
+			trip.setDirection(t.getDirectionId());
+			
+			trip.setRouteRef(route);
+			trips.put(tripId, trip);
+		}
+
+		return trips;
+	}
+
+	private Map<String, List<ServiceCalendarDate>> processDates() {
+		HashMap<String, List<ServiceCalendarDate>> opDates = new HashMap<String, List<ServiceCalendarDate>>();
+
+		for (ServiceCalendarDate scd : this.store.getAllCalendarDates()) {
+			// Service is not operating on that day
+			if (scd.getExceptionType() == 2) {
+				continue;
+			}
+
+			String serviceId = scd.getServiceId().getId();
+
+			if (opDates.containsKey(serviceId)) {
+				opDates.get(serviceId).add(scd);
+			} else {
+				List<ServiceCalendarDate> list = new ArrayList<ServiceCalendarDate>();
+				list.add(scd);
+				opDates.put(serviceId, list);
+			}
+		}
+		return opDates;
+	}
+
+	private HashMap<String, BusRoute> processRoutes() {
+		HashMap<String, BusRoute> busRoutes = new HashMap<String, BusRoute>();
+		
+		for (Route r : this.store.getAllRoutes()) {
+			if (r.getType() == BUS_ROUTE_TYPE) {
+				BusRoute route = new BusRoute();
+				route.setRouteId(r.getId().getId());
+				route.setDescription(r.getDesc());
+				route.setName(r.getShortName());
+				busRoutes.put(route.getRouteId(), route);
+			}
+		}
+
+		return busRoutes;
+	}
 }

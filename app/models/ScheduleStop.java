@@ -5,18 +5,21 @@ import java.util.Map;
 
 import org.json.JSONObject;
 import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Reference;
 import org.onebusaway.gtfs.model.StopTime;
 import org.xml.sax.Attributes;
 
 import com.mongodb.BasicDBObject;
 
 @Embedded
-public class ScheduleStop implements Jsonable, Mongoable, Comparable {
-	private BusStop stop;
+public class ScheduleStop implements /*Jsonable, Mongoable,*/ Comparable {
+
 	private int order;
 	private String arrival;
-
-	@Override
+	@Reference
+	private BusStop stop;
+	
+	/*@Override
 	public JSONObject toJson() {
 		JSONObject jstop = new JSONObject();
 		jstop.put("id", this.getStop().getStopId());
@@ -25,8 +28,9 @@ public class ScheduleStop implements Jsonable, Mongoable, Comparable {
 		jstop.put("posX", this.getStop().getX());
 		jstop.put("posY", this.getStop().getY());
 		return jstop;
-	}
+	}*/
 
+	//Creating from hsl database
 	public ScheduleStop(Attributes atts, Map<String, BusStop> stops)
 			throws IllegalArgumentException {
 		this.stop = stops.get(atts.getValue("StationId"));
@@ -77,7 +81,7 @@ public class ScheduleStop implements Jsonable, Mongoable, Comparable {
 		this.arrival = arrival;
 	}
 
-	@Override
+	/*@Override
 	public BasicDBObject toMongoObj() {
 		BasicDBObject jstop = new BasicDBObject();
 		jstop.append("id", this.getStop().getStopId()).append("order", this.order)
@@ -86,7 +90,7 @@ public class ScheduleStop implements Jsonable, Mongoable, Comparable {
 				.append("posX", this.getStop().getX())
 				.append("posY", this.getStop().getY());
 		return jstop;
-	}
+	}*/
 
 	public String getTime(String format, int secondsFromMidnight) {
 		SimpleDateFormat df = new SimpleDateFormat(format);
