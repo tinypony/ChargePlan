@@ -15,12 +15,12 @@ import com.mongodb.BasicDBObject;
 
 import org.mongodb.morphia.annotations.*;
 
-@Entity
+@Entity("trips")
 public class BusTrip /*implements Jsonable, Mongoable*/ {
 	@Id
 	ObjectId id;
 	private String serviceId;
-	private String serviceNbr;
+	private String routeId;
 	private String route;
 	@Transient
 	private BusRoute routeRef;
@@ -69,12 +69,12 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 		this.serviceId = serviceID;
 	}
 
-	public String getServiceNbr() {
-		return serviceNbr;
+	public String getRouteId() {
+		return routeId;
 	}
 
-	public void setServiceNbr(String serviceNbr) {
-		this.serviceNbr = serviceNbr;
+	public void setRouteId(String routeId) {
+		this.routeId = routeId;
 	}
 
 	public void setCompany(String companyId) {
@@ -84,24 +84,7 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	public String getCompany() {
 		return this.companyId;
 	}
-/*
-	@Override
-	public JSONObject toJson() {
-		JSONObject jBus = new JSONObject();
-		jBus.put("serviceId", this.getServiceID());
-		jBus.put("companyId", this.getCompany());
-		jBus.put("serviceNbr", this.getServiceNbr());
-		jBus.put("route", this.getRoute());
-		JSONArray jstops = new JSONArray();
 
-		for (ScheduleStop stop : this.getStops()) {
-			jstops.put(stop.toJson());
-		}
-
-		jBus.put("stops", jstops);
-
-		return jBus;
-	}*/
 
 	public BasicDBList getDates() {
 		BasicDBList dates = new BasicDBList();
@@ -148,31 +131,6 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 		return cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1)
 				+ "-" + cal.get(Calendar.DATE);
 	}
-/*
-	@Override
-	public BasicDBObject toMongoObj() {
-		Collections.sort(this.stops);
-
-		BasicDBObject obj = new BasicDBObject();
-		obj.append("serviceId", this.getServiceID())
-				.append("direction", this.getDirection())
-				.append("companyId", this.getCompany())
-				.append("route", this.getRoute())
-				.append("serviceNbr", this.getServiceNbr())
-				.append("stops", this.getDBStops())
-				.append("footnodeId", this.getFootnoteId())
-				.append("dates", this.getDates());
-
-		return obj;
-	}*/
-
-/*	private List<BasicDBObject> getDBStops() {
-		ArrayList<BasicDBObject> stops = new ArrayList<BasicDBObject>();
-		for (ScheduleStop stop : this.getStops()) {
-			stops.add(stop.toMongoObj());
-		}
-		return stops;
-	}*/
 
 	public String getFootnoteId() {
 		return footnoteId;

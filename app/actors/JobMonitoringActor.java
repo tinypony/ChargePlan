@@ -47,10 +47,7 @@ public class JobMonitoringActor extends UntypedActor {
 			
 			this.brain.broadcast(typedMsg.getJobState().getId(), new ObjectMapper().valueToTree(resp));
 			if(typedMsg.getJobState().isDone()) {
-				Logger.info("Job has finished, cleaning up");
 				this.brain.finish(typedMsg.getJobState());
-			} else {
-				Logger.info("Not the final step");
 			}
 			
 		} else if (msg instanceof JobSpawnMessage) {
@@ -65,7 +62,6 @@ public class JobMonitoringActor extends UntypedActor {
 			} else if ("monitor".equals(typedMsg.getAction())) {
 				
 				for(String j: typedMsg.getJobs()) {
-					Logger.info("Request job monitoring {} by client {}", j, typedMsg.getClientId());
 					brain.monitor(typedMsg.getClientId(), j);
 				}
 			}

@@ -4,16 +4,19 @@ import org.xml.sax.Attributes;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.*;
 
-@Entity("stops")
+@Embedded
+@Entity
 public class BusStop {
-	@Id
-    private ObjectId id;
 	private String stopId;
     private String name;
     private String x;
     private String y;
 	private boolean isFirst;
 	private boolean isLast;
+	
+	public BusStop(){
+		
+	}
     
     public BusStop(Attributes atts) {
         String name = atts.getValue("Name");

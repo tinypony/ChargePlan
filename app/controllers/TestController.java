@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import model.BusTrip;
@@ -9,10 +10,11 @@ import model.BusTripGroup;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.AggregationPipeline;
 import org.mongodb.morphia.aggregation.Group;
+import org.mongodb.morphia.query.MorphiaIterator;
 
 import static org.mongodb.morphia.aggregation.Group.*;
 
-import com.mongodb.Mongo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -24,9 +26,17 @@ public class TestController extends Controller {
 		Datastore ds = MongoUtils.ds();
 		AggregationPipeline<BusTrip, BusTripGroup> ap = ds.createAggregation(BusTrip.class);
 		
-		List<Group> idGroup = id(grouping("serviceNbr"), grouping("direction"));
-		ap.group(idGroup, grouping("stops", first("stops")));
+		List<Group> idGroup = id(grouping("routeId"), grouping("direction"));
+		ap.group(idGroup, grouping("routeId", first("routeId")), grouping("direction", first("direction")), grouping("stops", first("stops")));
 		
-		return ok();
+		MorphiaIterator<BusTripGroup, BusTripGroup> iterator = ap.aggregate(BusTripGroup.class);
+		Iterator<BusTripGroup> it = iterator.iterator();
+		List<BusTripGroup> list = new ArrayList<BusTripGroup>();
+		while(it.hasNext()) {
+			list.add(it.next());
+		}
+		ObjectMapper om = new ObjectMapper();
+		
+		return ok(om.valueToTree(list)).as("application/json");
 	}
 }

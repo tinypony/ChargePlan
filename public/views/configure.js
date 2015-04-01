@@ -28,13 +28,13 @@ define([ 'jquery',
       
       this.connection.onmessage = function(msg) {
         var message = JSON.parse(msg.data);
-        console.log(message);
+      //  console.log(message);
         
         if(message.messageType === 'newJob' && message.job.type === 'ScheduleImport') {
           self.monitorJob(message.job);
         } else if(message.messageType === 'activeJobs') {
           _.each(message.jobs, function(job) {
-            console.log(job);
+           // console.log(job);
             
             if(job.type === 'ScheduleImport') {
               self.monitorJob(job);

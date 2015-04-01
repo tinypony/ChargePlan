@@ -100,7 +100,6 @@ public class JobManagerActor extends UntypedActor {
 			this.createScheduleImportJob(typed.getJobState(), typed.getBody());
 		} else if (msg instanceof Terminated) {
 			Terminated typed = (Terminated)msg;
-			Logger.info("Terminated actor, is schedule import: {}", typed.actor().compareTo(scheduleImportJob));
 			if(typed.actor().compareTo(scheduleImportJob) == 0){
 				this.spawnedJobs.remove(scheduleImportJob);
 				scheduleImportJob = null;

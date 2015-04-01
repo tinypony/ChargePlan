@@ -26,7 +26,11 @@ define(['jquery',
         if(i<job.state) {
           this.$('ul').append('<li class="state"><label class="step">'+job.states[i]+'</label><label class="state">OK</label></li>');
         } else if(i == job.state && !job.done) {
-          this.$('ul').append('<li class="state"><label class="step">'+job.states[i]+'</label><label class="state">In progress</label></li>');
+          if(job.stateProgress < 0 ) {
+            this.$('ul').append('<li class="state"><label class="step">'+job.states[i]+'</label><label class="state">In progress</label></li>');
+          } else {
+            this.$('ul').append('<li class="state"><label class="step">'+job.states[i]+'</label><label class="state">' + job.stateProgress.toFixed(2) + '%</label></li>');
+          }
         } else {
           this.$('ul').append('<li class="state"><label class="step">'+job.states[i]+'</li>');
           this.$('.last-uploaded').text('Imported '+moment().format('MMMM Do YYYY, HH:mm'));

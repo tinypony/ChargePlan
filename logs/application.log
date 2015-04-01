@@ -1,3 +1,63 @@
-2015-04-01 11:25:24,665 - [INFO] - from play in pool-4-thread-1 
+2015-04-01 15:51:58,416 - [INFO] - from play in pool-4-thread-2 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+2015-04-01 15:52:35,519 - [INFO] - from application in play-internal-execution-context-1 
+Application has started
+
+2015-04-01 15:52:35,522 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-04-01 15:52:36,528 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-04-01 15:52:41,466 - [INFO] - from play in play-internal-execution-context-1 
+Starting application default Akka system.
+
+2015-04-01 15:52:50,501 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Added new running job, id = 7b4dfbcb-5786-49f4-9e5e-ac4ea42539bc
+
+2015-04-01 15:52:54,564 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
+Parsing data
+
+2015-04-01 15:53:29,217 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
+Data has been parsed
+
+2015-04-01 15:55:06,186 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
+1023 routes imported
+
+2015-04-01 16:00:29,134 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
+Data has been imported
+
+2015-04-01 16:12:15,725 - [INFO] - from application in play-internal-execution-context-3 
+Application shutdown...
+
+2015-04-01 16:12:15,745 - [INFO] - from play in play-internal-execution-context-3 
+Shutdown application default Akka system.
+
+2015-04-01 16:12:16,176 - [INFO] - from application in play-internal-execution-context-3 
+Application has started
+
+2015-04-01 16:12:16,179 - [INFO] - from application in play-internal-execution-context-3 
+Found ruter
+
+2015-04-01 16:12:16,185 - [INFO] - from play in play-internal-execution-context-3 
+Application started (Dev)
+
+2015-04-01 16:12:18,273 - [INFO] - from play in play-akka.actor.default-dispatcher-10 
+Starting application default Akka system.
+
+2015-04-01 16:12:18,384 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
+Added new running job, id = 4b74f243-0372-4c70-b214-74e649a56093
+
+2015-04-01 16:12:20,804 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Parsing data
+
+2015-04-01 16:13:00,134 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Data has been parsed
+
+2015-04-01 16:14:18,757 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+1023 routes imported
+
+2015-04-01 16:19:27,762 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Data has been imported
 

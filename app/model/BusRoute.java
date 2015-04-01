@@ -9,7 +9,7 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.annotations.Transient;
 
-@Entity("Routes")
+@Entity("routes")
 public class BusRoute {
 	@Id
 	ObjectId id;
@@ -17,7 +17,7 @@ public class BusRoute {
 	String description;
 	String name;
 	
-	@Transient
+	
 	List<BusStop> waypoints = new ArrayList<BusStop>();
 
 	public ObjectId getId() {

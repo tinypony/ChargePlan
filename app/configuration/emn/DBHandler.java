@@ -102,7 +102,7 @@ public class DBHandler extends DefaultHandler {
 				BusTrip bus = (BusTrip) this.objectStack.peek();
 				bus.setCompany(companyId);
 				bus.setRoute(routeNbr);
-				bus.setServiceNbr(serviceNbr);
+				bus.setRouteId(serviceNbr);
 			}
 			
 		} else if ("stop".equals(qNameLow)) {

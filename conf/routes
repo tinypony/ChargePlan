@@ -5,7 +5,10 @@
 # Home page
 GET     /            					controllers.Assets.at(path="/public", file="index.html")
 POST    /api/configuration/schedule 	controllers.ScheduleImportController.uploadGtfs()
+GET 	/api/configuration				controllers.UserConfigController.getConfig()
 GET 	/api/test						controllers.TestController.getTest()
+
+GET		/api/routes						controllers.RoutesController.getRoutes()
 
 GET     /ws/jobmonitor                 	controllers.JobMonitorController.socket()
 

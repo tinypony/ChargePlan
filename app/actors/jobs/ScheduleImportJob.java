@@ -1,24 +1,44 @@
 package actors.jobs;
 
+import static org.mongodb.morphia.aggregation.Group.first;
+import static org.mongodb.morphia.aggregation.Group.grouping;
+import static org.mongodb.morphia.aggregation.Group.id;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import model.BusRoute;
+import model.BusStop;
+import model.BusTrip;
+import model.BusTripGroup;
 import model.ClientConfig;
+import model.ScheduleStop;
 
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.aggregation.AggregationPipeline;
+import org.mongodb.morphia.aggregation.Group;
+import org.mongodb.morphia.mapping.Mapper;
+import org.mongodb.morphia.mapping.cache.EntityCache;
+import org.mongodb.morphia.query.MorphiaIterator;
 import org.mongodb.morphia.query.Query;
 
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Cursor;
 import com.mongodb.DBCollection;
@@ -75,7 +95,7 @@ public class ScheduleImportJob extends UntypedActor {
 			this.state.unzipped(getSelf());
 
 			this.importGtfs(gtfsFolder, this.state);
-		//	this.retrieveRouteLength();
+			this.resolveLengths(this.state);
 			this.state.distancesResolved(getSelf());
 			this.saveHistory(true);
 			getContext().stop(getSelf());
@@ -155,57 +175,93 @@ public class ScheduleImportJob extends UntypedActor {
 		
 		Logger.info("Data has been parsed");
 		ruterHandler.dumpData();
+		augmentRoutes();
 		job.imported(getSelf());
 		Logger.info("Data has been imported");
 	}
-
-	public void retrieveRouteLength() throws IOException, InterruptedException {
+	
+	public void resolveLengths(ScheduleImportJobState state2) throws IOException, InterruptedException {
 		MongoUtils.setDBName(databaseName);
-		DBCollection coll = MongoUtils.getDB().getCollection("trips");
+		Datastore ds = MongoUtils.ds();
+		DBCollection coll = ds.getCollection(BusTrip.class);
+		AggregationPipeline<BusTrip, BusTripGroup> ap = ds.createAggregation(BusTrip.class);
 		
-		Cursor tripsCurs = coll.find();
+		List<Group> idGroup = id(grouping("routeId"), grouping("direction"));
+		ap.group(idGroup, grouping("id", first("id")), grouping("routeId", first("routeId")), grouping("direction", first("direction")), grouping("stops", first("stops")));
+		
+		MorphiaIterator<BusTripGroup, BusTripGroup> iterator = ap.aggregate(BusTripGroup.class);
+		
+		List<BusTripGroup> distinctTrips = Lists.newArrayList(iterator.iterator());
+		Iterator<BusTripGroup> it = distinctTrips.iterator();
+		int i = 0;
+		
+		while(it.hasNext()) {
+			BusTripGroup oneTrip = it.next();
+			
+			int lengthInMeters;
 
-		float i = 0;
-
-		while (tripsCurs.hasNext()) {
-			DBObject trip = tripsCurs.next();
-
-			// Skip already processed routes
-			if (trip.get("tripLength") == null
-					|| (Integer) trip.get("tripLength") == 0) {
-
-				int lengthInMeters;
-
-				try {
-					lengthInMeters = DistanceRetriever.getRouteLength(trip);
-				} catch (IllegalStateException e) { // results from exceeding
-													// google api request quota,
-													// try to use hashed
-													// distances instead
-					continue;
-				}
-
-				BasicDBObject update = new BasicDBObject("$set",
-						new BasicDBObject("tripLength", lengthInMeters));
-
-				WriteResult result = coll.update(trip, update, false, false);
+			try {
+				List<ScheduleStop> stops = oneTrip.getStops();
+				lengthInMeters = DistanceRetriever.getRouteLength(stops);
+			//	Logger.info("Route "+ oneTrip.getRouteId() +" length " + lengthInMeters);
+			} catch (IllegalStateException e) { // results from exceeding
+												// google api request quota,
+												// try to use hashed
+												// distances instead
+				continue;
 			}
 
-			i += 1.0;
-			System.out.print("Done " + i + "/" + coll.count() + "("
-					+ (i / coll.count()) * 100 + "%)            \r");
+			BasicDBObject query = new BasicDBObject("routeId", oneTrip.getRouteId());
+			query.put("direction", oneTrip.getDirection());
+			BasicDBObject update = new BasicDBObject("$set",
+					new BasicDBObject("tripLength", lengthInMeters));
+
+			WriteResult result = coll.update(query, update, false, true);
+			i ++;
+			
+			float progress = (i / (float) distinctTrips.size()) * 100;
+			
+			state2.setStateProgress(progress);
+			state2.publishChange(getSelf());
+			
+			System.out.print("Done " + i + "/" + distinctTrips.size() + "("
+					+ progress + "%)            \r");
 		}
+	}
+
+	public void augmentRoutes() {
+		Datastore ds = MongoUtils.ds();
+		
+		Query<BusRoute> q = ds.createQuery(BusRoute.class);
+		q.field("name").equal(Pattern.compile("^N{0,1}\\d\\d[A-Za-z]{0,1}$"));
+		List<BusRoute> routes =  q.asList();
+		
+		for(BusRoute r: routes) {
+			Query<BusTrip> qr = ds.createQuery(BusTrip.class);
+			BusTrip trip = qr.field("routeId").equal(r.getRouteId()).get();
+			List<ScheduleStop> stops = trip.getStops();
+			Collections.sort(stops);
+			
+			List<BusStop> waypoints = Lists.transform(stops, new Function<ScheduleStop, BusStop>(){
+				public BusStop apply(ScheduleStop s) {
+					return s.getStop();
+				}
+			});
+			System.out.println(waypoints.size());
+			r.setWaypoints(waypoints);
+		}
+		ds.save(routes);
 	}
 
 	public List<String> getDistinctRoutes() throws UnknownHostException {
 		DBCollection coll = MongoUtils.getDB().getCollection("trips");
-		return coll.distinct("serviceNbr");
+		return coll.distinct("routeId");
 	}
 
 	public DBObject getBus(String route) throws UnknownHostException {
 		DBCollection coll = MongoUtils.getDB().getCollection("trips");
 		BasicDBObject query = new BasicDBObject();
-		query.append("serviceNbr", route);
+		query.append("routeId", route);
 		DBObject bus = coll.findOne(query);
 		return bus;
 	}

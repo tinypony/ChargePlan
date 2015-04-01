@@ -3,16 +3,13 @@ package model;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-import org.json.JSONObject;
 import org.mongodb.morphia.annotations.Embedded;
-import org.mongodb.morphia.annotations.Reference;
 import org.onebusaway.gtfs.model.StopTime;
 import org.xml.sax.Attributes;
 
-import com.mongodb.BasicDBObject;
 
 @Embedded
-public class ScheduleStop implements /*Jsonable, Mongoable,*/ Comparable {
+public class ScheduleStop implements Comparable<ScheduleStop> {
 
 	private int order;
 	private String arrival;
@@ -20,17 +17,6 @@ public class ScheduleStop implements /*Jsonable, Mongoable,*/ Comparable {
 	@Embedded
 	private BusStop stop;
 	
-	/*@Override
-	public JSONObject toJson() {
-		JSONObject jstop = new JSONObject();
-		jstop.put("id", this.getStop().getStopId());
-		jstop.put("time", this.getArrival());
-		jstop.put("name", this.getStop().getName());
-		jstop.put("posX", this.getStop().getX());
-		jstop.put("posY", this.getStop().getY());
-		return jstop;
-	}*/
-
 	//Creating from hsl database
 	public ScheduleStop(Attributes atts, Map<String, BusStop> stops)
 			throws IllegalArgumentException {
@@ -101,7 +87,7 @@ public class ScheduleStop implements /*Jsonable, Mongoable,*/ Comparable {
 	}
 
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(ScheduleStop arg0) {
 		ScheduleStop another = (ScheduleStop) arg0;
 		return this.order - another.getOrder();
 	}

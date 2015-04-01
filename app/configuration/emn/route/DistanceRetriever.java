@@ -3,8 +3,10 @@ package configuration.emn.route;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import model.ScheduleStop;
 import utils.MongoUtils;
 
 import com.google.api.client.http.HttpRequest;
@@ -35,38 +37,43 @@ public class DistanceRetriever {
 				}
 			});
 
-	private static String getOrigins(List<DBObject> stops) {
+	private static String getOrigins(List<ScheduleStop> stops) {
 		StringBuilder sb = new StringBuilder();
 		
 		for(int i=0; i<stops.size()-1; i++) {
-			DBObject stop = stops.get(i);
-			if(i == 0) {
-				sb.append(stop.get("posY")+","+stop.get("posX"));
+			ScheduleStop stop = stops.get(i);
+			if (i == 0) {
+				sb.append(stop.getStop().getY() + "," + stop.getStop().getX());
 			} else {
-				sb.append("|"+stop.get("posY")+","+stop.get("posX"));	
-			}			
+				sb.append("|" + stop.getStop().getY() + ","
+						+ stop.getStop().getX());
+			}		
 		}
 		
 		String retval = sb.toString();
 		return retval;
 	}
 	
-	private static String getDestinations(List<DBObject> stops) {
+	private static String getDestinations(List<ScheduleStop> stops) {
 		StringBuilder sb = new StringBuilder();
 		
 		for(int i=1; i<stops.size(); i++) {
-			DBObject stop = stops.get(i);
+			ScheduleStop stop = stops.get(i);
 			if(i == 1) {
-				sb.append(stop.get("posY")+","+stop.get("posX"));
+				sb.append(getCoordinateString(stop));
 			} else {
-				sb.append("|"+stop.get("posY")+","+stop.get("posX"));	
+				sb.append("|"+getCoordinateString(stop));	
 			}			
 		}
 		String retval = sb.toString();
 		return retval;
 	}
 	
-	public static int getRoutePartLengthOnline(List<DBObject> stops) throws IOException, IllegalStateException {
+	private static String getCoordinateString(ScheduleStop stop) {
+		return stop.getStop().getY()+","+stop.getStop().getX();
+	}
+	
+	public static int getRoutePartLengthOnline(List<ScheduleStop> stops) throws IOException, IllegalStateException {
 		ApiClasses.DistanceUrl url = ApiClasses.DistanceUrl.url(getOrigins(stops), getDestinations(stops));
 
 		HttpRequest request = requestFactory.buildGetRequest(url);
@@ -78,12 +85,12 @@ public class DistanceRetriever {
 		return apiResponse.calculateTotalDistance();
 	}
 	
-	public static int getDistanceBetweenStops(DBObject a, DBObject b) throws IOException, IllegalStateException {
+	public static int getDistanceBetweenStops(ScheduleStop a, ScheduleStop b) throws IOException, IllegalStateException {
 		DBCollection distances 
 			= MongoUtils.getDB().getCollection("distances");
 		BasicDBObject query = new BasicDBObject();
-		query.append("from", a.get("id"))
-			.append("to", b.get("id"));
+		query.append("from", a.getStop().getStopId())
+			.append("to", b.getStop().getStopId());
 		DBObject result = distances.findOne(query);
 		
 		if(result != null) {
@@ -99,8 +106,8 @@ public class DistanceRetriever {
 				int retval = getRoutePartLengthOnline(Arrays.asList(a,b));
 				
 				BasicDBObject newEntry = new BasicDBObject();
-				newEntry.append("from", a.get("id"))
-					.append("to", b.get("id"))
+				newEntry.append("from", a.getStop().getStopId())
+					.append("to", b.getStop().getStopId())
 					.append("distance", retval);
 				distances.insert(newEntry);
 
@@ -114,14 +121,14 @@ public class DistanceRetriever {
 		}
 	}
 
-	public static int getRouteLength(DBObject bus) throws IOException, InterruptedException, IllegalStateException {
-		List<DBObject> stopsTotal = (List<DBObject>) bus.get("stops");
+	public static int getRouteLength(List<ScheduleStop> stopsTotal) throws IOException, InterruptedException, IllegalStateException {
 		int tmpVal = 0;
 		int retval = 0;
+		Collections.sort(stopsTotal);
 		
 		for(int j=0; j<stopsTotal.size()-1; j++) {
-			DBObject busStopA = stopsTotal.get(j);
-			DBObject busStopB = stopsTotal.get(j+1);
+			ScheduleStop busStopA = stopsTotal.get(j);
+			ScheduleStop busStopB = stopsTotal.get(j+1);
 			
 			tmpVal = getDistanceBetweenStops(busStopA, busStopB);
 			retval += tmpVal;

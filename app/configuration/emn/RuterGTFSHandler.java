@@ -49,7 +49,7 @@ public class RuterGTFSHandler {
 	public void dumpData() {
 		Datastore ds = MongoUtils.ds();
 		ds.delete(ds.createQuery(BusRoute.class));
-		ds.delete(ds.createQuery(BusStop.class));
+		//ds.delete(ds.createQuery(BusStop.class));
 		ds.delete(ds.createQuery(BusTrip.class));
 
 
@@ -57,7 +57,9 @@ public class RuterGTFSHandler {
 		Map<String, BusRoute> routes = this.processRoutes();
 		Map<String, BusTrip> trips = new HashMap<String, BusTrip>();
 		Map<String, BusStop> stops = new HashMap<String, BusStop>();
+		
 		ds.save(routes.values());
+		
 		Logger.info(routes.size() + " routes imported");
 
 		for (StopTime st : store.getAllStopTimes()) {
@@ -97,8 +99,8 @@ public class RuterGTFSHandler {
 
 	private BusTrip createTrip(Trip t, Map<String, List<ServiceCalendarDate>> opDates) {
 		BusTrip trip = new BusTrip();
-		trip.setDates(opDates.get(t.getServiceId().getId()));
 		trip.setDataSource("ruter");
+		trip.setDates(opDates.get(t.getServiceId().getId()));
 		String tripId = t.getId().getId();
 
 		trip.setServiceID(tripId);
@@ -106,60 +108,11 @@ public class RuterGTFSHandler {
 														// id in calendar
 														// dates
 		trip.setRoute(t.getRoute().getShortName());
-		trip.setServiceNbr(t.getRoute().getId().getId());
+		trip.setRouteId(t.getRoute().getId().getId());
 		trip.setDirection(t.getDirectionId());
 		return trip;
 	}
 
-	private void postprocessTrips(Map<String, BusTrip> trips) {
-		for (BusTrip trip : trips.values()) {
-			BusRoute route = trip.getRouteRef();
-
-			if (route.getWaypoints().size() == 0) {
-				for (ScheduleStop stop : trip.getStops()) {
-					route.getWaypoints().add(stop.getStop());
-				}
-				int stopsTotal = trip.getStops().size();
-				//determine end stops
-				trip.getStops().get(0).getStop().setFirst(true);
-				trip.getStops().get(stopsTotal-1).getStop().setLast(true);
-			}
-		}
-	}
-
-	private Map<String, BusStop> processStops(Map<String, BusTrip> trips) {
-		return null;
-	}
-
-	private Map<String, BusTrip> processTrips(Map<String, BusRoute> busRoutes,
-			Map<String, List<ServiceCalendarDate>> opDates) {
-		HashMap<String, BusTrip> trips = new HashMap<String, BusTrip>();
-
-		for (Trip t : store.getAllTrips()) {
-			BusRoute route = busRoutes.get(t.getRoute().getId().getId());
-			if(route == null || t.getRoute().getType() != BUS_ROUTE_TYPE) {
-				continue;
-			}
-			
-			BusTrip trip = new BusTrip();
-			trip.setDates(opDates.get(t.getServiceId().getId()));
-			trip.setDataSource("ruter");
-			String tripId = t.getId().getId();
-
-			trip.setServiceID(tripId);
-			trip.setFootnoteId(t.getServiceId().getId()); // references service
-															// id in calendar
-															// dates
-			trip.setRoute(t.getRoute().getShortName());
-			trip.setServiceNbr(t.getRoute().getId().getId());
-			trip.setDirection(t.getDirectionId());
-			
-			trip.setRouteRef(route);
-			trips.put(tripId, trip);
-		}
-
-		return trips;
-	}
 
 	private Map<String, List<ServiceCalendarDate>> processDates() {
 		HashMap<String, List<ServiceCalendarDate>> opDates = new HashMap<String, List<ServiceCalendarDate>>();

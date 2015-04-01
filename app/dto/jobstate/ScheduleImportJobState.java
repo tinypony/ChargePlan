@@ -37,29 +37,35 @@ public class ScheduleImportJobState extends JobState {
 				JobState.DONE.stateName));
 		this.setType(JobType.SCHEDULE_IMPORT);
 		this.setState(JobState.UPLOAD.stateNum);
+		this.setStateProgress(-1.0f);
 	}
 
-	private void publishChange(ActorRef ar) {
+	public void publishChange(ActorRef ar) {
 		JobMonitoringActor.actor().tell(new JobProgressMessage(this), ar);
 	}
 
 	public void uploaded(ActorRef ar) {
 		this.setState(JobState.UNZIP.stateNum);
+		this.setStateProgress(-1.0f);
 		this.publishChange(ar);
+		
 	}
 
 	public void unzipped(ActorRef ar) {
 		this.setState(JobState.READ.stateNum);
+		this.setStateProgress(-1.0f);
 		this.publishChange(ar);
 	}
 
 	public void read(ActorRef ar) {
 		this.setState(JobState.IMPORT.stateNum);
+		this.setStateProgress(-1.0f);
 		this.publishChange(ar);
 	}
 
 	public void imported(ActorRef ar) {
 		this.setState(JobState.RESOLVE_DISTANCE.stateNum);
+		this.setStateProgress(0.0f);
 		this.publishChange(ar);
 	}
 
