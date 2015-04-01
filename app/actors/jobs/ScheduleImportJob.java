@@ -5,20 +5,20 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import actors.JobMonitoringActor;
-import akka.actor.ActorRef;
+import model.ClientConfig;
+
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
+
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.eventbus.Subscribe;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Cursor;
 import com.mongodb.DBCollection;
@@ -33,6 +33,7 @@ import play.Logger;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import utils.MongoUtils;
+
 
 public class ScheduleImportJob extends UntypedActor {
 
@@ -61,6 +62,7 @@ public class ScheduleImportJob extends UntypedActor {
 
 	// @Override
 	public void runJob() throws IOException, InterruptedException {
+		this.startHistory();
 		this.state.uploaded(getSelf());
 
 		FilePart archive = body.getFile("gtfs-archive");
@@ -73,9 +75,32 @@ public class ScheduleImportJob extends UntypedActor {
 			this.state.unzipped(getSelf());
 
 			this.importGtfs(gtfsFolder, this.state);
-			this.retrieveRouteLength();
+		//	this.retrieveRouteLength();
 			this.state.distancesResolved(getSelf());
+			this.saveHistory(true);
+			getContext().stop(getSelf());
+		} else {
+			this.saveHistory(false);
 		}
+	}
+	
+	private void startHistory() {
+		Datastore ds = MongoUtils.ds();
+        Query<ClientConfig> query = ds.find(ClientConfig.class);
+        ClientConfig config = query.get();
+        config.getSchedules().setInProgress(true);
+        ds.save(config);
+	}
+
+	
+	private void saveHistory(boolean isSuccess) {
+		Datastore ds = MongoUtils.ds();
+        Query<ClientConfig> query = ds.find(ClientConfig.class);
+        ClientConfig config = query.get();
+        config.getSchedules().setImported(isSuccess);
+        config.getSchedules().setDate(new Date());
+        config.isSufficient();
+        ds.save(config);
 	}
 
 	public String unzipArchive(File file) throws IOException {
@@ -127,6 +152,7 @@ public class ScheduleImportJob extends UntypedActor {
 		Logger.info("Parsing data");
 		ruterHandler.parseInput();
 		job.read(getSelf());
+		
 		Logger.info("Data has been parsed");
 		ruterHandler.dumpData();
 		job.imported(getSelf());
@@ -136,21 +162,22 @@ public class ScheduleImportJob extends UntypedActor {
 	public void retrieveRouteLength() throws IOException, InterruptedException {
 		MongoUtils.setDBName(databaseName);
 		DBCollection coll = MongoUtils.getDB().getCollection("trips");
+		
 		Cursor tripsCurs = coll.find();
 
 		float i = 0;
 
 		while (tripsCurs.hasNext()) {
-			DBObject bus = tripsCurs.next();
+			DBObject trip = tripsCurs.next();
 
 			// Skip already processed routes
-			if (bus.get("tripLength") == null
-					|| (Integer) bus.get("tripLength") == 0) {
+			if (trip.get("tripLength") == null
+					|| (Integer) trip.get("tripLength") == 0) {
 
 				int lengthInMeters;
 
 				try {
-					lengthInMeters = DistanceRetriever.getRouteLength(bus);
+					lengthInMeters = DistanceRetriever.getRouteLength(trip);
 				} catch (IllegalStateException e) { // results from exceeding
 													// google api request quota,
 													// try to use hashed
@@ -161,7 +188,7 @@ public class ScheduleImportJob extends UntypedActor {
 				BasicDBObject update = new BasicDBObject("$set",
 						new BasicDBObject("tripLength", lengthInMeters));
 
-				WriteResult result = coll.update(bus, update, false, false);
+				WriteResult result = coll.update(trip, update, false, false);
 			}
 
 			i += 1.0;

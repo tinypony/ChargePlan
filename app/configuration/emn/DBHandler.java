@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import models.BusStop;
-import models.BusTrip;
-import models.ScheduleStop;
+import model.sql.BusStop;
+import model.sql.BusTrip;
+import model.sql.ScheduleStop;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

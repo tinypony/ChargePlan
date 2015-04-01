@@ -47,7 +47,10 @@ public class JobMonitoringActor extends UntypedActor {
 			
 			this.brain.broadcast(typedMsg.getJobState().getId(), new ObjectMapper().valueToTree(resp));
 			if(typedMsg.getJobState().isDone()) {
+				Logger.info("Job has finished, cleaning up");
 				this.brain.finish(typedMsg.getJobState());
+			} else {
+				Logger.info("Not the final step");
 			}
 			
 		} else if (msg instanceof JobSpawnMessage) {

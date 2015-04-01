@@ -28,7 +28,7 @@ define(['jquery',
     configuration: function() {
       this.init();
       this.view = new ConfigurationView({el: $('body > .view-content')});
-      this.view.render();
+   //   this.view.render();
     },
     
     routesVisualization: function() {

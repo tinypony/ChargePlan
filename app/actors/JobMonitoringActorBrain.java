@@ -86,6 +86,7 @@ public class JobMonitoringActorBrain {
     }
     
     public void finish(JobState s) {
+    	Logger.info("Running jobs contain finishing job: {}", this.runningJobs.contains(s));
     	this.runningJobs.remove(s);
     	this.monitoring.remove(s.getId());
     	for(String client: registered.keySet()) {

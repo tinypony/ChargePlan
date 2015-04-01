@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import play.Logger;
 import play.libs.Akka;
 import play.mvc.Http.MultipartFormData;
 import actors.jobs.ScheduleImportJob;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.actor.Terminated;
 import akka.actor.UntypedActor;
 import utils.MongoUtils;
 import dto.jobstate.JobState;
+import dto.jobstate.JobType;
 import dto.jobstate.ScheduleImportJobState;
 import dto.message.JobSpawnMessage;
 import dto.message.ScheduleImportJobCreationRequest;
@@ -30,6 +33,8 @@ public class JobManagerActor extends UntypedActor {
 	
 	
 	private List<ActorRef> spawnedJobs;
+	private ActorRef scheduleImportJob;
+	
 	private JobManagerActor() {
 		this.spawnedJobs = new ArrayList<ActorRef>();
 	}
@@ -47,12 +52,16 @@ public class JobManagerActor extends UntypedActor {
 	}
 	
 	public void createScheduleImportJob(ScheduleImportJobState state, MultipartFormData body) {
-		Props props = ScheduleImportJob.props(state, body);
-		ActorRef actref = this.getContext().actorOf(props);
-		this.getContext().watch(actref);
-		actref.tell(new StartImportMessage(), null);
-		this.addJob(actref, state);
-
+		if(scheduleImportJob == null) {
+			Props props = ScheduleImportJob.props(state, body);
+			ActorRef actref = this.getContext().actorOf(props, JobType.SCHEDULE_IMPORT);
+			this.getContext().watch(actref);
+			actref.tell(new StartImportMessage(), null);
+			this.scheduleImportJob = actref;
+			this.addJob(actref, state);
+		} else {
+			Logger.warn("Another schedule import job is currently running");
+		}
 	}
 	
 	public void addJob(ActorRef job, JobState state) {
@@ -83,11 +92,19 @@ public class JobManagerActor extends UntypedActor {
 	public static ActorRef actor() {
 		return actor;
 	}
+	
 	@Override
 	public void onReceive(Object msg) throws Exception {
 		if(msg instanceof ScheduleImportJobCreationRequest) {
 			ScheduleImportJobCreationRequest typed = (ScheduleImportJobCreationRequest) msg;
 			this.createScheduleImportJob(typed.getJobState(), typed.getBody());
+		} else if (msg instanceof Terminated) {
+			Terminated typed = (Terminated)msg;
+			Logger.info("Terminated actor, is schedule import: {}", typed.actor().compareTo(scheduleImportJob));
+			if(typed.actor().compareTo(scheduleImportJob) == 0){
+				this.spawnedJobs.remove(scheduleImportJob);
+				scheduleImportJob = null;
+			}
 		}
 		
 	}

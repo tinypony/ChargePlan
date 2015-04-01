@@ -1,303 +1,144 @@
-2015-03-27 14:50:53,117 - [INFO] - from play in pool-4-thread-4 
+2015-04-01 10:19:47,759 - [INFO] - from play in pool-4-thread-4 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2015-03-27 14:51:47,398 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-01 10:20:03,213 - [INFO] - from play in play-internal-execution-context-1 
+datasource [jdbc:mysql://localhost:3306/ruter_schedules?useUnicode=yes&characterEncoding=UTF-8&connectionCollation=utf8_general_ci] bound to JNDI as DefaultDS
+
+2015-04-01 10:20:03,965 - [INFO] - from play in play-internal-execution-context-1 
+database [default] connected at jdbc:mysql://localhost:3306/ruter_schedules?useUnicode=yes&characterEncoding=UTF-8&connectionCollation=utf8_general_ci
+
+2015-04-01 10:20:10,438 - [INFO] - from application in play-internal-execution-context-1 
 Application has started
 
-2015-03-27 14:51:47,422 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-01 10:20:10,440 - [INFO] - from application in play-internal-execution-context-1 
 Found ruter
 
-2015-03-27 14:51:48,594 - [INFO] - from play in play-internal-execution-context-1 
+2015-04-01 10:20:11,511 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
-2015-03-27 14:51:54,177 - [INFO] - from play in play-internal-execution-context-1 
+2015-04-01 10:20:15,345 - [INFO] - from play in play-internal-execution-context-1 
 Starting application default Akka system.
 
-2015-03-27 14:52:03,168 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Added new running job, id = 433f2199-4dbd-4fe8-88a1-b7787240958d
+2015-04-01 10:20:39,481 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Added new running job, id = 696b43c7-f408-42c3-ae2a-787167bb5fe6
 
-2015-03-27 14:52:03,242 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Request job monitoring 433f2199-4dbd-4fe8-88a1-b7787240958d by client 299aa6e6-e02e-4b93-9920-7bcd47bfa0f9
+2015-04-01 10:20:39,564 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Not the final step
 
-2015-03-27 14:52:07,067 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Broadcast 433f2199-4dbd-4fe8-88a1-b7787240958d state
+2015-04-01 10:20:39,565 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Request job monitoring 696b43c7-f408-42c3-ae2a-787167bb5fe6 by client 23e57d22-91f2-456e-99b4-a42fc07ba73f
 
-2015-03-27 14:52:09,884 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
+2015-04-01 10:20:42,295 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Broadcast 696b43c7-f408-42c3-ae2a-787167bb5fe6 state
+
+2015-04-01 10:20:42,300 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Not the final step
+
+2015-04-01 10:20:42,347 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
 Parsing data
 
-2015-03-27 14:52:44,146 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
+2015-04-01 10:21:15,755 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
 Data has been parsed
 
-2015-03-27 14:54:18,438 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-3645 stops imported
+2015-04-01 10:21:15,755 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Convert to entities
 
-2015-03-27 14:54:24,285 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-1023 routes imported
+2015-04-01 10:21:15,755 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Start import
 
-2015-03-27 14:58:07,007 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-68453 trips imported
+2015-04-01 10:21:15,778 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Broadcast 696b43c7-f408-42c3-ae2a-787167bb5fe6 state
 
-2015-03-27 14:58:07,008 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Data has been imported
+2015-04-01 10:21:15,788 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Not the final step
 
-2015-03-27 15:00:54,074 - [INFO] - from application in play-internal-execution-context-5 
-Application shutdown...
+2015-04-01 10:21:16,397 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 1 stop times
 
-2015-03-27 15:00:54,121 - [INFO] - from play in play-internal-execution-context-5 
-Shutdown application default Akka system.
+2015-04-01 10:21:16,402 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 2 stop times
 
-2015-03-27 15:00:54,726 - [INFO] - from application in play-internal-execution-context-5 
-Application has started
+2015-04-01 10:21:16,407 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 3 stop times
 
-2015-03-27 15:00:54,729 - [INFO] - from application in play-internal-execution-context-5 
-Found ruter
+2015-04-01 10:21:16,413 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 4 stop times
 
-2015-03-27 15:00:54,740 - [INFO] - from play in play-internal-execution-context-5 
-Application started (Dev)
+2015-04-01 10:21:16,445 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 5 stop times
 
-2015-03-27 15:00:57,300 - [INFO] - from play in play-akka.actor.default-dispatcher-33 
-Starting application default Akka system.
+2015-04-01 10:21:16,477 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 6 stop times
 
-2015-03-27 15:05:52,671 - [INFO] - from application in play-internal-execution-context-15 
-Application shutdown...
+2015-04-01 10:21:16,511 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 7 stop times
 
-2015-03-27 15:05:52,672 - [INFO] - from play in play-internal-execution-context-15 
-Shutdown application default Akka system.
+2015-04-01 10:21:16,538 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 8 stop times
 
-2015-03-27 15:05:52,872 - [INFO] - from application in play-internal-execution-context-15 
-Application has started
+2015-04-01 10:21:16,571 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 9 stop times
 
-2015-03-27 15:05:52,874 - [INFO] - from application in play-internal-execution-context-15 
-Found ruter
+2015-04-01 10:21:16,600 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 10 stop times
 
-2015-03-27 15:05:52,880 - [INFO] - from play in play-internal-execution-context-15 
-Application started (Dev)
+2015-04-01 10:21:16,640 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 11 stop times
 
-2015-03-27 15:05:57,557 - [INFO] - from play in New I/O worker #1 
-Starting application default Akka system.
+2015-04-01 10:21:16,682 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 12 stop times
 
-2015-03-27 15:06:04,783 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Added new running job, id = c473d772-a3dc-4ae8-b37b-d4a3f247dc77
+2015-04-01 10:21:16,717 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 13 stop times
 
-2015-03-27 15:06:04,828 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Request job monitoring c473d772-a3dc-4ae8-b37b-d4a3f247dc77 by client bfc58b1a-4443-416b-80e0-52bd710bb265
+2015-04-01 10:21:16,766 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 14 stop times
 
-2015-03-27 15:06:10,489 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Broadcast c473d772-a3dc-4ae8-b37b-d4a3f247dc77 state
+2015-04-01 10:21:16,802 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 15 stop times
 
-2015-03-27 15:06:10,526 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Parsing data
+2015-04-01 10:21:16,840 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 16 stop times
 
-2015-03-27 15:06:22,116 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Request job monitoring c473d772-a3dc-4ae8-b37b-d4a3f247dc77 by client 7405d9c2-edc8-4db5-a13a-b30927dcea44
+2015-04-01 10:21:16,877 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 17 stop times
 
-2015-03-27 15:06:27,002 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Request job monitoring c473d772-a3dc-4ae8-b37b-d4a3f247dc77 by client ade58085-090c-4a72-8c96-e1bf71ecf748
+2015-04-01 10:21:16,906 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 18 stop times
 
-2015-03-27 15:06:49,801 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Data has been parsed
+2015-04-01 10:21:16,940 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 19 stop times
 
-2015-03-27 15:06:49,818 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Broadcast c473d772-a3dc-4ae8-b37b-d4a3f247dc77 state
+2015-04-01 10:21:16,965 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 20 stop times
 
-2015-03-27 15:08:06,256 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-3645 stops imported
+2015-04-01 10:21:16,994 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 21 stop times
 
-2015-03-27 15:08:06,956 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-1023 routes imported
+2015-04-01 10:21:17,021 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 22 stop times
 
-2015-03-27 15:09:08,209 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Request job monitoring c473d772-a3dc-4ae8-b37b-d4a3f247dc77 by client 3127a7b5-7c93-4c6c-b080-29c0a83d9b9f
+2015-04-01 10:21:17,059 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 23 stop times
 
-2015-03-27 15:12:03,439 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-68453 trips imported
+2015-04-01 10:21:17,092 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 24 stop times
 
-2015-03-27 15:12:03,441 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Data has been imported
+2015-04-01 10:21:17,117 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 25 stop times
 
-2015-03-27 15:12:03,457 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Broadcast c473d772-a3dc-4ae8-b37b-d4a3f247dc77 state
+2015-04-01 10:21:17,159 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 26 stop times
 
-2015-03-27 15:13:07,675 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Broadcast c473d772-a3dc-4ae8-b37b-d4a3f247dc77 state
+2015-04-01 10:21:17,186 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 27 stop times
 
-2015-03-27 15:16:37,766 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Request job monitoring c473d772-a3dc-4ae8-b37b-d4a3f247dc77 by client b3609f2c-5a43-4eff-af9a-9ea8f56cff49
+2015-04-01 10:21:17,212 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 28 stop times
 
-2015-03-27 15:27:14,619 - [INFO] - from application in play-internal-execution-context-22 
-Application shutdown...
+2015-04-01 10:21:17,238 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Imported 29 stop times
 
-2015-03-27 15:27:14,619 - [INFO] - from play in play-internal-execution-context-22 
-Shutdown application default Akka system.
-
-2015-03-27 15:27:14,918 - [INFO] - from application in play-internal-execution-context-22 
-Application has started
-
-2015-03-27 15:27:14,920 - [INFO] - from application in play-internal-execution-context-22 
-Found ruter
-
-2015-03-27 15:27:14,926 - [INFO] - from play in play-internal-execution-context-22 
-Application started (Dev)
-
-2015-03-27 15:27:17,241 - [INFO] - from play in play-internal-execution-context-23 
-Starting application default Akka system.
-
-2015-03-27 15:27:23,974 - [INFO] - from application in application-akka.actor.default-dispatcher-8 
-Added new running job, id = 00650a72-dec1-41cf-8c33-e3dd7498a317
-
-2015-03-27 15:27:24,002 - [INFO] - from application in application-akka.actor.default-dispatcher-8 
-Request job monitoring 00650a72-dec1-41cf-8c33-e3dd7498a317 by client 10bfde60-c139-4d8b-87c0-3c7476f212dc
-
-2015-03-27 15:27:29,089 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Parsing data
-
-2015-03-27 15:27:29,098 - [INFO] - from application in application-akka.actor.default-dispatcher-8 
-Broadcast 00650a72-dec1-41cf-8c33-e3dd7498a317 state
-
-2015-03-27 15:28:05,680 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Data has been parsed
-
-2015-03-27 15:28:05,702 - [INFO] - from application in application-akka.actor.default-dispatcher-8 
-Broadcast 00650a72-dec1-41cf-8c33-e3dd7498a317 state
-
-2015-03-27 15:29:21,776 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-3645 stops imported
-
-2015-03-27 15:29:22,525 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-1023 routes imported
-
-2015-03-27 15:32:18,536 - [INFO] - from application in application-akka.actor.default-dispatcher-8 
-Request job monitoring 00650a72-dec1-41cf-8c33-e3dd7498a317 by client e2b97fee-2905-457d-93fe-835edd6770f6
-
-2015-03-27 15:33:13,966 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-68453 trips imported
-
-2015-03-27 15:33:13,967 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Data has been imported
-
-2015-03-27 15:33:13,974 - [INFO] - from application in application-akka.actor.default-dispatcher-8 
-Broadcast 00650a72-dec1-41cf-8c33-e3dd7498a317 state
-
-2015-03-27 15:33:13,975 - [INFO] - from application in application-akka.actor.default-dispatcher-8 
-Broadcast 00650a72-dec1-41cf-8c33-e3dd7498a317 state
-
-2015-03-27 15:34:15,312 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Broadcast 00650a72-dec1-41cf-8c33-e3dd7498a317 state
-
-2015-03-27 15:34:15,313 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Broadcast 00650a72-dec1-41cf-8c33-e3dd7498a317 state
-
-2015-03-27 15:35:03,199 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Request job monitoring 00650a72-dec1-41cf-8c33-e3dd7498a317 by client b9cac6cd-fbfa-4ba0-80b1-c43f43336957
-
-2015-03-27 15:36:51,881 - [INFO] - from application in play-internal-execution-context-26 
-Application shutdown...
-
-2015-03-27 15:36:51,882 - [INFO] - from play in play-internal-execution-context-26 
-Shutdown application default Akka system.
-
-2015-03-27 15:36:52,177 - [INFO] - from application in play-internal-execution-context-26 
-Application has started
-
-2015-03-27 15:36:52,179 - [INFO] - from application in play-internal-execution-context-26 
-Found ruter
-
-2015-03-27 15:36:52,183 - [INFO] - from play in play-internal-execution-context-26 
-Application started (Dev)
-
-2015-03-27 15:36:54,522 - [INFO] - from play in play-akka.actor.default-dispatcher-15 
-Starting application default Akka system.
-
-2015-03-27 15:37:13,083 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Added new running job, id = facf7e46-244e-41d0-8b25-02859f4cc260
-
-2015-03-27 15:37:13,128 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Request job monitoring facf7e46-244e-41d0-8b25-02859f4cc260 by client ba77fad8-3018-4e3f-b974-6cb255327fde
-
-2015-03-27 15:37:16,438 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Parsing data
-
-2015-03-27 15:37:16,457 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Broadcast facf7e46-244e-41d0-8b25-02859f4cc260 state
-
-2015-03-27 15:37:55,716 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Data has been parsed
-
-2015-03-27 15:37:55,729 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Broadcast facf7e46-244e-41d0-8b25-02859f4cc260 state
-
-2015-03-27 15:39:20,229 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-3645 stops imported
-
-2015-03-27 15:39:20,738 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-1023 routes imported
-
-2015-03-27 15:42:44,905 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-68453 trips imported
-
-2015-03-27 15:42:44,905 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Data has been imported
-
-2015-03-27 15:42:44,915 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Broadcast facf7e46-244e-41d0-8b25-02859f4cc260 state
-
-2015-03-27 15:43:45,741 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Broadcast facf7e46-244e-41d0-8b25-02859f4cc260 state
-
-2015-03-27 15:46:19,556 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Request job monitoring facf7e46-244e-41d0-8b25-02859f4cc260 by client e22fd2b1-077c-47b3-9eb6-770521eda149
-
-2015-03-27 15:56:56,099 - [INFO] - from application in play-internal-execution-context-28 
-Application shutdown...
-
-2015-03-27 15:56:56,100 - [INFO] - from play in play-internal-execution-context-28 
-Shutdown application default Akka system.
-
-2015-03-27 15:56:56,360 - [INFO] - from application in play-internal-execution-context-28 
-Application has started
-
-2015-03-27 15:56:56,363 - [INFO] - from application in play-internal-execution-context-28 
-Found ruter
-
-2015-03-27 15:56:56,368 - [INFO] - from play in play-internal-execution-context-28 
-Application started (Dev)
-
-2015-03-27 15:56:58,820 - [INFO] - from play in play-akka.actor.default-dispatcher-36 
-Starting application default Akka system.
-
-2015-03-27 15:57:06,838 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
-Added new running job, id = 483cc864-b9c7-40b7-a8d8-74aebc8a880c
-
-2015-03-27 15:57:06,886 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
-Request job monitoring 483cc864-b9c7-40b7-a8d8-74aebc8a880c by client 3d8c2c81-bc34-4b80-afd2-8633bf7d6ace
-
-2015-03-27 15:57:11,606 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Parsing data
-
-2015-03-27 15:57:11,615 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
-Broadcast 483cc864-b9c7-40b7-a8d8-74aebc8a880c state
-
-2015-03-27 15:57:48,425 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Data has been parsed
-
-2015-03-27 15:57:48,443 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
-Broadcast 483cc864-b9c7-40b7-a8d8-74aebc8a880c state
-
-2015-03-27 15:59:09,930 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-3645 stops imported
-
-2015-03-27 15:59:10,446 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-1023 routes imported
-
-2015-03-27 16:02:35,958 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-68453 trips imported
-
-2015-03-27 16:02:35,959 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Data has been imported
-
-2015-03-27 16:02:36,141 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
-Broadcast 483cc864-b9c7-40b7-a8d8-74aebc8a880c state
-
-2015-03-27 16:03:37,300 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
-Broadcast 483cc864-b9c7-40b7-a8d8-74aebc8a880c state
+2015-04-01 10:21:18,242 - [ERROR] - from org.hibernate.engine.jdbc.spi.SqlExceptionHelper in application-akka.actor.default-dispatcher-7 
+Timed out waiting for a free available connection.
 
