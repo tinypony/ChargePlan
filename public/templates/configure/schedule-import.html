@@ -1,0 +1,18 @@
+<h2>Upload schedule data</h2>
+{{#if history.imported}}
+<div class="schedule-upload-history">
+	<label class="last-uploaded">Imported {{history.date}}</label>
+</div>
+{{/if}}
+
+<div class="import-workflow">
+	<form id="upload" method="post"
+		action="/api/configuration/schedule" enctype="multipart/form-data">
+		<div id="drop" class="upload-form">
+			<div class="drop-text">Drop Here</div>
+			<a>Browse</a> <input type="file" name="gtfs-archive"
+				accept=".zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed" />
+		</div>
+	</form>
+	<ul></ul>
+</div>

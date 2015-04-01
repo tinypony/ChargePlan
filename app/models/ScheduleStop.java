@@ -16,7 +16,8 @@ public class ScheduleStop implements /*Jsonable, Mongoable,*/ Comparable {
 
 	private int order;
 	private String arrival;
-	@Reference
+	
+	@Embedded
 	private BusStop stop;
 	
 	/*@Override

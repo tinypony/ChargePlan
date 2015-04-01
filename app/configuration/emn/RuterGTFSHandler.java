@@ -52,21 +52,63 @@ public class RuterGTFSHandler {
 		ds.delete(ds.createQuery(BusStop.class));
 		ds.delete(ds.createQuery(BusTrip.class));
 
-		Map<String, BusRoute> routes = this.processRoutes();
+
 		Map<String, List<ServiceCalendarDate>> opDates = this.processDates();
-		
-		Map<String, BusTrip> trips = this.processTrips(routes, opDates);
-		Map<String, BusStop> stops = this.processStops(trips);
-		this.postprocessTrips(trips);
-
-		ds.save(stops.values());
-		Logger.info(stops.size() + " stops imported");
-
+		Map<String, BusRoute> routes = this.processRoutes();
+		Map<String, BusTrip> trips = new HashMap<String, BusTrip>();
+		Map<String, BusStop> stops = new HashMap<String, BusStop>();
 		ds.save(routes.values());
 		Logger.info(routes.size() + " routes imported");
 
+		for (StopTime st : store.getAllStopTimes()) {
+			
+			String stopId = st.getStop().getId().getId();
+			Trip t = st.getTrip();
+			Route r = t.getRoute();
+			
+			if(r.getType() != BUS_ROUTE_TYPE) {
+				continue;
+			}
+			
+			BusStop busStop = stops.get(stopId);
+			BusTrip busTrip = trips.get(st.getTrip().getId().getId());
+			
+			if (busTrip == null) {
+				busTrip = this.createTrip(t, opDates);
+				trips.put(st.getTrip().getId().getId(), busTrip);
+			}
+
+			if (busStop == null){
+				Stop stop = st.getStop();
+				busStop = new BusStop(stop);
+				stops.put(stopId, busStop);
+			}
+
+			ScheduleStop scheduleStop = new ScheduleStop(st, busStop);
+			busTrip.addStop(scheduleStop);
+		}
+		
 		ds.save(trips.values());
-		Logger.info(trips.size() + " trips imported");
+
+
+//		ds.save(trips.values());
+//		Logger.info(trips.size() + " trips imported");
+	}
+
+	private BusTrip createTrip(Trip t, Map<String, List<ServiceCalendarDate>> opDates) {
+		BusTrip trip = new BusTrip();
+		trip.setDates(opDates.get(t.getServiceId().getId()));
+		trip.setDataSource("ruter");
+		String tripId = t.getId().getId();
+
+		trip.setServiceID(tripId);
+		trip.setFootnoteId(t.getServiceId().getId()); // references service
+														// id in calendar
+														// dates
+		trip.setRoute(t.getRoute().getShortName());
+		trip.setServiceNbr(t.getRoute().getId().getId());
+		trip.setDirection(t.getDirectionId());
+		return trip;
 	}
 
 	private void postprocessTrips(Map<String, BusTrip> trips) {
@@ -86,29 +128,7 @@ public class RuterGTFSHandler {
 	}
 
 	private Map<String, BusStop> processStops(Map<String, BusTrip> trips) {
-		HashMap<String, BusStop> stops = new HashMap<String, BusStop>();
-
-		for (StopTime st : store.getAllStopTimes()) {
-			BusStop busStop;
-			BusTrip busTrip = trips.get(st.getTrip().getId().getId());
-			String stopId = st.getStop().getId().getId();
-
-			if (busTrip == null) {
-				continue;
-			}
-
-			if (stops.containsKey(stopId)) {
-				busStop = stops.get(stopId);
-			} else {
-				Stop stop = st.getStop();
-				busStop = new BusStop(stop);
-				stops.put(busStop.getStopId(), busStop);
-			}
-
-			ScheduleStop scheduleStop = new ScheduleStop(st, busStop);
-			busTrip.addStop(scheduleStop);
-		}
-		return stops;
+		return null;
 	}
 
 	private Map<String, BusTrip> processTrips(Map<String, BusRoute> busRoutes,
