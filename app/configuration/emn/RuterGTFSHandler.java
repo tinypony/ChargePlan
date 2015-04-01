@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.BusRoute;
-import models.BusStop;
-import models.BusTrip;
-import models.ScheduleStop;
+import model.BusRoute;
+import model.BusStop;
+import model.BusTrip;
+import model.ScheduleStop;
 
 import org.mongodb.morphia.Datastore;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;

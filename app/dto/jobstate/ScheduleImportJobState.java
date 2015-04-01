@@ -35,7 +35,7 @@ public class ScheduleImportJobState extends JobState {
 				JobState.UNZIP.stateName, JobState.READ.stateName,
 				JobState.IMPORT.stateName, JobState.RESOLVE_DISTANCE.stateName,
 				JobState.DONE.stateName));
-		this.setType("ScheduleImport");
+		this.setType(JobType.SCHEDULE_IMPORT);
 		this.setState(JobState.UPLOAD.stateNum);
 	}
 
