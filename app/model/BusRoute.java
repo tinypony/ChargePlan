@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
@@ -18,7 +19,8 @@ public class BusRoute {
 	String name;
 	
 	
-	List<BusStop> waypoints = new ArrayList<BusStop>();
+	@Embedded
+	List<Waypoint> waypoints = new ArrayList<Waypoint>();
 
 	public ObjectId getId() {
 		return id;
@@ -52,11 +54,11 @@ public class BusRoute {
 		this.name = name;
 	}
 
-	public List<BusStop> getWaypoints() {
+	public List<Waypoint> getWaypoints() {
 		return waypoints;
 	}
 
-	public void setWaypoints(List<BusStop> waypoints) {
+	public void setWaypoints(List<Waypoint> waypoints) {
 		this.waypoints = waypoints;
 	}
 }

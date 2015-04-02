@@ -4,9 +4,9 @@ import org.xml.sax.Attributes;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.*;
 
-@Embedded
-@Entity
+@Entity("stops")
 public class BusStop {
+	@Id
 	private String stopId;
     private String name;
     private String x;

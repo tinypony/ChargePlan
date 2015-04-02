@@ -9,6 +9,7 @@ GET 	/api/configuration				controllers.UserConfigController.getConfig()
 GET 	/api/test						controllers.TestController.getTest()
 
 GET		/api/routes						controllers.RoutesController.getRoutes()
+GET		/api/stops						controllers.StopsController.getStops()
 
 GET     /ws/jobmonitor                 	controllers.JobMonitorController.socket()
 

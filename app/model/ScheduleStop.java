@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.mongodb.morphia.annotations.Embedded;
+import org.mongodb.morphia.annotations.Transient;
 import org.onebusaway.gtfs.model.StopTime;
 import org.xml.sax.Attributes;
 
@@ -13,6 +14,7 @@ public class ScheduleStop implements Comparable<ScheduleStop> {
 
 	private int order;
 	private String arrival;
+	private String stopId;
 	
 	@Embedded
 	private BusStop stop;
@@ -38,6 +40,7 @@ public class ScheduleStop implements Comparable<ScheduleStop> {
 		this.stop = bstop;
 		this.order = st.getStopSequence();
 		this.arrival = this.getTime("HHmm", st.getArrivalTime());
+		this.stopId = stop.getStopId();
 	}
 
 	public ScheduleStop() {
@@ -90,5 +93,13 @@ public class ScheduleStop implements Comparable<ScheduleStop> {
 	public int compareTo(ScheduleStop arg0) {
 		ScheduleStop another = (ScheduleStop) arg0;
 		return this.order - another.getOrder();
+	}
+
+	public String getStopId() {
+		return stopId;
+	}
+
+	public void setStopId(String stopId) {
+		this.stopId = stopId;
 	}
 }

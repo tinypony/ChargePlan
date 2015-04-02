@@ -15,12 +15,13 @@ define([ 'jquery',
       if(isHighlighted) {
         return {color: 'steelblue', opacity: 1};
       } else {
-        return {color: this.scale(rank), opacity: 0.5};
+        return {color: 'lightgrey', opacity: 0.5};
       }
     },
     
     highlightRoute: function(route, isHighlighted) {
       var polyline, style, routeName;
+      
       if(_.isString(route)) {
         polyline = this.drawnRoutes[route];
         routeName = route;
@@ -33,7 +34,7 @@ define([ 'jquery',
         return r.name === routeName;
       });
       
-      style = this.getRouteStyle(routeObj.dayStats.rank, isHighlighted);
+      style = this.getRouteStyle(null, isHighlighted);
       polyline.setStyle(style);
       polyline.bringToFront(); 
     },
@@ -60,28 +61,29 @@ define([ 'jquery',
       this.drawnRoutes = {};
     },
     
-    displayData: function(routes, rankDomain) {
+    displayData: function(data) {
       this.resetMap();
-      this.routes = routes;
+      this.routes = data.routes;
+      this.stops = data.stops;
       
       var self = this;
       
-      this.scale = chroma.scale(['darkorange', 'green'])
-      .domain([rankDomain.min, rankDomain.max], 3);
+   //   this.scale = chroma.scale(['darkorange', 'green'])
+    //  .domain([rankDomain.min, rankDomain.max], 3);
       
       var createMarker = function(stop) {
-        var routesWithEndStop = _.filter(routes, function(route){
-          return _.first(route.stops).id === stop.id || _.last(route.stops).id === stop.id;
+        var routesWithEndStop = _.filter(data.routes, function(route){
+          return _.first(route.waypoints).stopdId === stop.stopId || _.last(route.waypoints).stopId === stop.stopId;
         });
         
-        var marker = L.marker([stop.posY, stop.posX]);
+        var marker = L.marker([stop.y, stop.x]);
         marker.bindPopup(endstopPopupTemplate({
           stopname: stop.name,
           routes: routesWithEndStop
         }));
         
         marker.addTo(self.map);
-        self.endStops[stop.id] = marker;
+        self.endStops[stop.stopId] = marker;
         
         marker.on('click', function(e) {
           self.map.panTo(e.latlng);
@@ -103,13 +105,13 @@ define([ 'jquery',
       };
       
       var drawRoute = function( route, fitToMap ) {        
-        var coordinates = _.map(route.stops, function(stop){
-          return L.latLng(stop.posY, stop.posX);
+        var coordinates = _.map(route.waypoints, function(waypoint){
+          var stop = data.stops[waypoint.stopId];
+          return L.latLng(parseFloat(stop.y, 10), parseFloat(stop.x, 10));
         });
         
-        var polyline = L.polyline( coordinates, self.getRouteStyle(route.dayStats.rank, false))
-        .addTo(self.map);
-        
+        //Create polyline
+        var polyline = L.polyline( coordinates, self.getRouteStyle(route, false)).addTo(self.map);
         polyline.userData = {
             route: route
         };
@@ -125,18 +127,24 @@ define([ 'jquery',
         self.drawnRoutes[route.name] = polyline;
       }
       
-      _.each(routes, function(route) {
-        var first = _.first(route.stops);
-        var last = _.last(route.stops);
+      _.each(data.routes, function(route) {
+        var first = _.first(route.waypoints);
+        var last = _.last(route.waypoints);
         
         drawRoute(route);
         
-        if(_.isUndefined(self.endStops[first.id])) {
-          createMarker(first);
+        if(_.isUndefined(self.endStops[first.stopId])) {
+          var firstStop = _.find(data.stops, function(stop){
+            return stop.stopId === first.stopId;
+          });
+          createMarker(firstStop);
         }
         
-        if(_.isUndefined(self.endStops[last.id])) {
-          createMarker(last);
+        if(_.isUndefined(self.endStops[last.stopId])) {
+          var lastStop = _.find(data.stops, function(stop){
+            return stop.stopId === last.stopId;
+          });
+          createMarker(lastStop);
         }
       });
     },

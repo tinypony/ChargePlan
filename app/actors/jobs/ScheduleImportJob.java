@@ -24,6 +24,7 @@ import model.BusTrip;
 import model.BusTripGroup;
 import model.ClientConfig;
 import model.ScheduleStop;
+import model.Waypoint;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.AggregationPipeline;
@@ -233,7 +234,7 @@ public class ScheduleImportJob extends UntypedActor {
 		Datastore ds = MongoUtils.ds();
 		
 		Query<BusRoute> q = ds.createQuery(BusRoute.class);
-		q.field("name").equal(Pattern.compile("^N{0,1}\\d\\d[A-Za-z]{0,1}$"));
+		//q.field("name").equal();
 		List<BusRoute> routes =  q.asList();
 		
 		for(BusRoute r: routes) {
@@ -242,12 +243,12 @@ public class ScheduleImportJob extends UntypedActor {
 			List<ScheduleStop> stops = trip.getStops();
 			Collections.sort(stops);
 			
-			List<BusStop> waypoints = Lists.transform(stops, new Function<ScheduleStop, BusStop>(){
-				public BusStop apply(ScheduleStop s) {
-					return s.getStop();
+			List<Waypoint> waypoints = Lists.transform(stops, new Function<ScheduleStop, Waypoint>(){
+				public Waypoint apply(ScheduleStop s) {
+					return new Waypoint(s.getOrder(), s.getStop().getStopId());
 				}
 			});
-			System.out.println(waypoints.size());
+			
 			r.setWaypoints(waypoints);
 		}
 		ds.save(routes);

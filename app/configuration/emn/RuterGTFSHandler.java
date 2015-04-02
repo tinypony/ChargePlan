@@ -3,16 +3,20 @@ package configuration.emn;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import model.BusRoute;
 import model.BusStop;
 import model.BusTrip;
 import model.ScheduleStop;
+import model.Waypoint;
 
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
 import org.onebusaway.gtfs.model.Route;
 import org.onebusaway.gtfs.model.ServiceCalendarDate;
@@ -20,6 +24,9 @@ import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.Trip;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.serialization.GtfsReader;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 
 import dto.jobstate.ScheduleImportJobState;
 import play.Logger;
@@ -49,7 +56,7 @@ public class RuterGTFSHandler {
 	public void dumpData() {
 		Datastore ds = MongoUtils.ds();
 		ds.delete(ds.createQuery(BusRoute.class));
-		//ds.delete(ds.createQuery(BusStop.class));
+		ds.delete(ds.createQuery(BusStop.class));
 		ds.delete(ds.createQuery(BusTrip.class));
 
 
@@ -68,7 +75,7 @@ public class RuterGTFSHandler {
 			Trip t = st.getTrip();
 			Route r = t.getRoute();
 			
-			if(r.getType() != BUS_ROUTE_TYPE) {
+			if(!processRoute(r)) {
 				continue;
 			}
 			
@@ -91,11 +98,36 @@ public class RuterGTFSHandler {
 		}
 		
 		ds.save(trips.values());
+		ds.save(stops.values());
 
 
 //		ds.save(trips.values());
 //		Logger.info(trips.size() + " trips imported");
 	}
+	
+//	public void augmentRoutes() {
+//		Datastore ds = MongoUtils.ds();
+//		
+//		Query<BusRoute> q = ds.createQuery(BusRoute.class);
+//		q.field("name").equal(Pattern.compile("^N{0,1}\\d\\d[A-Za-z]{0,1}$"));
+//		List<BusRoute> routes =  q.asList();
+//		
+//		for(BusRoute r: routes) {
+//			Query<BusTrip> qr = ds.createQuery(BusTrip.class);
+//			BusTrip trip = qr.field("routeId").equal(r.getRouteId()).get();
+//			List<ScheduleStop> stops = trip.getStops();
+//			Collections.sort(stops);
+//			
+//			List<Waypoint> waypoints = Lists.transform(stops, new Function<ScheduleStop, Waypoint>(){
+//				public Waypoint apply(ScheduleStop s) {
+//					return new Waypoint(s.getOrder(), s.getStop().getStopId());
+//				}
+//			});
+//			System.out.println(waypoints.size());
+//			r.setWaypoints(waypoints);
+//		}
+//		ds.save(routes);
+//	}
 
 	private BusTrip createTrip(Trip t, Map<String, List<ServiceCalendarDate>> opDates) {
 		BusTrip trip = new BusTrip();
@@ -140,7 +172,7 @@ public class RuterGTFSHandler {
 		HashMap<String, BusRoute> busRoutes = new HashMap<String, BusRoute>();
 		
 		for (Route r : this.store.getAllRoutes()) {
-			if (r.getType() == BUS_ROUTE_TYPE) {
+			if (processRoute(r)) {
 				BusRoute route = new BusRoute();
 				route.setRouteId(r.getId().getId());
 				route.setDescription(r.getDesc());
@@ -150,5 +182,9 @@ public class RuterGTFSHandler {
 		}
 
 		return busRoutes;
+	}
+	
+	private boolean processRoute(Route r) {
+		return r.getType() == BUS_ROUTE_TYPE && r.getShortName().matches("^N{0,1}\\d\\d[A-Za-z]{0,1}$");
 	}
 }

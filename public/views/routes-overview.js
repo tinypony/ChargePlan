@@ -41,10 +41,10 @@ define([ 'jquery',
     
     render: function() {
       this.$el.html(routeListTemplate({
-        routes: _.sortBy(this.data.routes, function(route){
-          return -route.dayStats.rank;
-        })
-        
+        routes: this.data
+//          _.sortBy(this.data.routes, function(route){
+//          return -route.dayStats.rank;
+//        })        
       }));
       var self = this;
       
@@ -79,15 +79,24 @@ define([ 'jquery',
     
     retrieveData: function( isFirst) {
       var self = this;
+      this.data = {};
       
-      $.get('/api/routes?date='+this.date).done(function(data){
-        self.routeData = data;
-        
+      var onReady = _.after(2, function(){
         if(isFirst) {
           self.render();
         } else {
-          self.displayData(self.routeData);
+          self.displayData();
         }
+      });
+      
+      $.get('/api/routes').done(function(data){
+        self.data.routes = data;
+        onReady();
+      });
+      
+      $.get('/api/stops').done(function(data){
+        self.data.stops = data;
+        onReady();
       });
     },
     
@@ -111,25 +120,26 @@ define([ 'jquery',
       return routeObj.dayStats;
     },
     
-    displayData: function(data) {
+    displayData: function() {
       var self = this;
+      
       if(this.listView){
         this.stopListening(this.listView);
         this.listView.remove();
       }
       
-      var reduction = _.reduce(data.routes, function(memo, route){
-        return memo + route.dayStats.co2 + route.dayStats.nox + route.dayStats.co;
-      }, 0);
+//      var reduction = _.reduce(data.routes, function(memo, route){
+//        return memo + route.dayStats.co2 + route.dayStats.nox + route.dayStats.co;
+//      }, 0);
+//      
+//      var cost = data.routes.length * 2000000;
       
-      var cost = data.routes.length * 2000000;
+//      this.$('.top-level-results .emission-reduction').text('Emission reduction: '+Math.round(reduction) + 'kg/day');
+//      this.$('.top-level-results .infrastructure-cost').text('Infrastrucutre cost: '+ cost + ' EUR');
       
-      this.$('.top-level-results .emission-reduction').text('Emission reduction: '+Math.round(reduction) + 'kg/day');
-      this.$('.top-level-results .infrastructure-cost').text('Infrastrucutre cost: '+ cost + ' EUR');
+      this.mapView.displayData({routes: this.data.routes, stops: this.data.stops});
       
-      this.mapView.displayData(data.routes, data.rankDomain);      
-      
-      this.listView = new RouteList({data: data});     
+      this.listView = new RouteList({data: this.data.routes});     
       this.$('.side-list').append(this.listView.render().$el);
       
       this.listenTo(this.listView, 'route:highlight', function(routeName, isHighlighted){
@@ -142,17 +152,6 @@ define([ 'jquery',
       var self = this;      
       this.$el.html(template());
       
-//      this.$('#inputDate').datepicker({
-//        minDate: new Date('2015-02-09'),
-//        maxDate: new Date('2015-02-22'),
-//        defaultDate: new Date('2015-02-17'),
-//        onSelect: function() {
-//          var dateObj = self.$('#inputDate').datepicker('getDate');
-//          self.date = $.datepicker.formatDate('yy-m-d', dateObj);
-//          self.retrieveData();
-//        }
-//      });
-      
       this.mapView = new MapView({el: this.$('#map')});
       this.mapView.render();
       this.listenTo(this.mapView, 'show:endstop', function(stopId){
@@ -164,7 +163,7 @@ define([ 'jquery',
       this.endStopDetails = new EndStopDetails({el: this.$('.endstop-details')});
       this.endStopDetails.render();
       
-      this.displayData(this.routeData);
+      this.displayData(this.data);
     }
 
   });
