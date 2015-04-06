@@ -1,250 +1,105 @@
-2015-04-02 12:59:20,892 - [INFO] - from play in pool-4-thread-3 
+2015-04-06 10:42:29,734 - [INFO] - from play in pool-4-thread-5 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2015-04-02 13:00:07,366 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-06 10:45:05,455 - [INFO] - from application in play-internal-execution-context-1 
 Application has started
 
-2015-04-02 13:00:07,370 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-06 10:45:05,491 - [INFO] - from application in play-internal-execution-context-1 
 Found ruter
 
-2015-04-02 13:00:08,201 - [INFO] - from play in play-internal-execution-context-1 
+2015-04-06 10:45:05,821 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
-2015-04-02 13:00:15,742 - [INFO] - from play in play-internal-execution-context-2 
+2015-04-06 18:05:40,159 - [INFO] - from application in play-internal-execution-context-45 
+Application shutdown...
+
+2015-04-06 18:05:40,219 - [INFO] - from application in play-internal-execution-context-45 
+Application has started
+
+2015-04-06 18:05:40,219 - [INFO] - from application in play-internal-execution-context-45 
+Found ruter
+
+2015-04-06 18:05:40,223 - [INFO] - from play in play-internal-execution-context-45 
+Application started (Dev)
+
+2015-04-06 18:05:40,359 - [INFO] - from play in play-internal-execution-context-45 
 Starting application default Akka system.
 
-2015-04-02 13:00:28,238 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
-Added new running job, id = 5e3825b6-8c5d-4eca-b11f-d00309d0f242
+2015-04-06 18:05:43,928 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
+Added new running job, id = b37c534a-4502-444d-a7ef-61eb5b3f5dff
 
-2015-04-02 13:00:34,329 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
+2015-04-06 18:05:45,286 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
 Parsing data
 
-2015-04-02 13:01:06,948 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
+2015-04-06 18:05:53,451 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
 Data has been parsed
 
-2015-04-02 13:02:55,107 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-1023 routes imported
-
-2015-04-02 13:09:09,571 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Data has been imported
-
-2015-04-02 13:44:15,701 - [ERROR] - from application in New I/O worker #1 
-
-
-! @6lkdi341f - Internal server error, for (GET) [/] ->
-
-play.PlayExceptions$CompilationException: Compilation error[error: incompatible types]
-	at play.PlayExceptions$CompilationException$.apply(PlayExceptions.scala:27) ~[na:na]
-	at play.PlayExceptions$CompilationException$.apply(PlayExceptions.scala:27) ~[na:na]
-	at scala.Option.map(Option.scala:145) ~[scala-library-2.11.1.jar:na]
-	at play.PlayReload$$anonfun$taskFailureHandler$1.apply(PlayReload.scala:49) ~[na:na]
-	at play.PlayReload$$anonfun$taskFailureHandler$1.apply(PlayReload.scala:44) ~[na:na]
-	at scala.Option.map(Option.scala:145) ~[scala-library-2.11.1.jar:na]
-	at play.PlayReload$.taskFailureHandler(PlayReload.scala:44) ~[na:na]
-	at play.PlayReload$.compileFailure(PlayReload.scala:40) ~[na:na]
-	at play.PlayReload$$anonfun$compile$1.apply(PlayReload.scala:17) ~[na:na]
-	at play.PlayReload$$anonfun$compile$1.apply(PlayReload.scala:17) ~[na:na]
-	at scala.util.Either$LeftProjection.map(Either.scala:377) ~[scala-library-2.11.1.jar:na]
-	at play.PlayReload$.compile(PlayReload.scala:17) ~[na:na]
-	at play.PlayRun$$anonfun$playRunTask$1$$anonfun$apply$2$$anonfun$apply$3$$anonfun$2.apply(PlayRun.scala:61) ~[na:na]
-	at play.PlayRun$$anonfun$playRunTask$1$$anonfun$apply$2$$anonfun$apply$3$$anonfun$2.apply(PlayRun.scala:61) ~[na:na]
-	at play.runsupport.Reloader.reload(Reloader.scala:295) ~[na:na]
-	at play.core.ReloadableApplication$$anonfun$get$1.apply(ApplicationProvider.scala:122) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.ReloadableApplication$$anonfun$get$1.apply(ApplicationProvider.scala:120) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinTask$AdaptedRunnableAction.exec(ForkJoinTask.java:1361) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) ~[scala-library-2.11.1.jar:na]
-
-2015-04-02 13:44:33,587 - [INFO] - from application in play-internal-execution-context-3 
-Application shutdown...
-
-2015-04-02 13:44:33,609 - [INFO] - from play in play-internal-execution-context-3 
-Shutdown application default Akka system.
-
-2015-04-02 13:44:34,186 - [INFO] - from application in play-internal-execution-context-3 
-Application has started
-
-2015-04-02 13:44:34,188 - [INFO] - from application in play-internal-execution-context-3 
-Found ruter
-
-2015-04-02 13:44:34,282 - [INFO] - from play in play-internal-execution-context-3 
-Application started (Dev)
-
-2015-04-02 13:44:39,444 - [INFO] - from play in play-akka.actor.default-dispatcher-8 
-Starting application default Akka system.
-
-2015-04-02 13:45:44,179 - [INFO] - from application in play-internal-execution-context-3 
-Application shutdown...
-
-2015-04-02 13:45:44,180 - [INFO] - from play in play-internal-execution-context-3 
-Shutdown application default Akka system.
-
-2015-04-02 13:45:44,432 - [INFO] - from application in play-internal-execution-context-3 
-Application has started
-
-2015-04-02 13:45:44,435 - [INFO] - from application in play-internal-execution-context-3 
-Found ruter
-
-2015-04-02 13:45:44,482 - [INFO] - from play in play-internal-execution-context-3 
-Application started (Dev)
-
-2015-04-02 13:45:47,056 - [INFO] - from play in New I/O worker #4 
-Starting application default Akka system.
-
-2015-04-02 13:45:53,468 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Added new running job, id = 6d27e799-c86e-4c92-8ce4-c78f3aaca932
-
-2015-04-02 13:45:57,839 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Parsing data
-
-2015-04-02 13:46:31,854 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Data has been parsed
-
-2015-04-02 13:49:17,917 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-1023 routes imported
-
-2015-04-02 13:54:50,890 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Data has been imported
-
-2015-04-02 14:20:12,799 - [INFO] - from application in play-internal-execution-context-8 
-Application shutdown...
-
-2015-04-02 14:20:12,809 - [INFO] - from play in play-internal-execution-context-8 
-Shutdown application default Akka system.
-
-2015-04-02 14:20:13,090 - [INFO] - from application in play-internal-execution-context-8 
-Application has started
-
-2015-04-02 14:20:13,092 - [INFO] - from application in play-internal-execution-context-8 
-Found ruter
-
-2015-04-02 14:20:13,229 - [INFO] - from play in play-internal-execution-context-8 
-Application started (Dev)
-
-2015-04-02 14:22:49,452 - [INFO] - from application in play-internal-execution-context-8 
-Application shutdown...
-
-2015-04-02 14:22:49,621 - [INFO] - from application in play-internal-execution-context-8 
-Application has started
-
-2015-04-02 14:22:49,624 - [INFO] - from application in play-internal-execution-context-8 
-Found ruter
-
-2015-04-02 14:22:49,641 - [INFO] - from play in play-internal-execution-context-8 
-Application started (Dev)
-
-2015-04-02 14:22:51,505 - [INFO] - from play in play-akka.actor.default-dispatcher-18 
-Starting application default Akka system.
-
-2015-04-02 14:23:00,722 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Added new running job, id = 7f17f8d9-7afd-4b40-9514-47974b3ce84b
-
-2015-04-02 14:23:04,786 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Parsing data
-
-2015-04-02 14:23:44,113 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Data has been parsed
-
-2015-04-02 14:26:32,741 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
+2015-04-06 18:05:56,960 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
 181 routes imported
 
-2015-04-02 14:28:15,987 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
+2015-04-06 18:06:07,819 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
 Data has been imported
 
-2015-04-02 14:38:08,041 - [INFO] - from application in play-internal-execution-context-11 
+2015-04-06 18:32:32,172 - [INFO] - from application in play-internal-execution-context-49 
 Application shutdown...
 
-2015-04-02 14:38:08,042 - [INFO] - from play in play-internal-execution-context-11 
+2015-04-06 18:32:32,173 - [INFO] - from play in play-internal-execution-context-49 
 Shutdown application default Akka system.
 
-2015-04-02 14:38:08,311 - [INFO] - from application in play-internal-execution-context-11 
+2015-04-06 18:32:32,257 - [INFO] - from application in play-internal-execution-context-49 
 Application has started
 
-2015-04-02 14:38:08,314 - [INFO] - from application in play-internal-execution-context-11 
+2015-04-06 18:32:32,258 - [INFO] - from application in play-internal-execution-context-49 
 Found ruter
 
-2015-04-02 14:38:08,356 - [INFO] - from play in play-internal-execution-context-11 
+2015-04-06 18:32:32,276 - [INFO] - from play in play-internal-execution-context-49 
 Application started (Dev)
 
-2015-04-02 14:38:10,568 - [INFO] - from play in play-akka.actor.default-dispatcher-12 
-Starting application default Akka system.
-
-2015-04-02 14:38:25,722 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
-Added new running job, id = f8be37cb-7aef-4c39-9d94-a52c0a8c6ab5
-
-2015-04-02 14:38:30,745 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Parsing data
-
-2015-04-02 14:39:09,824 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Data has been parsed
-
-2015-04-02 14:39:47,418 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-181 routes imported
-
-2015-04-02 14:41:21,710 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Data has been imported
-
-2015-04-02 14:43:27,063 - [INFO] - from application in play-internal-execution-context-13 
+2015-04-06 19:13:07,160 - [INFO] - from application in play-internal-execution-context-49 
 Application shutdown...
 
-2015-04-02 14:43:27,063 - [INFO] - from play in play-internal-execution-context-13 
-Shutdown application default Akka system.
-
-2015-04-02 14:43:27,375 - [INFO] - from application in play-internal-execution-context-13 
+2015-04-06 19:13:07,190 - [INFO] - from application in play-internal-execution-context-49 
 Application has started
 
-2015-04-02 14:43:27,377 - [INFO] - from application in play-internal-execution-context-13 
+2015-04-06 19:13:07,191 - [INFO] - from application in play-internal-execution-context-49 
 Found ruter
 
-2015-04-02 14:43:27,419 - [INFO] - from play in play-internal-execution-context-13 
+2015-04-06 19:13:07,194 - [INFO] - from play in play-internal-execution-context-49 
 Application started (Dev)
 
-2015-04-02 14:43:29,477 - [INFO] - from play in play-akka.actor.default-dispatcher-23 
-Starting application default Akka system.
-
-2015-04-02 14:43:43,404 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Added new running job, id = a4a3cb46-e610-48b3-876c-b2d7b6e601d4
-
-2015-04-02 14:43:47,596 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Parsing data
-
-2015-04-02 14:44:25,681 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Data has been parsed
-
-2015-04-02 14:44:46,767 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-181 routes imported
-
-2015-04-02 14:46:20,137 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
-Data has been imported
-
-2015-04-02 14:58:59,238 - [INFO] - from application in play-internal-execution-context-16 
+2015-04-06 19:18:53,706 - [INFO] - from application in play-internal-execution-context-49 
 Application shutdown...
 
-2015-04-02 14:58:59,239 - [INFO] - from play in play-internal-execution-context-16 
-Shutdown application default Akka system.
-
-2015-04-02 14:58:59,434 - [INFO] - from application in play-internal-execution-context-16 
+2015-04-06 19:18:53,736 - [INFO] - from application in play-internal-execution-context-49 
 Application has started
 
-2015-04-02 14:58:59,436 - [INFO] - from application in play-internal-execution-context-16 
+2015-04-06 19:18:53,736 - [INFO] - from application in play-internal-execution-context-49 
 Found ruter
 
-2015-04-02 14:58:59,507 - [INFO] - from play in play-internal-execution-context-16 
+2015-04-06 19:18:53,740 - [INFO] - from play in play-internal-execution-context-49 
 Application started (Dev)
 
-2015-04-02 15:02:36,289 - [INFO] - from application in play-internal-execution-context-16 
+2015-04-06 20:01:52,466 - [INFO] - from application in play-internal-execution-context-49 
 Application shutdown...
 
-2015-04-02 15:02:36,415 - [INFO] - from application in play-internal-execution-context-16 
+2015-04-06 20:01:52,495 - [INFO] - from application in play-internal-execution-context-49 
 Application has started
 
-2015-04-02 15:02:36,417 - [INFO] - from application in play-internal-execution-context-16 
+2015-04-06 20:01:52,496 - [INFO] - from application in play-internal-execution-context-49 
 Found ruter
 
-2015-04-02 15:02:36,455 - [INFO] - from play in play-internal-execution-context-16 
+2015-04-06 20:01:52,503 - [INFO] - from play in play-internal-execution-context-49 
+Application started (Dev)
+
+2015-04-06 20:24:44,660 - [INFO] - from application in play-internal-execution-context-59 
+Application shutdown...
+
+2015-04-06 20:24:44,691 - [INFO] - from application in play-internal-execution-context-59 
+Application has started
+
+2015-04-06 20:24:44,692 - [INFO] - from application in play-internal-execution-context-59 
+Found ruter
+
+2015-04-06 20:24:44,695 - [INFO] - from play in play-internal-execution-context-59 
 Application started (Dev)
 

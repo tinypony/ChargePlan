@@ -6,13 +6,13 @@ define([ 'jquery',
          'scroller',
          'api-config', 
          'bootstrap',
-         'chroma',
+         'sidebar',
          'views/routes-overview/endstop-details',
          'views/routes-overview/map-view',
          'hbs!templates/routes-overview',
          'hbs!templates/routes-overview/route-list'], 
          function($, _, Backbone, Mapbox, Mocks, scroller,
-             ApiConfig, bootstrap, chroma, EndStopDetails, MapView, template, routeListTemplate) {
+             ApiConfig, bootstrap, sidebar, EndStopDetails, MapView, template, routeListTemplate) {
 
   
   var RouteList = Backbone.View.extend({
@@ -23,45 +23,84 @@ define([ 'jquery',
     },
     
     initialize: function(options){
-      this.data = options.data;
+      var bin = {};
+      /* map to 
+       * {
+       * 	string: {
+       * 		name: string
+       * 		routes: [{
+       * 			route,
+       * 			route
+       * 		}]
+       * 	},
+       * 	...
+       */ 
+      _.each(options.data, function(route){
+    	 route.avg = {};
+    	 
+    	 var runningAverageStat = function(statName, statName2) {
+    		 return function(memo, stat, n) {
+    			 if(_.isUndefined(statName2)) {
+    				 return (stat[statName] + n * memo) / (n+1);
+    			 } else {
+    				 return (stat[statName][statName2] + n * memo) / (n+1);
+    			 }
+    		 };
+    	 };
+    	 
+    	 route.avg.distance = _.reduce(route.stats, runningAverageStat('totalDistance'), 0);
+    	 route.avg.departures = Math.round(_.reduce(route.stats, runningAverageStat('departures'), 0));
+    	 route.avg.CO2 = _.reduce(route.stats, runningAverageStat('emissions', 'CO2'), 0);
+    	 route.avg.CO = _.reduce(route.stats, runningAverageStat('emissions', 'CO'), 0);
+    	 route.avg.NOx = _.reduce(route.stats, runningAverageStat('emissions', 'NOx'), 0);
+    	 
+    	 if(bin[route.name]) {
+    		 bin[route.name].routes.push(route);
+    	 } else {
+    		 bin[route.name] = {name: route.name, routes: [route]};
+    	 }
+      });
+      
+      this.data = bin;
     },
     
     onMouseout: function(ev) {
       $target = $(ev.currentTarget);
-      var routeName = $target.attr('data-route');
+      var routeName = $target.attr('data-routename');
       this.trigger('route:highlight', routeName, false);
     },
 
-    
     onMouseover: function(ev) {
       $target = $(ev.currentTarget);
-      var routeName = $target.attr('data-route');
+      var routeName = $target.attr('data-routename');
       this.trigger('route:highlight', routeName, true);
     },
     
     render: function() {
       this.$el.html(routeListTemplate({
-        routes: this.data
-//          _.sortBy(this.data.routes, function(route){
-//          return -route.dayStats.rank;
-//        })        
+        routes: _.values(this.data)     
       }));
-      var self = this;
       
-      this.$('#accordion2').collapse();
+      var self = this;
+
+      
+      this.$('#root-accordion').collapse();
+      _.each(_.keys(this.data), function(route){
+    	  console.log('#accordion-'+route);
+    	  self.$('#accordion-'+route).collapse();
+      });
       
       _.defer(function() {
         self.$('.nano').nanoScroller({flash: true});
         
-        self.$('.accordion-group').on('show.bs.collapse', function(ev) {
-          var $tar = $(ev.currentTarget);
-          $tar.toggleClass('toggle-on');
-        });
-        
-        self.$('.accordion-group').on('hide.bs.collapse', function(ev) {
-          var $tar = $(ev.currentTarget);
-          $tar.toggleClass('toggle-on');
-        });
+        var toggleHandler = function(ev) {
+	        var $tar = $(ev.currentTarget);
+	        $tar.toggleClass('toggle-on');
+	        ev.stopPropagation();
+        };
+          
+        self.$('.accordion-group').on('show.bs.collapse', toggleHandler);
+        self.$('.accordion-group').on('hide.bs.collapse', toggleHandler);
       });
       
       return this;
@@ -127,16 +166,7 @@ define([ 'jquery',
         this.stopListening(this.listView);
         this.listView.remove();
       }
-      
-//      var reduction = _.reduce(data.routes, function(memo, route){
-//        return memo + route.dayStats.co2 + route.dayStats.nox + route.dayStats.co;
-//      }, 0);
-//      
-//      var cost = data.routes.length * 2000000;
-      
-//      this.$('.top-level-results .emission-reduction').text('Emission reduction: '+Math.round(reduction) + 'kg/day');
-//      this.$('.top-level-results .infrastructure-cost').text('Infrastrucutre cost: '+ cost + ' EUR');
-      
+     
       this.mapView.displayData({routes: this.data.routes, stops: this.data.stops});
       
       this.listView = new RouteList({data: this.data.routes});     
@@ -152,13 +182,25 @@ define([ 'jquery',
       var self = this;      
       this.$el.html(template());
       
+      $('#side-list-container').slideReveal({
+    	  trigger: $("#buses-button"),
+    	  push: false,
+    	  width: 320,
+    	  show: function(panel, trigger) {
+    		  panel.addClass('open')
+    	  },
+    	  hide: function(panel, trigger) {
+    		  panel.removeClass('open');
+    	  }
+      }).removeClass('init');
+      
       this.mapView = new MapView({el: this.$('#map')});
+      
       this.mapView.render();
       this.listenTo(this.mapView, 'show:endstop', function(stopId){
         self.endStopDetails.setData(Mocks.getEndStopData());
         self.endStopDetails.show();
       });
-      
 
       this.endStopDetails = new EndStopDetails({el: this.$('.endstop-details')});
       this.endStopDetails.render();

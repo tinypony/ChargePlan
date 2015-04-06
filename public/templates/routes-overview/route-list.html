@@ -1,32 +1,53 @@
 <div class="nano">
-<div class="accordion nano-content" id="accordion2">
+	<div class="accordion nano-content" id="root-accordion">
 
-	{{#each routes}}
-	<div class="accordion-group">
-		<div class="accordion-heading">
-			<a class="accordion-toggle collapsed" data-route="{{this.name}}"
-				data-toggle="collapse" data-parent="#accordion2"
-				data-target="#collapse{{this.name}}"> {{this.name}} </a>
-		</div>
-		<div id="collapse{{this.name}}" class="accordion-body collapse">
-			<div class="accordion-inner">
-				<div class="row">
-					<div class="col-md-8">
-						<label class="property-name">Length</label> 
-						<label class="property-value">{{this.dayStats.length}} m</label>
+		{{#each routes}}
+		<div class="accordion-group root-level">
+
+			<div class="accordion-heading">
+				<a class="accordion-toggle collapsed" data-routename="{{this.name}}"
+					data-toggle="collapse" data-parent="#root-accordion"
+					data-target="#route-group-{{this.name}}"> {{this.name}} </a>
+			</div>
+
+			<!-- First level body -->
+			<div id="route-group-{{this.name}}" class="accordion-body collapse">
+				<div id="accordion-{{this.name}}" class="accordion inner-accordion">
+				
+				{{#each this.routes}}
+					<div class="accordion-group subgroup">
+						<div class="accordion-heading">
+							<a class="accordion-toggle collapsed" data-routename="{{this.name}}"
+								data-routeid="{{this.routeId}}" data-toggle="collapse"
+								data-parent="#accordion-{{this.name}}"
+								data-target="#route-{{this.routeId}}">{{this.routeId}}</a>
+						</div>
+						<div id="route-{{this.routeId}}" class="accordion-body collapse route-info">
+							<div class="row">
+								<div class="col-md-8">
+									<label class="property-name">Length</label> 
+									<label class="property-value">{{this.avg.distance}} m</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-8">
+									<label class="property-name">Departures per day</label> 
+									<label class="property-value">{{this.avg.departures}}</label>
+								</div>
+							</div>
+							<h5>Emission reduction</h5>				
+							<ul class="emissions">
+								<li><label class="emission-type">CO2/day </label><label class="emission-value">{{this.avg.CO2}} kg</label></li>
+								<li><label class="emission-type">CO/day </label><label class="emission-value">{{this.avg.CO}} kg</label></li>
+								<li><label class="emission-type">NOx/day </label><label class="emission-value">{{this.avg.NOx}} kg</label></li>
+							</ul>
+						</div>
 					</div>
+				{{/each}}
 				</div>
-				<h5>Emission reduction</h5>				
-				<ul class="emissions">
-					<li><label class="emission-type">CO2/day </label><label class="emission-value">{{this.dayStats.co2}} kg</label></li>
-					<li><label class="emission-type">CO/day </label><label class="emission-value">{{this.dayStats.co}} kg</label></li>
-					<li><label class="emission-type">NOx/day </label><label class="emission-value">{{this.dayStats.nox}} kg</label></li>
-				</ul>
-
-					
 			</div>
 		</div>
+		{{/each}}
 	</div>
-	{{/each}}
 </div>
 </div>

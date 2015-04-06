@@ -10,10 +10,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -23,6 +27,7 @@ import model.BusStop;
 import model.BusTrip;
 import model.BusTripGroup;
 import model.ClientConfig;
+import model.DayStat;
 import model.ScheduleStop;
 import model.Waypoint;
 
@@ -97,6 +102,7 @@ public class ScheduleImportJob extends UntypedActor {
 
 			this.importGtfs(gtfsFolder, this.state);
 			this.resolveLengths(this.state);
+			this.augmentRoutes();
 			this.state.distancesResolved(getSelf());
 			this.saveHistory(true);
 			getContext().stop(getSelf());
@@ -176,7 +182,6 @@ public class ScheduleImportJob extends UntypedActor {
 		
 		Logger.info("Data has been parsed");
 		ruterHandler.dumpData();
-		augmentRoutes();
 		job.imported(getSelf());
 		Logger.info("Data has been imported");
 	}
@@ -234,24 +239,45 @@ public class ScheduleImportJob extends UntypedActor {
 		Datastore ds = MongoUtils.ds();
 		
 		Query<BusRoute> q = ds.createQuery(BusRoute.class);
-		//q.field("name").equal();
 		List<BusRoute> routes =  q.asList();
 		
 		for(BusRoute r: routes) {
+			HashMap<String, DayStat> stats = new HashMap<String, DayStat>();
+			
 			Query<BusTrip> qr = ds.createQuery(BusTrip.class);
-			BusTrip trip = qr.field("routeId").equal(r.getRouteId()).get();
-			List<ScheduleStop> stops = trip.getStops();
-			Collections.sort(stops);
+			List<BusTrip> trips = qr.field("routeId").equal(r.getRouteId()).asList();
+			r.setWaypoints(this.getWaypoints(trips.get(0).getStops()));
 			
-			List<Waypoint> waypoints = Lists.transform(stops, new Function<ScheduleStop, Waypoint>(){
-				public Waypoint apply(ScheduleStop s) {
-					return new Waypoint(s.getOrder(), s.getStop().getStopId());
+			for(BusTrip trip: trips) {
+				for(String tripDate: trip.getDates()) {
+					DayStat st = stats.get(tripDate);
+					if(st == null) {
+						st = new DayStat();
+						st.setDate(tripDate);
+						stats.put(tripDate, st);
+					}
+					
+					st.incrementDepartures();
+					st.incrementTotalDistance(trip.getTripLength());
 				}
-			});
-			
-			r.setWaypoints(waypoints);
+			}
+			List<DayStat> list = new ArrayList<DayStat>();
+			list.addAll(stats.values());
+			r.setStats(list);
 		}
 		ds.save(routes);
+	}
+	
+	private List<Waypoint> getWaypoints(List<ScheduleStop> stops) {
+		Collections.sort(stops);
+		
+		List<Waypoint> waypoints = Lists.transform(stops, new Function<ScheduleStop, Waypoint>(){
+			public Waypoint apply(ScheduleStop s) {
+				return new Waypoint(s.getOrder(), s.getStop().getStopId());
+			}
+		});
+		
+		return waypoints;
 	}
 
 	public List<String> getDistinctRoutes() throws UnknownHostException {

@@ -47,7 +47,7 @@
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.springframework/spring-beans/jars/spring-beans-4.0.3.RELEASE.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.javassist/javassist/bundles/javassist-3.19.0-GA.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.reflections/reflections/jars/reflections-0.9.8.jar"/>
-  <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/com.google.guava/guava/bundles/guava-16.0.1.jar"/>
+  <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/com.google.guava/guava/bundles/guava-18.0.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/dom4j/dom4j/jars/dom4j-1.6.1.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/com.google.code.findbugs/jsr305/jars/jsr305-2.0.3.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.apache.tomcat/tomcat-servlet-api/jars/tomcat-servlet-api-8.0.5.jar"/>
@@ -67,7 +67,10 @@
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/com.ning/async-http-client/jars/async-http-client-1.8.15.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/oauth.signpost/signpost-core/jars/signpost-core-1.2.1.2.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/oauth.signpost/signpost-commonshttp4/jars/signpost-commonshttp4-1.2.1.2.jar"/>
-  <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.mongodb/mongo-java-driver/jars/mongo-java-driver-2.12.4.jar"/>
+  <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.mongodb/mongo-java-driver/jars/mongo-java-driver-2.13.0.jar"/>
+  <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.mongodb.morphia/morphia/jars/morphia-0.110.jar"/>
+  <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.mongodb.morphia/morphia-util/jars/morphia-util-0.110.jar"/>
+  <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/com.thoughtworks.proxytoys/proxytoys/jars/proxytoys-1.0.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.json/json/jars/json-20140107.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/com.google.http-client/google-http-client/jars/google-http-client-1.19.0.jar"/>
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/com.google.http-client/google-http-client-jackson2/jars/google-http-client-jackson2-1.19.0.jar"/>
@@ -132,6 +135,6 @@
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.easytesting/fest-util/jars/fest-util-1.1.6.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="output" path="bin"/>
-  <classpathentry path="/home/tinypony/EMN/charge-plan/target/scala-2.11/classes_managed" kind="lib"></classpathentry>
+  <classpathentry path="/home/tinypony/EMN/ChargePlan/target/scala-2.11/classes_managed" kind="lib"></classpathentry>
   <classpathentry path="/home/tinypony/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.1.jar" kind="lib"></classpathentry>
 </classpath>

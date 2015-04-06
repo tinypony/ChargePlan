@@ -5,6 +5,7 @@ require.config({
     underscore : 'lib/underscore',
     fileupload : 'lib/jquery.fileupload',
     knob : 'lib/jquery.knob',
+    sidebar: 'lib/jquery-plugins/jquery.slidereveal.min',
     'jquery.ui.widget': 'lib/jquery.ui.widget',
     amcharts : 'lib/amcharts/amcharts',
     'amcharts.funnel' : 'lib/amcharts/funnel',
@@ -34,6 +35,11 @@ require.config({
       deps: ['jquery'],
       exports: '$'
     },
+    
+    sidebar: {
+    	deps: ['jquery'],
+    	exports: '$'
+    },
 
     bootstrap : {
       'deps' : [ 'jquery' ]
@@ -42,6 +48,7 @@ require.config({
     mapbox : {
       exports : 'L'
     },
+    
 
     'amcharts.funnel' : {
       deps : [ 'amcharts' ],
@@ -50,6 +57,7 @@ require.config({
         AmCharts.isReady = true;
       }
     },
+    
     'amcharts.gauge' : {
       deps : [ 'amcharts' ],
       exports : 'AmCharts',

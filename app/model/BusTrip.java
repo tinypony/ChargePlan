@@ -28,6 +28,7 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	private String footnoteId;
 	private String direction;
 	private List<String> dates;
+	private int tripLength;
 	
 	@Embedded
 	private ArrayList<ScheduleStop> stops; // stop
@@ -86,32 +87,32 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	}
 
 
-	public BasicDBList getDates() {
-		BasicDBList dates = new BasicDBList();
-		Calendar cal = Calendar.getInstance();
+	public List<String> getDates() {
+//		BasicDBList dates = new BasicDBList();
+//		Calendar cal = Calendar.getInstance();
+//
+//		if (dataSource == "hsl") {
+//			String[] tokens = firstDate.split("-");
+//
+//			cal.set(Integer.parseInt(tokens[0]),
+//					Integer.parseInt(tokens[1]) - 1,
+//					Integer.parseInt(tokens[2]) - 1);
+//
+//			for (int i = 0; i < this.getVector().length(); i++) {
+//				char a = this.getVector().charAt(i);
+//				if (a == '1') {
+//					cal.set(Integer.parseInt(tokens[0]),
+//							Integer.parseInt(tokens[1]) - 1,
+//							Integer.parseInt(tokens[2]));
+//					cal.add(Calendar.DATE, i);
+//					dates.add(this.getDateString(cal));
+//				}
+//			}
+//		} else {
+//			dates.addAll(this.dates);
+//		}
 
-		if (dataSource == "hsl") {
-			String[] tokens = firstDate.split("-");
-
-			cal.set(Integer.parseInt(tokens[0]),
-					Integer.parseInt(tokens[1]) - 1,
-					Integer.parseInt(tokens[2]) - 1);
-
-			for (int i = 0; i < this.getVector().length(); i++) {
-				char a = this.getVector().charAt(i);
-				if (a == '1') {
-					cal.set(Integer.parseInt(tokens[0]),
-							Integer.parseInt(tokens[1]) - 1,
-							Integer.parseInt(tokens[2]));
-					cal.add(Calendar.DATE, i);
-					dates.add(this.getDateString(cal));
-				}
-			}
-		} else {
-			dates.addAll(this.dates);
-		}
-
-		return dates;
+		return this.dates;
 	}
 
 	public void setDates(List<ServiceCalendarDate> calDates) {
@@ -186,6 +187,14 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 
 	public void setRouteRef(BusRoute routeRef) {
 		this.routeRef = routeRef;
+	}
+
+	public int getTripLength() {
+		return tripLength;
+	}
+
+	public void setTripLength(int tripLength) {
+		this.tripLength = tripLength;
 	}
 	
 	

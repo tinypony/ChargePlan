@@ -21,6 +21,9 @@ public class BusRoute {
 	
 	@Embedded
 	List<Waypoint> waypoints = new ArrayList<Waypoint>();
+	
+	@Embedded
+	List<DayStat> stats = new ArrayList<DayStat>();
 
 	public ObjectId getId() {
 		return id;
@@ -61,4 +64,14 @@ public class BusRoute {
 	public void setWaypoints(List<Waypoint> waypoints) {
 		this.waypoints = waypoints;
 	}
+
+	public List<DayStat> getStats() {
+		return stats;
+	}
+
+	public void setStats(List<DayStat> stats) {
+		this.stats = stats;
+	}
+	
+	
 }
