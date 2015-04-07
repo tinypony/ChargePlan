@@ -31,7 +31,7 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	private int tripLength;
 	
 	@Embedded
-	private ArrayList<ScheduleStop> stops; // stop
+	private List<ScheduleStop> stops; // stop
 	
 	@Transient
 	private String firstDate;
@@ -53,12 +53,16 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	public String getRoute() {
 		return this.route;
 	}
+	
+	public void setStops(List<ScheduleStop> stops) {
+		this.stops = stops;
+	}
 
 	public void addStop(ScheduleStop stop) {
 		this.stops.add(stop);
 	}
 
-	public ArrayList<ScheduleStop> getStops() {
+	public List<ScheduleStop> getStops() {
 		return this.stops;
 	}
 

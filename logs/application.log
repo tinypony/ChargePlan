@@ -1,105 +1,300 @@
-2015-04-06 10:42:29,734 - [INFO] - from play in pool-4-thread-5 
+2015-04-07 10:10:23,041 - [INFO] - from play in pool-4-thread-4 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2015-04-06 10:45:05,455 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-07 10:10:30,673 - [INFO] - from application in play-internal-execution-context-1 
 Application has started
 
-2015-04-06 10:45:05,491 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-07 10:10:30,676 - [INFO] - from application in play-internal-execution-context-1 
 Found ruter
 
-2015-04-06 10:45:05,821 - [INFO] - from play in play-internal-execution-context-1 
+2015-04-07 10:10:31,445 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
-2015-04-06 18:05:40,159 - [INFO] - from application in play-internal-execution-context-45 
-Application shutdown...
-
-2015-04-06 18:05:40,219 - [INFO] - from application in play-internal-execution-context-45 
-Application has started
-
-2015-04-06 18:05:40,219 - [INFO] - from application in play-internal-execution-context-45 
-Found ruter
-
-2015-04-06 18:05:40,223 - [INFO] - from play in play-internal-execution-context-45 
-Application started (Dev)
-
-2015-04-06 18:05:40,359 - [INFO] - from play in play-internal-execution-context-45 
+2015-04-07 10:10:36,890 - [INFO] - from play in play-internal-execution-context-1 
 Starting application default Akka system.
 
-2015-04-06 18:05:43,928 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Added new running job, id = b37c534a-4502-444d-a7ef-61eb5b3f5dff
+2015-04-07 10:10:50,034 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
+Added new running job, id = e5166c85-3b06-4f53-93b0-8ee1225814a7
 
-2015-04-06 18:05:45,286 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
+2015-04-07 10:10:55,025 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
 Parsing data
 
-2015-04-06 18:05:53,451 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
+2015-04-07 10:11:27,855 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
 Data has been parsed
 
-2015-04-06 18:05:56,960 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
+2015-04-07 10:12:30,528 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
 181 routes imported
 
-2015-04-06 18:06:07,819 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
+2015-04-07 10:14:29,498 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
 Data has been imported
 
-2015-04-06 18:32:32,172 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 10:27:53,460 - [INFO] - from application in play-internal-execution-context-3 
 Application shutdown...
 
-2015-04-06 18:32:32,173 - [INFO] - from play in play-internal-execution-context-49 
+2015-04-07 10:27:53,486 - [INFO] - from play in play-internal-execution-context-3 
 Shutdown application default Akka system.
 
-2015-04-06 18:32:32,257 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 10:27:54,027 - [INFO] - from application in play-internal-execution-context-3 
 Application has started
 
-2015-04-06 18:32:32,258 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 10:27:54,029 - [INFO] - from application in play-internal-execution-context-3 
 Found ruter
 
-2015-04-06 18:32:32,276 - [INFO] - from play in play-internal-execution-context-49 
+2015-04-07 10:27:54,081 - [INFO] - from play in play-internal-execution-context-3 
 Application started (Dev)
 
-2015-04-06 19:13:07,160 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 10:27:54,217 - [INFO] - from play in play-internal-execution-context-3 
+Starting application default Akka system.
+
+2015-04-07 10:28:20,870 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
+Added new running job, id = 4b7f0408-4d76-4862-89e9-3f24fc2bef18
+
+2015-04-07 10:28:25,748 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Parsing data
+
+2015-04-07 10:28:56,633 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Data has been parsed
+
+2015-04-07 10:30:12,380 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+181 routes imported
+
+2015-04-07 10:31:47,484 - [INFO] - from application in application-akka.actor.default-dispatcher-4 
+Data has been imported
+
+2015-04-07 10:47:03,742 - [INFO] - from application in play-internal-execution-context-3 
 Application shutdown...
 
-2015-04-06 19:13:07,190 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 10:47:03,792 - [INFO] - from play in play-internal-execution-context-3 
+Shutdown application default Akka system.
+
+2015-04-07 10:47:04,116 - [INFO] - from application in play-internal-execution-context-3 
 Application has started
 
-2015-04-06 19:13:07,191 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 10:47:04,130 - [INFO] - from application in play-internal-execution-context-3 
 Found ruter
 
-2015-04-06 19:13:07,194 - [INFO] - from play in play-internal-execution-context-49 
+2015-04-07 10:47:04,344 - [INFO] - from play in play-internal-execution-context-3 
 Application started (Dev)
 
-2015-04-06 19:18:53,706 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 11:37:24,859 - [INFO] - from application in play-internal-execution-context-14 
 Application shutdown...
 
-2015-04-06 19:18:53,736 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 11:37:25,206 - [INFO] - from application in play-internal-execution-context-14 
 Application has started
 
-2015-04-06 19:18:53,736 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 11:37:25,209 - [INFO] - from application in play-internal-execution-context-14 
 Found ruter
 
-2015-04-06 19:18:53,740 - [INFO] - from play in play-internal-execution-context-49 
+2015-04-07 11:37:25,367 - [INFO] - from play in play-internal-execution-context-14 
 Application started (Dev)
 
-2015-04-06 20:01:52,466 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 11:37:25,504 - [INFO] - from play in play-akka.actor.default-dispatcher-11 
+Starting application default Akka system.
+
+2015-04-07 11:38:00,170 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
+Added new running job, id = 2cccb4b6-aa33-4180-9e3b-d0a38c7a2f47
+
+2015-04-07 11:38:05,036 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
+Parsing data
+
+2015-04-07 11:38:41,244 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
+Data has been parsed
+
+2015-04-07 11:40:02,910 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
+181 routes imported
+
+2015-04-07 11:55:09,540 - [INFO] - from application in play-internal-execution-context-14 
 Application shutdown...
 
-2015-04-06 20:01:52,495 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 11:55:09,542 - [INFO] - from play in play-internal-execution-context-14 
+Shutdown application default Akka system.
+
+2015-04-07 11:55:09,844 - [INFO] - from application in play-internal-execution-context-14 
 Application has started
 
-2015-04-06 20:01:52,496 - [INFO] - from application in play-internal-execution-context-49 
+2015-04-07 11:55:09,846 - [INFO] - from application in play-internal-execution-context-14 
 Found ruter
 
-2015-04-06 20:01:52,503 - [INFO] - from play in play-internal-execution-context-49 
+2015-04-07 11:55:10,101 - [INFO] - from play in play-internal-execution-context-14 
 Application started (Dev)
 
-2015-04-06 20:24:44,660 - [INFO] - from application in play-internal-execution-context-59 
+2015-04-07 11:55:12,850 - [INFO] - from play in play-internal-execution-context-17 
+Starting application default Akka system.
+
+2015-04-07 11:55:21,245 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
+Added new running job, id = 6bc71b24-4806-44f0-b99f-1e49855287d6
+
+2015-04-07 11:55:26,046 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Parsing data
+
+2015-04-07 11:55:57,839 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Data has been parsed
+
+2015-04-07 11:55:59,043 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+181 routes imported
+
+2015-04-07 11:56:08,856 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-628
+
+2015-04-07 11:56:08,856 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-629
+
+2015-04-07 11:56:08,856 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-627
+
+2015-04-07 11:56:08,856 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-626
+
+2015-04-07 11:56:08,857 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-625
+
+2015-04-07 11:56:08,857 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-624
+
+2015-04-07 11:56:08,954 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-20
+
+2015-04-07 11:56:08,963 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-22
+
+2015-04-07 11:56:08,964 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-10
+
+2015-04-07 11:56:08,965 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-12
+
+2015-04-07 11:56:08,965 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-14
+
+2015-04-07 11:56:08,965 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-16
+
+2015-04-07 11:56:08,966 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-18
+
+2015-04-07 11:56:08,983 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-6009
+
+2015-04-07 11:56:08,984 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-6005
+
+2015-04-07 11:56:08,984 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-6007
+
+2015-04-07 11:56:08,984 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-6015
+
+2015-04-07 11:56:08,984 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-6013
+
+2015-04-07 11:56:08,985 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-6011
+
+2015-04-07 11:56:08,985 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-227
+
+2015-04-07 11:56:08,985 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-228
+
+2015-04-07 11:56:08,985 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-229
+
+2015-04-07 11:56:08,986 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-230
+
+2015-04-07 11:56:08,986 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3628-41-231
+
+2015-04-07 11:56:08,989 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-1019
+
+2015-04-07 11:56:08,992 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-1023
+
+2015-04-07 11:56:08,992 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-1021
+
+2015-04-07 11:56:08,992 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-1027
+
+2015-04-07 11:56:08,993 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3626-41-1025
+
+2015-04-07 11:56:09,001 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-3526
+
+2015-04-07 11:56:09,001 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-3527
+
+2015-04-07 11:56:09,001 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-3528
+
+2015-04-07 11:56:09,001 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-3529
+
+2015-04-07 11:56:09,002 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-3530
+
+2015-04-07 11:56:09,043 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-6
+
+2015-04-07 11:56:09,044 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-8
+
+2015-04-07 11:56:09,044 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find last stop for 3704-69-4
+
+2015-04-07 11:56:09,133 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-624
+
+2015-04-07 11:56:09,133 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-625
+
+2015-04-07 11:56:09,133 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-626
+
+2015-04-07 11:56:09,133 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-628
+
+2015-04-07 11:56:09,133 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-627
+
+2015-04-07 11:56:09,133 - [WARN] - from application in application-akka.actor.default-dispatcher-7 
+Cannot find first stop for 3627-41-629
+
+2015-04-07 11:57:54,109 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Data has been imported
+
+2015-04-07 12:02:41,201 - [INFO] - from application in play-internal-execution-context-18 
 Application shutdown...
 
-2015-04-06 20:24:44,691 - [INFO] - from application in play-internal-execution-context-59 
+2015-04-07 12:02:41,210 - [INFO] - from play in play-internal-execution-context-18 
+Shutdown application default Akka system.
+
+2015-04-07 12:02:41,528 - [INFO] - from application in play-internal-execution-context-18 
 Application has started
 
-2015-04-06 20:24:44,692 - [INFO] - from application in play-internal-execution-context-59 
+2015-04-07 12:02:41,560 - [INFO] - from application in play-internal-execution-context-18 
 Found ruter
 
-2015-04-06 20:24:44,695 - [INFO] - from play in play-internal-execution-context-59 
+2015-04-07 12:02:41,752 - [INFO] - from play in play-internal-execution-context-18 
 Application started (Dev)
+
+2015-04-07 12:02:46,802 - [INFO] - from play in play-akka.actor.default-dispatcher-11 
+Starting application default Akka system.
+
+2015-04-07 12:02:57,764 - [INFO] - from application in application-akka.actor.default-dispatcher-6 
+Added new running job, id = d8096e16-be4b-498f-b60d-8a409437b896
+
+2015-04-07 12:03:04,412 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Parsing data
+
+2015-04-07 12:03:40,298 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Data has been parsed
+
+2015-04-07 12:05:15,462 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+181 routes imported
+
+2015-04-07 12:06:55,130 - [INFO] - from application in application-akka.actor.default-dispatcher-7 
+Data has been imported
 

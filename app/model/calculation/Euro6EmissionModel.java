@@ -18,9 +18,9 @@ public class Euro6EmissionModel implements IEmissionModel {
 	@Override
 	public Map<String, Double> getDailyEmissions(BusRoute r, DayStat stat) {
 		Map<String, Double> emissions = new HashMap<String, Double>();
-		emissions.put("CO2", CO2_KG_PER_KM * stat.getTotalDistance());
-		emissions.put("CO", CO_KG_PER_KM * stat.getTotalDistance());
-		emissions.put("NOx", NOx_KG_PER_KM * stat.getTotalDistance());
+		emissions.put("CO2", CO2_KG_PER_KM * stat.getTotalDistance()/1000);
+		emissions.put("CO", CO_KG_PER_KM * stat.getTotalDistance()/1000);
+		emissions.put("NOx", NOx_KG_PER_KM * stat.getTotalDistance()/1000);
 		return emissions;
 	}
 

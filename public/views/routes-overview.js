@@ -40,6 +40,7 @@ define([ 'jquery',
     	 
     	 var runningAverageStat = function(statName, statName2) {
     		 return function(memo, stat, n) {
+    		   
     			 if(_.isUndefined(statName2)) {
     				 return (stat[statName] + n * memo) / (n+1);
     			 } else {
@@ -48,11 +49,11 @@ define([ 'jquery',
     		 };
     	 };
     	 
-    	 route.avg.distance = _.reduce(route.stats, runningAverageStat('totalDistance'), 0);
+    	 route.avg.distance = Math.floor(_.reduce(route.stats, runningAverageStat('totalDistance'), 0));
     	 route.avg.departures = Math.round(_.reduce(route.stats, runningAverageStat('departures'), 0));
-    	 route.avg.CO2 = _.reduce(route.stats, runningAverageStat('emissions', 'CO2'), 0);
-    	 route.avg.CO = _.reduce(route.stats, runningAverageStat('emissions', 'CO'), 0);
-    	 route.avg.NOx = _.reduce(route.stats, runningAverageStat('emissions', 'NOx'), 0);
+    	 route.avg.CO2 = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'CO2'), 0));
+    	 route.avg.CO = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'CO'), 0));
+    	 route.avg.NOx = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'NOx'), 0));
     	 
     	 if(bin[route.name]) {
     		 bin[route.name].routes.push(route);
@@ -85,8 +86,7 @@ define([ 'jquery',
 
       
       this.$('#root-accordion').collapse();
-      _.each(_.keys(this.data), function(route){
-    	  console.log('#accordion-'+route);
+      _.each(_.keys(this.data), function(route) {
     	  self.$('#accordion-'+route).collapse();
       });
       

@@ -30,6 +30,10 @@ define([ 'jquery',
         routeName = route.userData.route.name;
       }
       
+      if(_.isUndefined(polyline)) {
+        return;
+      }
+      
       var routeObj = _.find(this.routes, function(r){
         return r.name === routeName;
       });
@@ -68,18 +72,19 @@ define([ 'jquery',
       
       var self = this;
       
-   //   this.scale = chroma.scale(['darkorange', 'green'])
-    //  .domain([rankDomain.min, rankDomain.max], 3);
-      
       var createMarker = function(stop) {
         var routesWithEndStop = _.filter(data.routes, function(route){
-          return _.first(route.waypoints).stopdId === stop.stopId || _.last(route.waypoints).stopId === stop.stopId;
+          return _.first(route.waypoints).stopId === stop.stopId || _.last(route.waypoints).stopId === stop.stopId;
         });
+        
+        if(!routesWithEndStop.length) return;
         
         var marker = L.marker([stop.y, stop.x]);
         marker.bindPopup(endstopPopupTemplate({
-          stopname: stop.name,
-          routes: routesWithEndStop
+          stopname: stop.name+"("+stop.stopId+")",
+          routes: _.uniq(routesWithEndStop, false, function(route){
+            return route.name;
+          })
         }));
         
         marker.addTo(self.map);
@@ -127,24 +132,30 @@ define([ 'jquery',
         self.drawnRoutes[route.name] = polyline;
       }
       
-      _.each(data.routes, function(route) {
-        var first = _.first(route.waypoints);
-        var last = _.last(route.waypoints);
-        
-        drawRoute(route);
-        
-        if(_.isUndefined(self.endStops[first.stopId])) {
-          var firstStop = _.find(data.stops, function(stop){
-            return stop.stopId === first.stopId;
-          });
-          createMarker(firstStop);
-        }
-        
-        if(_.isUndefined(self.endStops[last.stopId])) {
-          var lastStop = _.find(data.stops, function(stop){
-            return stop.stopId === last.stopId;
-          });
-          createMarker(lastStop);
+//      _.each(data.routes, function(route) {
+//        var first = _.first(route.waypoints);
+//        var last = _.last(route.waypoints);
+//        
+//        drawRoute(route);
+//        
+//        if(_.isUndefined(self.endStops[first.stopId])) {
+//          var firstStop = _.find(data.stops, function(stop){
+//            return stop.stopId === first.stopId;
+//          });
+//          createMarker(firstStop);
+//        }
+//        
+//        if(_.isUndefined(self.endStops[last.stopId])) {
+//          var lastStop = _.find(data.stops, function(stop){
+//            return stop.stopId === last.stopId;
+//          });
+//          createMarker(lastStop);
+//        }
+//      });
+      
+      _.each(this.stops, function(stop) {
+        if(stop.last || stop.first) {
+          createMarker(stop);
         }
       });
     },

@@ -1,4 +1,5 @@
 target/
+project/
 node_modules/
 tmp/
 /bin

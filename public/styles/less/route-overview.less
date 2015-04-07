@@ -1,8 +1,10 @@
 .overview-screen {
 	position: relative;
 	height: 100%;
+	overflow: hidden;
 	@side-list-width: 320px;
 	@zindex-side-list: 1003;
+	
 	
 	.side-list-container {
 		z-index: @zindex-side-list;
@@ -125,6 +127,7 @@
 
 	.details-view {
 		width: 100%;
+		height: 100%;
 		position: relative;
 		
 		.top-level-results {
@@ -182,10 +185,10 @@
 			position: relative;
 			top: -300px;
 			background: white;
+			
 			.stats {
 				padding-left: 20px;
 			}
 		}
 	}
 }
-
