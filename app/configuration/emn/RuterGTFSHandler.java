@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
-import model.BusRoute;
-import model.BusStop;
-import model.BusTrip;
-import model.ScheduleStop;
-import model.Waypoint;
+import model.dataset.BusRoute;
+import model.dataset.BusStop;
+import model.dataset.BusTrip;
+import model.dataset.ScheduleStop;
+import model.dataset.Waypoint;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;

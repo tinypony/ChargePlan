@@ -1,4 +1,4 @@
-package model;
+package model.dataset;
 
 import java.util.ArrayList;
 import java.util.Calendar;

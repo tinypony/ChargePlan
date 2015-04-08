@@ -1,4 +1,4 @@
-package model;
+package model.dataset;
 
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;

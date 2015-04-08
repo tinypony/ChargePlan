@@ -1,4 +1,4 @@
-package model;
+package model.dataset;
 import org.onebusaway.gtfs.model.Stop;
 import org.xml.sax.Attributes;
 import org.bson.types.ObjectId;

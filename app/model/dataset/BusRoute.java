@@ -1,4 +1,4 @@
-package model;
+package model.dataset;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,16 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.annotations.Transient;
 
+import serialization.ObjectIdSerializer;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity("routes")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BusRoute {
 	@Id
+	@JsonSerialize(using = ObjectIdSerializer.class)
 	ObjectId id;
 	String routeId;
 	String description;

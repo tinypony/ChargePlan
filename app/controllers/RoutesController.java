@@ -3,10 +3,10 @@ package controllers;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import model.BusRoute;
-import model.DayStat;
 import model.calculation.Euro6EmissionModel;
 import model.calculation.IEmissionModel;
+import model.dataset.BusRoute;
+import model.dataset.DayStat;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;

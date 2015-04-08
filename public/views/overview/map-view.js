@@ -4,7 +4,7 @@ define([ 'jquery',
          'mapbox',
          'api-config',
          'chroma',
-         'hbs!templates/routes-overview/endstop-popup'], 
+         'hbs!templates/overview/endstop-popup'], 
          function($, _, Backbone, Mapbox, ApiConfig, chroma, endstopPopupTemplate) {
   var MapView = Backbone.View.extend({
     initialize: function() {

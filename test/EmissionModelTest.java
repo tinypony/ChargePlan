@@ -1,11 +1,11 @@
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-import model.BusRoute;
-import model.DayStat;
+import static org.junit.Assert.*;
 import model.calculation.Euro6EmissionModel;
 import model.calculation.IEmissionModel;
+import model.dataset.BusRoute;
+import model.dataset.DayStat;
 
 
 public class EmissionModelTest {

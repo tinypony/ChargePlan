@@ -1,4 +1,4 @@
-package model;
+package model.dataset;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;

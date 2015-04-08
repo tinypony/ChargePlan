@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import model.ScheduleStop;
+import model.dataset.ScheduleStop;
 import utils.MongoUtils;
 
 import com.google.api.client.http.HttpRequest;

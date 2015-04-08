@@ -4,9 +4,9 @@ define(['jquery',
         'views/endstop-viz',
         'views/routes-viz',
         'views/route-select',
-        'views/routes-overview'], 
+        'views/overview'], 
         function($, Backbone, ConfigurationView,
-            EndStopView, RouteStatsView, RouteSelectionView, RoutesOverview){
+            EndStopView, RouteStatsView, RouteSelectionView, Overview){
   
   var EMNRouter = Backbone.Router.extend({
     routes: {
@@ -50,7 +50,7 @@ define(['jquery',
     
     routesOverview: function() {
       this.init();
-      this.view = new RoutesOverview({el: $('body > .view-content')});
+      this.view = new Overview({el: $('body > .view-content')});
     }
     
   });

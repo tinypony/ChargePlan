@@ -5,9 +5,14 @@ import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
+import serialization.ObjectIdSerializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity("configs")
 public class ClientConfig {
 	@Id
+	@JsonSerialize(using = ObjectIdSerializer.class)
 	ObjectId id;
 
 	@Embedded
@@ -15,6 +20,8 @@ public class ClientConfig {
 
 	@Embedded
 	UploadInfo vehicleAssignments;
+	
+	String recentProject;
 
 	boolean canProceed;
 
@@ -65,4 +72,14 @@ public class ClientConfig {
 	public void setCanProceed(boolean canProceed) {
 		this.canProceed = canProceed;
 	}
+
+	public String getRecentProject() {
+		return recentProject;
+	}
+
+	public void setRecentProject(String recentProject) {
+		this.recentProject = recentProject;
+	}
+	
+	
 }

@@ -3,8 +3,8 @@ package model.calculation;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.BusRoute;
-import model.DayStat;
+import model.dataset.BusRoute;
+import model.dataset.DayStat;
 
 public class Euro6EmissionModel implements IEmissionModel {
 	

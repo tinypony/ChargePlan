@@ -22,14 +22,14 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import model.BusRoute;
-import model.BusStop;
-import model.BusTrip;
-import model.BusTripGroup;
 import model.ClientConfig;
-import model.DayStat;
-import model.ScheduleStop;
-import model.Waypoint;
+import model.dataset.BusRoute;
+import model.dataset.BusStop;
+import model.dataset.BusTrip;
+import model.dataset.BusTripGroup;
+import model.dataset.DayStat;
+import model.dataset.ScheduleStop;
+import model.dataset.Waypoint;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.AggregationPipeline;

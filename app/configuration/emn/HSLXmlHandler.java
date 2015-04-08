@@ -15,7 +15,7 @@ import utils.MongoUtils;
 
 import com.mongodb.DBCollection;
 
-import model.BusTrip;
+import model.dataset.BusTrip;
 
 public class HSLXmlHandler {
 /*

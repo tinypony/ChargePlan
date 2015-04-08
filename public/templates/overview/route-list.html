@@ -8,13 +8,14 @@
 				<a class="accordion-toggle collapsed" data-routename="{{this.name}}"
 					data-toggle="collapse" data-parent="#root-accordion"
 					data-target="#route-group-{{this.name}}"> {{this.name}} </a>
+				<input type="checkbox" data-routename="{{this.name}}" class="route-select-cb" {{#if this.imported}}checked="checked"{{/if}}/>
 			</div>
 
 			<!-- First level body -->
 			<div id="route-group-{{this.name}}" class="accordion-body collapse">
 				<div id="accordion-{{this.name}}" class="accordion inner-accordion">
 				
-				{{#each this.routes}}
+				{{#each this.instances}}
 					<div class="accordion-group subgroup">
 						<div class="accordion-heading">
 							<a class="accordion-toggle collapsed" data-routename="{{this.name}}"

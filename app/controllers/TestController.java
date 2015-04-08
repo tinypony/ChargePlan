@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import model.BusTrip;
-import model.BusTripGroup;
+import model.dataset.BusTrip;
+import model.dataset.BusTripGroup;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.AggregationPipeline;

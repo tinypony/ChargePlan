@@ -3,7 +3,7 @@ package controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.BusStop;
+import model.dataset.BusStop;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
