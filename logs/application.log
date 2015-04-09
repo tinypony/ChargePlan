@@ -1,9 +1,9 @@
-2015-04-09 11:47:25,213 - [INFO] - from play in pool-4-thread-2 
+2015-04-09 17:27:55,711 - [INFO] - from play in pool-328-thread-4 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2015-04-09 11:48:30,324 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-09 17:28:34,539 - [INFO] - from application in play-internal-execution-context-1 
 Found ruter
 
-2015-04-09 11:48:31,425 - [INFO] - from play in play-internal-execution-context-1 
+2015-04-09 17:28:35,235 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 

@@ -24,7 +24,7 @@ define(['jquery',
 	      
 	      ConfigManager.getProject().done(function(project) {
 	        self.project = project;
-	        
+	        self.selectedRoutes = project.get('routes');
 	        $.get('/api/routes').done(function(data){
 	          self.processData(data);
 	          self.render();
@@ -91,6 +91,10 @@ define(['jquery',
 	        this.data = bin;
 	    },
 	    
+	    getSelectedRoutes: function() {
+	      return this.selectedRoutes;
+	    },
+	    
 	    onCheckbox: function(ev) {
 	    	ev.stopPropagation();
 	    	var $this = $(ev.target);
@@ -100,7 +104,7 @@ define(['jquery',
 	    	  this.selectedRoutes.push(this.data[routeName]);
 	    	//	EventBus.trigger('add:route', this.data[routeName]);
 	    	} else {
-	    	  this.selectedRoutes = _.without(this.selectedRoutes, this.data[routeName]);
+	    	  this.selectedRoutes = _.without(this.selectedRoutes, _.findWhere(this.selectedRoutes, {name:routeName}));
 	    	//	EventBus.trigger('remove:route', this.data[routeName]);
 	    	}
 	    },

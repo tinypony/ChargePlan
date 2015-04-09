@@ -12,8 +12,6 @@ define(['jquery',
 	var RawRouteList = Backbone.View.extend({
 	    
 	    events: {
-	      'mouseover .accordion-toggle': 'onMouseover',
-	      'mouseout .accordion-toggle': 'onMouseout',
 	      'click .add-routes': 'onClickAdd'
 	    },
 	    
@@ -23,12 +21,8 @@ define(['jquery',
 	      ConfigManager.getProject().done(function(project){
 	        self.project = project;
 	        
-	        self.listenTo(EventBus, 'add:routes', function(routeBags){
-	          self.project.addRoutes(routeBags);
+	        self.listenTo(EventBus, 'set:routes', function(routeBags){
 	          
-	          _.each(routeBags, function(routeBag){
-	            self.$('.route-list').append(itemTemplate({route:routeBag}));
-	          });
 	        });
 	       
 	        self.listenTo(EventBus, 'add:route', function(routeBag) {
@@ -43,13 +37,27 @@ define(['jquery',
 	      });
 	    },
 	    
+	    addRoutes: function(routeBags) {
+	      var self = this;
+	      console.log(routeBags);
+        this.project.setRoutes(routeBags);
+        
+        this.$('.route-list').empty();
+        _.each(this.project.get('routes'), function(routeBag){
+          self.$('.route-list').append(itemTemplate({route:routeBag}));
+        });
+	    },
+	    
 	    onClickAdd: function() {
+	      var self = this;
 	      var tableView = new RouteTable();
 	      tableView.render();
+	      
 	      var modal = $('#myModal').modal();
 	      $('#myModal .modal-body').append(tableView.$el);
+	      
 	      $('#myModal .add-selected-routes').click(function(){
-	        tableView.addRoutesToProject();
+	        self.addRoutes(tableView.getSelectedRoutes());
 	        modal.modal('hide');
 	      });
 	      $('#myModal').on('hide.bs.modal', function(){
