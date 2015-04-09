@@ -1,7 +1,16 @@
-define([ 'jquery', 'underscore', 'backbone', 'mapbox', 'mocks', 'api-config',
-		'bootstrap', 'sidebar', 'config-manager',
-		'views/overview/details-view', 'views/overview/map-view',
-		'views/overview/raw-route-list', 'hbs!templates/overview' ], function(
+define(['jquery', 
+        'underscore', 
+        'backbone', 
+        'mapbox', 
+        'mocks', 
+        'api-config',
+    		'bootstrap', 
+    		'sidebar', 
+    		'config-manager',
+    		'views/overview/details-view', 
+    		'views/overview/map-view',
+    		'views/overview/raw-route-list', 
+    		'hbs!templates/overview' ], function(
 		$, _, Backbone, Mapbox, Mocks, ApiConfig, bootstrap, sidebar,
 		ConfigManager, DetailsView, MapView, RouteList, template) {
 
@@ -65,11 +74,13 @@ define([ 'jquery', 'underscore', 'backbone', 'mapbox', 'mocks', 'api-config',
 			this.mapView = new MapView({
 				el : this.$('#map')
 			});
-			this.detailsView = new DetailsView({
-				el : this.$('.endstop-details')
-			});
+			
+//			this.detailsView = new DetailsView({
+//				el : this.$('.endstop-details')
+//			});
+			
 			this.listView = new RouteList({
-				data : this.data.routes,
+				//data : this.data.routes,
 				project : this.data.project
 			});
 			this.renderSubviews();
@@ -79,8 +90,8 @@ define([ 'jquery', 'underscore', 'backbone', 'mapbox', 'mocks', 'api-config',
 
 			var self = this;
 			this.mapView.render();
-			this.detailsView.render();
-			this.detailsView.showProjectDetails();
+		//	this.detailsView.render();
+			//this.detailsView.showProjectDetails();
 			this.mapView.displayData({
 				routes : this.data.routes,
 				stops : this.data.stops

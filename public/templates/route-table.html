@@ -1,0 +1,15 @@
+<table id="all-routes-table">
+    <thead>
+    	<tr><td>Select</td><td>Route</td><td>Total distance driven</td><td>Departures per day</td></tr>
+    </thead>
+    <tbody>
+	    {{#each routes}}
+	    <tr> 
+	    	<td><input name="{{this.name}}" type="checkbox" class="route-select-cb"/>
+	    	<td>{{this.name}}</td>
+	    	<td>{{this.avg.distance}}</td>
+	    	<td>{{this.avg.departures}}</td>
+	    </tr> 
+	    {{/each}}
+    </tbody>
+</table>

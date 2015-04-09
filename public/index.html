@@ -1,9 +1,13 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="assets/styles/css/lib/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="assets/styles/css/lib/bootswatch.min.css">
-<link rel="stylesheet" type="text/css" href="assets/styles/css/lib/uploader-style.css">
-<link rel="stylesheet" type="text/css" href="assets/styles/css/lib/jquery-ui.css" media="all">
+<!-- Libs -->
+<link rel="stylesheet" type="text/css" href="assets/styles/lib/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="assets/styles/lib/bootswatch.min.css">
+<link rel="stylesheet" type="text/css" href="assets/styles/lib/uploader-style.css">
+<link rel="stylesheet" type="text/css" href="assets/styles/lib/jquery-ui.css" media="all">
+<link rel="stylesheet" type="text/css" href="assets/styles/lib/jquery.dataTables.min.css">
+
+<!-- Local -->
 <link rel="stylesheet" type="text/css" href="assets/styles/style.css" media="all">
 <link rel="stylesheet" type="text/css" href="assets/styles/compiled-styles.css" media="all">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -14,7 +18,25 @@
 <link href='http://fonts.googleapis.com/css?family=Raleway:400,300|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 <script data-main="assets/main" src="assets/lib/require.js"></script>
 </head>
-<body>
+<body>	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        	<span aria-hidden="true">&times;</span>
+	        </button>
+	        <h4 class="modal-title" id="myModalLabel">Select routes to electrify</h4>
+	      </div>
+	      <div class="modal-body"></div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary add-selected-routes">Add selected</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<header class="app-menu"></header>
 
 </body>
 </html>

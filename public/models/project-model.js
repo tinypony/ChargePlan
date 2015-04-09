@@ -8,6 +8,16 @@ define(['underscore','backbone'], function(_, Backbone){
 		initialize: function() {
 		},
 		
+		addRoutes: function(routeBags) {
+      var routes = this.get('routes');
+      _.each(routeBags, function(bag){
+        routes.push(bag);
+      });
+      
+      this.set('routes', routes);
+      this.save();
+		},
+		
 		addRoute: function(routeBag) {
 			var routes = this.get('routes');
 			routes.push(routeBag);

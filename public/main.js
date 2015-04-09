@@ -22,7 +22,8 @@ require.config({
     moment : 'lib/moment.min',
     d3 : 'lib/d3.min',
     mapbox : 'lib/mapbox',
-    bootstrap :  '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min'
+    bootstrap :  '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min',
+    datatables : 'lib/datatables/jquery.dataTables'
   },
 
   shim : {
@@ -42,7 +43,11 @@ require.config({
     },
 
     bootstrap : {
-      'deps' : [ 'jquery' ]
+      deps : [ 'jquery' ]
+    },
+    
+    datatables: {
+      deps: ['jquery']
     },
 
     mapbox : {
@@ -107,8 +112,8 @@ require.config({
   }
 });
 
-require([ 'backbone', 'router', 'jquery-ui', 'moment', 'config-manager' ], 
-		function(Backbone, router, JUI, moment, ConfigManager) {
+require([ 'app', 'backbone', 'router', 'jquery-ui', 'moment', 'config-manager' ], 
+		function(App, Backbone, router, JUI, moment, ConfigManager) {
 	
-	Backbone.history.start();
+	App.init();
 });
