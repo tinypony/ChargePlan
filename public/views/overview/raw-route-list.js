@@ -51,16 +51,23 @@ define(['jquery',
 	    onClickAdd: function() {
 	      var self = this;
 	      var tableView = new RouteTable();
-	      tableView.render();
 	      
 	      var modal = $('#myModal').modal();
-	      $('#myModal .modal-body').append(tableView.$el);
+	      $('#myModal .modal-body').append(tableView.render().$el);
 	      
 	      $('#myModal .add-selected-routes').click(function(){
 	        self.addRoutes(tableView.getSelectedRoutes());
 	        modal.modal('hide');
 	      });
-	      $('#myModal').on('hide.bs.modal', function(){
+	      
+	      $('#myModal').on('shown.bs.modal', function() {
+	    	  tableView.recalculateTable(); 
+	      });
+	      
+	      $('#myModal').on('hide.bs.modal', function() {
+	    	$(this).off('click');
+	    	$(this).off('hide.bs.modal');
+	    	$(this).off('shown.bs.modal');
 	        tableView.remove();
 	      });
 	    },

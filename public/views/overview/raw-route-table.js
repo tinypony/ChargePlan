@@ -8,7 +8,7 @@ define(['jquery',
         'hbs!templates/route-table'], 
 		function($, _, Backbone, ConfigManager, EventBus, scroller, dt, routeTableTemplate) {
 	
-	var RawRouteList = Backbone.View.extend({
+	var RawRouteTable = Backbone.View.extend({
 	    
 	    events: {
 	      'mouseover .accordion-toggle': 'onMouseover',
@@ -102,15 +102,21 @@ define(['jquery',
 	    	
 	    	if($this.is(':checked')) {
 	    	  this.selectedRoutes.push(this.data[routeName]);
-	    	//	EventBus.trigger('add:route', this.data[routeName]);
 	    	} else {
 	    	  this.selectedRoutes = _.without(this.selectedRoutes, _.findWhere(this.selectedRoutes, {name:routeName}));
-	    	//	EventBus.trigger('remove:route', this.data[routeName]);
 	    	}
 	    },
 	    
 	    addRoutesToProject: function() {
 	      EventBus.trigger('add:routes', this.selectedRoutes);
+	    },
+	    
+	    recalculateTable: function() {
+	    	this.table.fnAdjustColumnSizing();
+	    },
+	    
+	    signalRouteDraw: function(routeBag) {
+	    	
 	    },
 	    
 	    render: function() {
@@ -119,7 +125,7 @@ define(['jquery',
 	        routes: _.values(this.data)     
 	      }));
 	      
-	      this.$('#all-routes-table').dataTable({
+	      this.table = this.$('#all-routes-table').dataTable({
 	        paging: false,
 	        scrollY: 400,
 	        info: false,
@@ -134,5 +140,5 @@ define(['jquery',
 	    }
 	  });
 	
-	return RawRouteList
+	return RawRouteTable;
 });
