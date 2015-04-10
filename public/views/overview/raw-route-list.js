@@ -5,14 +5,16 @@ define(['jquery',
         'event-bus',
         'scroller',
         'views/overview/raw-route-table',
+        'views/overview/route-list/route-list-menu',
         'hbs!templates/overview/simple-route-list',
         'hbs!templates/overview/simple-route-list-item'], 
-		function($, _, Backbone, ConfigManager, EventBus, scroller, RouteTable, routeListTemplate, itemTemplate) {
+		function($, _, Backbone, ConfigManager, EventBus, scroller, RouteTable, RouteMenu, routeListTemplate, itemTemplate) {
 	
 	var RawRouteList = Backbone.View.extend({
 	    
 	    events: {
 	      'click .add-routes': 'onClickAdd',
+	      'click .route-list-item': 'showRouteMenu',
 	      'mouseover .route-list-item': 'onMouseover',
 	      'mouseout .route-list-item': 'onMouseout'
 	    },
@@ -88,14 +90,30 @@ define(['jquery',
 	      EventBus.trigger('route:highlight', routeName, true);
 	    },
 	    
+	    showRouteMenu: function(ev) {
+	      $target = $(ev.currentTarget);
+	      var routeName = $target.attr('data-routename');
+	      
+	      if($target.hasClass('active')) {
+	        $target.removeClass('active');
+	        this.routeMenu.hide();
+	      } else {
+	        $target.addClass('active');
+	        this.routeMenu.showFor(routeName, $target);
+	      }
+	    },
+	    
 	    render: function() {
 	      var self = this;
 	      
 	      ConfigManager.getProject().done(function(project) {
 	        var routes = project.get('routes');
+	        
 	        self.$el.html(routeListTemplate({
 	          routes: routes
 	        }));
+	        
+	        self.routeMenu = new RouteMenu({el: $('#second-level-route-menu')});
 	        
 	        _.each(routes, function(routeBag) {
 	          self.drawRoute(routeBag);

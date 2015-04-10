@@ -8,10 +8,12 @@
 	
 	.side-list-container {
 		z-index: @zindex-side-list;
-		box-shadow: 0px 0px 0px rgba(0,0,0,0); 		
+		
 		
 		&.open {
-			box-shadow: 4px 0px 5px rgba(0, 0, 0, 0.25);
+			.side-list {
+				box-shadow: 4px 0px 5px rgba(0, 0, 0, 0.25);
+			}
 		}
 		
 		&.init {
@@ -25,6 +27,8 @@
 			height: 100%;
 			position: relative;
 			background: white;
+			z-index: 1005;
+			box-shadow: 0px 0px 0px rgba(0,0,0,0);
 			
 			.nano {
 				.nano-content {
@@ -125,6 +129,22 @@
 			}
 		}
 		
+		.second-level-menu {
+			position: absolute;
+			transition: opacity 0.7s, left 0.7s;
+			background: white;
+			width: 250px;
+			padding-left: 20px;
+			left: 0px;
+			opacity: 0;
+			z-index: 1001;
+			
+			&.shown {
+				left: 320px;
+				opacity: 1;
+				transition: opacity 0.7s, left 0.7s;
+			}
+		}
 	}
 
 	.details-view {

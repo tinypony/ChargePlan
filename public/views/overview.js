@@ -83,6 +83,7 @@ define(['jquery',
 			
 			this.listView = new RouteList({
 				//data : this.data.routes,
+			  el: this.$('.side-list'),
 				project : this.data.project
 			});
 			this.renderSubviews();
@@ -99,7 +100,7 @@ define(['jquery',
 				stops : this.data.stops
 			});
 
-			this.$('.side-list').append(this.listView.render().$el);
+			this.listView.render()
 		}
 
 	});
