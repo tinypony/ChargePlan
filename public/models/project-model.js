@@ -6,6 +6,7 @@ define(['underscore','backbone'], function(_, Backbone){
 		},
 		
 		initialize: function() {
+		  
 		},
 		
 		addRoutes: function(routeBags) {

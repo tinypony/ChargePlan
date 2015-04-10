@@ -2,19 +2,54 @@ define([ 'jquery',
          'underscore', 
          'backbone', 
          'mapbox',
+         'event-bus',
          'api-config',
          'chroma',
          'hbs!templates/overview/endstop-popup'], 
-         function($, _, Backbone, Mapbox, ApiConfig, chroma, endstopPopupTemplate) {
+         function($, _, Backbone, Mapbox, EventBus, ApiConfig, chroma, endstopPopupTemplate) {
+  
   var MapView = Backbone.View.extend({
     initialize: function() {
-
+      this.drawnRoutes = {};
+      this.listenTo(EventBus, 'draw:route', this.drawRoute);
+      this.listenTo(EventBus, 'route:highlight', this.highlightRoute);
+      this.listenTo(EventBus, 'clear:routes', this.resetMap);
     },
     
     setData: function(data) {
       this.data = {};
-      this.data.routes = data.routes;
       this.data.stops = data.stops;
+    },
+    
+    getRouteWaypoints: function(route) {
+      var self = this;
+      return _.map(route.waypoints, function(waypoint){
+        var stop =  self.data.stops[waypoint.stopId];
+        return L.latLng(parseFloat(stop.y, 10), parseFloat(stop.x, 10));
+      });
+    },
+    
+    drawRoute: function(routeBag) {
+      if(this.drawnRoutes[routeBag.name]) {
+        return;
+      }
+      var routeInstance = _.first(routeBag.instances);
+      var coordinates = this.getRouteWaypoints(routeInstance);
+      //Create polyline
+      var polyline = L.polyline( coordinates, this.getRouteStyle(routeInstance, false)).addTo(this.map);
+      polyline.userData = {
+          route: routeInstance
+      };
+      
+//      polyline.on('mouseover', function(e){
+//        self.highlightRoute(e.target, true);
+//      });
+//      
+//      polyline.on('mouseout', function(e){
+//        self.highlightRoute(e.target, false);
+//      });
+      
+      this.drawnRoutes[routeInstance.name] = polyline;
     },
     
     createBusStop: function(stop, isEndstop) {
@@ -59,7 +94,7 @@ define([ 'jquery',
       if(isHighlighted) {
         return {color: 'steelblue', opacity: 1};
       } else {
-        return {color: 'lightgrey', opacity: 0.5};
+        return {color: 'grey', opacity: 0.5};
       }
     },
     

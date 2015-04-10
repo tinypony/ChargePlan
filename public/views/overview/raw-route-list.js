@@ -12,7 +12,9 @@ define(['jquery',
 	var RawRouteList = Backbone.View.extend({
 	    
 	    events: {
-	      'click .add-routes': 'onClickAdd'
+	      'click .add-routes': 'onClickAdd',
+	      'mouseover .route-list-item': 'onMouseover',
+	      'mouseout .route-list-item': 'onMouseout'
 	    },
 	    
 	    initialize: function(options) {
@@ -20,10 +22,6 @@ define(['jquery',
 	      
 	      ConfigManager.getProject().done(function(project){
 	        self.project = project;
-	        
-	        self.listenTo(EventBus, 'set:routes', function(routeBags){
-	          
-	        });
 	       
 	        self.listenTo(EventBus, 'add:route', function(routeBag) {
 	          self.project.addRoute(routeBag);        
@@ -37,14 +35,20 @@ define(['jquery',
 	      });
 	    },
 	    
-	    addRoutes: function(routeBags) {
+	    drawRoute: function(routeBag) {
+	      EventBus.trigger('draw:route', routeBag);
+	    },
+	    
+	    setRoutes: function(routeBags) {
 	      var self = this;
-	      console.log(routeBags);
         this.project.setRoutes(routeBags);
         
         this.$('.route-list').empty();
+        EventBus.trigger('clear:routes');
+        
         _.each(this.project.get('routes'), function(routeBag){
           self.$('.route-list').append(itemTemplate({route:routeBag}));
+          self.drawRoute(routeBag);
         });
 	    },
 	    
@@ -56,7 +60,7 @@ define(['jquery',
 	      $('#myModal .modal-body').append(tableView.render().$el);
 	      
 	      $('#myModal .add-selected-routes').click(function(){
-	        self.addRoutes(tableView.getSelectedRoutes());
+	        self.setRoutes(tableView.getSelectedRoutes());
 	        modal.modal('hide');
 	      });
 	      
@@ -75,23 +79,27 @@ define(['jquery',
 	    onMouseout: function(ev) {
 	      $target = $(ev.currentTarget);
 	      var routeName = $target.attr('data-routename');
-	      this.trigger('route:highlight', routeName, false);
+	      EventBus.trigger('route:highlight', routeName, false);
 	    },
 
 	    onMouseover: function(ev) {
 	      $target = $(ev.currentTarget);
 	      var routeName = $target.attr('data-routename');
-	      this.trigger('route:highlight', routeName, true);
+	      EventBus.trigger('route:highlight', routeName, true);
 	    },
 	    
 	    render: function() {
 	      var self = this;
 	      
 	      ConfigManager.getProject().done(function(project) {
-	        
+	        var routes = project.get('routes');
 	        self.$el.html(routeListTemplate({
-	          routes: project.get('routes')
+	          routes: routes
 	        }));
+	        
+	        _.each(routes, function(routeBag) {
+	          self.drawRoute(routeBag);
+	        });
 	        
 	        _.defer(function() {
 	          self.$('.nano').nanoScroller({flash: true});
@@ -107,10 +115,9 @@ define(['jquery',
 	        });
 	      });
 	      
-	      
 	      return this;
 	    }
 	  });
 	
-	return RawRouteList
+	return RawRouteList;
 });

@@ -75,6 +75,8 @@ define(['jquery',
 				el : this.$('#map')
 			});
 			
+			this.mapView.setData(this.data);
+			
 //			this.detailsView = new DetailsView({
 //				el : this.$('.endstop-details')
 //			});
