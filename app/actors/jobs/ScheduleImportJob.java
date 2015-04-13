@@ -192,7 +192,7 @@ public class ScheduleImportJob extends UntypedActor {
 		List<Group> idGroup = id(grouping("routeId"), 
 				grouping("direction"), 
 				grouping("stopsCount", new Accumulator("$size", "stops")) );
-		
+
 		ap.group(idGroup, grouping("id", first("id")), 
 				grouping("routeId", first("routeId")), 
 				grouping("direction", first("direction")), 
