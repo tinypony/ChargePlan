@@ -11,6 +11,7 @@ import org.onebusaway.gtfs.model.ServiceCalendarDate;
 public class BusTripGroup {
 	private String serviceId;
 	private String routeId;
+	private int numOfStops;
 	private String direction;
 	
 	@Embedded
@@ -57,5 +58,13 @@ public class BusTripGroup {
 
 	public void setDirection(String direction) {
 		this.direction = direction;
+	}
+
+	public int getNumOfStops() {
+		return numOfStops;
+	}
+
+	public void setNumOfStops(int numOfStops) {
+		this.numOfStops = numOfStops;
 	}	
 }
