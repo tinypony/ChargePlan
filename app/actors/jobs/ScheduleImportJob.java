@@ -31,7 +31,6 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.Accumulator;
 import org.mongodb.morphia.aggregation.AggregationPipeline;
 import org.mongodb.morphia.aggregation.Group;
-import org.mongodb.morphia.aggregation.Projection;
 import org.mongodb.morphia.mapping.Mapper;
 import org.mongodb.morphia.mapping.cache.EntityCache;
 import org.mongodb.morphia.query.MorphiaIterator;
@@ -147,6 +146,8 @@ public class ScheduleImportJob extends UntypedActor {
 			String fileName = ze.getName();
 			File newFile = new File(outputFolder + File.separator + fileName);
 
+			System.out.println("file unzip : " + newFile.getAbsoluteFile());
+
 			// create all non exists folders
 			// else you will hit FileNotFoundException for compressed folder
 			new File(newFile.getParent()).mkdirs();
@@ -189,18 +190,12 @@ public class ScheduleImportJob extends UntypedActor {
 		AggregationPipeline<BusTrip, BusTripGroup> ap = ds.createAggregation(BusTrip.class);
 		
 		List<Group> idGroup = id(grouping("routeId"), 
-				grouping("direction"));
-		
-		ap.project(Projection.projection("id", "id"),
-				   Projection.projection("direction", "direction"),
-				   Projection.projection("routeId", "routeId"),
-				   Projection.projection("stops", "stops"),
-				   Projection.projection("numOfStops", Projection.projection("$size", "stops")));
+				grouping("direction"), 
+				grouping("stopsCount", new Accumulator("$size", "stops")) );
 
 		ap.group(idGroup, grouping("id", first("id")), 
 				grouping("routeId", first("routeId")), 
-				grouping("direction", first("direction")),
-				grouping("numOfStops", first("numOfStops")),
+				grouping("direction", first("direction")), 
 				grouping("stops", first("stops")));
 		
 		MorphiaIterator<BusTripGroup, BusTripGroup> iterator = ap.aggregate(BusTripGroup.class);
@@ -211,7 +206,6 @@ public class ScheduleImportJob extends UntypedActor {
 		
 		while(it.hasNext()) {
 			BusTripGroup oneTrip = it.next();
-			Logger.info("Stops count "+oneTrip.getNumOfStops());
 			
 			int lengthInMeters;
 
@@ -220,7 +214,7 @@ public class ScheduleImportJob extends UntypedActor {
 				lengthInMeters = DistanceRetriever.getRouteLength(stops);
 			//	Logger.info("Route "+ oneTrip.getRouteId() +" length " + lengthInMeters);
 			} catch (IllegalStateException e) { // results from exceeding
-										 		// google api request quota,
+												// google api request quota,
 												// try to use hashed
 												// distances instead
 				continue;
@@ -241,8 +235,8 @@ public class ScheduleImportJob extends UntypedActor {
 			state2.setStateProgress(progress);
 			state2.publishChange(getSelf());
 			
-			//System.out.print("Done " + i + "/" + distinctTrips.size() + "("
-			//		+ progress + "%)            \r");
+			System.out.print("Done " + i + "/" + distinctTrips.size() + "("
+					+ progress + "%)            \r");
 		}
 	}
 
