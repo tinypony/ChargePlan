@@ -1,0 +1,58 @@
+<div class="simulation-container evade-header">
+
+	<h2>Route {{route.name}}</h2>
+
+	<div class="defaults-selection">
+		<div class="form-group">
+			<div class="col-lg-5">
+				<label for="bus-select" class="col-lg-4 control-label">Default bus</label>
+				<div class="col-lg-5">
+					<select class="form-control" id="bus-select">
+						<option>Linkker bus</option>
+						<option>Ebusco city explorer</option>
+						<option>BYD battery on wheels</option>
+						<option>Chinese Capabus</option>
+					</select> 
+				</div>
+			</div>
+			<div class="col-lg-5">
+				<label for="charger-select" class="col-lg-4 control-label">Default charger</label>
+				<div class="col-lg-5">
+					<select class="form-control" id="charger-select">
+						<option>Siemens 2K</option>
+						<option>Opbrid 600</option>
+						<option>ABB flash bang</option>
+						<option>BYD electrocution</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="date-selection">
+		<div class="form-group">
+			<div class="col-lg-5">
+				<label for="route-date" class="col-lg-4 control-label">Select date</label>
+				<input type="text" id="route-date"/>
+			</div>
+		</div>
+	</div>
+	
+	<div class="route-path-visualization">
+		<h2>Visuaize route</h2>
+	</div>
+	<div class="simulation-parameters">
+		<h2>Simulation parameters</h2>
+		<ul>
+		{{#each route.stats}}
+			<li>{{this.date}} ({{this.departures}})</li>
+		{{/each}}
+		</ul>
+	</div>
+	<div>
+		<h2>Simulation results</h2>
+	</div>
+	<div>
+		<h2>Simulation history</h2>
+	</div>
+</div>

@@ -1,20 +1,15 @@
 define(['jquery', 
         'backbone', 
         'views/configure',
-        'views/endstop-viz',
-        'views/routes-viz',
-        'views/route-select',
-        'views/overview'], 
-        function($, Backbone, ConfigurationView,
-            EndStopView, RouteStatsView, RouteSelectionView, Overview){
+        'views/overview',
+        'views/simulation'], 
+        function($, Backbone, ConfigurationView, Overview, SimulationView){
   
   var EMNRouter = Backbone.Router.extend({
     routes: {
       'configuration': 'configuration',
-      'routesviz': 'routesVisualization',
-      'routestats': 'routeStats',
-      'select': 'routeSelect',
-      'overview': 'routesOverview'
+      'overview': 'routesOverview',
+      'simulation/:route': 'simulation'
     },
     
     init: function() {
@@ -24,33 +19,24 @@ define(['jquery',
       
       $('body').append('<div class="view-content"></div>');
     },
+    
+    container: function() {
+      return $('body > .view-content');
+    },
 
     configuration: function() {
       this.init();
-      this.view = new ConfigurationView({el: $('body > .view-content')});
-   //   this.view.render();
-    },
-    
-    routesVisualization: function() {
-      this.init();
-      this.view = new EndStopView({el: $('body > .view-content')});
-     // this.view.render();
-    },
-    
-    routeStats: function() {
-      this.init();
-      this.view = new RouteStatsView({el: $('body > .view-content')});
-    },
-    
-    routeSelect: function() {
-      this.init();
-      this.view = new RouteSelectionView({el: $('body > .view-content')});
-      this.view.render();
+      this.view = new ConfigurationView({el: this.container()});
     },
     
     routesOverview: function() {
       this.init();
-      this.view = new Overview({el: $('body > .view-content')});
+      this.view = new Overview({el: this.container()});
+    },
+    
+    simulation: function(routeName) {
+      this.init();
+      this.view = new SimulationView({el: this.container(), route: routeName});
     }
     
   });

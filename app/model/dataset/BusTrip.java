@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.onebusaway.gtfs.model.ServiceCalendarDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
@@ -22,9 +23,13 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	private String serviceId;
 	private String routeId;
 	private String route;
+	
+	@JsonIgnore
 	@Transient
 	private BusRoute routeRef;
 	private String companyId;
+	
+	@JsonIgnore
 	private String footnoteId;
 	private String direction;
 	private List<String> dates;
@@ -33,12 +38,18 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	@Embedded
 	private List<ScheduleStop> stops; // stop
 	
+	@JsonIgnore
 	@Transient
 	private String firstDate;
+	
+	@JsonIgnore
 	@Transient
 	private String vector;
+	
+	@JsonIgnore
 	@Transient 
 	private String trnsMode;
+	
 	@Transient
 	private String dataSource;
 
@@ -137,6 +148,7 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 				+ "-" + cal.get(Calendar.DATE);
 	}
 
+	@JsonIgnore
 	public String getFootnoteId() {
 		return footnoteId;
 	}
@@ -145,6 +157,7 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 		this.footnoteId = footnoteId;
 	}
 
+	@JsonIgnore
 	public String getFirstDate() {
 		return firstDate;
 	}
@@ -161,6 +174,7 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 		this.vector = vector;
 	}
 
+	@JsonIgnore
 	public String getDataSource() {
 		return dataSource;
 	}
@@ -177,6 +191,7 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 		this.direction = direction;
 	}
 	
+	@JsonIgnore
 	public String getTrnsmode() {
 		return trnsMode;
 	}
@@ -185,6 +200,8 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 		this.trnsMode = trnsMode;
 	}
 
+	
+	@JsonIgnore
 	public BusRoute getRouteRef() {
 		return routeRef;
 	}

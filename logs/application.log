@@ -1,12 +1,39 @@
-2015-04-10 10:41:42,477 - [INFO] - from play in pool-4-thread-4 
+2015-04-13 16:44:12,446 - [INFO] - from play in pool-4-thread-4 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2015-04-10 10:42:13,794 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-13 16:45:06,948 - [INFO] - from application in play-internal-execution-context-1 
 Found ruter
 
-2015-04-10 10:42:15,049 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-13 16:45:08,307 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-04-13 17:53:05,916 - [INFO] - from application in play-internal-execution-context-2 
+Application shutdown...
+
+2015-04-13 17:53:06,235 - [INFO] - from application in play-internal-execution-context-2 
+Found ruter
+
+2015-04-13 17:53:06,328 - [INFO] - from application in play-internal-execution-context-2 
 Found existing projects
 
-2015-04-10 10:42:15,093 - [INFO] - from play in play-internal-execution-context-1 
+2015-04-13 17:53:06,329 - [INFO] - from play in play-internal-execution-context-2 
 Application started (Dev)
+
+2015-04-13 17:53:08,420 - [INFO] - from play in play-internal-execution-context-2 
+Starting application default Akka system.
+
+2015-04-13 17:53:17,414 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
+Added new running job, id = adbbe18e-4e73-4208-85eb-f0dee75dbe73
+
+2015-04-13 17:53:22,415 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
+Parsing data
+
+2015-04-13 17:54:16,142 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
+Data has been parsed
+
+2015-04-13 17:56:07,659 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
+124 routes imported
+
+2015-04-13 17:57:50,536 - [INFO] - from application in application-akka.actor.default-dispatcher-5 
+Data has been imported
 

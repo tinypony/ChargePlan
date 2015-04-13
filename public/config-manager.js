@@ -14,7 +14,7 @@ define([ 'jquery','models/project-model', 'models/config-model'], function($, Pr
 			return this.promise;
 		} else {
 			this.project = new ProjectModel({id: this.model.get('recentProject')});
-			this.promise = this.project.fetch({silent:true, success:function(){
+			this.promise = this.project.fetch({silent:true, success: function(){
 				self.promise = null;
 			}});
 			return this.promise;

@@ -8,17 +8,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -32,6 +28,7 @@ import model.dataset.ScheduleStop;
 import model.dataset.Waypoint;
 
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.aggregation.Accumulator;
 import org.mongodb.morphia.aggregation.AggregationPipeline;
 import org.mongodb.morphia.aggregation.Group;
 import org.mongodb.morphia.mapping.Mapper;
@@ -192,8 +189,14 @@ public class ScheduleImportJob extends UntypedActor {
 		DBCollection coll = ds.getCollection(BusTrip.class);
 		AggregationPipeline<BusTrip, BusTripGroup> ap = ds.createAggregation(BusTrip.class);
 		
-		List<Group> idGroup = id(grouping("routeId"), grouping("direction"));
-		ap.group(idGroup, grouping("id", first("id")), grouping("routeId", first("routeId")), grouping("direction", first("direction")), grouping("stops", first("stops")));
+		List<Group> idGroup = id(grouping("routeId"), 
+				grouping("direction"), 
+				grouping("stopsCount", new Accumulator("$size", "stops")) );
+		
+		ap.group(idGroup, grouping("id", first("id")), 
+				grouping("routeId", first("routeId")), 
+				grouping("direction", first("direction")), 
+				grouping("stops", first("stops")));
 		
 		MorphiaIterator<BusTripGroup, BusTripGroup> iterator = ap.aggregate(BusTripGroup.class);
 		
@@ -219,6 +222,8 @@ public class ScheduleImportJob extends UntypedActor {
 
 			BasicDBObject query = new BasicDBObject("routeId", oneTrip.getRouteId());
 			query.put("direction", oneTrip.getDirection());
+			query.put("stops", new BasicDBObject("$size", oneTrip.getStops().size()));
+			
 			BasicDBObject update = new BasicDBObject("$set",
 					new BasicDBObject("tripLength", lengthInMeters));
 
