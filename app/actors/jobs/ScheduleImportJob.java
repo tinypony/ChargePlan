@@ -31,6 +31,7 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.Accumulator;
 import org.mongodb.morphia.aggregation.AggregationPipeline;
 import org.mongodb.morphia.aggregation.Group;
+import org.mongodb.morphia.aggregation.Projection;
 import org.mongodb.morphia.mapping.Mapper;
 import org.mongodb.morphia.mapping.cache.EntityCache;
 import org.mongodb.morphia.query.MorphiaIterator;
@@ -146,7 +147,7 @@ public class ScheduleImportJob extends UntypedActor {
 			String fileName = ze.getName();
 			File newFile = new File(outputFolder + File.separator + fileName);
 
-			System.out.println("file unzip : " + newFile.getAbsoluteFile());
+			//System.out.println("file unzip : " + newFile.getAbsoluteFile());
 
 			// create all non exists folders
 			// else you will hit FileNotFoundException for compressed folder
@@ -190,12 +191,11 @@ public class ScheduleImportJob extends UntypedActor {
 		AggregationPipeline<BusTrip, BusTripGroup> ap = ds.createAggregation(BusTrip.class);
 		
 		List<Group> idGroup = id(grouping("routeId"), 
-				grouping("direction"), 
-				grouping("stopsCount", new Accumulator("$size", "stops")) );
+				grouping("direction"), grouping("numOfStops"));
 
 		ap.group(idGroup, grouping("id", first("id")), 
 				grouping("routeId", first("routeId")), 
-				grouping("direction", first("direction")), 
+				grouping("direction", first("direction")),
 				grouping("stops", first("stops")));
 		
 		MorphiaIterator<BusTripGroup, BusTripGroup> iterator = ap.aggregate(BusTripGroup.class);
@@ -206,7 +206,6 @@ public class ScheduleImportJob extends UntypedActor {
 		
 		while(it.hasNext()) {
 			BusTripGroup oneTrip = it.next();
-			
 			int lengthInMeters;
 
 			try {

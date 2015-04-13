@@ -1,11 +1,14 @@
-define(['jquery', 'underscore', 'backbone', 'd3'], function($, _, Backbone, d3) {
+define(['jquery', 'underscore', 'backbone', 'd3', 'hbs!templates/simulation/stop-modal'], 
+		function($, _, Backbone, d3, modalTemplate) {
+	
   var RouteVisualizationView = Backbone.View.extend({
     initialize: function(options) {
       this.route = options.route;
       this.project = options.project;
       this.visual = {};
     },
-    //https://www.domsammut.com/projects/pure-css-loading-animation
+    
+    // https://www.domsammut.com/projects/pure-css-loading-animation
     determineTotalHeight: function() {
       return 200;
     },
@@ -61,30 +64,39 @@ define(['jquery', 'underscore', 'backbone', 'd3'], function($, _, Backbone, d3) 
       direction0 =  this.visual.svg.append('g');
       direction1 =  this.visual.svg.append('g').attr('transform', 'translate(0,'+sideOffset+')');
       
+      var onStopClick = function(d){
+			$('body').prepend(modalTemplate({stop:d.stop}));
+			$('#stop-info').modal();
+		};
+      
       var circles0 = direction0.selectAll('circle')
                                 .data(stops0)
                                 .enter()
                                 .append('circle');
       
-      circles0.attr('cx', function (d, i) { 
-                return self.visual.offset.left + x0(i); 
-               }).attr('cy', function (d, i) {
-                 if( (i===0 && self.isFirstSame(stops0, stops1)) 
-                     || (i === stops0.length-1 && self.isLastSame(stops0, stops1))) {
-                   return self.visual.offset.top + endStopOffset;
-                 } else {
-                   return self.visual.offset.top;
-                 }
-               }).attr('r', function (d) { 
-                 if(d.stop.first || d.stop.last) {
-                   return 15;
-                 } else {
-                   return 6;
-                 }
-               }).style('fill', function(d) { 
-                 return 'steelblue'; 
-               }).append("svg:title")
-                   .text(function(d, i) { return d.stop.name });
+
+			circles0.attr('cx', function(d, i) {
+				return self.visual.offset.left + x0(i);
+			}).attr('cy', function(d, i) {
+				if ((i === 0 && self.isFirstSame(stops0, stops1))
+						|| (i === stops0.length - 1 && self.isLastSame(
+								stops0, stops1))) {
+					return self.visual.offset.top + endStopOffset;
+				} else {
+					return self.visual.offset.top;
+				}
+			}).attr('r', function(d) {
+				if (d.stop.first || d.stop.last) {
+					return 15;
+				} else {
+					return 6;
+				}
+			}).on('click', onStopClick).style('fill', function(d) {
+				return 'steelblue';
+			}).attr('data-toggle', 'popover').append("svg:title").text(
+					function(d, i) {
+						return d.stop.name
+					});
       
       var circles1 = direction1.selectAll('circle')
       .data(stops1)
@@ -110,7 +122,7 @@ define(['jquery', 'underscore', 'backbone', 'd3'], function($, _, Backbone, d3) 
             return 6;
           }
         }
-      }).style('fill', function(d) {
+      }).on('click', onStopClick).style('fill', function(d) {
         return 'steelblue';
       }).append("svg:title").text(function(d, i) {
         return d.stop.name
@@ -131,7 +143,7 @@ define(['jquery', 'underscore', 'backbone', 'd3'], function($, _, Backbone, d3) 
       var offset = {
           left: 70,
           right: 40,
-          top: 20,
+          top: 50,
           bottom: 20
       };
       
@@ -143,6 +155,9 @@ define(['jquery', 'underscore', 'backbone', 'd3'], function($, _, Backbone, d3) 
       this.visual.width = width;
             
       this.drawStops();
+      $('circle[data-toggle="popover"]').popover({
+    	  html: '<h2>Hop hei</h2>'
+      });
     }
   });
   

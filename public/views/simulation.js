@@ -1,10 +1,11 @@
 define(['jquery', 
+        'jquery-ui',
         'underscore', 
         'backbone', 
         'config-manager', 
         'views/simulation/stops-visual', 
         'hbs!templates/simulation'], 
-    function($, _, Backbone, ConfigManager, RouteVisualizationView, template) {
+    function($, JUI, _, Backbone, ConfigManager, RouteVisualizationView, template) {
 
   var SimulationView = Backbone.View.extend({
     initialize: function(options) {
@@ -38,6 +39,22 @@ define(['jquery',
         route: this.getInstance()
       }));
       
+      var availableDates = _.map(this.getInstance().stats, function(stat) {
+    	  return stat.date;
+      });
+      
+      var available = function(date) {
+        dmy = date.getFullYear() + '-' + (date.getMonth()+1) + "-" + date.getDate();
+        if ($.inArray(dmy, availableDates) != -1) {
+          return [true, '','Available'];
+        } else {
+          return [false, '', 'unAvailable'];
+        }
+      }
+      
+      this.$('#route-date').datepicker({ beforeShowDay: available, dateFormat:'yy-m-d' });
+      
+      
       this.routeVis = new RouteVisualizationView({
         el: this.$('.route-path-visualization'), 
         route: this.getInstance(),
@@ -45,7 +62,6 @@ define(['jquery',
       });
       
       this.routeVis.render();
-      
     }
   });
   

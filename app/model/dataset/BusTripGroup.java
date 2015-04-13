@@ -2,15 +2,14 @@ package model.dataset;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import org.mongodb.morphia.annotations.Embedded;
-import org.onebusaway.gtfs.model.ServiceCalendarDate;
 
 
 public class BusTripGroup {
 	private String serviceId;
 	private String routeId;
+	private int numOfStops;
 	private String direction;
 	
 	@Embedded
@@ -57,5 +56,13 @@ public class BusTripGroup {
 
 	public void setDirection(String direction) {
 		this.direction = direction;
+	}
+
+	public int getNumOfStops() {
+		return numOfStops;
+	}
+
+	public void setNumOfStops(int numOfStops) {
+		this.numOfStops = numOfStops;
 	}	
 }

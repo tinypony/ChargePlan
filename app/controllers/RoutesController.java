@@ -59,11 +59,13 @@ public class RoutesController extends Controller {
 		Query<BusTrip> trip0Q = ds.createQuery(BusTrip.class);
 		trip0Q.field("routeId").equal(instances.get(0).getRouteId());
 		trip0Q.field("direction").equal("0");
+		trip0Q.order("-numOfStops");
 		
 		Query<BusTrip> trip1Q = ds.createQuery(BusTrip.class);
 		trip1Q.field("routeId").equal(instances.get(0).getRouteId());
 		trip1Q.field("direction").equal("1");
-	
+		trip1Q.order("-numOfStops");
+		
 		List<BusTrip> trips = Lists.newArrayList(trip0Q.get(), trip1Q.get());
 		
 		instances.get(0).setTrips(trips);

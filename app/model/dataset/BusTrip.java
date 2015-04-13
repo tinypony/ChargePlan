@@ -24,6 +24,8 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	private String routeId;
 	private String route;
 	
+	private int numOfStops;
+	
 	@JsonIgnore
 	@Transient
 	private BusRoute routeRef;
@@ -55,6 +57,7 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 
 	public BusTrip() {
 		this.stops = new ArrayList<ScheduleStop>();
+		this.numOfStops = 0;
 	}
 
 	public void setRoute(String route) {
@@ -66,10 +69,12 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	}
 	
 	public void setStops(List<ScheduleStop> stops) {
+		this.numOfStops = stops.size();
 		this.stops = stops;
 	}
 
 	public void addStop(ScheduleStop stop) {
+		this.numOfStops++;
 		this.stops.add(stop);
 	}
 
@@ -216,6 +221,16 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 
 	public void setTripLength(int tripLength) {
 		this.tripLength = tripLength;
+	}
+
+	@JsonIgnore
+	public int getNumOfStops() {
+		return numOfStops;
+	}
+
+	@JsonIgnore
+	public void setNumOfStops(int numOfStops) {
+		this.numOfStops = numOfStops;
 	}
 	
 	
