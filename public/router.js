@@ -2,14 +2,16 @@ define(['jquery',
         'backbone', 
         'views/configure',
         'views/overview',
-        'views/simulation'], 
-        function($, Backbone, ConfigurationView, Overview, SimulationView){
+        'views/simulation',
+        'views/solutions'], 
+        function($, Backbone, ConfigurationView, Overview, SimulationView, SolutionsView) {
   
   var EMNRouter = Backbone.Router.extend({
     routes: {
       'configuration': 'configuration',
       'overview': 'routesOverview',
-      'simulation/:route': 'simulation'
+      'simulation/:route': 'simulation',
+      'solutions' : 'solutions'
     },
     
     init: function() {
@@ -37,6 +39,11 @@ define(['jquery',
     simulation: function(routeName) {
       this.init();
       this.view = new SimulationView({el: this.container(), route: routeName});
+    },
+    
+    solutions: function() {
+      this.init();
+      this.view = new SolutionsView({el: this.container()});
     }
     
   });

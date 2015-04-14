@@ -1,9 +1,6 @@
-package model.planning;
+package model.dataset;
 
 import java.util.List;
-
-import model.dataset.BusRoute;
-import model.dataset.BusTrip;
 
 public class DetailedBusRoute extends BusRoute {
 	List<BusTrip> trips;

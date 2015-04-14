@@ -1,0 +1,35 @@
+<div class="solutions-view evade-header">
+	<div class="bus-solutions">
+		<h3>Buses</h3>
+		<form id="new-bus-form">
+			<input type="text" name="manufacturer" placeholder="Manufacturer"/>
+			<input type="text" name="model" placeholder="Model"/>
+			<input type="number" name="capacity" placeholder="Battery capacity"/>
+			<button class = "save-bus">Create new</button>
+		</form>
+		<div class="bus-list">
+			<ul>
+			{{#each buses}}
+				<li>{{this.manufacturer}} {{this.model}} {{this.capacity}}</li>	
+			{{/each}}
+			</ul>
+		</div>
+	</div>
+	
+	<div class="chargers-solutions">
+		<h3>Chargers</h3>
+		<form id="new-charger-form">
+			<input type="text" name="manufacturer" placeholder="Manufacturer"/>
+			<input type="text" name="model" placeholder="Model"/>
+			<input type="number" name="power" placeholder="Power"/>
+			<button class = "save-charger">Create new</button>
+		</form>
+		<div class="charger-list">
+			<ul>
+			{{#each chargers}}
+				<li>{{this.manufacturer}} {{this.model}} {{this.power}}</li>	
+			{{/each}}
+			</ul>
+		</div>
+	</div>
+</div>

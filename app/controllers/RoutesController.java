@@ -9,7 +9,7 @@ import model.calculation.Euro6EmissionModel;
 import model.calculation.IEmissionModel;
 import model.dataset.BusRoute;
 import model.dataset.DayStat;
-import model.planning.DetailedBusRoute;
+import model.dataset.DetailedBusRoute;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;

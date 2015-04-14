@@ -4,7 +4,7 @@
 		module="charge-plan-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20150410104036"
+		publication="20150414093959"
 		e:scalaVersion="2.10" e:sbtVersion="0.13"
 	>
 		<description>
