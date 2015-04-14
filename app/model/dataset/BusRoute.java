@@ -24,7 +24,7 @@ public class BusRoute {
 	String routeId;
 	String description;
 	String name;
-	
+	String longName;
 	
 	@Embedded
 	List<Waypoint> waypoints = new ArrayList<Waypoint>();
@@ -78,6 +78,14 @@ public class BusRoute {
 
 	public void setStats(List<DayStat> stats) {
 		this.stats = stats;
+	}
+
+	public String getLongName() {
+		return longName;
+	}
+
+	public void setLongName(String longName) {
+		this.longName = longName;
 	}
 	
 	

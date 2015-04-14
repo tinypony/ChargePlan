@@ -246,11 +246,16 @@ public class ScheduleImportJob extends UntypedActor {
 		List<BusRoute> routes =  q.asList();
 		
 		for(BusRoute r: routes) {
+			//Create daily stats for every route instance
 			HashMap<String, DayStat> stats = new HashMap<String, DayStat>();
+			
+			Query<BusTrip> longestTripQ = ds.createQuery(BusTrip.class);
+			longestTripQ.field("routeId").equal(r.getRouteId());
+			longestTripQ.order("-numOfStops");
+			r.setWaypoints(this.getWaypoints(longestTripQ.get().getStops()));
 			
 			Query<BusTrip> qr = ds.createQuery(BusTrip.class);
 			List<BusTrip> trips = qr.field("routeId").equal(r.getRouteId()).asList();
-			r.setWaypoints(this.getWaypoints(trips.get(0).getStops()));
 			
 			for(BusTrip trip: trips) {
 				for(String tripDate: trip.getDates()) {

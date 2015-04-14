@@ -139,34 +139,7 @@ public class RuterGTFSHandler {
 		ds.save(trips.values());
 		ds.save(stops.values());
 
-		// ds.save(trips.values());
-		// Logger.info(trips.size() + " trips imported");
 	}
-
-	// public void augmentRoutes() {
-	// Datastore ds = MongoUtils.ds();
-	//
-	// Query<BusRoute> q = ds.createQuery(BusRoute.class);
-	// q.field("name").equal(Pattern.compile("^N{0,1}\\d\\d[A-Za-z]{0,1}$"));
-	// List<BusRoute> routes = q.asList();
-	//
-	// for(BusRoute r: routes) {
-	// Query<BusTrip> qr = ds.createQuery(BusTrip.class);
-	// BusTrip trip = qr.field("routeId").equal(r.getRouteId()).get();
-	// List<ScheduleStop> stops = trip.getStops();
-	// Collections.sort(stops);
-	//
-	// List<Waypoint> waypoints = Lists.transform(stops, new
-	// Function<ScheduleStop, Waypoint>(){
-	// public Waypoint apply(ScheduleStop s) {
-	// return new Waypoint(s.getOrder(), s.getStop().getStopId());
-	// }
-	// });
-	// System.out.println(waypoints.size());
-	// r.setWaypoints(waypoints);
-	// }
-	// ds.save(routes);
-	// }
 
 	private BusTrip createTrip(Trip t,
 			Map<String, List<ServiceCalendarDate>> opDates) {
@@ -213,6 +186,7 @@ public class RuterGTFSHandler {
 		for (Route r : this.store.getAllRoutes()) {
 			if (processRoute(r)) {
 				BusRoute route = new BusRoute();
+				route.setLongName(r.getLongName());
 				route.setRouteId(r.getId().getId());
 				route.setDescription(r.getDesc());
 				route.setName(r.getShortName());

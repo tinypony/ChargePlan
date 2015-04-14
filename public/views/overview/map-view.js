@@ -21,8 +21,9 @@ define([ 'jquery',
       this.data.stops = data.stops;
     },
     
-    getRouteWaypoints: function(route) {
+    getRouteWaypoints: function(routeBag) {
       var self = this;
+      var route = _.first(routeBag.instances);
       return _.map(route.waypoints, function(waypoint){
         var stop =  self.data.stops[waypoint.stopId];
         return L.latLng(parseFloat(stop.y, 10), parseFloat(stop.x, 10));
@@ -30,26 +31,19 @@ define([ 'jquery',
     },
     
     drawRoute: function(routeBag) {
-      if(this.drawnRoutes[routeBag.name]) {
+      var routeName = routeBag.name;
+      if(this.drawnRoutes[routeName]) {
         return;
       }
-      var routeInstance = _.first(routeBag.instances);
-      var coordinates = this.getRouteWaypoints(routeInstance);
+
+      var coordinates = this.getRouteWaypoints(routeBag);
       //Create polyline
-      var polyline = L.polyline( coordinates, this.getRouteStyle(routeInstance, false)).addTo(this.map);
+      var polyline = L.polyline( coordinates, this.getRouteStyle(false)).addTo(this.map);
       polyline.userData = {
           route: routeInstance
       };
       
-//      polyline.on('mouseover', function(e){
-//        self.highlightRoute(e.target, true);
-//      });
-//      
-//      polyline.on('mouseout', function(e){
-//        self.highlightRoute(e.target, false);
-//      });
-      
-      this.drawnRoutes[routeInstance.name] = polyline;
+      this.drawnRoutes[routeName] = polyline;
     },
     
     createBusStop: function(stop, isEndstop) {
@@ -90,7 +84,7 @@ define([ 'jquery',
       });
     },
     
-    getRouteStyle: function(rank, isHighlighted) {
+    getRouteStyle: function(isHighlighted) {
       if(isHighlighted) {
         return {color: 'steelblue', opacity: 1};
       } else {

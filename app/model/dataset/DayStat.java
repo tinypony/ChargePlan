@@ -56,6 +56,12 @@ public class DayStat {
 		this.departures++;
 	}
 	
+	public void incrementDepartures(int tripDistance) {
+		this.incrementDepartures();
+		this.incrementTotalDistance(tripDistance);
+				
+	}
+	
 	public void setEmissions(Map<String, Double>  em) {
 		this.emissions = em;
 	}
@@ -82,5 +88,9 @@ public class DayStat {
 	
 	public Map<String, Double> getEmissions() {
 		return this.emissions;
+	}
+
+	public double getLength() {
+		return this.totalDistance / this.departures;
 	}
 }
