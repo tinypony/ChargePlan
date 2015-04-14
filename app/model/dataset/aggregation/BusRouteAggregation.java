@@ -1,38 +1,70 @@
 package model.dataset.aggregation;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-public class BusRouteAggregation {
-	String name;
-	List<Integer> totalDrivenList;
-	List<Integer> departuresList;
-	private Set<String> dates;
+import org.mongodb.morphia.annotations.Transient;
 
-	public String getName() {
-		return name;
-	}
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+import model.dataset.DayStat;
 
-	public List<Integer> getTotalDrivenList() {
-		return totalDrivenList;
-	}
-
-	public void setTotalDrivenList(List<Integer> totalDrivenList) {
-		this.totalDrivenList = totalDrivenList;
-	}
-
-	public List<Integer> getDeparturesList() {
-		return departuresList;
-	}
-
-	public void setDeparturesList(List<Integer> departuresList) {
-		this.departuresList = departuresList;
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class BusRouteAggregation extends BusRouteAggregationLight {
+	private int count;
+	private long totalDriven;
+	private long totalLength;
+	private int minDepartures;
+	private int maxDepartures;
+	
+	private Map<String, Double> emissions;
+	
+	public BusRouteAggregation() {
+		this.minDepartures = Integer.MAX_VALUE;
+		this.maxDepartures = Integer.MIN_VALUE;
+		this.totalDriven = 0L;
+		count = 0;
 	}
 	
-	
+	public void addStat(DayStat st) {
+		count++;
+		if(this.maxDepartures < st.getDepartures()) {
+			this.maxDepartures = st.getDepartures();
+		}
+		
+		if(this.minDepartures > st.getDepartures()) {
+			this.minDepartures = st.getDepartures();
+		}
+		
+		this.totalDriven += st.getTotalDistance();
+		this.totalLength += st.getLength();
+	}
 
+	
+	public long getTotalDriven() {
+		return this.totalDriven /  this.count;
+	}
+	
+	public int getMinDepartures() {
+		return minDepartures;
+	}
+	
+	public int getMaxDepartures() {
+		return maxDepartures;
+	}
+	
+	public long getLength() {
+		return this.totalLength / this.count;
+	}
+
+	public Map<String, Double> getEmissions() {
+		return emissions;
+	}
+
+	public void setEmissions(Map<String, Double> emissions) {
+		this.emissions = emissions;
+	}
+
+
+
+	
 }

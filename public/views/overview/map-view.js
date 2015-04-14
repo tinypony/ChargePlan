@@ -23,7 +23,7 @@ define([ 'jquery',
     
     getRouteWaypoints: function(routeBag) {
       var self = this;
-      var route = _.first(routeBag.instances);
+      
       return _.map(route.waypoints, function(waypoint){
         var stop =  self.data.stops[waypoint.stopId];
         return L.latLng(parseFloat(stop.y, 10), parseFloat(stop.x, 10));
@@ -37,52 +37,53 @@ define([ 'jquery',
       }
 
       var coordinates = this.getRouteWaypoints(routeBag);
+      
       //Create polyline
       var polyline = L.polyline( coordinates, this.getRouteStyle(false)).addTo(this.map);
       polyline.userData = {
-          route: routeInstance
+          route: routeBag
       };
       
       this.drawnRoutes[routeName] = polyline;
     },
     
-    createBusStop: function(stop, isEndstop) {
-      var self = this;
-      var routesWithEndStop = _.filter(this.data.routes, function(route){
-        return _.first(route.waypoints).stopId === stop.stopId || _.last(route.waypoints).stopId === stop.stopId;
-      });
-      
-      if(!routesWithEndStop.length) return;
-      
-      var marker = L.marker([stop.y, stop.x]);
-      marker.bindPopup(endstopPopupTemplate({
-        stopname: stop.name+"("+stop.stopId+")",
-        routes: _.uniq(routesWithEndStop, false, function(route){
-          return route.name;
-        })
-      }));
-      
-      marker.addTo(self.map);
-      self.endStops[stop.stopId] = marker;
-      
-      marker.on('click', function(e) {
-        self.map.panTo(e.latlng);
-        self.trigger('show:endstop', stop.id);
-      });
-      
-      marker.on('mouseover', function(e) {
-        _.each(routesWithEndStop, function(routeFound) {
-          self.highlightRoute(routeFound.name, true);
-        });          
-        
-        e.target.openPopup();
-      });
-      
-      marker.on('mouseout', function(e) {
-        self.unhighlightAllRoutes();
-        e.target.closePopup();
-      });
-    },
+//    createBusStop: function(stop, isEndstop) {
+//      var self = this;
+//      var routesWithEndStop = _.filter(this.data.routes, function(route){
+//        return _.first(route.waypoints).stopId === stop.stopId || _.last(route.waypoints).stopId === stop.stopId;
+//      });
+//      
+//      if(!routesWithEndStop.length) return;
+//      
+//      var marker = L.marker([stop.y, stop.x]);
+//      marker.bindPopup(endstopPopupTemplate({
+//        stopname: stop.name+"("+stop.stopId+")",
+//        routes: _.uniq(routesWithEndStop, false, function(route){
+//          return route.name;
+//        })
+//      }));
+//      
+//      marker.addTo(self.map);
+//      self.endStops[stop.stopId] = marker;
+//      
+//      marker.on('click', function(e) {
+//        self.map.panTo(e.latlng);
+//        self.trigger('show:endstop', stop.id);
+//      });
+//      
+//      marker.on('mouseover', function(e) {
+//        _.each(routesWithEndStop, function(routeFound) {
+//          self.highlightRoute(routeFound.name, true);
+//        });          
+//        
+//        e.target.openPopup();
+//      });
+//      
+//      marker.on('mouseout', function(e) {
+//        self.unhighlightAllRoutes();
+//        e.target.closePopup();
+//      });
+//    },
     
     getRouteStyle: function(isHighlighted) {
       if(isHighlighted) {
@@ -100,7 +101,7 @@ define([ 'jquery',
         routeName = route;
       } else {
         polyline = route;
-        routeName = route.userData.route.name;
+        routeName = route.userData.name;
       }
       
       if(_.isUndefined(polyline)) {
@@ -111,7 +112,7 @@ define([ 'jquery',
         return r.name === routeName;
       });
       
-      style = this.getRouteStyle(null, isHighlighted);
+      style = this.getRouteStyle(isHighlighted);
       polyline.setStyle(style);
       polyline.bringToFront(); 
     },

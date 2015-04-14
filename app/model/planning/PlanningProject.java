@@ -3,6 +3,9 @@ package model.planning;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.dataset.aggregation.BusRouteAggregation;
+import model.dataset.aggregation.BusRouteAggregationLight;
+
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
@@ -18,10 +21,10 @@ public class PlanningProject {
 	ObjectId id;
 	String name;
 	String location;
-	List<IncludedBusRoute> routes;
+	List<BusRouteAggregationLight> routes;
 	
 	public PlanningProject() {
-		this.routes = new ArrayList<IncludedBusRoute>();
+		this.routes = new ArrayList<BusRouteAggregationLight>();
 	}
 
 	public ObjectId getId() {
@@ -48,11 +51,11 @@ public class PlanningProject {
 		this.location = location;
 	}
 
-	public List<IncludedBusRoute> getRoutes() {
+	public List<BusRouteAggregationLight> getRoutes() {
 		return routes;
 	}
 
-	public void setRoutes(List<IncludedBusRoute> routes) {
+	public void setRoutes(List<BusRouteAggregationLight> routes) {
 		this.routes = routes;
 	}
 }

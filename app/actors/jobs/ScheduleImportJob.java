@@ -184,10 +184,8 @@ public class ScheduleImportJob extends UntypedActor {
 		Logger.info("Data has been imported");
 	}
 	
-	public void resolveLengths(ScheduleImportJobState state2) throws IOException, InterruptedException {
-		MongoUtils.setDBName(databaseName);
+	private AggregationPipeline<BusTrip, BusTripGroup> createRouteGrouping() {
 		Datastore ds = MongoUtils.ds();
-		DBCollection coll = ds.getCollection(BusTrip.class);
 		AggregationPipeline<BusTrip, BusTripGroup> ap = ds.createAggregation(BusTrip.class);
 		
 		List<Group> idGroup = id(grouping("routeId"), 
@@ -197,7 +195,15 @@ public class ScheduleImportJob extends UntypedActor {
 				grouping("routeId", first("routeId")), 
 				grouping("direction", first("direction")),
 				grouping("stops", first("stops")));
+		return ap;
+	}
+	
+	public void resolveLengths(ScheduleImportJobState state2) throws IOException, InterruptedException {
+		MongoUtils.setDBName(databaseName);
+		Datastore ds = MongoUtils.ds();
+		DBCollection coll = ds.getCollection(BusTrip.class);
 		
+		AggregationPipeline<BusTrip, BusTripGroup> ap = createRouteGrouping(); 
 		MorphiaIterator<BusTripGroup, BusTripGroup> iterator = ap.aggregate(BusTripGroup.class);
 		
 		List<BusTripGroup> distinctTrips = Lists.newArrayList(iterator.iterator());
@@ -211,11 +217,11 @@ public class ScheduleImportJob extends UntypedActor {
 			try {
 				List<ScheduleStop> stops = oneTrip.getStops();
 				lengthInMeters = DistanceRetriever.getRouteLength(stops);
-			//	Logger.info("Route "+ oneTrip.getRouteId() +" length " + lengthInMeters);
 			} catch (IllegalStateException e) { // results from exceeding
 												// google api request quota,
 												// try to use hashed
 												// distances instead
+				Logger.warn("Check your token");
 				continue;
 			}
 
@@ -252,7 +258,9 @@ public class ScheduleImportJob extends UntypedActor {
 			Query<BusTrip> longestTripQ = ds.createQuery(BusTrip.class);
 			longestTripQ.field("routeId").equal(r.getRouteId());
 			longestTripQ.order("-numOfStops");
-			r.setWaypoints(this.getWaypoints(longestTripQ.get().getStops()));
+			BusTrip longestTrip = longestTripQ.get();
+			//Logger.info("is null:" + (longestTrip == null));
+			r.setWaypoints(this.getWaypoints(longestTrip.getStops()));
 			
 			Query<BusTrip> qr = ds.createQuery(BusTrip.class);
 			List<BusTrip> trips = qr.field("routeId").equal(r.getRouteId()).asList();

@@ -61,7 +61,7 @@ define(['jquery',
 	      var modal = $('#myModal').modal();
 	      $('#myModal .modal-body').append(tableView.render().$el);
 	      
-	      $('#myModal .add-selected-routes').click(function(){
+	      $('#myModal .add-selected-routes').click(function() {
 	        self.setRoutes(tableView.getSelectedRoutes());
 	        modal.modal('hide');
 	      });

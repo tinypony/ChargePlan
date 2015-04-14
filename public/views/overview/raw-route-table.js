@@ -25,6 +25,7 @@ define(['jquery',
 	      ConfigManager.getProject().done(function(project) {
 	        self.project = project;
 	        self.selectedRoutes = project.get('routes');
+	        
 	        $.get('/api/routes').done(function(data){
 	          self.processData(data);
 	          self.render();
@@ -33,62 +34,68 @@ define(['jquery',
 	    },
 	    
 	    processData: function(data) {
-	      var bin = {};
+//	      var bin = {};
 	      var self = this;
-	       _.each(data, function(route){
-	         route.avg = {};
-	         
-	         var runningAverageStat = function(statName, statName2) {
-	           return function(memo, stat, n) {
-	             
-	             if(_.isUndefined(statName2)) {
-	               return (stat[statName] + n * memo) / (n+1);
-	             } else {
-	               return (stat[statName][statName2] + n * memo) / (n+1);
-	             }
-	           };
-	         };
-	         
-	         route.avg.distance = Math.floor(_.reduce(route.stats, runningAverageStat('totalDistance'), 0));
-	         route.avg.departures = Math.round(_.reduce(route.stats, runningAverageStat('departures'), 0));
-	         route.avg.CO2 = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'CO2'), 0));
-	         route.avg.CO = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'CO'), 0));
-	         route.avg.NOx = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'NOx'), 0));
-	         
-	         if(bin[route.name]) {
-	           bin[route.name].instances.push(route);
-	         } else {
-	           bin[route.name] = {name: route.name, instances: [route]};
-	         }
-	         
-	         if(_.findWhere(self.project.get('routes'), {name: route.name})) {
-	           bin[route.name].imported = true;
-	         }
-	        });
-	        
-	        _.each(_.values(bin), function(routeBag){
-	          routeBag.avg = {};
-	          
-	          var runningAverageStat = function(statName, statName2) {
-	             return function(memo, instance, n) {
-	               
-	               if(_.isUndefined(statName2)) {
-	                 return (instance.avg[statName] + n * memo) / (n+1);
-	               } else {
-	                 return (instance.avg[statName][statName2] + n * memo) / (n+1);
-	               }
-	             };
-	           };
-	           
-	           routeBag.avg.distance = Math.floor(_.reduce(routeBag.instances, runningAverageStat('distance'), 0));
-	           routeBag.avg.departures = Math.round(_.reduce(routeBag.instances, runningAverageStat('departures'), 0));
-	           routeBag.avg.CO2 = Math.floor(_.reduce(routeBag.instances, runningAverageStat('CO2'), 0));
-	           routeBag.avg.CO = Math.floor(_.reduce(routeBag.instances, runningAverageStat('CO'), 0));
-	           routeBag.avg.NOx = Math.floor(_.reduce(routeBag.instances, runningAverageStat('NOx'), 0));
-	           bin[routeBag.name] = routeBag;
-	        });
-	        
-	        this.data = bin;
+//	       _.each(data, function(route){
+//	         route.avg = {};
+//	         
+//	         var runningAverageStat = function(statName, statName2) {
+//	           return function(memo, stat, n) {
+//	             
+//	             if(_.isUndefined(statName2)) {
+//	               return (stat[statName] + n * memo) / (n+1);
+//	             } else {
+//	               return (stat[statName][statName2] + n * memo) / (n+1);
+//	             }
+//	           };
+//	         };
+//	         
+//	         route.avg.distance = Math.floor(_.reduce(route.stats, runningAverageStat('totalDistance'), 0));
+//	         route.avg.departures = Math.round(_.reduce(route.stats, runningAverageStat('departures'), 0));
+//	         route.avg.CO2 = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'CO2'), 0));
+//	         route.avg.CO = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'CO'), 0));
+//	         route.avg.NOx = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'NOx'), 0));
+//	         
+//	         if(bin[route.name]) {
+//	           bin[route.name].instances.push(route);
+//	         } else {
+//	           bin[route.name] = {name: route.name, instances: [route]};
+//	         }
+//	         
+//	         if(_.findWhere(self.project.get('routes'), {name: route.name})) {
+//	           bin[route.name].imported = true;
+//	         }
+//	        });
+//	        
+//	        _.each(_.values(bin), function(routeBag){
+//	          routeBag.avg = {};
+//	          
+//	          var runningAverageStat = function(statName, statName2) {
+//	             return function(memo, instance, n) {
+//	               
+//	               if(_.isUndefined(statName2)) {
+//	                 return (instance.avg[statName] + n * memo) / (n+1);
+//	               } else {
+//	                 return (instance.avg[statName][statName2] + n * memo) / (n+1);
+//	               }
+//	             };
+//	           };
+//	           
+//	           routeBag.avg.distance = Math.floor(_.reduce(routeBag.instances, runningAverageStat('distance'), 0));
+//	           routeBag.avg.departures = Math.round(_.reduce(routeBag.instances, runningAverageStat('departures'), 0));
+//	           routeBag.avg.CO2 = Math.floor(_.reduce(routeBag.instances, runningAverageStat('CO2'), 0));
+//	           routeBag.avg.CO = Math.floor(_.reduce(routeBag.instances, runningAverageStat('CO'), 0));
+//	           routeBag.avg.NOx = Math.floor(_.reduce(routeBag.instances, runningAverageStat('NOx'), 0));
+//	           bin[routeBag.name] = routeBag;
+//	        });
+//	        
+//	        this.data = bin;
+	    	_.each(data, function(route) {
+		         if(_.findWhere(self.project.get('routes'), {routeId: route.routeId})) {
+		           route.imported = true;
+		         }
+	    	});
+	    	this.data = data
 	    },
 	    
 	    getSelectedRoutes: function() {
@@ -98,12 +105,12 @@ define(['jquery',
 	    onCheckbox: function(ev) {
 	    	ev.stopPropagation();
 	    	var $this = $(ev.target);
-	    	var routeName = $this.attr('name');
+	    	var routeId = $this.attr('name');
 	    	
 	    	if($this.is(':checked')) {
-	    	  this.selectedRoutes.push(this.data[routeName]);
+	    	  this.selectedRoutes.push(_.findWhere(this.data, {routeId: routeId}));
 	    	} else {
-	    	  this.selectedRoutes = _.without(this.selectedRoutes, _.findWhere(this.selectedRoutes, {name:routeName}));
+	    	  this.selectedRoutes = _.without(this.selectedRoutes, _.findWhere(this.selectedRoutes, {routeId:routeId}));
 	    	}
 	    },
 	    
@@ -115,9 +122,6 @@ define(['jquery',
 	    	this.table.fnAdjustColumnSizing();
 	    },
 	    
-	    signalRouteDraw: function(routeBag) {
-	    	
-	    },
 	    
 	    render: function() {
 	      

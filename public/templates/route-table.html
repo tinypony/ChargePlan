@@ -1,14 +1,27 @@
 <table id="all-routes-table">
     <thead>
-    	<tr><td>Select</td><td>Route</td><td>Total distance driven</td><td>Departures per day</td></tr>
+    	<tr>
+	    	<td>Select</td>
+	    	<td>ID</td>
+	    	<td>Name</td>
+	    	<td>Route</td>
+	    	<td>Length</td>
+	    	<td>Total driven</td>
+	    	<td>Min departures</td>
+	    	<td>Max departures</td>
+    	</tr>
     </thead>
     <tbody>
 	    {{#each routes}}
 	    <tr> 
-	    	<td><input name="{{this.name}}" type="checkbox" {{#if this.imported}}checked="checked"{{/if}} class="route-select-cb"/>
+	    	<td><input name="{{this.routeId}}" type="checkbox" {{#if this.imported}}checked="checked"{{/if}} class="route-select-cb"/>
+	    	<td>{{this.routeId}}</td>
 	    	<td>{{this.name}}</td>
-	    	<td>{{this.avg.distance}}</td>
-	    	<td>{{this.avg.departures}}</td>
+	    	<td>{{this.longName}}</td>
+	    	<td>{{this.length}}</td>
+	    	<td>{{this.totalDriven}}</td>
+	    	<td>{{this.minDepartures}}</td>
+	    	<td>{{this.maxDepartures}}</td>
 	    </tr> 
 	    {{/each}}
     </tbody>

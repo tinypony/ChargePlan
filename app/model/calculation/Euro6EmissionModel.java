@@ -5,6 +5,7 @@ import java.util.Map;
 
 import model.dataset.BusRoute;
 import model.dataset.DayStat;
+import model.dataset.aggregation.BusRouteAggregation;
 
 public class Euro6EmissionModel implements IEmissionModel {
 	
@@ -23,5 +24,16 @@ public class Euro6EmissionModel implements IEmissionModel {
 		emissions.put("NOx", NOx_KG_PER_KM * stat.getTotalDistance()/1000);
 		return emissions;
 	}
+
+	@Override
+	public Map<String, Double> getDailyEmissions(BusRouteAggregation agg) {
+		Map<String, Double> emissions = new HashMap<String, Double>();
+		emissions.put("CO2", CO2_KG_PER_KM * agg.getTotalDriven()/1000);
+		emissions.put("CO", CO_KG_PER_KM * agg.getTotalDriven()/1000);
+		emissions.put("NOx", NOx_KG_PER_KM * agg.getTotalDriven()/1000);
+		return emissions;
+	}
+	
+	
 
 }

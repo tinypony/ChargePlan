@@ -9,7 +9,8 @@ GET 	/api/configuration				controllers.UserConfigController.getConfig()
 GET 	/api/test						controllers.TestController.getTest()
 
 GET		/api/routes						controllers.RoutesController.getRoutes()
-GET		/api/routes/:routeName			controllers.RoutesController.getRouteDetails(routeName:String)
+GET		/api/routes/:routeName			controllers.RoutesController.getRouteDetails(routeName: String)
+GET		/api/routes/:routeName/stops	controllers.RoutesController.getRouteWaypoints(routeName: String)
 GET		/api/stops						controllers.StopsController.getStops()
 
 GET		/api/projects					controllers.ProjectController.getProjects()
