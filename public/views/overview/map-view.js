@@ -30,21 +30,28 @@ define([ 'jquery',
       });
     },
     
-    drawRoute: function(routeBag) {
-      var routeName = routeBag.name;
-      if(this.drawnRoutes[routeName]) {
+    drawRoute: function(route) {
+      var routeId = route.routeId;
+      var self = this;
+      
+      if(this.drawnRoutes[routeId]) {
         return;
       }
+      
+      $.get('/api/routes/'+routeId+'/stops').done(function(data) {
+          var coordinates = _.map(data['0'].stops, function(stop) {
+        	  return L.latLng( parseFloat(stop.y, 10), parseFloat(stop.x, 10) );
+          });
+          
+          //Create polyline
+          var polyline = L.polyline( coordinates, self.getRouteStyle(false)).addTo(self.map);
+          polyline.userData = {
+              route: route
+          };
+          
+          self.drawnRoutes[routeId] = polyline;
+      });
 
-      var coordinates = this.getRouteWaypoints(routeBag);
-      
-      //Create polyline
-      var polyline = L.polyline( coordinates, this.getRouteStyle(false)).addTo(this.map);
-      polyline.userData = {
-          route: routeBag
-      };
-      
-      this.drawnRoutes[routeName] = polyline;
     },
     
 //    createBusStop: function(stop, isEndstop) {
