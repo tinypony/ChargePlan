@@ -67,6 +67,9 @@ define(['jquery', 'underscore', 'backbone', 'd3', 'hbs!templates/simulation/stop
       var onStopClick = function(d){
 			$('body').prepend(modalTemplate({stop:d.stop}));
 			$('#stop-info').modal();
+			$('#stop-info').on('hidden.bs.modal', function(){
+				$('#stop-info').remove();
+			});
 		};
       
       var circles0 = direction0.selectAll('circle')
