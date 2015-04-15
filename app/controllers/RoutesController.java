@@ -104,34 +104,30 @@ public class RoutesController extends Controller {
 		return ok(om.valueToTree(directions));
 	}
 
-	public static Result getRouteDetails(String routeName) {
+	public static Result getRouteDetails(String routeId) {
 		Datastore ds = MongoUtils.ds();
-		List<DetailedBusRoute> instances = new ArrayList<DetailedBusRoute>();
 
 		Query<BusRoute> q = ds.createQuery(BusRoute.class);
-		q.field("name").equal(routeName);
-		List<BusRoute> routeInstances = q.asList();
-
-		for (BusRoute inst : routeInstances) {
-			DetailedBusRoute det = new DetailedBusRoute(inst);
-			instances.add(det);
-		}
+		q.field("routeId").equal(routeId);
+		BusRoute route = q.get();
+		DetailedBusRoute inst = new DetailedBusRoute(route);
+		
 
 		Query<BusTrip> trip0Q = ds.createQuery(BusTrip.class);
-		trip0Q.field("routeId").equal(instances.get(0).getRouteId());
+		trip0Q.field("routeId").equal(inst.getRouteId());
 		trip0Q.field("direction").equal("0");
 		trip0Q.order("-numOfStops");
 
 		Query<BusTrip> trip1Q = ds.createQuery(BusTrip.class);
-		trip1Q.field("routeId").equal(instances.get(0).getRouteId());
+		trip1Q.field("routeId").equal(inst.getRouteId());
 		trip1Q.field("direction").equal("1");
 		trip1Q.order("-numOfStops");
 
 		List<BusTrip> trips = Lists.newArrayList(trip0Q.get(), trip1Q.get());
 
-		instances.get(0).setTrips(trips);
+		inst.setTrips(trips);
 
 		ObjectMapper om = new ObjectMapper();
-		return ok(om.valueToTree(instances));
+		return ok(om.valueToTree(inst));
 	}
 }

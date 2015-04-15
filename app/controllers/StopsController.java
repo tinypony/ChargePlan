@@ -28,5 +28,18 @@ public class StopsController  extends Controller {
 		ObjectMapper om = new ObjectMapper();
 		return ok(om.valueToTree(map)).as("application/json");
 	}
+	
+	public static BusStop getStopModel(String stopid) {
+		Datastore ds = MongoUtils.ds();
+		Query<BusStop> busStopQ = ds.createQuery(BusStop.class);
+		busStopQ.field("stopId").equal(stopid);
+		return busStopQ.get();		
+	}
+	
+	public static Result getStop(String stopid) {
+		ObjectMapper om = new ObjectMapper();
+		return ok(om.valueToTree(getStopModel(stopid)));
+	}
+
 
 }

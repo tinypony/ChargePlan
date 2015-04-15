@@ -4,21 +4,25 @@ define(['jquery',
         'backbone', 
         'config-manager', 
         'views/simulation/stops-visual', 
+        'collections/chargers',
         'hbs!templates/simulation'], 
-    function($, JUI, _, Backbone, ConfigManager, RouteVisualizationView, template) {
+    function($, JUI, _, Backbone, ConfigManager, RouteVisualizationView, Chargers, template) {
 
   var SimulationView = Backbone.View.extend({
     initialize: function(options) {
       var self = this;
       this.routeName = options.route;
-      this.routeInstances = [];
+      this.route;
       
-      var onReady = _.after(2, function(){
+      var onReady = _.after(3, function(){
         self.render();
       });
       
-      $.get('/api/routes/'+options.route).done(function(instances){
-        self.routeInstances = instances;
+      this.chargers = new Chargers();
+      this.chargers.fetch().done(onReady);
+      
+      $.get('/api/routes/'+options.route).done(function(instance){
+        self.route = instance;
         onReady();
       });
       
@@ -29,7 +33,7 @@ define(['jquery',
     },
     
     getInstance: function() {
-      return this.routeInstances[0];
+      return this.route;
     },
     
     render: function() {
@@ -58,7 +62,8 @@ define(['jquery',
       this.routeVis = new RouteVisualizationView({
         el: this.$('.route-path-visualization'), 
         route: this.getInstance(),
-        project: this.project
+        project: this.project,
+        chargers: this.chargers
       });
       
       this.routeVis.render();

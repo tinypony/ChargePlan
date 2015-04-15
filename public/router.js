@@ -9,7 +9,7 @@ define(['jquery',
   var EMNRouter = Backbone.Router.extend({
     routes: {
       'configuration': 'configuration',
-      'overview': 'routesOverview',
+      '': 'routesOverview',
       'simulation/:route': 'simulation',
       'solutions' : 'solutions'
     },

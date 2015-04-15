@@ -1,13 +1,8 @@
-<div class="actions">
-	<div class="add-routes"><i class="fa fa-plus"></i>Add routes</div>
-</div>
-
 <div class="nano">
 	<div class="route-list nano-content">
-
 		{{#each routes}}
 			<div class="route-list-item" data-routeid="{{this.routeId}}">
-				<a> {{this.name}} </a>
+				<span class="route-name">{{this.name}}</span> <span class="route-ends">{{this.longName}}</span>
 			</div>
 		{{/each}}
 	</div>

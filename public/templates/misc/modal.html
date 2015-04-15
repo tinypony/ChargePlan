@@ -1,0 +1,20 @@
+<div id="{{config.id}}" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      	{{#if config.showClose}}
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      	  <span aria-hidden="true">&times;</span>
+        </button>
+        {{/if}}
+        <h4 class="modal-title">{{config.title}}</h4>
+      </div>
+      <div class="modal-body">
+      	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">{{config.buttonText}}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

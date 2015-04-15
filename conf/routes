@@ -11,18 +11,20 @@ GET 	/api/test						controllers.TestController.getTest()
 GET		/api/routes						controllers.RoutesController.getRoutes()
 GET		/api/routes/:routeName			controllers.RoutesController.getRouteDetails(routeName: String)
 GET		/api/routes/:routeName/stops	controllers.RoutesController.getRouteWaypoints(routeName: String)
+
 GET		/api/stops						controllers.StopsController.getStops()
 
 GET		/api/projects					controllers.ProjectController.getProjects()
 GET		/api/projects/:id				controllers.ProjectController.getProject(id: String)
 PUT		/api/projects/:id				controllers.ProjectController.updateProject(id: String)
+PUT		/api/projects/:id/add/charger	controllers.ProjectController.addCharger(id: String)
 
-GET		/api/chargers					controllers.ChargerController.listChargers()
-POST 	/api/chargers					controllers.ChargerController.createCharger()
-PUT		/api/chargers/:id				controllers.ChargerController.updateCharger(id: String)
+GET		/api/chargers					controllers.solutions.ChargerController.listChargers()
+POST 	/api/chargers					controllers.solutions.ChargerController.createCharger()
+PUT		/api/chargers/:id				controllers.solutions.ChargerController.updateCharger(id: String)
 
-GET		/api/buses						controllers.BusController.listBuses()
-POST	/api/buses						controllers.BusController.createBus()
+GET		/api/buses						controllers.solutions.BusController.listBuses()
+POST	/api/buses						controllers.solutions.BusController.createBus()
 
 
 GET     /ws/jobmonitor                 	controllers.JobMonitorController.socket()

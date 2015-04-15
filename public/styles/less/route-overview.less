@@ -2,24 +2,16 @@
 	position: relative;
 	height: 100%;
 	overflow: hidden;
-	@side-list-width: 320px;
+	display: flex;
+	
+	@side-list-width: 360px;
 	@zindex-side-list: 1003;
 	
 	
 	.side-list-container {
 		z-index: @zindex-side-list;
-		
-		
-		&.open {
-			.side-list {
-				box-shadow: 4px 0px 5px rgba(0, 0, 0, 0.25);
-			}
-		}
-		
-		&.init {
-			position: relative;
-			left: @side-list-width;
-		}
+		width: @side-list-width;
+		box-shadow: 4px 0px 5px rgba(0, 0, 0, 0.25);
 		
 		
 		.side-list {
@@ -40,138 +32,81 @@
 				}
 			}
 	
-			.accordion {
-				.accordion-group {
-					position: relative;
-					
-					&.toggle-on {
-						> .accordion-heading {
-							background: #2A7096 !important;
-							box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-							z-index: 3;
-							position: relative;
-							
-							.accordion-toggle {
-								color: white;
-								border-bottom: 1px solid fadeout(#033753, 80%);
-							}
-						}
-	
-						> .accordion-body {
-							background: #f2f2f2;
-							z-index: 2;
-						}
-					}
-	
-					.accordion-heading {
-						&:hover {
-							background: #ddd;
-						}
-	
-						.accordion-toggle {
-							width: 100%;
-							display: inline-block;
-							padding: 5px 15px;
-							font-size: 20px;
-							border-bottom: 1px solid lightgrey;
-							text-decoration: none;
-						}
-					}
-	
-					.accordion-body {
-						.inner-accordion {
-							ul {
-								li {
-									label.emission-type {
-										margin-right: 10px;
-									}
-								}
-	
-								margin-bottom: 0px;
-							}
-						}
-					}
-					
-					.subgroup {
-						.accordion-heading {
-							a {
-								font-size: 16px;
-								padding-left: 30px;
-							}
-						}	
-					}					
-				}
-			}
+//			.accordion {
+//				.accordion-group {
+//					position: relative;
+//					
+//					&.toggle-on {
+//						> .accordion-heading {
+//							background: #2A7096 !important;
+//							box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+//							z-index: 3;
+//							position: relative;
+//							
+//							.accordion-toggle {
+//								color: white !important;
+//								border-bottom: 1px solid fadeout(#033753, 80%);
+//							}
+//						}
+//	
+//						> .accordion-body {
+//							background: #f2f2f2;
+//							z-index: 2;
+//						}
+//					}
+//	
+//					.accordion-heading {
+//						&:hover {
+//							background: #ddd;
+//						}
+//	
+//						.accordion-toggle {
+//							width: 100%;
+//							display: inline-block;
+//							padding: 5px 15px;
+//							font-size: 20px;
+//							border-bottom: 1px solid lightgrey;
+//							text-decoration: none;
+//						}
+//					}
+//	
+//					.accordion-body {
+//						.inner-accordion {
+//							ul {
+//								li {
+//									label.emission-type {
+//										margin-right: 10px;
+//									}
+//								}
+//	
+//								margin-bottom: 0px;
+//							}
+//						}
+//					}
+//					
+//					.subgroup {
+//						.accordion-heading {
+//							a {
+//								font-size: 16px;
+//								padding-left: 30px;
+//							}
+//						}	
+//					}					
+//				}
+//			}
 		}
 		
-		.list-menu {
-			display: inline-block;
-			position: absolute;
-			right: -3em;
-			top: 45px;
-			  
-			.menu-button {
-				display: block;
-				width: 3em;
-				height: 3em;
-				background: #444;
-				color: white;
-				margin: 0 auto;
-				text-align: center;
-				
-				&:hover {
-					background: #888;
-				}
-				
-				i {
-					line-height: 3em;
-				}
-			}
-		}
-		
-		.second-level-menu {
-			position: absolute;
-			transition: opacity 0.7s, left 0.7s;
-			background: white;
-			width: 250px;
-			padding-left: 20px;
-			left: 0px;
-			opacity: 0;
-			z-index: 1001;
-			
-			&.shown {
-				left: 320px;
-				opacity: 1;
-				transition: opacity 0.7s, left 0.7s;
-			}
-		}
 	}
 
 	.details-view {
 		width: 100%;
 		height: 100%;
 		position: relative;
-		
-		.top-level-results {
-			position: absolute;
-			z-index: 100;
-			left: 50px;
-			top: 10px;
-			background: rgba(0, 0, 0, 0.2);
-			color: white;
-			padding: 5px 20px;
-			&:hover {
-				background: rgba(0, 0, 0, 0.6);
-			}
-
-			label {
-				display: block;
-			}
-		}
 
 		.map-view {
 			width: 100%;
 			height: 100%;
+			
 			.leaflet-popup {
 				.leaflet-popup-close-button {
 					display: none;
@@ -182,11 +117,51 @@
 				}
 			}
 		}
-
-		.endstop-details {
+		
+		.route-details {
 			position: relative;
+			height: 100%;			
+		}
+		
+		.add-routes {
+			position: absolute;
+			display: inline-block;
+			bottom: 80px;
+			right: 50px;
+			width: 80px;
+			height: 80px;
+			background: white;
+			z-index: @zindex-side-list;
+			border-radius: 40px;
+			box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.25);
+			text-align: center;
+			cursor: pointer;
+			
+			
+			&:hover {
+				i.fa {
+					color: darken(#2A7096, 15%);
+				}
+			}
+			
+			i.fa {
+				line-height: 80px;
+				font-size: 22px;
+				color: #2A7096;
+				transition: color 0.3s;
+			}
+		}
+
+		.retractable-container {
+			position: absolute;
 			box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
 			z-index: 1001;
+			height: 350px;
+			bottom: 0px;
+			background: white;
+			right: 0px;
+			width: 100%;
+			
 			.close-ear {
 				cursor: pointer;
 				position: absolute;
@@ -203,10 +178,6 @@
 				height: 200px;
 			}
 
-			height: 300px;
-			position: relative;
-			top: -300px;
-			background: white;
 			
 			.stats {
 				padding-left: 20px;

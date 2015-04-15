@@ -1,7 +1,7 @@
-package controllers;
+package controllers.solutions;
 
-import model.planning.BusCharger;
-import model.planning.ElectricBus;
+import model.planning.solutions.BusCharger;
+import model.planning.solutions.ElectricBus;
 
 import org.mongodb.morphia.Datastore;
 

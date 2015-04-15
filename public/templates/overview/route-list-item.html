@@ -1,0 +1,14 @@
+<div class="accordion-group root-level route-list-item" data-routeid="{{route.routeId}}">
+
+	<div class="accordion-heading">
+		<a class="accordion-toggle collapsed"
+			data-toggle="collapse" data-parent="#root-accordion"
+			data-target="#route-{{route.routeId}}"> {{route.name}} ({{route.routeId}})</a>
+	</div>
+
+	<!-- First level body -->
+	<div id="route-{{route.routeId}}" class="accordion-body collapse">
+		<a href="#/simulation/{{route.routeId}}">Simulate</a>
+
+	</div>
+</div>

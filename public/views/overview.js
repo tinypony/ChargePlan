@@ -1,109 +1,98 @@
-define(['jquery', 
-        'underscore', 
-        'backbone', 
-        'mapbox', 
-        'mocks', 
-        'api-config',
-    		'bootstrap', 
-    		'sidebar', 
-    		'config-manager',
-    		'views/overview/details-view', 
-    		'views/overview/map-view',
-    		'views/overview/raw-route-list', 
-    		'hbs!templates/overview' ], function(
-		$, _, Backbone, Mapbox, Mocks, ApiConfig, bootstrap, sidebar,
-		ConfigManager, DetailsView, MapView, RouteList, template) {
+define([ 'jquery', 
+         'underscore', 
+         'backbone', 
+         'mapbox', 
+         'mocks', 
+         'api-config', 
+         'bootstrap', 
+         'sidebar', 
+         'config-manager', 
+         'views/overview/details-view', 
+         'views/overview/map-view', 
+         'views/overview/raw-route-list', 
+         'hbs!templates/overview' ], 
+         function( $, _, Backbone, Mapbox, Mocks,
+             ApiConfig, bootstrap, sidebar, ConfigManager, 
+             DetailsView, MapView, RouteList, template ) {
 
-	var RoutesOverview = Backbone.View.extend({
+  var RoutesOverview = Backbone.View.extend({
 
-		initialize : function(optimize) {
-			_.bindAll(this, [ 'displayData' ]);
-			this.date = this.defaultDate;
-			this.retrieveData(true);
-		},
+    events : {
+      'click .add-routes': 'showTable'
+    },
 
-		retrieveData : function(isFirst) {
-			var self = this;
-			this.data = {};
+    initialize : function(optimize) {
+      _.bindAll(this, ['showTable']);
+      
+      this.date = this.defaultDate;
+      this.retrieveData(true);
+    },
 
-			var onReady = _.after(3, function() {
-				if (isFirst) {
-					self.render();
-				} else {
-					self.displayData();
-				}
-			});
+    retrieveData : function(isFirst) {
+      var self = this;
+      this.data = {};
 
-			$.get('/api/routes').done(function(data) {
-				self.data.routes = data;
-				onReady();
-			});
+      var onReady = _.after(3, function() {
+        if (isFirst) {
+          self.render();
+        } else {
+          self.displayData();
+        }
+      });
 
-			$.get('/api/stops').done(function(data) {
-				self.data.stops = data;
-				onReady();
-			});
+      $.get('/api/routes').done(function(data) {
+        self.data.routes = data;
+        onReady();
+      });
 
-			ConfigManager.getProject().done(function(project) {
-				self.data.project = project;
-				onReady();
-			});
+      $.get('/api/stops').done(function(data) {
+        self.data.stops = data;
+        onReady();
+      });
 
-		},
+      ConfigManager.getProject().done(function(project) {
+        self.data.project = project;
+        onReady();
+      });
 
-		displayData : function() {
+    },
+    
+    showTable: function() {
+      this.detailsView.showRoutesTable();
+    },
 
-		},
+    render : function() {
+      var self = this;
+      this.$el.html(template());
 
-		render : function() {
-			var self = this;
-			this.$el.html(template());
+      this.mapView = new MapView({
+        el : this.$('#map')
+      });
 
-			$('#side-list-container').slideReveal({
-				trigger : $("#buses-button"),
-				push : false,
-				width : 320,
-				show : function(panel, trigger) {
-					panel.addClass('open')
-				},
-				hide : function(panel, trigger) {
-					panel.removeClass('open');
-				}
-			}).removeClass('init');
+      this.mapView.setData(this.data);
+      this.detailsView = new DetailsView({el: this.$('.retractable-container')});
+      this.listView = new RouteList({
+        el : this.$('.side-list'),
+        project : this.data.project
+      });
+      this.renderSubviews();
+    },
 
-			this.mapView = new MapView({
-				el : this.$('#map')
-			});
-			
-			this.mapView.setData(this.data);
-			
-//			this.detailsView = new DetailsView({
-//				el : this.$('.endstop-details')
-//			});
-			
-			this.listView = new RouteList({
-				//data : this.data.routes,
-			  el: this.$('.side-list'),
-				project : this.data.project
-			});
-			this.renderSubviews();
-		},
+    renderSubviews : function() {
 
-		renderSubviews : function() {
+      var self = this;
+      this.mapView.render();
+      this.detailsView.render();
 
-			var self = this;
-			this.mapView.render();
-		//	this.detailsView.render();
-			//this.detailsView.showProjectDetails();
-			this.mapView.displayData({
-				routes : this.data.routes,
-				stops : this.data.stops
-			});
+      this.mapView.displayData({
+        routes : this.data.routes,
+        stops : this.data.stops
+      });
 
-			this.listView.render()
-		}
+      this.listView.render()
+    }
 
-	});
+  });
 
-	return RoutesOverview;
+  return RoutesOverview;
 });

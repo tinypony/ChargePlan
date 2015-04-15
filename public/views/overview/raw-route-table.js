@@ -131,7 +131,7 @@ define(['jquery',
 	      
 	      this.table = this.$('#all-routes-table').dataTable({
 	        paging: false,
-	        scrollY: 400,
+	        scrollY: 300,
 	        info: false,
 	        order: [[ 1, 'asc' ]],
 	        columnDefs: [

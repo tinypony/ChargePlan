@@ -1,9 +1,10 @@
-package controllers;
+package controllers.solutions;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 
-import model.planning.BusCharger;
+import model.planning.solutions.BusCharger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +31,17 @@ public class ChargerController extends Controller {
 			return badRequest();
 		}
 	}
+	
+	
+	public static BusCharger getChargerModel(String id) {
+		ObjectId objId = new ObjectId(id);
+		Datastore ds = MongoUtils.ds();
+		
+		Query<BusCharger> chq = ds.createQuery(BusCharger.class);
+		chq.field("id").equal(objId);
+		return chq.get();
+	}
+	
 	
 	//PUT
 	public static Result updateCharger(String hexString) {

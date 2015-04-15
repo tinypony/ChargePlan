@@ -1,153 +1,136 @@
-define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus',
-		'scroller', 'views/overview/raw-route-table',
-		'views/overview/route-list/route-list-menu',
-		'hbs!templates/overview/simple-route-list',
-		'hbs!templates/overview/simple-route-list-item' ], function($, _,
-		Backbone, ConfigManager, EventBus, scroller, RouteTable, RouteMenu,
-		routeListTemplate, itemTemplate) {
+define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scroller', 'views/overview/raw-route-table', 'views/overview/route-list/route-list-menu', 'hbs!templates/overview/simple-route-list', 'hbs!templates/overview/simple-route-list-item' ], function($, _,
+    Backbone, ConfigManager, EventBus, scroller, RouteTable, RouteMenu, routeListTemplate, itemTemplate) {
 
-	var RawRouteList = Backbone.View.extend({
+  var RawRouteList = Backbone.View.extend({
 
-		events : {
-			'click .add-routes' : 'onClickAdd',
-			'click .route-list-item' : 'showRouteMenu',
-			'mouseover .route-list-item' : 'onMouseover',
-			'mouseout .route-list-item' : 'onMouseout'
-		},
+    events : {
+      'click .route-list-item' : 'onClickRoute',
+      'mouseover .route-list-item' : 'onMouseover',
+      'mouseout .route-list-item' : 'onMouseout'
+    },
 
-		initialize : function(options) {
-			var self = this;
+    initialize : function(options) {
+      var self = this;
+    },
 
-			ConfigManager.getProject().done(
-					function(project) {
-						self.project = project;
+    drawRoute : function(route) {
+      EventBus.trigger('draw:route', route);
+    },
 
-						self.listenTo(EventBus, 'add:route', function(route) {
-							self.project.addRoute(route);
-							self.$('.route-list').append(itemTemplate({
-								route : route
-							}));
-						});
+    setRoutes : function(routes) {
+      var self = this;
+      this.project.setRoutes(routes);
 
-						self.listenTo(EventBus, 'remove:route',
-								function(route) {
-									self.$(
-											'.route-list-item[data-routeid="'
-													+ route.routeId + '"]')
-											.remove();
-									self.project.removeRoute(route.routeId);
-								});
-					});
-		},
+      this.$('.route-list').empty();
+      EventBus.trigger('clear:routes');
 
-		drawRoute : function(route) {
-			EventBus.trigger('draw:route', route);
-		},
+      _.each(this.project.get('routes'), function(route) {
+        self.$('.route-list').append(itemTemplate({
+          route : route
+        }));
+        self.drawRoute(route);
+      });
+    },
 
-		setRoutes : function(route) {
-			var self = this;
-			this.project.setRoutes(route);
+//    onClickAdd : function() {
+//      var self = this;
+//      var tableView = new RouteTable();
+//
+//      var modal = $('#myModal').modal();
+//      $('#myModal .modal-body').append(tableView.render().$el);
+//
+//      $('#myModal .add-selected-routes').click(function() {
+//        self.setRoutes(tableView.getSelectedRoutes());
+//        modal.modal('hide');
+//      });
+//
+//      $('#myModal').on('shown.bs.modal', function() {
+//        tableView.recalculateTable();
+//      });
+//
+//      $('#myModal').on('hide.bs.modal', function() {
+//        $(this).off('click');
+//        $(this).off('hide.bs.modal');
+//        $(this).off('shown.bs.modal');
+//        tableView.remove();
+//      });
+//    },
+    
+    onClickRoute: function(ev) {
+      var $targ = $(ev.currentTarget);
+      var routeId = $targ.attr('data-routeid');
+      
+      if($targ.hasClass('active')) {
+        $targ.removeClass('active');
+        this.trigger('route:unselect', routeId);
+      } else {
+        $targ.addClass('active').siblings().removeClass('active');
+        this.trigger('route:select', routeId);
+      }
+    },
 
-			this.$('.route-list').empty();
-			EventBus.trigger('clear:routes');
+    onMouseout : function(ev) {
+      $target = $(ev.currentTarget);
+      var routeId = $target.attr('data-routeid');
+      EventBus.trigger('route:highlight', routeId, false);
+    },
 
-			_.each(this.project.get('routes'), function(route) {
-				self.$('.route-list').append(itemTemplate({
-					route : route
-				}));
-				self.drawRoute(route);
-			});
-		},
+    onMouseover : function(ev) {
+      $target = $(ev.currentTarget);
+      var routeName = $target.attr('data-routeid');
+      EventBus.trigger('route:highlight', routeName, true);
+    },
 
-		onClickAdd : function() {
-			var self = this;
-			var tableView = new RouteTable();
+    showRouteMenu : function(ev) {
+      $target = $(ev.currentTarget);
+      var routeName = $target.attr('data-routename');
 
-			var modal = $('#myModal').modal();
-			$('#myModal .modal-body').append(tableView.render().$el);
+      if ($target.hasClass('active')) {
+        $target.removeClass('active');
+        this.routeMenu.hide();
+      } else {
+        $target.addClass('active');
+        this.routeMenu.showFor(routeName, $target);
+      }
+    },
 
-			$('#myModal .add-selected-routes').click(function() {
-				self.setRoutes(tableView.getSelectedRoutes());
-				modal.modal('hide');
-			});
+    render : function() {
+      var self = this;
 
-			$('#myModal').on('shown.bs.modal', function() {
-				tableView.recalculateTable();
-			});
+      ConfigManager.getProject().done(function(project) {
+        var routes = project.get('routes');
 
-			$('#myModal').on('hide.bs.modal', function() {
-				$(this).off('click');
-				$(this).off('hide.bs.modal');
-				$(this).off('shown.bs.modal');
-				tableView.remove();
-			});
-		},
+        self.$el.html(routeListTemplate({
+          routes : routes
+        }));
 
-		onMouseout : function(ev) {
-			$target = $(ev.currentTarget);
-			var routeId = $target.attr('data-routeid');
-			EventBus.trigger('route:highlight', routeId, false);
-		},
+        // self.routeMenu = new RouteMenu({
+        // el : $('#second-level-route-menu')
+        // });
 
-		onMouseover : function(ev) {
-			$target = $(ev.currentTarget);
-			var routeName = $target.attr('data-routeid');
-			EventBus.trigger('route:highlight', routeName, true);
-		},
+        _.each(routes, function(routeBag) {
+          self.drawRoute(routeBag);
+        });
 
-		showRouteMenu : function(ev) {
-			$target = $(ev.currentTarget);
-			var routeName = $target.attr('data-routename');
+        _.defer(function() {
+          self.$('.nano').nanoScroller({
+            flash : true
+          });
 
-			if ($target.hasClass('active')) {
-				$target.removeClass('active');
-				this.routeMenu.hide();
-			} else {
-				$target.addClass('active');
-				this.routeMenu.showFor(routeName, $target);
-			}
-		},
+          var toggleHandler = function(ev) {
+            var $tar = $(ev.currentTarget);
+            $tar.toggleClass('toggle-on');
+            ev.stopPropagation();
+          };
 
-		render : function() {
-			var self = this;
+          self.$('.accordion-group').on('show.bs.collapse', toggleHandler);
+          self.$('.accordion-group').on('hide.bs.collapse', toggleHandler);
+        });
+      });
 
-			ConfigManager.getProject().done(
-					function(project) {
-						var routes = project.get('routes');
+      return this;
+    }
+  });
 
-						self.$el.html(routeListTemplate({
-							routes : routes
-						}));
-
-						self.routeMenu = new RouteMenu({
-							el : $('#second-level-route-menu')
-						});
-
-						_.each(routes, function(routeBag) {
-							self.drawRoute(routeBag);
-						});
-
-						_.defer(function() {
-							self.$('.nano').nanoScroller({
-								flash : true
-							});
-
-							var toggleHandler = function(ev) {
-								var $tar = $(ev.currentTarget);
-								$tar.toggleClass('toggle-on');
-								ev.stopPropagation();
-							};
-
-							self.$('.accordion-group').on('show.bs.collapse',
-									toggleHandler);
-							self.$('.accordion-group').on('hide.bs.collapse',
-									toggleHandler);
-						});
-					});
-
-			return this;
-		}
-	});
-
-	return RawRouteList;
+  return RawRouteList;
 });

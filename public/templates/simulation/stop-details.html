@@ -1,0 +1,15 @@
+<h4>Chargers</h4>
+<select name="available-chargers">
+	<option value="-1">Add charger</option>
+	{{#each chargerTypes}}
+	<option value="{{this.id}}">{{this.manufacturer}} {{this.model}} {{this.power}}</option> 
+	{{/each}}
+</select>
+
+<button class="btn btn-primary add-charger">Add</button>
+<ul class="existing-chargers">
+	{{#each stop.chargers}}
+	<li>{{this.type.manufacturer}} {{this.type.model}} {{this.type.power}}</li>
+	{{/each}}
+</ul>
+<h4>Min charging time</h4>
