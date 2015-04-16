@@ -199,7 +199,6 @@ public class ScheduleImportJob extends UntypedActor {
 	}
 	
 	public void resolveLengths(ScheduleImportJobState state2) throws IOException, InterruptedException {
-		MongoUtils.setDBName(databaseName);
 		Datastore ds = MongoUtils.ds();
 		DBCollection coll = ds.getCollection(BusTrip.class);
 		
