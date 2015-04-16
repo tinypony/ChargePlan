@@ -91,10 +91,21 @@ public class RoutesController extends Controller {
 		trip1Q.order("-numOfStops");
 		
 		RouteDirection dir0 = new RouteDirection();
-		dir0.setStops(trip0Q.get().getStops());
+		BusTrip trip0 = trip0Q.get();
+		if(trip0 != null) {
+			dir0.setStops(trip0.getStops());
+		} else {
+			dir0 = null;
+		}
 		
 		RouteDirection dir1 = new RouteDirection();
-		dir1.setStops(trip1Q.get().getStops());
+		BusTrip trip1 = trip1Q.get();
+		
+		if(trip1 != null) {
+			dir1.setStops(trip1.getStops());
+		} else {
+			dir1 = null;
+		}
 		
 		HashMap<String, RouteDirection> directions = new HashMap<String, RouteDirection>();
 		directions.put("0", dir0);

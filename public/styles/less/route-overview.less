@@ -120,14 +120,15 @@
 		
 		.route-details {
 			position: relative;
-			height: 100%;			
+			height: 100%;	
+			z-index: 1010;
+			background: white;		
 		}
 		
 		.add-routes {
 			position: absolute;
 			display: inline-block;
-			bottom: 80px;
-			right: 50px;
+
 			width: 80px;
 			height: 80px;
 			background: white;
@@ -136,6 +137,25 @@
 			box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.25);
 			text-align: center;
 			cursor: pointer;
+			transition: bottom 0.3s;
+			
+			&.show {
+				bottom: 80px;
+				right: 50px;
+				
+				i.fa-chevron-down {
+					display: none;
+				}
+			}
+			
+			&.back {
+				bottom: 480px;
+				right: 50px;
+				
+				i.fa-plus {
+					display: none;
+				}
+			}
 			
 			
 			&:hover {

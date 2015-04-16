@@ -10,11 +10,12 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
     },
 
     initialize : function(options) {
+      _.bindAll(this, ['addRoute']);
       var self = this;
     },
 
     drawRoute : function(route) {
-      EventBus.trigger('draw:route', route);
+      EventBus.trigger('route:draw', route);
     },
 
     setRoutes : function(routes) {
@@ -30,6 +31,17 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
         }));
         self.drawRoute(route);
       });
+    },
+    
+    addRoute: function(route) {
+      this.project.addRoute(route);
+      var item = itemTemplate({route:route});
+      this.$('.route-list').append(item);
+    },
+    
+    removeRoute: function(route) {
+      this.project.removeRoute(route);
+      this.$('.route-list-item[data-routeid="'+route.routeId+'"]').remove();
     },
 
 //    onClickAdd : function() {
@@ -62,10 +74,10 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
       
       if($targ.hasClass('active')) {
         $targ.removeClass('active');
-        this.trigger('route:unselect', routeId);
+        EventBus.trigger('route:unselect', routeId);
       } else {
         $targ.addClass('active').siblings().removeClass('active');
-        this.trigger('route:select', routeId);
+        EventBus.trigger('route:select', routeId);
       }
     },
 
@@ -99,14 +111,13 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
 
       ConfigManager.getProject().done(function(project) {
         var routes = project.get('routes');
-
+        self.project= project;
         self.$el.html(routeListTemplate({
           routes : routes
         }));
-
-        // self.routeMenu = new RouteMenu({
-        // el : $('#second-level-route-menu')
-        // });
+        
+        self.listenTo(EventBus, 'route:add', self.addRoute);
+        self.listenTo(EventBus, 'route:remove', self.removeRoute);
 
         _.each(routes, function(routeBag) {
           self.drawRoute(routeBag);

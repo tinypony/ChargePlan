@@ -7,22 +7,24 @@ define([ 'jquery',
          'bootstrap', 
          'sidebar', 
          'config-manager', 
+         'event-bus',
          'views/overview/details-view', 
          'views/overview/map-view', 
          'views/overview/raw-route-list', 
+         'views/simulation', 
          'hbs!templates/overview' ], 
          function( $, _, Backbone, Mapbox, Mocks,
-             ApiConfig, bootstrap, sidebar, ConfigManager, 
-             DetailsView, MapView, RouteList, template ) {
+             ApiConfig, bootstrap, sidebar, ConfigManager, EventBus,
+             DetailsView, MapView, RouteList, SimulationView, template ) {
 
   var RoutesOverview = Backbone.View.extend({
 
     events : {
-      'click .add-routes': 'showTable'
+      'click .add-routes': 'toggleTable'
     },
 
     initialize : function(optimize) {
-      _.bindAll(this, ['showTable']);
+      _.bindAll(this, ['toggleTable']);
       
       this.date = this.defaultDate;
       this.retrieveData(true);
@@ -57,8 +59,14 @@ define([ 'jquery',
 
     },
     
-    showTable: function() {
-      this.detailsView.showRoutesTable();
+    toggleTable: function() {
+      if(this.detailsView.isHidden()) {
+        this.detailsView.show();
+        this.$('.add-routes').removeClass('show').addClass('back');
+      } else {
+        this.detailsView.hide();
+        this.$('.add-routes').removeClass('back').addClass('show');
+      }
     },
 
     render : function() {
@@ -79,7 +87,6 @@ define([ 'jquery',
     },
 
     renderSubviews : function() {
-
       var self = this;
       this.mapView.render();
       this.detailsView.render();
@@ -89,7 +96,31 @@ define([ 'jquery',
         stops : this.data.stops
       });
 
-      this.listView.render()
+      this.listView.render();
+      
+      this.registerListeners();
+    },
+    
+    registerListeners: function() {
+      var self = this;
+      
+      this.listenTo(EventBus, 'route:select', function(routeId) {
+        self.$('#map').addClass('hidden');
+        if(self.routeDetails) {
+          self.routeDetails.remove();
+        }
+        
+        self.routeDetails = new SimulationView({
+          route: routeId
+        });
+        
+        self.$('#route-details').append(self.routeDetails.$el);
+      });
+      
+      this.listenTo(EventBus, 'route:unselect', function(routeId) {
+        self.routeDetails.remove();
+        self.$('#map').removeClass('hidden');
+      });
     }
 
   });

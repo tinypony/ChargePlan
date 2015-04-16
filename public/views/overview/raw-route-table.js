@@ -108,9 +108,9 @@ define(['jquery',
 	    	var routeId = $this.attr('name');
 	    	
 	    	if($this.is(':checked')) {
-	    	  this.selectedRoutes.push(_.findWhere(this.data, {routeId: routeId}));
+	    	  EventBus.trigger('route:add', _.findWhere(this.data, {routeId: routeId}));
 	    	} else {
-	    	  this.selectedRoutes = _.without(this.selectedRoutes, _.findWhere(this.selectedRoutes, {routeId:routeId}));
+	    	  EventBus.trigger('route:remove', _.findWhere(this.data, {routeId: routeId}))
 	    	}
 	    },
 	    

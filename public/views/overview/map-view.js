@@ -11,7 +11,9 @@ define([ 'jquery',
   var MapView = Backbone.View.extend({
     initialize: function() {
       this.drawnRoutes = {};
-      this.listenTo(EventBus, 'draw:route', this.drawRoute);
+      this.listenTo(EventBus, 'route:draw', this.drawRoute);
+      this.listenTo(EventBus, 'route:add', this.drawRoute);
+      this.listenTo(EventBus, 'route:remove', this.clearRoute);
       this.listenTo(EventBus, 'route:highlight', this.highlightRoute);
       this.listenTo(EventBus, 'clear:routes', this.resetMap);
     },
@@ -39,7 +41,15 @@ define([ 'jquery',
       }
       
       $.get('/api/routes/'+routeId+'/stops').done(function(data) {
-          var coordinates = _.map(data['0'].stops, function(stop) {
+          var stops;
+          
+          if(data['0']) {
+            stops = data['0'].stops;
+          } else {
+            stops = data['1'].stops;
+          }
+          
+          var coordinates = _.map(stops, function(stop) {
         	  return L.latLng( parseFloat(stop.y, 10), parseFloat(stop.x, 10) );
           });
           
@@ -52,6 +62,10 @@ define([ 'jquery',
           self.drawnRoutes[routeId] = polyline;
       });
 
+    },
+    
+    clearRoute: function(route) {
+        this.map.removeLayer(this.drawRoutes[route.routeId]);
     },
     
 //    createBusStop: function(stop, isEndstop) {

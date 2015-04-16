@@ -8,6 +8,21 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     initialize : function() {
 
     },
+    
+    addRoute: function(route) {
+      this.get('routes').push(route);
+      this.save();
+    },
+    
+    removeRoute: function(route) {
+      var routes = this.get('routes');
+      routes = _.without(routes, function(r){
+        return r.routeId === route.routeId;
+      });
+      
+      this.set('routes', routes);
+      this.save();
+    },
 
     setRoutes : function(routeBags) {
       this.set('routes', routeBags);

@@ -11,7 +11,7 @@ define([ 'jquery',
     },
     
     initialize: function(options){
-      
+      this.hidden = true;
     },
     
     showProjectDetails: function() {
@@ -26,16 +26,25 @@ define([ 'jquery',
       this.show();
     },
     
+    isHidden: function() {
+      return this.hidden;
+    },
+    
     show: function() {
       this.$el.show();
+      this.hidden = false;
+      this.contentView.recalculateTable();
     },
     
     hide: function() {
       this.$el.hide();
+      this.hidden = true;
     },
     
     render: function() {
       this.$el.html(template({}));
+      this.contentView = new RoutesTableView({el: this.$('.details-container')});
+      this.contentView.render();
       this.hide();
     }
     
