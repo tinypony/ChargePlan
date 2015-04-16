@@ -48,6 +48,36 @@ public class RouteSimulationModel {
 	public void setElectrifiedStops(List<ElectrifiedBusStop> electrifiedStops) {
 		this.electrifiedStops = electrifiedStops;
 	}
+
+	public List<StopDistance> getDistances() {
+		return distances;
+	}
+
+	public void setDistances(List<StopDistance> distances) {
+		this.distances = distances;
+	}
+
+	public ElectricBus getBusType() {
+		return busType;
+	}
+
+	public void setBusType(ElectricBus busType) {
+		this.busType = busType;
+	}
 	
-	
+	public boolean simulate() {
+		boolean canRun = true;
+		Queue<BusTrip> direction = this.getDirectionA();
+		
+		while(canRun) {
+			BusTrip trip = direction.poll();
+			
+			if(trip == null) {
+				canRun = false;
+				break;
+			}
+		}
+		
+		return true;
+	}
 }
