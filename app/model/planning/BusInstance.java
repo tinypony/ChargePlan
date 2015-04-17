@@ -1,4 +1,4 @@
-package model.calculation;
+package model.planning;
 
 import model.planning.solutions.ElectricBus;
 import model.planning.solutions.IConsumptionProfile;
@@ -17,6 +17,10 @@ public class BusInstance {
 		return this.type;
 	}
 	
+	public double getBatteryState() {
+		return this.batteryState;
+	}
+	
 	/**
 	 * Decreases battery state according to the amount of meters driven and consumption (kWh/km)
 	 * @param meters
@@ -31,6 +35,20 @@ public class BusInstance {
 			throw new IllegalStateException("Battery run empty, oops");
 		}
 		return batteryState;
+	}
+
+	//time spent charging
+	public int charge(int chargingTimeSeconds, double power) {
+		double maxTransfered = power * chargingTimeSeconds / (60*60);
+		
+		if(this.batteryState + maxTransfered <= this.getType().getCapacity()) {
+			this.batteryState += maxTransfered;
+			return chargingTimeSeconds;
+		} else {
+			double required = this.type.getCapacity() - this.batteryState;
+			this.batteryState = this.getType().getCapacity();
+			return (int) Math.round( required * (60*60)/ (power) );
+		}
 	}
 	
 }

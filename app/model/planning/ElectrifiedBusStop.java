@@ -45,6 +45,11 @@ public class ElectrifiedBusStop extends BusStop {
 		// TODO Auto-generated method stub
 		return super.isLast();
 	}
+
+	public BusChargerInstance getCharger(String arrival, int chargingTimeSeconds) {
+		// TODO Auto-generated method stub
+		return this.chargers.get(0);
+	}
 	
 	
 }

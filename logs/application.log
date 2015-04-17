@@ -28,3 +28,9 @@ Data has been parsed
 2015-04-16 11:20:14,656 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
 Data has been imported
 
+2015-04-17 12:14:46,815 - [INFO] - from application in pool-4-thread-2 
+Application shutdown...
+
+2015-04-17 12:14:48,447 - [INFO] - from play in pool-4-thread-2 
+Shutdown application default Akka system.
+
