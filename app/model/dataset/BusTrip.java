@@ -3,6 +3,7 @@ package model.dataset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -17,7 +18,7 @@ import com.mongodb.BasicDBObject;
 import org.mongodb.morphia.annotations.*;
 
 @Entity("trips")
-public class BusTrip /*implements Jsonable, Mongoable*/ {
+public class BusTrip implements Comparable<BusTrip> {
 	@Id
 	ObjectId id;
 	private String serviceId;
@@ -204,7 +205,6 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	public void setTrnsmode(String trnsMode) {
 		this.trnsMode = trnsMode;
 	}
-
 	
 	@JsonIgnore
 	public BusRoute getRouteRef() {
@@ -232,6 +232,25 @@ public class BusTrip /*implements Jsonable, Mongoable*/ {
 	public void setNumOfStops(int numOfStops) {
 		this.numOfStops = numOfStops;
 	}
-	
-	
+
+	@Override
+	public int compareTo(BusTrip arg0) {
+		List<ScheduleStop> myStops = this.getStops();
+		List<ScheduleStop> theirStops = arg0.getStops();
+		
+		String thisArrival = myStops.get(0).getArrival();
+		String theirArrival = theirStops.get(0).getArrival();
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(thisArrival.substring(0, 2), 10));
+		cal.set(Calendar.MINUTE, Integer.parseInt(thisArrival.substring(2, 4), 10));
+		cal.set(Calendar.SECOND, 0);
+		Date thisArrivalDate = cal.getTime();
+		
+		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(theirArrival.substring(0, 2), 10));
+		cal.set(Calendar.MINUTE, Integer.parseInt(theirArrival.substring(2, 4), 10));
+		cal.set(Calendar.SECOND, 0);
+		Date theirArrivalDate = cal.getTime();
+		
+		return thisArrivalDate.compareTo(theirArrivalDate);
+	}
 }

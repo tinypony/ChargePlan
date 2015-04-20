@@ -3,8 +3,11 @@ package controllers;
 import java.util.List;
 
 import model.dataset.BusTrip;
+import model.planning.BusInstance;
 import model.planning.PlanningProject;
 
+import org.emn.calculate.StaticConsumptionProfile;
+import org.emn.plan.RouteSimulationModel;
 import org.emn.plan.SimpleBusScheduler;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
@@ -13,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import configuration.emn.route.DistanceRetriever;
 import dto.message.client.SimulationRequest;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -34,6 +38,13 @@ public class SimulationController extends Controller {
 		List<BusTrip> trips = tripsQ.asList();
 		
 		SimpleBusScheduler scheduler = new SimpleBusScheduler();
+		scheduler.schedule(trips);
+		StaticConsumptionProfile profile = new StaticConsumptionProfile();
+		profile.setConsumption(2.0);
+		RouteSimulationModel simModel = new RouteSimulationModel( profile, new BusInstance(simreq.getBusType()));
+		simModel.setElectrifiedStops(proj.getStops());
+		simModel.setDistanceManager(new DistanceRetriever());
+		simModel.setDirections(scheduler.getDirectionA(), scheduler.getDirectionB());
 		
 		return ok();
 	}

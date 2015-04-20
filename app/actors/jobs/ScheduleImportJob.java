@@ -318,7 +318,6 @@ public class ScheduleImportJob extends UntypedActor {
 		if (msg instanceof StartImportMessage) {
 			this.runJob();
 		}
-
 	}
 
 }
