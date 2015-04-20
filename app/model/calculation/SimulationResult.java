@@ -8,7 +8,7 @@ public class SimulationResult {
 	private List<BatteryStateEntry> batteryHistory;
 	
 	public SimulationResult() {
-		setBatteryHistory(new ArrayList<BatteryStateEntry>());
+		this.setBatteryHistory(new ArrayList<BatteryStateEntry>());
 	}
 
 	public boolean isSurvived() {

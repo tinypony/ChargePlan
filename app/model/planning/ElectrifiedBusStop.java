@@ -1,7 +1,9 @@
 package model.planning;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Transient;
@@ -16,8 +18,11 @@ public class ElectrifiedBusStop extends BusStop {
 	@Embedded
 	private List<BusChargerInstance> chargers;
 	
+	private Map<String, Integer> chargingTimes;
+	
 	public ElectrifiedBusStop () {
 		chargers = new ArrayList<BusChargerInstance>();
+		chargingTimes = new HashMap<String, Integer>();
 	}
 
 	public List<BusChargerInstance> getChargers() {
@@ -49,6 +54,14 @@ public class ElectrifiedBusStop extends BusStop {
 	public BusChargerInstance getCharger(String arrival, int chargingTimeSeconds) {
 		// TODO Auto-generated method stub
 		return this.chargers.get(0);
+	}
+
+	public Map<String, Integer> getChargingTimes() {
+		return chargingTimes;
+	}
+
+	public void setChargingTimes(Map<String, Integer> chargingTimes) {
+		this.chargingTimes = chargingTimes;
 	}
 	
 	

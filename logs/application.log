@@ -34,3 +34,12 @@ Application shutdown...
 2015-04-17 12:14:48,447 - [INFO] - from play in pool-4-thread-2 
 Shutdown application default Akka system.
 
+2015-04-17 17:23:39,848 - [INFO] - from application in play-internal-execution-context-109 
+Found ruter
+
+2015-04-17 17:23:39,890 - [INFO] - from application in play-internal-execution-context-109 
+Found existing projects
+
+2015-04-17 17:23:39,891 - [INFO] - from play in play-internal-execution-context-109 
+Application started (Dev)
+

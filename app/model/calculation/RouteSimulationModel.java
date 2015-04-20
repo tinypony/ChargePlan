@@ -1,7 +1,11 @@
 package model.calculation;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Queue;
+
+import scala.util.control.Exception.Finally;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -83,14 +87,15 @@ public class RouteSimulationModel {
 		this.consumptionProfile = consumptionProfile;
 	}
 
-	public boolean simulate() {
+	public SimulationResult simulate() {
 		boolean canRun = true;
 		Queue<BusTrip> direction = this.getDirectionA();
 		SimulationResult result = new SimulationResult();
 		
 		ScheduleStop previousStop = null;
 		ScheduleStop currentStop = null;
-		boolean endStop = true;
+		int directionIdx = 0;
+		Calendar cal = Calendar.getInstance();
 		
 		while(canRun) {
 			BusTrip trip = direction.poll();
@@ -98,43 +103,78 @@ public class RouteSimulationModel {
 			if(trip == null) {
 				canRun = false;
 				break;
-			}
+			} 
 			
 			List<ScheduleStop> tripStops = trip.getStops();
 			
 			for(int i=0; i<tripStops.size(); i++) {
+				System.out.println("stop "+i);
 				if(i != 0) {
 					previousStop = currentStop;
+				} else {
+					previousStop = null;
 				}
 
 				currentStop = tripStops.get(i);
+				String arrivalTime = currentStop.getArrival();
+				double batteryState;
 				
-				if(currentStop!=null && previousStop != null) {
+				if( currentStop != null && previousStop != null ) {
 					int meters = this.getDistance(previousStop, currentStop);
 					double consumption = this.consumptionProfile.getConsumption(bus.getType(), null);
-					double batteryState = this.bus.drive(meters, consumption);
-					String arrivalTime = currentStop.getArrival();
-					result.addBatteryStateEntry(new BatteryStateEntry(batteryState, arrivalTime));
 					
+					try {
+						this.bus.drive(meters, consumption);
+					} catch(IllegalStateException e) {
+						result.addBatteryStateEntry(new BatteryStateEntry(this.bus.getBatteryState(), arrivalTime, currentStop.getStopId()));
+						result.setSurvived(false);
+						return result;
+					} finally {
+						result.addBatteryStateEntry(new BatteryStateEntry(this.bus.getBatteryState(), arrivalTime, currentStop.getStopId()));
+					}
 				}
 				
-				ElectrifiedBusStop elStop = this.getElectrified(currentStop.getStopId());
-				
-				if(elStop != null) {
-					int chargingTimeSeconds = this.getChargingTime(elStop);
-					BusCharger chargerType = elStop.getCharger(currentStop.getArrival(), chargingTimeSeconds).getType();
-					this.bus.charge(chargingTimeSeconds, chargerType.getPower());
+				if(i != 0) {
+					ElectrifiedBusStop elStop = this.getElectrified(currentStop.getStopId());
+					
+					if(elStop != null) {
+						int chargingTimeSeconds = this.getChargingTime(elStop, trip.getRouteId());
+						BusCharger chargerType = elStop.getCharger(currentStop.getArrival(), chargingTimeSeconds).getType();
+						int timeSpentCharging = this.bus.charge(chargingTimeSeconds, chargerType.getPower());
+						batteryState = this.bus.getBatteryState();
+						cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(arrivalTime.substring(0, 2), 10));
+						cal.set(Calendar.MINUTE, Integer.parseInt(arrivalTime.substring(2, 4), 10));
+						cal.set(Calendar.SECOND, 0);
+						cal.add(Calendar.SECOND, timeSpentCharging);
+						
+						result.addBatteryStateEntry(new BatteryStateEntry(batteryState, (new SimpleDateFormat("HHmm")).format(cal.getTime()), currentStop.getStopId()));
+					}
+				} else {
+					result.addBatteryStateEntry(new BatteryStateEntry(this.bus.getBatteryState(), currentStop.getArrival(), currentStop.getStopId()));
 				}
 				
-			}			
+			}
+			
+			directionIdx = (directionIdx + 1) % 2;
+			
+			if(directionIdx == 0) {
+				direction = this.getDirectionA();
+			} else {
+				direction = this.getDirectionB();
+			}
 		}
 		
-		return true;
+		result.setSurvived(true);
+		
+		return result;
 	}
 	
-	private int getChargingTime(ElectrifiedBusStop elStop) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getChargingTime(ElectrifiedBusStop elStop, String routeId) {
+		if(elStop.getChargingTimes().get(routeId) == null) {
+			return 10;
+		} else {
+			return elStop.getChargingTimes().get(routeId);
+		}
 	}
 
 	/**
@@ -144,7 +184,7 @@ public class RouteSimulationModel {
 	 * @return
 	 */
 	private int getDistance(ScheduleStop previousStop, ScheduleStop currentStop) {
-		return 500;
+		return 1000;
 	}
 
 	//Called often, potential optimization place

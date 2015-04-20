@@ -32,6 +32,7 @@ public class BusInstance {
 		batteryState -= kWh;
 		
 		if(batteryState < 0.0){
+			this.batteryState = 0.0;
 			throw new IllegalStateException("Battery run empty, oops");
 		}
 		return batteryState;
