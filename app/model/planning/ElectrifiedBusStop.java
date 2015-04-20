@@ -40,20 +40,17 @@ public class ElectrifiedBusStop extends BusStop {
 	@Override
 	@JsonIgnore
 	public boolean isFirst() {
-		// TODO Auto-generated method stub
 		return super.isFirst();
 	}
 
 	@Override
 	@JsonIgnore
 	public boolean isLast() {
-		// TODO Auto-generated method stub
 		return super.isLast();
 	}
 
 	public BusChargerInstance getCharger(String arrival, int chargingTimeSeconds) {
-		// TODO Auto-generated method stub
-		return this.chargers.get(0);
+				return this.chargers.get(0);
 	}
 
 	public Map<String, Integer> getChargingTimes() {

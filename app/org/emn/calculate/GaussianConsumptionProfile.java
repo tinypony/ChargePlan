@@ -1,7 +1,9 @@
-package model.planning.solutions;
+package org.emn.calculate;
 
 import java.util.Map;
 import java.util.Random;
+
+import model.planning.solutions.ElectricBus;
 
 public class GaussianConsumptionProfile implements IConsumptionProfile {
 	

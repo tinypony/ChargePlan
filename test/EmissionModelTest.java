@@ -1,9 +1,9 @@
+import org.emn.calculate.Euro6EmissionModel;
+import org.emn.calculate.IEmissionModel;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import model.calculation.Euro6EmissionModel;
-import model.calculation.IEmissionModel;
 import model.dataset.BusRoute;
 import model.dataset.DayStat;
 

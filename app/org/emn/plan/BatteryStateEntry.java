@@ -1,4 +1,4 @@
-package model.calculation;
+package org.emn.plan;
 
 public class BatteryStateEntry {
 

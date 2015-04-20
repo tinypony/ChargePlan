@@ -201,7 +201,7 @@ public class ScheduleImportJob extends UntypedActor {
 	public void resolveLengths(ScheduleImportJobState state2) throws IOException, InterruptedException {
 		Datastore ds = MongoUtils.ds();
 		DBCollection coll = ds.getCollection(BusTrip.class);
-		
+		DistanceRetriever retriever = new DistanceRetriever();
 		AggregationPipeline<BusTrip, BusTripGroup> ap = createRouteGrouping(); 
 		MorphiaIterator<BusTripGroup, BusTripGroup> iterator = ap.aggregate(BusTripGroup.class);
 		
@@ -215,7 +215,7 @@ public class ScheduleImportJob extends UntypedActor {
 
 			try {
 				List<ScheduleStop> stops = oneTrip.getStops();
-				lengthInMeters = DistanceRetriever.getRouteLength(stops);
+				lengthInMeters = retriever.getRouteLength(stops);
 			} catch (IllegalStateException e) { // results from exceeding
 												// google api request quota,
 												// try to use hashed

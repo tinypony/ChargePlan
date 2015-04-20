@@ -1,15 +1,18 @@
-package model.calculation;
+package org.emn.plan;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Queue;
 
+import org.emn.calculate.IConsumptionProfile;
+
 import scala.util.control.Exception.Finally;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
+import configuration.emn.route.StopsDistanceRetriever;
 import model.dataset.BusTrip;
 import model.dataset.ScheduleStop;
 import model.dataset.StopDistance;
@@ -17,15 +20,14 @@ import model.planning.BusInstance;
 import model.planning.ElectrifiedBusStop;
 import model.planning.solutions.BusCharger;
 import model.planning.solutions.ElectricBus;
-import model.planning.solutions.IConsumptionProfile;
 
 public class RouteSimulationModel {
 
 	private Queue<BusTrip> directionA;
 	private Queue<BusTrip> directionB;
 	private List<ElectrifiedBusStop> electrifiedStops;
-	private List<StopDistance> distances;
 	private BusInstance bus;
+	private StopsDistanceRetriever distanceManager;
 	private IConsumptionProfile consumptionProfile;
 	
 	public RouteSimulationModel(IConsumptionProfile profile, BusInstance bus) {
@@ -61,15 +63,6 @@ public class RouteSimulationModel {
 	public void setElectrifiedStops(List<ElectrifiedBusStop> electrifiedStops) {
 		this.electrifiedStops = electrifiedStops;
 	}
-
-	public List<StopDistance> getDistances() {
-		return distances;
-	}
-
-	public void setDistances(List<StopDistance> distances) {
-		this.distances = distances;
-	}
-
 	
 	public BusInstance getBus() {
 		return bus;
@@ -87,7 +80,7 @@ public class RouteSimulationModel {
 		this.consumptionProfile = consumptionProfile;
 	}
 
-	public SimulationResult simulate() {
+	public SimulationResult simulate() throws Exception {
 		boolean canRun = true;
 		Queue<BusTrip> direction = this.getDirectionA();
 		SimulationResult result = new SimulationResult();
@@ -108,7 +101,6 @@ public class RouteSimulationModel {
 			List<ScheduleStop> tripStops = trip.getStops();
 			
 			for(int i=0; i<tripStops.size(); i++) {
-				System.out.println("stop "+i);
 				if(i != 0) {
 					previousStop = currentStop;
 				} else {
@@ -120,7 +112,7 @@ public class RouteSimulationModel {
 				double batteryState;
 				
 				if( currentStop != null && previousStop != null ) {
-					int meters = this.getDistance(previousStop, currentStop);
+					int meters = this.getDistanceManager().getDistanceBetweenStops(previousStop, currentStop);
 					double consumption = this.consumptionProfile.getConsumption(bus.getType(), null);
 					
 					try {
@@ -177,16 +169,6 @@ public class RouteSimulationModel {
 		}
 	}
 
-	/**
-	 * Returns distance between two consecutive bus stops in meters
-	 * @param previousStop
-	 * @param currentStop
-	 * @return
-	 */
-	private int getDistance(ScheduleStop previousStop, ScheduleStop currentStop) {
-		return 1000;
-	}
-
 	//Called often, potential optimization place
 	public ElectrifiedBusStop getElectrified(final String stopId) {
 		return Iterables.find(this.getElectrifiedStops(), new Predicate<ElectrifiedBusStop>() {
@@ -197,5 +179,13 @@ public class RouteSimulationModel {
 			}
 			
 		}, null);
+	}
+
+	public StopsDistanceRetriever getDistanceManager() {
+		return distanceManager;
+	}
+
+	public void setDistanceManager(StopsDistanceRetriever distanceManager) {
+		this.distanceManager = distanceManager;
 	}
 }

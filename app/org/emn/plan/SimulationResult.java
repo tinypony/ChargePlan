@@ -1,4 +1,4 @@
-package model.calculation;
+package org.emn.plan;
 
 import java.util.ArrayList;
 import java.util.List;

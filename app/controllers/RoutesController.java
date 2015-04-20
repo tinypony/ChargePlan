@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import model.dataset.BusTrip;
-import model.calculation.Euro6EmissionModel;
-import model.calculation.IEmissionModel;
 import model.dataset.BusRoute;
 import model.dataset.DayStat;
 import model.dataset.DetailedBusRoute;
 import model.dataset.RouteDirection;
 import model.dataset.aggregation.BusRouteAggregation;
 
+import org.emn.calculate.Euro6EmissionModel;
+import org.emn.calculate.IEmissionModel;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.AggregationPipeline;
 import org.mongodb.morphia.aggregation.Group;

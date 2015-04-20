@@ -32,13 +32,17 @@ public class ProjectController extends Controller {
 	}
 	
 	public static Result getProject(String projectId) {
+		return ok((new ObjectMapper()).valueToTree(getProjectObject(projectId))).as("application/json");
+	}
+	
+	public static PlanningProject getProjectObject(String projectId) {
 		Datastore ds = MongoUtils.ds();
 		ObjectId id = new ObjectId(projectId);
 		
 		Query<PlanningProject> q = ds.createQuery(PlanningProject.class);
 		q.field("id").equals(id);
 		
-		return ok((new ObjectMapper()).valueToTree(q.get())).as("application/json");
+		return q.get();
 	}
 	
 	public static Result createProject() {

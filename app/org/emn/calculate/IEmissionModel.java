@@ -1,4 +1,4 @@
-package model.calculation;
+package org.emn.calculate;
 
 import java.util.Map;
 

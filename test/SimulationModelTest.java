@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import model.calculation.RouteSimulationModel;
-import model.calculation.SimulationResult;
 import model.dataset.BusTrip;
 import model.dataset.ScheduleStop;
 import model.planning.BusChargerInstance;
@@ -14,10 +12,14 @@ import model.planning.BusInstance;
 import model.planning.ElectrifiedBusStop;
 import model.planning.solutions.BusCharger;
 import model.planning.solutions.ElectricBus;
-import model.planning.solutions.StaticConsumptionProfile;
 
+import org.emn.calculate.StaticConsumptionProfile;
+import org.emn.plan.RouteSimulationModel;
+import org.emn.plan.SimulationResult;
 import org.junit.Before;
 import org.junit.Test;
+
+import configuration.emn.route.StopsDistanceRetriever;
 
 
 public class SimulationModelTest {
@@ -28,6 +30,16 @@ public class SimulationModelTest {
 	Queue<BusTrip> directionB;
 	List<ElectrifiedBusStop> electrifiedStops;
 	StaticConsumptionProfile profile;
+	
+	
+	public class StubDistanceRetriever implements StopsDistanceRetriever {
+
+		@Override
+		public int getDistanceBetweenStops(ScheduleStop a, ScheduleStop b)
+				throws Exception {
+			return 1000;
+		}
+	}
 	
 	@Before
 	public void setUp() throws Exception {
@@ -43,17 +55,16 @@ public class SimulationModelTest {
 		
 		setupDirectionA();
 		
-		
-		
 		profile = new StaticConsumptionProfile();
 		profile.setConsumption(2.0);
 		model = new RouteSimulationModel(profile, bus);
+		model.setDistanceManager(new StubDistanceRetriever());
 		model.setDirections(directionA, directionB);
 		model.setElectrifiedStops(electrifiedStops);
 	}
 
 	@Test
-	public void testSimpleSuccessfulTrip() {
+	public void testSimpleSuccessfulTrip() throws Exception {
 		SimulationResult result = model.simulate();
 		assertTrue(result.isSurvived());
 		assertEquals("1000", result.getBatteryHistory().get(0).getTimestamp());
@@ -70,7 +81,7 @@ public class SimulationModelTest {
 	}
 	
 	@Test
-	public void testRoundSuccessfulTrip() {
+	public void testRoundSuccessfulTrip() throws Exception {
 		setupDirectionB();
 		
 		SimulationResult result = model.simulate();
@@ -109,7 +120,7 @@ public class SimulationModelTest {
 	}
 	
 	@Test
-	public void testSimpleFailedTrip() {
+	public void testSimpleFailedTrip() throws Exception {
 		bus.drive(990, 100);
 		model.setBus(bus);
 		SimulationResult result = model.simulate();
@@ -121,8 +132,6 @@ public class SimulationModelTest {
 		assertEquals("1010", result.getBatteryHistory().get(1).getTimestamp());
 		assertEquals(0, result.getBatteryHistory().get(1).getCharge(), 0.1);
 	}
-	
-	
 	
 	private void setupDirectionA() {
 		BusTrip trip1 = new BusTrip();
