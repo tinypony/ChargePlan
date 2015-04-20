@@ -7,6 +7,7 @@ public class SimulationRequest {
 	private String routeId;
 	private String date;
 	private ElectricBus busType;
+	private int minWaitingTime;
 	
 	public String getRouteId() {
 		return routeId;
@@ -26,6 +27,11 @@ public class SimulationRequest {
 	public void setBusType(ElectricBus busType) {
 		this.busType = busType;
 	}
-	
+	public int getMinWaitingTime() {
+		return this.minWaitingTime;
+	}
+	public void setMinWaitingTime(int val) {
+		this.minWaitingTime = val;
+	}
 	
 }

@@ -38,7 +38,7 @@ public class SimulationController extends Controller {
 		List<BusTrip> trips = tripsQ.asList();
 		
 		SimpleBusScheduler scheduler = new SimpleBusScheduler();
-		scheduler.schedule(trips);
+		scheduler.schedule(trips, simreq.getMinWaitingTime());
 		StaticConsumptionProfile profile = new StaticConsumptionProfile();
 		profile.setConsumption(2.0);
 		RouteSimulationModel simModel = new RouteSimulationModel( profile, new BusInstance(simreq.getBusType()));

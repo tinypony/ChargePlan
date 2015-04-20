@@ -16,7 +16,7 @@ public class SimpleBusScheduler {
 	Queue<BusTrip> dirA;
 	Queue<BusTrip> dirB;
 
-	public void schedule(List<BusTrip> trips) {
+	public void schedule(List<BusTrip> trips, int minWaitingTime) {
 		int first = 0;
 		dirA = new LinkedBlockingQueue<BusTrip>();
 		dirB = new LinkedBlockingQueue<BusTrip>();
@@ -39,14 +39,18 @@ public class SimpleBusScheduler {
 		Collections.sort(trips1);
 		
 		if(trips0.get(0).compareTo(trips1.get(0)) < 0) {
-			this.process(trips0, trips1);
+			this.process(trips0, trips1, minWaitingTime);
 		} else {
-			this.process(trips1, trips0);
+			this.process(trips1, trips0, minWaitingTime);
 		}
 	}
 	
-	private void process(List<BusTrip> tripsA, List<BusTrip> tripsB) {
-		
+	private void process(List<BusTrip> tripsA, List<BusTrip> tripsB, int minWaitingTime) {
+		//pointer0, pointer1
+		//time0, time1
+		//while
+			//for
+			//for
 	}
 
 	public Queue<BusTrip> getDirectionA() {
