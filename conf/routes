@@ -17,6 +17,7 @@ GET		/api/projects					controllers.ProjectController.getProjects()
 GET		/api/projects/:id				controllers.ProjectController.getProject(id: String)
 PUT		/api/projects/:id				controllers.ProjectController.updateProject(id: String)
 PUT		/api/projects/:id/add/charger	controllers.ProjectController.addCharger(id: String)
+POST	/api/projects/:id/simulate		controllers.SimulationController.simulateRoute(id: String)
 
 GET		/api/chargers					controllers.solutions.ChargerController.listChargers()
 POST 	/api/chargers					controllers.solutions.ChargerController.createCharger()

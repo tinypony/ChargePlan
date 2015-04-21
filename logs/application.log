@@ -1,45 +1,12 @@
-2015-04-16 11:14:29,906 - [INFO] - from play in pool-4-thread-2 
+2015-04-21 16:13:09,491 - [INFO] - from play in pool-4-thread-4 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2015-04-16 11:16:35,030 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-21 16:14:32,950 - [INFO] - from application in play-internal-execution-context-1 
 Found ruter
 
-2015-04-16 11:16:36,360 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-21 16:14:34,249 - [INFO] - from application in play-internal-execution-context-1 
 Found existing projects
 
-2015-04-16 11:16:36,374 - [INFO] - from play in play-internal-execution-context-1 
-Application started (Dev)
-
-2015-04-16 11:16:53,916 - [INFO] - from play in play-akka.actor.default-dispatcher-3 
-Starting application default Akka system.
-
-2015-04-16 11:17:21,592 - [INFO] - from application in application-akka.actor.default-dispatcher-2 
-Added new running job, id = 7e6cfc28-a3b3-4705-bac8-7a0f6e0ddf54
-
-2015-04-16 11:17:25,988 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Parsing data
-
-2015-04-16 11:17:56,105 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Data has been parsed
-
-2015-04-16 11:18:30,881 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-124 routes imported
-
-2015-04-16 11:20:14,656 - [INFO] - from application in application-akka.actor.default-dispatcher-3 
-Data has been imported
-
-2015-04-17 12:14:46,815 - [INFO] - from application in pool-4-thread-2 
-Application shutdown...
-
-2015-04-17 12:14:48,447 - [INFO] - from play in pool-4-thread-2 
-Shutdown application default Akka system.
-
-2015-04-17 17:23:39,848 - [INFO] - from application in play-internal-execution-context-109 
-Found ruter
-
-2015-04-17 17:23:39,890 - [INFO] - from application in play-internal-execution-context-109 
-Found existing projects
-
-2015-04-17 17:23:39,891 - [INFO] - from play in play-internal-execution-context-109 
+2015-04-21 16:14:34,278 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 

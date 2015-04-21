@@ -24,6 +24,9 @@ public class SimpleSchedulerTest {
 		allTrips.add(makeBusTrip("0", "1005", "1105"));
 		allTrips.add(makeBusTrip("1", "1105", "1205"));
 		allTrips.add(makeBusTrip("1", "1115", "1215"));
+		allTrips.add(makeBusTrip("1", "1145", "1245"));
+		allTrips.add(makeBusTrip("1", "1215", "1315"));
+		
 	}
 	
 	public BusTrip makeBusTrip(String direction, String first, String last) {

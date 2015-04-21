@@ -9,6 +9,7 @@ import model.planning.PlanningProject;
 import org.emn.calculate.StaticConsumptionProfile;
 import org.emn.plan.RouteSimulationModel;
 import org.emn.plan.SimpleBusScheduler;
+import org.emn.plan.SimulationResult;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -24,7 +25,7 @@ import utils.MongoUtils;
 
 public class SimulationController extends Controller {
 
-	public static Result simulateRoute(String projectId) throws JsonProcessingException {
+	public static Result simulateRoute(String projectId) throws Exception {
 		ObjectMapper om = new ObjectMapper();	
 		JsonNode bodyJson = request().body().asJson();
 		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
@@ -39,13 +40,15 @@ public class SimulationController extends Controller {
 		
 		SimpleBusScheduler scheduler = new SimpleBusScheduler();
 		scheduler.schedule(trips, simreq.getMinWaitingTime());
+		
 		StaticConsumptionProfile profile = new StaticConsumptionProfile();
 		profile.setConsumption(2.0);
+		
 		RouteSimulationModel simModel = new RouteSimulationModel( profile, new BusInstance(simreq.getBusType()));
 		simModel.setElectrifiedStops(proj.getStops());
 		simModel.setDistanceManager(new DistanceRetriever());
 		simModel.setDirections(scheduler.getDirectionA(), scheduler.getDirectionB());
-		
-		return ok();
+		SimulationResult result = simModel.simulate();
+		return ok(om.valueToTree(result));
 	}
 }
