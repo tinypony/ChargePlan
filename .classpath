@@ -135,6 +135,6 @@
   <classpathentry kind="lib" path="/home/tinypony/.ivy2/cache/org.easytesting/fest-util/jars/fest-util-1.1.6.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="output" path="bin"/>
-  <classpathentry path="/home/tinypony/EMN/ChargePlan/target/scala-2.11/classes_managed" kind="lib"></classpathentry>
+  <classpathentry path="/home/tinypony/EMN/charge-plan/target/scala-2.11/classes_managed" kind="lib"></classpathentry>
   <classpathentry path="/home/tinypony/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.1.jar" kind="lib"></classpathentry>
 </classpath>

@@ -1,15 +1,20 @@
 package org.emn.plan;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import utils.DateUtils;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import model.dataset.BusTrip;
+import model.dataset.ScheduleStop;
 
 public class SimpleBusScheduler {
 	
@@ -47,19 +52,85 @@ public class SimpleBusScheduler {
 	
 	private void process(List<BusTrip> tripsA, List<BusTrip> tripsB, int minWaitingTime) {
 		//pointer0, pointer1
+		int pA = 0, pB = 0;
 		//time0, time1
-		//while
-			//for
-			//for
+		Calendar calA = Calendar.getInstance();
+		Calendar calB = Calendar.getInstance();
+		
+		calA.set(Calendar.HOUR_OF_DAY, 0);
+		calA.set(Calendar.MINUTE, 0);
+		calA.set(Calendar.SECOND, 0);
+		
+		calB.set(Calendar.HOUR_OF_DAY, 0);
+		calB.set(Calendar.MINUTE, 0);
+		calB.set(Calendar.SECOND, 0);
+		
+		boolean hasConsecutiveTrips = true;
+		Calendar candidateTime = Calendar.getInstance();
+		
+		whileloop:
+		while(hasConsecutiveTrips) {
+			if(pA >= tripsA.size() || pB >= tripsB.size()) {
+				hasConsecutiveTrips = false;
+				break whileloop;
+			}
+			
+			for(; pA < tripsA.size(); pA++) {
+				BusTrip candidateA = tripsA.get(pA);
+				
+				List<ScheduleStop> stopsA = candidateA.getStops();
+				ScheduleStop firstStop = stopsA.get(0);
+				candidateTime = DateUtils.stringToCalendar(firstStop.getArrival());
+				
+				if(candidateTime.compareTo(calA) >= 0) {
+					dirA.add(candidateA);
+					Calendar tripLastStopTime = DateUtils.stringToCalendar(stopsA.get(stopsA.size() - 1).getArrival());
+					tripLastStopTime.add(Calendar.MINUTE, minWaitingTime);
+
+					calB.set(Calendar.HOUR_OF_DAY, tripLastStopTime.get(Calendar.HOUR_OF_DAY));
+					calB.set(Calendar.MINUTE, tripLastStopTime.get(Calendar.MINUTE));
+					calB.set(Calendar.SECOND, 0);
+					pA++;
+					break;
+				} 
+				
+				if (pA >= tripsA.size() - 1) {
+					hasConsecutiveTrips = false;
+					break whileloop;
+				}
+			}
+			
+			for(; pB<tripsB.size(); pB++) {
+				BusTrip candidateB = tripsB.get(pB);
+				List<ScheduleStop> stopsB = candidateB.getStops();
+				ScheduleStop firstStop = stopsB.get(0);
+				candidateTime = DateUtils.stringToCalendar(firstStop.getArrival());
+				
+				if(candidateTime.compareTo(calB) >= 0) {
+					dirB.add(candidateB);
+					Calendar tripLastStopTime = DateUtils.stringToCalendar(stopsB.get(stopsB.size() - 1).getArrival());
+					tripLastStopTime.add(Calendar.MINUTE, minWaitingTime);
+					
+					calA.set(Calendar.HOUR_OF_DAY, tripLastStopTime.get(Calendar.HOUR_OF_DAY));
+					calA.set(Calendar.MINUTE, tripLastStopTime.get(Calendar.MINUTE));
+					calA.set(Calendar.SECOND, 0);
+					pB++;
+					break;
+				}
+				
+				if (pB >= tripsA.size() - 1) {
+					hasConsecutiveTrips = false;
+					break whileloop;
+				}
+			}
+		}
 	}
 
 	public Queue<BusTrip> getDirectionA() {
-		// TODO Auto-generated method stub
 		return this.dirA;
 	}
 
 	public Queue<BusTrip> getDirectionB() {
-		// TODO Auto-generated method stub
 		return this.dirB;
 	}
 }
