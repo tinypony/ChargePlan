@@ -1,0 +1,44 @@
+<div>
+	{{#if charger}}
+	<h5>Charger specifications</h5>
+	<div class="details-table">
+		<div class="details-entry">
+			<div class="details-type">Model</div>
+			<div class="details-value">{{charger.model}}</div>
+		</div>
+		<div class="details-entry">
+			<div class="details-type">Power</div>
+			<div class="details-value">{{charger.power}} kW</div>
+		</div>
+	
+		<div class="details-entry">
+			<div class="details-type">Voltage</div>
+			<div class="details-value">480 V</div>
+		</div>
+		
+		<div class="details-entry">
+			<div class="details-type">Connection type</div>
+			<div class="details-value">Pantograph</div>
+		</div>
+	</div>
+	
+	<h5>Charging</h5>
+	<label>Charging time</label>
+	<input name="chargingTime" type="number"/>
+	
+	<label>Charging strategy</label>
+	<div class="radio">
+      <label>
+        <input type="radio" name="strategy" id="optionsRadios1" value="0" checked="checked">
+        End stop charging
+      </label>
+    </div>
+    
+	<div class="radio">
+      <label>
+        <input type="radio" name="strategy" id="optionsRadios2" value="1">
+        Custom strategy
+      </label>
+    </div>
+	{{/if}}
+</div>

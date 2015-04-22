@@ -30,6 +30,9 @@ public class RouteSimulationModel {
 	private StopsDistanceRetriever distanceManager;
 	private IConsumptionProfile consumptionProfile;
 	
+	public static final int DEFAULT_END_STOP_CHARGING_TIME = 600;
+	public static final int DEFAULT_STOP_CHARGING_TIME = 10;
+	
 	public RouteSimulationModel(IConsumptionProfile profile, BusInstance bus) {
 		this.consumptionProfile = profile;
 		this.bus = bus;
@@ -130,7 +133,7 @@ public class RouteSimulationModel {
 					ElectrifiedBusStop elStop = this.getElectrified(currentStop.getStopId());
 					
 					if(elStop != null) {
-						int chargingTimeSeconds = this.getChargingTime(elStop, trip.getRouteId());
+						int chargingTimeSeconds = this.getChargingTime(elStop, trip.getRouteId(), i == tripStops.size() - 1);
 						BusCharger chargerType = elStop.getCharger(currentStop.getArrival(), chargingTimeSeconds).getType();
 						int timeSpentCharging = this.bus.charge(chargingTimeSeconds, chargerType.getPower());
 						batteryState = this.bus.getBatteryState();
@@ -161,9 +164,10 @@ public class RouteSimulationModel {
 		return result;
 	}
 	
-	public int getChargingTime(ElectrifiedBusStop elStop, String routeId) {
+	public int getChargingTime(ElectrifiedBusStop elStop, String routeId, boolean isEndStop) {
 		if(elStop.getChargingTimes().get(routeId) == null) {
-			return 10;
+			if(isEndStop)	return DEFAULT_END_STOP_CHARGING_TIME;
+			else			return DEFAULT_STOP_CHARGING_TIME;
 		} else {
 			return elStop.getChargingTimes().get(routeId);
 		}

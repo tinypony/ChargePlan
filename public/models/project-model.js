@@ -42,6 +42,18 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
       }).done(function(){
         self.fetch();
       });
+    },
+    
+    updateStop: function(opts) {
+      var self = this;
+      
+      $.ajax('/api/projects/'+this.id+'/update/stop', {
+        method: 'PUT',
+        data: JSON.stringify(opts),
+        contentType: "application/json",
+      }).done(function(){
+        self.fetch();
+      });
     }
   });
 

@@ -39,7 +39,7 @@ public class SimulationController extends Controller {
 		List<BusTrip> trips = tripsQ.asList();
 		
 		SimpleBusScheduler scheduler = new SimpleBusScheduler();
-		scheduler.schedule(trips, simreq.getMinWaitingTime());
+		scheduler.schedule(trips, proj.getStops());
 		
 		StaticConsumptionProfile profile = new StaticConsumptionProfile();
 		profile.setConsumption(2.0);

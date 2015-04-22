@@ -15,6 +15,7 @@ define(['jquery',
       this.chargers = opts.chargers;
       this.stop = opts.stop;
       this.project = opts.project;
+      this.routeId = opts.routeId;
     },
     
     addChargerToStop: function() {
@@ -39,11 +40,11 @@ define(['jquery',
         showClose: true,
         clickHandlers: {
           'primary': function(ev) {
-            _.each(self.chargersToAdd, function(chargId) {
-              self.project.addCharger({
-                chargerType: chargId,
-                stop: self.stop.stopId
-              })
+            self.project.updateStop({
+              stop: self.stop.stopId,
+              route: self.routeId,
+              chargersToAdd: self.chargersToAdd,
+              minChargingTime: self.$('.min-charging-time').val()
             });
             dialog.close();
           }

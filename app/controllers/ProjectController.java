@@ -83,7 +83,53 @@ public class ProjectController extends Controller {
 		
 		ds.save(project);
 		return ok("added");
+	}
+	
+	public static Result updateStop(String projectId) throws JsonProcessingException {
+		Datastore ds = MongoUtils.ds();
+		ObjectMapper om = new ObjectMapper();
+		JsonNode bodyJson = request().body().asJson();
+		String routeId = bodyJson.get("route").asText();
+		String stopId = bodyJson.get("stop").asText();
+		List<String> chargersToAdd = om.treeToValue(bodyJson.get("chargersToAdd"), List.class);
+		int minChargingTime = bodyJson.get("minChargingTime").asInt();		
 		
+		ObjectId id = new ObjectId(projectId);
+		
+		Query<PlanningProject> q = ds.createQuery(PlanningProject.class);
+		q.field("id").equals(id);
+		PlanningProject project = q.get();
+		
+		ElectrifiedBusStop stop = project.getElectrifiedStop(stopId);
+		
+		if(stop == null) {
+			stop = new ElectrifiedBusStop();
+			BusStop plainStop = StopsController.getStopModel(stopId);
+			stop.setStopId(plainStop.getStopId());
+			stop.setName(plainStop.getName());
+			stop.setX(plainStop.getX());
+			stop.setY(plainStop.getY());
+			project.addStop(stop);
+		}
+		
+		if(chargersToAdd != null) {
+			Logger.info(""+chargersToAdd.size());
+			for(String chargerId: chargersToAdd) {
+				Logger.info(chargerId);
+				stop.addCharger(getChargerInstance(chargerId));
+			}
+		}
+		
+		stop.getChargingTimes().put(routeId, minChargingTime);
+		ds.save(project);
+		return ok("updated");
+	}
+	
+	public static BusChargerInstance getChargerInstance(String chargerId) {
+		BusCharger chargerType = ChargerController.getChargerModel(chargerId);
+		BusChargerInstance chargerInstance = new BusChargerInstance();
+		chargerInstance.setType(chargerType);
+		return chargerInstance;
 	}
 	
 

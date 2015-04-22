@@ -18,7 +18,7 @@ public class ElectrifiedBusStop extends BusStop {
 	@Embedded
 	private List<BusChargerInstance> chargers;
 	
-	private Map<String, Integer> chargingTimes;
+	private Map<String, Integer> chargingTimes; // tuple (routeId, charging time in seconds) 
 	
 	public ElectrifiedBusStop () {
 		chargers = new ArrayList<BusChargerInstance>();
@@ -55,6 +55,10 @@ public class ElectrifiedBusStop extends BusStop {
 
 	public Map<String, Integer> getChargingTimes() {
 		return chargingTimes;
+	}
+		
+	public Integer getChargingTime(String routeId) {
+		return chargingTimes.get(routeId);
 	}
 
 	public void setChargingTimes(Map<String, Integer> chargingTimes) {

@@ -3,51 +3,99 @@
 	<h2>Route {{route.name}}</h2>
 
 	<div class="defaults-selection">
-		<div class="form-group">
-			<div class="col-lg-5">
-				<label for="bus-select" class="col-lg-4 control-label">Default bus</label>
-				<div class="col-lg-5">
-					<select class="form-control" id="bus-select">
-						<option>Linkker bus</option>
-						<option>Ebusco city explorer</option>
-						<option>BYD battery on wheels</option>
-						<option>Chinese Capabus</option>
-					</select> 
+		<h4>Route details</h4>
+		<div class="accordion-body route-details-body">
+			<div class="route-details-table">
+				<div class="details-entry">
+					<div class="details-type">Total km driven/Day:</div>
+					<div class="details-value">200.7km</div>
+				</div>
+				<div class="details-entry">
+					<div class="details-type">Estimated travel time:</div>
+					<div class="details-value">30 min</div>
+				</div>
+				<div class="details-entry">
+					<div class="details-type">Route length:</div>
+					<div class="details-value">20km</div>
+				</div>
+				<div class="details-entry">
+					<div class="details-type">Departures/Day:</div>
+					<div class="details-value">117</div>
+				</div>
+				<div class="details-entry">
+					<div class="details-type">Stops</div>
+					<div class="details-value">30</div>
 				</div>
 			</div>
-			<div class="col-lg-5">
-				<label for="charger-select" class="col-lg-4 control-label">Default charger</label>
-				<div class="col-lg-5">
-					<select class="form-control" id="charger-select">
-						<option>Siemens 2K</option>
-						<option>Opbrid 600</option>
-						<option>ABB flash bang</option>
-						<option>BYD electrocution</option>
-					</select>
+			<div class="route-details-table">	
+				<div class="details-entry">
+					<div class="details-type">CO2 emissions/Day:</div>
+					<div class="details-value">19000kg</div>
+				</div>
+				<div class="details-entry">
+					<div class="details-type">CO emissions/Day:</div>
+					<div class="details-value">19kg</div>
+				</div>
+				<div class="details-entry">
+					<div class="details-type">NOx emissions/Day:</div>
+					<div class="details-value">5kg</div>
 				</div>
 			</div>
+			<div id="route-map-view" class="route-map-view"></div>
 		</div>
 	</div>
-	
-	<div class="date-selection">
-		<div class="form-group">
-			<div class="col-lg-5">
-				<label for="route-date" class="col-lg-4 control-label">Select date</label>
-				<input type="text" id="route-date"/>
-			</div>
-		</div>
-	</div>
-	
-	<div class="route-path-visualization">
-		<h2>Visuaize route</h2>
-	</div>
+
 	<div class="simulation-parameters">
-		<h2>Simulation parameters</h2>
+		<h4>Simulation parameters</h4>
+
+		<div class="accordion-body">
+			<div class="notification-well well">
+				<i class="fa fa-exclamation-triangle fa-5x"></i>
+				<div class="notification-text">
+					<h5>This route has not been simulated yet!</h5>
+					<p>The first step to start simulating your route is to choose and add an electric bus to your simulation</p>
+				</div>
+			</div>
+			
+			<div class="date-selection">
+				<div class="form-group">
+					
+						<label for="route-date" class="col-lg-4 control-label">Select date</label> <input type="text" id="route-date" />
+				
+				</div>
+			</div>
+			
+			<div class="equip-selection">
+				<div class="well">
+					<select class="bus-select">
+						<option value="-1">Select a bus</option>
+						{{#each buses}}
+							<option value="{{this.id}}">{{this.model}}</option>
+						{{/each}}
+					</select>
+					<div class="bus-details"></div>
+<!-- 					<i class="fa fa-bus fa-4x"></i> -->
+<!-- 					ADD ELECTRIC BUS -->
+				</div>
+				
+				<div class="route-path-visualization"></div>
+			</div>
+				
+<!-- 				<div class="well"> -->
+<!-- 					<select class="charger-select"> -->
+<!-- 						<option value="-1">Select a charger</option> -->
+<!-- 						{{#each chargers}} -->
+<!-- 							<option value="{{this.id}}">{{this.model}}</option> -->
+<!-- 						{{/each}} -->
+<!-- 					</select> -->
+<!-- 					<div class="charger-details"></div> -->
+<!-- <!-- 					<i class="fa fa-flash fa-4x"></i> -->
+<!-- <!-- 					ADD CHARGERS -->
+<!-- 				</div> -->
+		</div>
 	</div>
-	<div>
-		<h2>Simulation results</h2>
-	</div>
-	<div>
-		<h2>Simulation history</h2>
+	<div class="simulation-results">
+		<h4>Simulation result</h4>
+		<div id="simulation-result-chart" class="simulation-result-chart"></div>
 	</div>
 </div>

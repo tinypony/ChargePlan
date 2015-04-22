@@ -2,10 +2,67 @@
 	padding-top: 10px;
 	padding-left: 30px;
   	padding-right: 30px;
-  
+  	padding-bottom: 40px;
+  	
 	.defaults-selection {
 		.form-group {
 			display: flex;
 		}
-	}
+		
+		.route-details-body {
+			display: flex;
+			justify-content: space-between;
+			
+			.route-details-table {
+				margin-bottom: 20px;
+				
+				.details-entry {
+					display: table-row;
+					
+					> * {
+						display: table-cell;
+					}
+					
+					> .details-type {
+						padding-right: 30px;
+					}
+					
+					&.last {
+						margin-bottom: 20px;
+					}
+				}
+			}
+			
+			#route-map-view {
+				height: 240px;
+				width: 600px;
+				background-image: url('https://www.somersethouse.org.uk/images/mi/visit/map.jpg');
+			}
+		}		
+		
+
+	}	
+	
+		.simulation-parameters {
+			.notification-well {
+				display: flex;
+				i {
+					margin-right: 40px;
+				}
+			}
+			
+			.equip-selection {
+				display: flex;
+				
+				.well {
+				  width: 400px;
+				  height: 300px;
+				  cursor: pointer;
+				}
+				
+				.route-path-visualization {
+					width: 100%;
+				}
+			}
+		}
 }

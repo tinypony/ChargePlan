@@ -69,7 +69,8 @@ define([ 'jquery',
       var stopDetails = new StopDetails({
         stop: electrifiedStop,
         chargers: this.chargers,
-        project: this.project
+        project: this.project,
+        routeId: this.route.routeId
       });
       
       stopDetails.render();
@@ -160,8 +161,8 @@ define([ 'jquery',
       this.$el.empty();
       var offset = {
         left : 70,
-        right : 40,
-        top : 50,
+        right : 10,
+        top : 70,
         bottom : 20
       };
 

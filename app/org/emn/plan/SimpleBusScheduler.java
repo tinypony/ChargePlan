@@ -14,13 +14,24 @@ import com.google.common.collect.Lists;
 
 import model.dataset.BusTrip;
 import model.dataset.ScheduleStop;
+import model.planning.ElectrifiedBusStop;
 
 public class SimpleBusScheduler {
 	
 	Queue<BusTrip> dirA;
 	Queue<BusTrip> dirB;
+	int minWaitingTime;
+	public static final int DEFAULT__END_STOP_WAITING_TIME = 600;
+	
+	public SimpleBusScheduler() {
+		this(DEFAULT__END_STOP_WAITING_TIME);
+	}
+	
+	public SimpleBusScheduler(int minWaitingTime) {
+		this.minWaitingTime = minWaitingTime;
+	}
 
-	public void schedule(List<BusTrip> trips, int minWaitingTime) {
+	public void schedule(List<BusTrip> trips, List<ElectrifiedBusStop> eStops) {
 		int first = 0;
 		dirA = new LinkedBlockingQueue<BusTrip>();
 		dirB = new LinkedBlockingQueue<BusTrip>();
@@ -43,13 +54,13 @@ public class SimpleBusScheduler {
 		Collections.sort(trips1);
 		
 		if(trips0.get(0).compareTo(trips1.get(0)) < 0) {
-			this.process(trips0, trips1, minWaitingTime);
+			this.process(trips0, trips1, eStops);
 		} else {
-			this.process(trips1, trips0, minWaitingTime);
+			this.process(trips1, trips0, eStops);
 		}
 	}
 	
-	private void process(List<BusTrip> tripsA, List<BusTrip> tripsB, int minWaitingTime) {
+	private void process(List<BusTrip> tripsA, List<BusTrip> tripsB, List<ElectrifiedBusStop> eStops) {
 		//pointer0, pointer1
 		int pA = 0, pB = 0;
 		//time0, time1
@@ -83,8 +94,10 @@ public class SimpleBusScheduler {
 				
 				if(candidateTime.compareTo(calA) >= 0) {
 					dirA.add(candidateA);
-					Calendar tripLastStopTime = DateUtils.stringToCalendar(stopsA.get(stopsA.size() - 1).getArrival());
-					tripLastStopTime.add(Calendar.MINUTE, minWaitingTime);
+					ScheduleStop lastStop = stopsA.get(stopsA.size() - 1);
+					Calendar tripLastStopTime = DateUtils.stringToCalendar(lastStop.getArrival());
+					int chargingTime = this.getChargingTime(candidateA.getRouteId(), lastStop, eStops);
+					tripLastStopTime.add(Calendar.SECOND, chargingTime);
 
 					calB.set(Calendar.HOUR_OF_DAY, tripLastStopTime.get(Calendar.HOUR_OF_DAY));
 					calB.set(Calendar.MINUTE, tripLastStopTime.get(Calendar.MINUTE));
@@ -106,9 +119,11 @@ public class SimpleBusScheduler {
 				candidateTime = DateUtils.stringToCalendar(firstStop.getArrival());
 				
 				if(candidateTime.compareTo(calB) >= 0) {
-					dirB.add(candidateB);
-					Calendar tripLastStopTime = DateUtils.stringToCalendar(stopsB.get(stopsB.size() - 1).getArrival());
-					tripLastStopTime.add(Calendar.MINUTE, minWaitingTime);
+					dirB.add(candidateB);ScheduleStop lastStop = stopsB.get(stopsB.size() - 1);
+					Calendar tripLastStopTime = DateUtils.stringToCalendar(lastStop.getArrival());
+					
+					int chargingTime = this.getChargingTime(candidateB.getRouteId(), lastStop, eStops);
+					tripLastStopTime.add(Calendar.SECOND, chargingTime);
 					
 					calA.set(Calendar.HOUR_OF_DAY, tripLastStopTime.get(Calendar.HOUR_OF_DAY));
 					calA.set(Calendar.MINUTE, tripLastStopTime.get(Calendar.MINUTE));
@@ -122,6 +137,24 @@ public class SimpleBusScheduler {
 					break whileloop;
 				}
 			}
+		}
+	}
+
+	private int getChargingTime(String routeId, final ScheduleStop lastStop,
+			List<ElectrifiedBusStop> eStops) {
+		ElectrifiedBusStop electrifiedStop = Iterables.find(eStops, new Predicate<ElectrifiedBusStop>() {
+
+			@Override
+			public boolean apply(ElectrifiedBusStop arg0) {
+				return arg0.getStopId().equals(lastStop.getStopId()); 
+			}
+			
+		}, null);
+		
+		if(electrifiedStop == null || electrifiedStop.getChargingTime(routeId) == null) {
+			return this.minWaitingTime;
+		} else {
+			return electrifiedStop.getChargingTime(routeId);
 		}
 	}
 
