@@ -50,7 +50,7 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
       $.ajax('/api/projects/'+this.id+'/update/stop', {
         method: 'PUT',
         data: JSON.stringify(opts),
-        contentType: "application/json",
+        contentType: 'application/json'
       }).done(function(){
         self.fetch();
       });

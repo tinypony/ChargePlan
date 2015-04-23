@@ -3,20 +3,22 @@ define(['jquery',
         'underscore', 
         'backbone', 
         'config-manager', 
+        'amcharts.serial', 
         'views/simulation/stops-visual', 
         'views/simulation/bus-details', 
         'views/simulation/charger-details',
         'collections/chargers',
         'collections/buses',
         'hbs!templates/simulation'], 
-    function($, JUI, _, Backbone, ConfigManager, RouteVisualizationView, 
+    function($, JUI, _, Backbone, ConfigManager, amRef, RouteVisualizationView, 
         BusDetailsView, ChargerDetailsView, Chargers, Buses, template) {
 
   var SimulationView = Backbone.View.extend({
     
     events: {
       'change .bus-select': 'onBusSelect',
-      'change .charger-select': 'onChargerSelect'
+      'change .charger-select': 'onChargerSelect',
+      'click .run': 'onClick'
     },
     
     initialize: function(options) {
@@ -61,7 +63,88 @@ define(['jquery',
       this.chargerDetails.showModel(chargerModel);
     },
     
+    onClick: function() {
+      var selectedbusid = this.$('.bus-select').val();
+      
+      var opts = {
+        date: this.$('.route-date').val(),
+        busType: this.buses.get(selectedbusid),
+        minWaitingTime: 12 * 60
+      };
+      
+      this.runSimulation(opts);
+    },
     
+    runSimulation: function(opts) {
+      var self = this;
+      
+      $.ajax({
+        url: '/api/projects/'+this.project.get('id')+'/simulate',
+        data: JSON.stringify({
+          routeId: this.route.routeId,
+          date: opts.date,
+          busType: opts.busType,
+          minWaitingTime: opts.minWaitingTime
+        }),
+        method: 'POST',
+        contentType: 'application/json'
+      }).done(function(data) {
+        if(data.survived) {
+          console.log('Bus survived');
+          //self.$('.runbutton .glyphicon').addClass('glyphicon-ok').removeClass('glyphicon-remove');
+        } else {
+          //self.$('.runbutton .glyphicon').addClass('glyphicon-remove').removeClass('glyphicon-ok');
+        }
+        
+        var chart = amRef.makeChart('simulation-result-chart', {
+          'theme' : 'none',
+          'type' : 'serial',
+          'autoMargins' : false,
+          'marginLeft' : 70,
+          'marginRight' : 8,
+          'marginTop' : 10,
+          'marginBottom' : 70,
+          'pathToImages' : 'http://www.amcharts.com/lib/3/images/',
+          'dataProvider' : data.batteryHistory,
+          'valueAxes' : [ {
+            'id' : 'v1',
+            'axisAlpha' : 0,
+            'inside' : false,
+            'min' : 0,
+            'minimum' : 0,
+            'max' : 100,
+            'maximum' : 110,
+            'gridAlpha' : 0.1,
+            'title' : 'Battery level (%)'
+          } ],
+          'graphs' : [ {
+            'useNegativeColorIfDown' : false,
+            'balloonText' : '[[category]]<br><b>value: [[value]]</b>',
+            'bullet' : 'round',
+            'bulletBorderAlpha' : 1,
+            'bulletBorderColor' : '#FFFFFF',
+            'hideBulletsCount' : 50,
+            'lineThickness' : 2,
+            'lineColor' : '#0088cc',
+            'valueField' : 'charge'
+          } ],
+          'chartCursor' : {
+            'valueLineEnabled' : true,
+            'valueLineBalloonEnabled' : true
+          },
+          'categoryField' : 'timestamp',
+          'categoryAxis' : {
+            'parseDates' : false,
+            'axisAlpha' : 0,
+            'gridAlpha' : 0,
+            'maximum' : 110,
+            'max' : 110,
+            'minHorizontalGap' : 60,
+            'title' : 'Time'
+          }
+        });
+      });
+    },
     
     render: function() {
       var self = this;
