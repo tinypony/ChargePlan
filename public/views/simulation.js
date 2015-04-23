@@ -17,14 +17,27 @@ define(['jquery',
     
     events: {
       'change .bus-select': 'onBusSelect',
-      'change .charger-select': 'onChargerSelect',
-      'click .run': 'onClick'
+      'change #route-date' : 'onParamChange'
+    },
+    
+    onParamChange: function() {      
+      var opts = {
+        date: this.$('#route-date').val(),
+        busType: this.buses.get( this.$('.bus-select').val()),
+        minWaitingTime: 12 * 60
+      };
+      
+      if(!_.isUndefined(opts.date) && !_.isUndefined(opts.busType)) {
+        this.runSimulation(opts);
+      }
     },
     
     initialize: function(options) {
       var self = this;
       this.routeName = options.route;
       this.route;
+      
+      _.bindAll(this, ['onParamChange']);
       
       var onReady = _.after(4, function(){
         self.render();
@@ -43,6 +56,7 @@ define(['jquery',
       
       ConfigManager.getProject().done(function(proj){
         self.project = proj;
+        self.listenTo(proj, 'sync', self.onParamChange());
         onReady();
       });
     },
@@ -55,24 +69,13 @@ define(['jquery',
       var selectedbusid = this.$('.bus-select').val();
       var busModel = this.buses.get(selectedbusid);
       this.busDetails.showModel(busModel);
+      this.onParamChange();
     },
     
     onChargerSelect: function() {
       var selectedbusid = this.$('.charger-select').val();
       var chargerModel = this.chargers.get(selectedbusid);
       this.chargerDetails.showModel(chargerModel);
-    },
-    
-    onClick: function() {
-      var selectedbusid = this.$('.bus-select').val();
-      
-      var opts = {
-        date: this.$('.route-date').val(),
-        busType: this.buses.get(selectedbusid),
-        minWaitingTime: 12 * 60
-      };
-      
-      this.runSimulation(opts);
     },
     
     runSimulation: function(opts) {
@@ -90,7 +93,6 @@ define(['jquery',
         contentType: 'application/json'
       }).done(function(data) {
         if(data.survived) {
-          console.log('Bus survived');
           //self.$('.runbutton .glyphicon').addClass('glyphicon-ok').removeClass('glyphicon-remove');
         } else {
           //self.$('.runbutton .glyphicon').addClass('glyphicon-remove').removeClass('glyphicon-ok');
@@ -134,13 +136,15 @@ define(['jquery',
           },
           'categoryField' : 'timestamp',
           'categoryAxis' : {
-            'parseDates' : false,
             'axisAlpha' : 0,
             'gridAlpha' : 0,
             'maximum' : 110,
             'max' : 110,
             'minHorizontalGap' : 60,
-            'title' : 'Time'
+            'title' : 'Time',
+            'parseDates': true,
+            'dataDateFormat': 'HHmm',
+            'minPeriod': 'hh'
           }
         });
       });

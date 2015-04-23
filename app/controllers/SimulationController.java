@@ -42,7 +42,7 @@ public class SimulationController extends Controller {
 		scheduler.schedule(trips, proj.getStops());
 		
 		StaticConsumptionProfile profile = new StaticConsumptionProfile();
-		profile.setConsumption(2.0);
+		profile.setConsumption(2.5);
 		
 		RouteSimulationModel simModel = new RouteSimulationModel( profile, new BusInstance(simreq.getBusType()));
 		simModel.setElectrifiedStops(proj.getStops());
