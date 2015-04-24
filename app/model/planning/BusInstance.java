@@ -22,6 +22,10 @@ public class BusInstance {
 		return this.batteryState;
 	}
 	
+	public double getPercentageBatteryState() {
+		return 100 *  this.batteryState / this.type.getCapacity();
+	}
+	
 	/**
 	 * Decreases battery state according to the amount of meters driven and consumption (kWh/km)
 	 * @param meters

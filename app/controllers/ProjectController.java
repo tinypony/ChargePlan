@@ -79,7 +79,7 @@ public class ProjectController extends Controller {
 		BusCharger chargerType = ChargerController.getChargerModel(chargerId);
 		BusChargerInstance chargerInstance = new BusChargerInstance();
 		chargerInstance.setType(chargerType);
-		stop.addCharger(chargerInstance);
+		stop.setCharger(chargerInstance);
 		
 		ds.save(project);
 		return ok("added");
@@ -91,7 +91,7 @@ public class ProjectController extends Controller {
 		JsonNode bodyJson = request().body().asJson();
 		String routeId = bodyJson.get("route").asText();
 		String stopId = bodyJson.get("stop").asText();
-		List<String> chargersToAdd = om.treeToValue(bodyJson.get("chargersToAdd"), List.class);
+		String charger = om.treeToValue(bodyJson.get("chargersToAdd"), String.class);
 		int minChargingTime = bodyJson.get("minChargingTime").asInt();		
 		
 		ObjectId id = new ObjectId(projectId);
@@ -112,15 +112,13 @@ public class ProjectController extends Controller {
 			project.addStop(stop);
 		}
 		
-		if(chargersToAdd != null) {
-			Logger.info(""+chargersToAdd.size());
-			for(String chargerId: chargersToAdd) {
-				Logger.info(chargerId);
-				stop.addCharger(getChargerInstance(chargerId));
-			}
+		if(!"-1".equals(charger)) {
+			stop.setCharger(getChargerInstance(charger));
+			stop.getChargingTimes().put(routeId, minChargingTime);
+		} else {
+			stop.setCharger(null);
 		}
 		
-		stop.getChargingTimes().put(routeId, minChargingTime);
 		ds.save(project);
 		return ok("updated");
 	}

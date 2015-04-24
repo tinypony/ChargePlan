@@ -1,9 +1,14 @@
 package org.emn.plan;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Queue;
+
+import javax.xml.bind.DatatypeConverter;
 
 import org.emn.calculate.IConsumptionProfile;
 
@@ -27,15 +32,21 @@ public class RouteSimulationModel {
 	private Queue<BusTrip> directionB;
 	private List<ElectrifiedBusStop> electrifiedStops;
 	private BusInstance bus;
+	Calendar simDate;
 	private StopsDistanceRetriever distanceManager;
 	private IConsumptionProfile consumptionProfile;
 	
 	public static final int DEFAULT_END_STOP_CHARGING_TIME = 600;
 	public static final int DEFAULT_STOP_CHARGING_TIME = 10;
 	
-	public RouteSimulationModel(IConsumptionProfile profile, BusInstance bus) {
+	public RouteSimulationModel(IConsumptionProfile profile, BusInstance bus, String simDate) throws ParseException {
 		this.consumptionProfile = profile;
 		this.bus = bus;
+		this.simDate = DatatypeConverter.parseDate(simDate);
+		
+		this.simDate.set(Calendar.HOUR_OF_DAY, 0);
+		this.simDate.set(Calendar.MINUTE, 0);
+		this.simDate.set(Calendar.SECOND, 0);
 	}
 	
 	public void setDirections(Queue<BusTrip> dirA, Queue<BusTrip> dirB) {
@@ -87,11 +98,9 @@ public class RouteSimulationModel {
 		boolean canRun = true;
 		Queue<BusTrip> direction = this.getDirectionA();
 		SimulationResult result = new SimulationResult();
-		
 		ScheduleStop previousStop = null;
 		ScheduleStop currentStop = null;
 		int directionIdx = 0;
-		Calendar cal = Calendar.getInstance();
 		
 		while(canRun) {
 			BusTrip trip = direction.poll();
@@ -112,7 +121,9 @@ public class RouteSimulationModel {
 
 				currentStop = tripStops.get(i);
 				String arrivalTime = currentStop.getArrival();
-				double batteryState;
+				simDate.set(Calendar.HOUR_OF_DAY, Integer.parseInt(arrivalTime.substring(0, 2), 10));
+				simDate.set(Calendar.MINUTE, Integer.parseInt(arrivalTime.substring(2, 4), 10));
+				simDate.set(Calendar.SECOND, 0);
 				
 				if( currentStop != null && previousStop != null ) {
 					int meters = this.getDistanceManager().getDistanceBetweenStops(previousStop, currentStop);
@@ -121,11 +132,11 @@ public class RouteSimulationModel {
 					try {
 						this.bus.drive(meters, consumption);
 					} catch(IllegalStateException e) {
-						result.addBatteryStateEntry(new BatteryStateEntry(this.bus.getBatteryState(), arrivalTime, currentStop.getStopId()));
+						this.addBatteryEntry( result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId() );
 						result.setSurvived(false);
 						return result;
 					} finally {
-						result.addBatteryStateEntry(new BatteryStateEntry(this.bus.getBatteryState(), arrivalTime, currentStop.getStopId()));
+						this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
 					}
 				}
 				
@@ -136,16 +147,13 @@ public class RouteSimulationModel {
 						int chargingTimeSeconds = this.getChargingTime(elStop, trip.getRouteId(), i == tripStops.size() - 1);
 						BusCharger chargerType = elStop.getCharger(currentStop.getArrival(), chargingTimeSeconds).getType();
 						int timeSpentCharging = this.bus.charge(chargingTimeSeconds, chargerType.getPower());
-						batteryState = this.bus.getBatteryState();
-						cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(arrivalTime.substring(0, 2), 10));
-						cal.set(Calendar.MINUTE, Integer.parseInt(arrivalTime.substring(2, 4), 10));
-						cal.set(Calendar.SECOND, 0);
-						cal.add(Calendar.SECOND, timeSpentCharging);
 						
-						result.addBatteryStateEntry(new BatteryStateEntry(batteryState, (new SimpleDateFormat("HHmm")).format(cal.getTime()), currentStop.getStopId()));
+						this.simDate.add(Calendar.SECOND, timeSpentCharging);
+						
+						this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
 					}
 				} else {
-					result.addBatteryStateEntry(new BatteryStateEntry(this.bus.getBatteryState(), currentStop.getArrival(), currentStop.getStopId()));
+					this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
 				}
 				
 			}
@@ -162,6 +170,15 @@ public class RouteSimulationModel {
 		result.setSurvived(true);
 		
 		return result;
+	}
+	
+	private void addBatteryEntry(SimulationResult result, double soc, Calendar cal, String location) {
+		BatteryStateEntry lastEntry = result.getLastBatteryStateEntry();
+		if(lastEntry !=null && lastEntry.getTimestamp().compareTo(cal.getTime()) > 0) {
+			//increment day
+			cal.add(Calendar.DATE, 1);
+		}
+		result.addBatteryStateEntry(new BatteryStateEntry(soc, cal.getTime(), location));
 	}
 	
 	public int getChargingTime(ElectrifiedBusStop elStop, String routeId, boolean isEndStop) {

@@ -6,12 +6,12 @@ define(['jquery',
   
   var StopDetailsView = Backbone.View.extend({
     events: {
-      'click .add-charger': 'addChargerToStop'
+      'change .available-chargers': 'addChargerToStop'
     },
     
     initialize: function(opts) {
       _.bindAll(this, ['addChargerToStop']);
-      this.chargersToAdd = [];
+      this.chargersToAdd;
       this.chargers = opts.chargers;
       this.stop = opts.stop;
       this.project = opts.project;
@@ -21,8 +21,7 @@ define(['jquery',
     addChargerToStop: function() {
       var chargerId = this.$('select').val();
       var charger = this.chargers.get(chargerId);
-      this.$('ul').append('<li>' + charger.get('manufacturer') + ' ' + charger.get('model') + ' ' + charger.get('power') + '</li>');
-      this.chargersToAdd.push(chargerId);
+      this.chargersToAdd = chargerId;
     },
     
     render: function() {
@@ -33,6 +32,8 @@ define(['jquery',
         chargerTypes: this.chargers.toJSON()
       }));
       
+      this.$('.available-chargers').val(this.stop.charger);
+      
       var dialog = new ModalDialog({
         title: this.stop.name,
         id: 'stop-info',
@@ -40,6 +41,12 @@ define(['jquery',
         showClose: true,
         clickHandlers: {
           'primary': function(ev) {
+            console.log({
+              stop: self.stop.stopId,
+              route: self.routeId,
+              chargersToAdd: self.chargersToAdd,
+              minChargingTime: self.$('.min-charging-time').val()
+            });
             self.project.updateStop({
               stop: self.stop.stopId,
               route: self.routeId,

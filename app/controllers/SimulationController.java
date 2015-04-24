@@ -44,7 +44,7 @@ public class SimulationController extends Controller {
 		StaticConsumptionProfile profile = new StaticConsumptionProfile();
 		profile.setConsumption(2.5);
 		
-		RouteSimulationModel simModel = new RouteSimulationModel( profile, new BusInstance(simreq.getBusType()));
+		RouteSimulationModel simModel = new RouteSimulationModel( profile, new BusInstance(simreq.getBusType()), simreq.getDate());
 		simModel.setElectrifiedStops(proj.getStops());
 		simModel.setDistanceManager(new DistanceRetriever());
 		simModel.setDirections(scheduler.getDirectionA(), scheduler.getDirectionB());

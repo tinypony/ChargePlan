@@ -154,7 +154,6 @@ define([ 'jquery',
       if (!this.isCircular()) {
         this.drawBidirectional();
       }
-
     },
 
     render : function() {

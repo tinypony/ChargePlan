@@ -58,6 +58,7 @@
 				  width: 400px;
 				  height: 300px;
 				  cursor: pointer;
+				  border-right: 1px solid black;
 				}
 				
 				.route-path-visualization {
@@ -67,8 +68,20 @@
 		}
 		
 		.simulation-results {
+			position: relative;
+			
 			#simulation-result-chart {
 				height: 500px;
+				position: relative;
+				
+				.prompt {
+					font-size: 24px;
+					color: #AAA;
+				}
+			}
+			
+			.loading {
+				margin-top: 200px;
 			}
 		}
 }

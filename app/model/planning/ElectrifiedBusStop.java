@@ -1,41 +1,37 @@
 package model.planning;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.mongodb.morphia.annotations.Embedded;
-import org.mongodb.morphia.annotations.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import model.dataset.BusStop;
-import model.planning.solutions.BusCharger;
 
 public class ElectrifiedBusStop extends BusStop {
 	
 	@Embedded
-	private List<BusChargerInstance> chargers;
+	private BusChargerInstance charger;
 	
 	private Map<String, Integer> chargingTimes; // tuple (routeId, charging time in seconds) 
 	
 	public ElectrifiedBusStop () {
-		chargers = new ArrayList<BusChargerInstance>();
+//		charger = new ArrayList<BusChargerInstance>();
 		chargingTimes = new HashMap<String, Integer>();
 	}
 
-	public List<BusChargerInstance> getChargers() {
-		return chargers;
-	}
-	
-	public void addCharger(BusChargerInstance charger) {
-		this.chargers.add(charger);
-	}
-
-	public void setChargers(List<BusChargerInstance> chargers) {
-		this.chargers = chargers;
-	}
+//	public List<BusChargerInstance> getChargers() {
+//		return chargers;
+//	}
+//	
+//	public void addCharger(BusChargerInstance charger) {
+//		this.chargers.add(charger);
+//	}
+//
+//	public void setChargers(List<BusChargerInstance> chargers) {
+//		this.chargers = chargers;
+//	}
 
 	@Override
 	@JsonIgnore
@@ -50,7 +46,11 @@ public class ElectrifiedBusStop extends BusStop {
 	}
 
 	public BusChargerInstance getCharger(String arrival, int chargingTimeSeconds) {
-				return this.chargers.get(0);
+				return this.charger;
+	}
+	
+	public void setCharger(BusChargerInstance c) {
+		this.charger = c;
 	}
 
 	public Map<String, Integer> getChargingTimes() {
@@ -64,6 +64,4 @@ public class ElectrifiedBusStop extends BusStop {
 	public void setChargingTimes(Map<String, Integer> chargingTimes) {
 		this.chargingTimes = chargingTimes;
 	}
-	
-	
 }

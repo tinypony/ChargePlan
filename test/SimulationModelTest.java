@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -28,6 +29,8 @@ public class SimulationModelTest {
 	BusInstance bus;
 	Queue<BusTrip> directionA;
 	Queue<BusTrip> directionB;
+	Queue<BusTrip> directionC;
+	
 	List<ElectrifiedBusStop> electrifiedStops;
 	StaticConsumptionProfile profile;
 	
@@ -52,12 +55,13 @@ public class SimulationModelTest {
 		
 		directionA = new LinkedBlockingQueue<BusTrip>();
 		directionB = new LinkedBlockingQueue<BusTrip>();
+		directionC = new LinkedBlockingQueue<BusTrip>();
 		
 		setupDirectionA();
 		
 		profile = new StaticConsumptionProfile();
 		profile.setConsumption(2.0);
-		model = new RouteSimulationModel(profile, bus);
+		model = new RouteSimulationModel(profile, bus, "2015-05-01");
 		model.setDistanceManager(new StubDistanceRetriever());
 		model.setDirections(directionA, directionB);
 		model.setElectrifiedStops(electrifiedStops);
@@ -67,16 +71,16 @@ public class SimulationModelTest {
 	public void testSimpleSuccessfulTrip() throws Exception {
 		SimulationResult result = model.simulate();
 		assertTrue(result.isSurvived());
-		assertEquals("1000", result.getBatteryHistory().get(0).getTimestamp());
+		assertEquals("1000", result.getBatteryHistory().get(0).getSimpleTimestamp());
 		assertEquals(100, result.getBatteryHistory().get(0).getCharge(), 0.1);
 
-		assertEquals("1010", result.getBatteryHistory().get(1).getTimestamp());
+		assertEquals("1010", result.getBatteryHistory().get(1).getSimpleTimestamp());
 		assertEquals(98, result.getBatteryHistory().get(1).getCharge(), 0.1);
 		
-		assertEquals("1020", result.getBatteryHistory().get(2).getTimestamp());
+		assertEquals("1020", result.getBatteryHistory().get(2).getSimpleTimestamp());
 		assertEquals(96, result.getBatteryHistory().get(2).getCharge(), 0.1);
 		
-		assertEquals("1020", result.getBatteryHistory().get(3).getTimestamp());
+		assertEquals("1020", result.getBatteryHistory().get(3).getSimpleTimestamp());
 		assertEquals(97.6666, result.getBatteryHistory().get(3).getCharge(), 0.1);
 	}
 	
@@ -87,34 +91,34 @@ public class SimulationModelTest {
 		SimulationResult result = model.simulate();
 		assertTrue(result.isSurvived());
 		
-		assertEquals("1000", result.getBatteryHistory().get(0).getTimestamp());
+		assertEquals("1000", result.getBatteryHistory().get(0).getSimpleTimestamp());
 		assertEquals(100, result.getBatteryHistory().get(0).getCharge(), 0.1);
 
-		assertEquals("1010", result.getBatteryHistory().get(1).getTimestamp());
+		assertEquals("1010", result.getBatteryHistory().get(1).getSimpleTimestamp());
 		assertEquals(98, result.getBatteryHistory().get(1).getCharge(), 0.1);
 		
-		assertEquals("1020", result.getBatteryHistory().get(2).getTimestamp());
+		assertEquals("1020", result.getBatteryHistory().get(2).getSimpleTimestamp());
 		assertEquals(96, result.getBatteryHistory().get(2).getCharge(), 0.1);
 		
 		//charge
-		assertEquals("1020", result.getBatteryHistory().get(3).getTimestamp());
+		assertEquals("1020", result.getBatteryHistory().get(3).getSimpleTimestamp());
 		assertEquals("3", result.getBatteryHistory().get(3).getLocation());
 		assertEquals(97.6666, result.getBatteryHistory().get(3).getCharge(), 0.1);
 		
 		//return trip
-		assertEquals("1021", result.getBatteryHistory().get(4).getTimestamp());
+		assertEquals("1021", result.getBatteryHistory().get(4).getSimpleTimestamp());
 		assertEquals("3", result.getBatteryHistory().get(4).getLocation());
 		assertEquals(97.6666, result.getBatteryHistory().get(4).getCharge(), 0.1);
 
-		assertEquals("1031", result.getBatteryHistory().get(5).getTimestamp());
+		assertEquals("1031", result.getBatteryHistory().get(5).getSimpleTimestamp());
 		assertEquals(95.6666, result.getBatteryHistory().get(5).getCharge(), 0.1);
 		
-		assertEquals("1041", result.getBatteryHistory().get(6).getTimestamp());
+		assertEquals("1041", result.getBatteryHistory().get(6).getSimpleTimestamp());
 		assertEquals("1", result.getBatteryHistory().get(6).getLocation());
 		assertEquals(93.6666, result.getBatteryHistory().get(6).getCharge(), 0.1);
 		
 		//charge
-		assertEquals("1042", result.getBatteryHistory().get(7).getTimestamp());
+		assertEquals("1042", result.getBatteryHistory().get(7).getSimpleTimestamp());
 		assertEquals("1", result.getBatteryHistory().get(7).getLocation());
 		assertEquals(97, result.getBatteryHistory().get(7).getCharge(), 0.1);
 	}
@@ -126,11 +130,36 @@ public class SimulationModelTest {
 		SimulationResult result = model.simulate();
 		assertTrue(!result.isSurvived());
 		
-		assertEquals("1000", result.getBatteryHistory().get(0).getTimestamp());
+		assertEquals("1000", result.getBatteryHistory().get(0).getSimpleTimestamp());
 		assertEquals(1, result.getBatteryHistory().get(0).getCharge(), 0.1);
 
-		assertEquals("1010", result.getBatteryHistory().get(1).getTimestamp());
+		assertEquals("1010", result.getBatteryHistory().get(1).getSimpleTimestamp());
 		assertEquals(0, result.getBatteryHistory().get(1).getCharge(), 0.1);
+	}
+	
+	@Test
+	public void testSimpleOverMidnightTrip() throws Exception {
+		this.setupDirectionC();
+		model.setBus(bus);
+		model.setDirectionA(directionC);
+		SimulationResult result = model.simulate();
+		assertTrue(result.isSurvived());
+		Calendar cal = Calendar.getInstance();
+		
+		assertEquals("2340", result.getBatteryHistory().get(0).getSimpleTimestamp());
+		cal.setTime(result.getBatteryHistory().get(0).getTimestamp());
+		assertEquals(1, cal.get(Calendar.DATE));
+		assertEquals(100, result.getBatteryHistory().get(0).getCharge(), 0.1);
+
+		assertEquals("0000", result.getBatteryHistory().get(1).getSimpleTimestamp());
+		cal.setTime(result.getBatteryHistory().get(1).getTimestamp());
+		assertEquals(2, cal.get(Calendar.DATE));
+		assertEquals(98, result.getBatteryHistory().get(1).getCharge(), 0.1);
+		
+		assertEquals("0010", result.getBatteryHistory().get(2).getSimpleTimestamp());
+		cal.setTime(result.getBatteryHistory().get(2).getTimestamp());
+		assertEquals(2, cal.get(Calendar.DATE));
+		assertEquals(96, result.getBatteryHistory().get(2).getCharge(), 0.1);
 	}
 	
 	private void setupDirectionA() {
@@ -183,6 +212,32 @@ public class SimulationModelTest {
 		
 		trip2.setRouteId("route-1");
 		directionB.add(trip2);
+	}
+	
+	private void setupDirectionC() {
+		BusTrip trip2 = new BusTrip();
+		
+		ScheduleStop firstStop = new ScheduleStop();
+		firstStop.setArrival("2340");
+		firstStop.setOrder(1);
+		firstStop.setStopId("1");
+		
+		ScheduleStop secondStop = new ScheduleStop();
+		secondStop.setArrival("0000");
+		secondStop.setOrder(2);
+		secondStop.setStopId("2");
+		
+		ScheduleStop thirdStop = new ScheduleStop();
+		thirdStop.setArrival("0010");
+		thirdStop.setOrder(3);
+		thirdStop.setStopId("3");
+		
+		trip2.addStop(firstStop);
+		trip2.addStop(secondStop);
+		trip2.addStop(thirdStop);
+		
+		trip2.setRouteId("route-1");
+		directionC.add(trip2);
 	}
 	
 	private void setupChargers() {

@@ -49,19 +49,17 @@
 		<h4>Simulation parameters</h4>
 
 		<div class="accordion-body">
-			<div class="notification-well well">
-				<i class="fa fa-exclamation-triangle fa-5x"></i>
-				<div class="notification-text">
-					<h5>This route has not been simulated yet!</h5>
-					<p>The first step to start simulating your route is to choose and add an electric bus to your simulation</p>
-				</div>
-			</div>
+<!-- 			<div class="notification-well well"> -->
+<!-- 				<i class="fa fa-exclamation-triangle fa-5x"></i> -->
+<!-- 				<div class="notification-text"> -->
+<!-- 					<h5>This route has not been simulated yet!</h5> -->
+<!-- 					<p>The first step to start simulating your route is to choose and add an electric bus to your simulation</p> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 			
 			<div class="date-selection">
 				<div class="form-group">
-					
-						<label for="route-date" class="col-lg-4 control-label">Select date</label> <input type="text" id="route-date" />
-				
+						<label for="route-date" class="control-label">Select date</label> <input type="text" id="route-date" />
 				</div>
 			</div>
 			
@@ -96,6 +94,14 @@
 	</div>
 	<div class="simulation-results">
 		<h4>Simulation result</h4>
-		<div id="simulation-result-chart" class="simulation-result-chart"></div>
+		<div id="simulation-result-chart" class="simulation-result-chart">
+			<div class="prompt">
+				<ul>
+					<li>Select date for simulation</li>
+					<li>Select bus model to simulate with</li>
+					<li>Electrify bus stops</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>

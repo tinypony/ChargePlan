@@ -1,17 +1,20 @@
 package org.emn.plan;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class BatteryStateEntry {
 
 	private double charge;
-	private String timestamp;
+	private Date timestamp;
 	private String location;
 	
-	public BatteryStateEntry(double charge, String timestamp) {
+	public BatteryStateEntry(double charge, Date timestamp) {
 		this.charge = charge;
 		this.timestamp = timestamp;
 	}
 	
-	public BatteryStateEntry(double charge, String timestamp, String location) {
+	public BatteryStateEntry(double charge, Date timestamp, String location) {
 		this(charge, timestamp);
 		this.location = location;
 	}
@@ -24,11 +27,20 @@ public class BatteryStateEntry {
 		this.charge = charge;
 	}
 
-	public String getTimestamp() {
-		return timestamp;
+	
+	public String getSimpleTimestamp() {
+		return (new SimpleDateFormat("HHmm")).format(getTimestamp());
+	}
+	
+	public String getStringTimestamp() {
+		return (new SimpleDateFormat("YYYY-MM-dd HH:mm")).format(getTimestamp());
+	}
+	
+	public Date getTimestamp() {
+		return this.timestamp;
 	}
 
-	public void setTimestamp(String timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 

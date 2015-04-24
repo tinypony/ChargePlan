@@ -4,10 +4,12 @@ import java.util.Queue;
 
 import model.dataset.ScheduleStop;
 import model.dataset.BusTrip;
+import model.planning.ElectrifiedBusStop;
 
 import org.emn.plan.SimpleBusScheduler;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class SimpleSchedulerTest {
@@ -17,7 +19,7 @@ public class SimpleSchedulerTest {
 	
 	@Before
 	public void setup() {
-		scheduler = new SimpleBusScheduler();
+		scheduler = new SimpleBusScheduler(5 * 60);
 		allTrips = new ArrayList<BusTrip>();
 		
 		allTrips.add(makeBusTrip("0", "1000", "1100"));
@@ -47,7 +49,7 @@ public class SimpleSchedulerTest {
 	
 	@Test
 	public void simpleTest() {
-		scheduler.schedule(allTrips, 5);
+		scheduler.schedule(allTrips, new ArrayList<ElectrifiedBusStop>());
 		Queue<BusTrip> dirA = scheduler.getDirectionA();
 		Queue<BusTrip> dirB = scheduler.getDirectionB();
 		

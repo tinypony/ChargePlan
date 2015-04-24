@@ -9,9 +9,10 @@ define(['jquery',
         'views/simulation/charger-details',
         'collections/chargers',
         'collections/buses',
-        'hbs!templates/simulation'], 
+        'hbs!templates/simulation',
+        'hbs!templates/misc/loading'], 
     function($, JUI, _, Backbone, ConfigManager, amRef, RouteVisualizationView, 
-        BusDetailsView, ChargerDetailsView, Chargers, Buses, template) {
+        BusDetailsView, ChargerDetailsView, Chargers, Buses, template, loading) {
 
   var SimulationView = Backbone.View.extend({
     
@@ -27,7 +28,7 @@ define(['jquery',
         minWaitingTime: 12 * 60
       };
       
-      if(!_.isUndefined(opts.date) && !_.isUndefined(opts.busType)) {
+      if(!_.isUndefined(opts.date) && opts.date.length && !_.isUndefined(opts.busType)) {
         this.runSimulation(opts);
       }
     },
@@ -80,7 +81,7 @@ define(['jquery',
     
     runSimulation: function(opts) {
       var self = this;
-      
+      this.$('.simulation-results').append(loading());
       $.ajax({
         url: '/api/projects/'+this.project.get('id')+'/simulate',
         data: JSON.stringify({
@@ -92,6 +93,7 @@ define(['jquery',
         method: 'POST',
         contentType: 'application/json'
       }).done(function(data) {
+        self.$('.simulation-results .loading-container').remove();
         if(data.survived) {
           //self.$('.runbutton .glyphicon').addClass('glyphicon-ok').removeClass('glyphicon-remove');
         } else {
@@ -142,9 +144,7 @@ define(['jquery',
             'max' : 110,
             'minHorizontalGap' : 60,
             'title' : 'Time',
-            'parseDates': true,
-            'dataDateFormat': 'HHmm',
-            'minPeriod': 'hh'
+            'parseDates': false
           }
         });
       });
@@ -172,7 +172,8 @@ define(['jquery',
         }
       }
       
-      this.$('#route-date').datepicker({ beforeShowDay: available, dateFormat:'yy-m-d' });
+      this.$('#route-date').datepicker({ beforeShowDay: available, dateFormat:'yy-mm-dd' });
+      this.$('#route-date').datepicker('setDate', availableDates[0]);
       
       this.routeVis = new RouteVisualizationView({
         el: this.$('.route-path-visualization'), 

@@ -1,14 +1,16 @@
 package org.emn.plan;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class SimulationResult {
 	private boolean survived;
-	private List<BatteryStateEntry> batteryHistory;
+	private LinkedList<BatteryStateEntry> batteryHistory;
 	
 	public SimulationResult() {
-		this.setBatteryHistory(new ArrayList<BatteryStateEntry>());
+		this.setBatteryHistory(new LinkedList<BatteryStateEntry>());
 	}
 
 	public boolean isSurvived() {
@@ -23,11 +25,19 @@ public class SimulationResult {
 		return batteryHistory;
 	}
 
-	public void setBatteryHistory(List<BatteryStateEntry> batteryHistory) {
+	public void setBatteryHistory(LinkedList<BatteryStateEntry> batteryHistory) {
 		this.batteryHistory = batteryHistory;
 	}
 	
 	public void addBatteryStateEntry(BatteryStateEntry en) {
 		this.batteryHistory.add(en);
+	}
+	
+	public BatteryStateEntry getLastBatteryStateEntry() {
+		try {
+			return this.batteryHistory.getLast();
+		} catch(NoSuchElementException e) {
+			return null;
+		}
 	}
 }
