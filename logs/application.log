@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2015-04-24 14:06:33,188 - [INFO] - from play in pool-4-thread-1 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
@@ -144,4 +145,41 @@ Caused by: java.lang.NullPointerException: null
 	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
 	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
 	... 6 common frames omitted
+=======
+2015-04-23 21:24:34,672 - [INFO] - from play in pool-4-thread-1 
+Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+2015-04-23 21:27:27,298 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-04-23 21:27:27,582 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-04-23 21:31:46,590 - [INFO] - from application in play-akka.actor.default-dispatcher-4 
+1
+
+2015-04-23 21:31:46,590 - [INFO] - from application in play-akka.actor.default-dispatcher-4 
+552e6846e4b04438c6ea0b40
+
+2015-04-23 21:32:27,880 - [INFO] - from application in play-akka.actor.default-dispatcher-4 
+1
+
+2015-04-23 21:32:27,881 - [INFO] - from application in play-akka.actor.default-dispatcher-4 
+552e6846e4b04438c6ea0b40
+
+2015-04-23 21:34:31,990 - [INFO] - from application in play-akka.actor.default-dispatcher-13 
+0
+
+2015-04-23 21:34:42,398 - [INFO] - from application in play-akka.actor.default-dispatcher-13 
+1
+
+2015-04-23 21:34:42,398 - [INFO] - from application in play-akka.actor.default-dispatcher-13 
+552e684ee4b04438c6ea0b41
+
+2015-04-23 21:34:47,478 - [INFO] - from application in play-akka.actor.default-dispatcher-13 
+1
+
+2015-04-23 21:34:47,478 - [INFO] - from application in play-akka.actor.default-dispatcher-13 
+552e684ee4b04438c6ea0b41
+>>>>>>> 227ba9e37f97fa9dc5915f33908776b590d47941
 
