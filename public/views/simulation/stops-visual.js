@@ -61,6 +61,7 @@ define([ 'jquery',
     onStopClick : function(scheduleStop) {
       var self = this;
       electrifiedStop = _.findWhere(this.project.get('stops'), {stopId: scheduleStop.stop.stopId});
+      
       if(!electrifiedStop) {
         electrifiedStop = scheduleStop.stop;
         electrifiedStop.chargers = [];
@@ -70,7 +71,8 @@ define([ 'jquery',
         stop: electrifiedStop,
         chargers: this.chargers,
         project: this.project,
-        routeId: this.route.routeId
+        routeId: this.route.routeId,
+        isEndStop: scheduleStop.endstop
       });
       
       stopDetails.render();
@@ -89,6 +91,11 @@ define([ 'jquery',
 
       var stops0 = trip0.stops;
       var stops1 = trip1.stops;
+      stops0[0].endstop = true;
+      stops0[stops0.length-1].endstop = true;
+      stops1[0].endstop = true;
+      stops1[stops1.length-1].endstop = true;
+      
       stops1.reverse();
 
       var x0 = d3.scale.linear().domain([ 0, stops0.length ]).range([ 0, this.visual.width - this.visual.offset.right - this.visual.offset.left ]);
@@ -117,6 +124,12 @@ define([ 'jquery',
         }
       }).on('click', this.onStopClick).style('fill', function(d) {
         return 'steelblue';
+      }).attr('data-isend', function(d, i){
+        if (i===0 || i === stops0.length - 1) {
+          return 'true';
+        } else {
+          return 'false';
+        }
       }).attr('data-toggle', 'popover').append("svg:title").text(function(d, i) {
         return d.stop.name
       });
@@ -140,6 +153,12 @@ define([ 'jquery',
           } else {
             return 6;
           }
+        }
+      }).attr('data-isend', function(d, i){
+        if (i===0 || i === stops1.length - 1) {
+          return 'true';
+        } else {
+          return 'false';
         }
       }).on('click', this.onStopClick).style('fill', function(d) {
         return 'steelblue';

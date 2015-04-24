@@ -143,7 +143,7 @@ public class RouteSimulationModel {
 				if(i != 0) {
 					ElectrifiedBusStop elStop = this.getElectrified(currentStop.getStopId());
 					
-					if(elStop != null) {
+					if(elStop != null && elStop.getCharger() !=null) {
 						int chargingTimeSeconds = this.getChargingTime(elStop, trip.getRouteId(), i == tripStops.size() - 1);
 						BusCharger chargerType = elStop.getCharger(currentStop.getArrival(), chargingTimeSeconds).getType();
 						int timeSpentCharging = this.bus.charge(chargingTimeSeconds, chargerType.getPower());

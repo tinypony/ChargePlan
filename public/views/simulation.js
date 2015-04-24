@@ -1,105 +1,94 @@
-define(['jquery', 
-        'jquery-ui',
-        'underscore', 
-        'backbone', 
-        'config-manager', 
-        'amcharts.serial', 
-        'views/simulation/stops-visual', 
-        'views/simulation/bus-details', 
-        'views/simulation/charger-details',
-        'collections/chargers',
-        'collections/buses',
-        'hbs!templates/simulation',
-        'hbs!templates/misc/loading'], 
-    function($, JUI, _, Backbone, ConfigManager, amRef, RouteVisualizationView, 
-        BusDetailsView, ChargerDetailsView, Chargers, Buses, template, loading) {
+define([ 'jquery', 'jquery-ui', 'underscore', 'backbone', 'config-manager', 'amcharts.serial', 'views/simulation/stops-visual', 'views/simulation/bus-details', 'views/simulation/charger-details', 'collections/chargers', 'collections/buses', 'hbs!templates/simulation',
+    'hbs!templates/misc/loading' ], function($, JUI, _, Backbone, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, ChargerDetailsView, Chargers, Buses, template, loading) {
 
   var SimulationView = Backbone.View.extend({
-    
-    events: {
-      'change .bus-select': 'onBusSelect',
+
+    events : {
+      'change .bus-select' : 'onBusSelect',
       'change #route-date' : 'onParamChange'
     },
-    
-    onParamChange: function() {      
+
+    onParamChange : function() {
       var opts = {
-        date: this.$('#route-date').val(),
-        busType: this.buses.get( this.$('.bus-select').val()),
-        minWaitingTime: 12 * 60
+        date : this.$('#route-date').val(),
+        busType : this.buses.get(this.$('.bus-select').val()),
+        minWaitingTime : 12 * 60
       };
-      
-      if(!_.isUndefined(opts.date) && opts.date.length && !_.isUndefined(opts.busType)) {
+
+      if (!_.isUndefined(opts.date) && opts.date.length && !_.isUndefined(opts.busType)) {
         this.runSimulation(opts);
       }
     },
-    
-    initialize: function(options) {
+
+    initialize : function(options) {
       var self = this;
       this.routeName = options.route;
       this.route;
-      
-      _.bindAll(this, ['onParamChange']);
-      
-      var onReady = _.after(4, function(){
+
+      _.bindAll(this, [ 'onParamChange' ]);
+
+      this.$el.html(loading());
+      var onReady = _.after(4, function() {
         self.render();
       });
-      
+
       this.chargers = new Chargers();
       this.buses = new Buses();
-      
+
       this.chargers.fetch().done(onReady);
       this.buses.fetch().done(onReady);
-      
-      $.get('/api/routes/'+options.route).done(function(instance){
+
+      $.get('/api/routes/' + options.route).done(function(instance) {
         self.route = instance;
         onReady();
       });
-      
-      ConfigManager.getProject().done(function(proj){
+
+      ConfigManager.getProject().done(function(proj) {
         self.project = proj;
-        self.listenTo(proj, 'sync', self.onParamChange());
+
+        self.listenTo(proj, 'sync', function() {
+          self.onParamChange();
+        });
+
         onReady();
       });
     },
-    
-    getInstance: function() {
+
+    getInstance : function() {
       return this.route;
     },
-    
-    onBusSelect: function() {
+
+    onBusSelect : function() {
       var selectedbusid = this.$('.bus-select').val();
       var busModel = this.buses.get(selectedbusid);
       this.busDetails.showModel(busModel);
       this.onParamChange();
     },
-    
-    onChargerSelect: function() {
+
+    onChargerSelect : function() {
       var selectedbusid = this.$('.charger-select').val();
       var chargerModel = this.chargers.get(selectedbusid);
       this.chargerDetails.showModel(chargerModel);
     },
-    
-    runSimulation: function(opts) {
+
+    runSimulation : function(opts) {
       var self = this;
       this.$('.simulation-results').append(loading());
+
       $.ajax({
-        url: '/api/projects/'+this.project.get('id')+'/simulate',
-        data: JSON.stringify({
-          routeId: this.route.routeId,
-          date: opts.date,
-          busType: opts.busType,
-          minWaitingTime: opts.minWaitingTime
+        url : '/api/projects/' + this.project.get('id') + '/simulate',
+        data : JSON.stringify({
+          routeId : this.route.routeId,
+          date : opts.date,
+          busType : opts.busType,
+          minWaitingTime : opts.minWaitingTime
         }),
-        method: 'POST',
-        contentType: 'application/json'
+        method : 'POST',
+        contentType : 'application/json'
       }).done(function(data) {
         self.$('.simulation-results .loading-container').remove();
-        if(data.survived) {
-          //self.$('.runbutton .glyphicon').addClass('glyphicon-ok').removeClass('glyphicon-remove');
-        } else {
-          //self.$('.runbutton .glyphicon').addClass('glyphicon-remove').removeClass('glyphicon-ok');
-        }
-        
+
+
         var chart = amRef.makeChart('simulation-result-chart', {
           'theme' : 'none',
           'type' : 'serial',
@@ -144,56 +133,60 @@ define(['jquery',
             'max' : 110,
             'minHorizontalGap' : 60,
             'title' : 'Time',
-            'parseDates': false
+            'parseDates' : true,
+            'minPeriod' : 'ss'
           }
         });
       });
     },
-    
-    render: function() {
+
+    render : function() {
       var self = this;
-      
+
       this.$el.html(template({
-        route: this.getInstance(),
-        chargers: this.chargers.toJSON(),
-        buses: this.buses.toJSON()
+        route : this.getInstance(),
+        chargers : this.chargers.toJSON(),
+        buses : this.buses.toJSON()
       }));
-      
+
       var availableDates = _.map(this.getInstance().stats, function(stat) {
-    	  return stat.date;
+        return stat.date;
       });
-      
+
       var available = function(date) {
-        dmy = date.getFullYear() + '-' + (date.getMonth()+1) + "-" + date.getDate();
+        dmy = date.getFullYear() + '-' + (date.getMonth() + 1) + "-" + date.getDate();
         if ($.inArray(dmy, availableDates) != -1) {
-          return [true, '','Available'];
+          return [ true, '', 'Available' ];
         } else {
-          return [false, '', 'unAvailable'];
+          return [ false, '', 'unAvailable' ];
         }
       }
-      
-      this.$('#route-date').datepicker({ beforeShowDay: available, dateFormat:'yy-mm-dd' });
+
+      this.$('#route-date').datepicker({
+        beforeShowDay : available,
+        dateFormat : 'yy-mm-dd'
+      });
       this.$('#route-date').datepicker('setDate', availableDates[0]);
-      
+
       this.routeVis = new RouteVisualizationView({
-        el: this.$('.route-path-visualization'), 
-        route: this.getInstance(),
-        project: this.project,
-        chargers: this.chargers
+        el : this.$('.route-path-visualization'),
+        route : this.getInstance(),
+        project : this.project,
+        chargers : this.chargers
       });
-      
+
       this.busDetails = new BusDetailsView({
-        el: this.$('.bus-details')
+        el : this.$('.bus-details')
       });
-      
+
       this.chargerDetails = new ChargerDetailsView({
-        el: this.$('.charger-details')
+        el : this.$('.charger-details')
       });
-      
+
       this.busDetails.render();
       this.routeVis.render();
     }
   });
-  
+
   return SimulationView;
 });

@@ -44,6 +44,10 @@ public class ElectrifiedBusStop extends BusStop {
 	public boolean isLast() {
 		return super.isLast();
 	}
+	
+	public BusChargerInstance getCharger() {
+		return this.charger;
+	}
 
 	public BusChargerInstance getCharger(String arrival, int chargingTimeSeconds) {
 				return this.charger;

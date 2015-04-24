@@ -103,6 +103,11 @@ public class SimpleBusScheduler {
 					calB.set(Calendar.MINUTE, tripLastStopTime.get(Calendar.MINUTE));
 					calB.set(Calendar.SECOND, 0);
 					pA++;
+					
+					if(this.isOvernight(candidateA)) {
+						break whileloop;
+					}
+					
 					break;
 				} 
 				
@@ -129,6 +134,11 @@ public class SimpleBusScheduler {
 					calA.set(Calendar.MINUTE, tripLastStopTime.get(Calendar.MINUTE));
 					calA.set(Calendar.SECOND, 0);
 					pB++;
+					
+					if(this.isOvernight(candidateB)) {
+						break whileloop;
+					}
+					
 					break;
 				}
 				
@@ -138,6 +148,15 @@ public class SimpleBusScheduler {
 				}
 			}
 		}
+	}
+
+	private boolean isOvernight(BusTrip candidateA) {
+		ScheduleStop stopOne = candidateA.getStops().get(0);
+		ScheduleStop lastStop = candidateA.getStops().get(candidateA.getStops().size() - 1);
+		Calendar calFirst = DateUtils.stringToCalendar(stopOne.getArrival());
+		Calendar calLast = DateUtils.stringToCalendar(lastStop.getArrival());
+		
+		return calFirst.compareTo(calLast) > 0;
 	}
 
 	private int getChargingTime(String routeId, final ScheduleStop lastStop,

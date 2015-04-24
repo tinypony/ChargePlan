@@ -27,7 +27,6 @@ define(['jquery', 'underscore', 'backbone', 'hbs!templates/misc/modal'],
     render: function() {
       var self = this;
       
-      console.log(this.config);
       this.setElement(template({
         config: this.config
       }));

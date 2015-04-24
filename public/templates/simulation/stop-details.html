@@ -1,5 +1,5 @@
 <h4>Charger</h4>
-<select name="available-chargers">
+<select class="available-chargers" name="available-chargers">
 	<option value="-1">Select charger</option>
 	{{#each chargerTypes}}
 	<option value="{{this.id}}">{{this.manufacturer}} {{this.model}} {{this.power}}</option> 
@@ -13,4 +13,8 @@
 <!-- 	{{/each}} -->
 <!-- </ul> -->
 <h4>Min charging time</h4>
-<input class="min-charging-time" type="number" value="600"/>
+{{#if isEndStop}}
+<input class="min-charging-time" type="number" value="{{minChargingTime}}"/>
+{{else}}
+<input class="min-charging-time" type="number" value="10" disabled/>
+{{/if}}
