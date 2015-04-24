@@ -120,7 +120,7 @@ public class ProjectController extends Controller {
 		}
 		
 		ds.save(project);
-		return ok("updated");
+		return ok();
 	}
 	
 	public static BusChargerInstance getChargerInstance(String chargerId) {

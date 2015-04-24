@@ -15,6 +15,8 @@ define([ 'jquery',
       
       this.visual = {};
       _.bindAll(this, ['onStopClick']);
+      
+      this.listenTo(this.project, 'sync', this.render);
     },
 
     // https://www.domsammut.com/projects/pure-css-loading-animation
@@ -105,6 +107,15 @@ define([ 'jquery',
 
       direction0 = this.visual.svg.append('g');
       direction1 = this.visual.svg.append('g').attr('transform', 'translate(0,' + sideOffset + ')');
+      
+      var getColor = function(d) {
+        var elStop = _.findWhere(self.project.get('stops'), {stopId: d.stopId}); 
+        if(elStop && elStop.charger) {
+          console.log(elStop);
+          return 'green';
+        }
+        return 'steelblue';
+      };
 
       var circles0 = direction0.selectAll('circle').data(stops0).enter().append('circle');
 
@@ -122,15 +133,8 @@ define([ 'jquery',
         } else {
           return 6;
         }
-      }).on('click', this.onStopClick).style('fill', function(d) {
-        return 'steelblue';
-      }).attr('data-isend', function(d, i){
-        if (i===0 || i === stops0.length - 1) {
-          return 'true';
-        } else {
-          return 'false';
-        }
-      }).attr('data-toggle', 'popover').append("svg:title").text(function(d, i) {
+      }).on('click', this.onStopClick).style('fill', getColor)
+      .attr('data-toggle', 'popover').append("svg:title").text(function(d, i) {
         return d.stop.name
       });
 
@@ -154,15 +158,7 @@ define([ 'jquery',
             return 6;
           }
         }
-      }).attr('data-isend', function(d, i){
-        if (i===0 || i === stops1.length - 1) {
-          return 'true';
-        } else {
-          return 'false';
-        }
-      }).on('click', this.onStopClick).style('fill', function(d) {
-        return 'steelblue';
-      }).append("svg:title").text(function(d, i) {
+      }).on('click', this.onStopClick).style('fill', getColor).append("svg:title").text(function(d, i) {
         return d.stop.name
       });
     },
