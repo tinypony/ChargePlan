@@ -1,18 +1,18 @@
-package org.emn.plan;
+package org.emn.calculate.route;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Queue;
 
 import javax.xml.bind.DatatypeConverter;
 
-import org.emn.calculate.IConsumptionProfile;
+import org.emn.calculate.bus.IConsumptionProfile;
+import org.emn.plan.BatteryStateEntry;
+import org.emn.plan.SimulationResult;
 
-import scala.util.control.Exception.Finally;
+import play.Logger;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -20,7 +20,6 @@ import com.google.common.collect.Iterables;
 import configuration.emn.route.StopsDistanceRetriever;
 import model.dataset.BusTrip;
 import model.dataset.ScheduleStop;
-import model.dataset.StopDistance;
 import model.planning.BusInstance;
 import model.planning.ElectrifiedBusStop;
 import model.planning.solutions.BusCharger;
@@ -109,6 +108,7 @@ public class RouteSimulationModel {
 				canRun = false;
 				break;
 			} 
+			Logger.info("Current trip: " + trip.getStops().get(0).getArrival() +" ---> "+ trip.getStops().get(trip.getStops().size()-1).getArrival());
 			
 			List<ScheduleStop> tripStops = trip.getStops();
 			
@@ -118,7 +118,7 @@ public class RouteSimulationModel {
 				} else {
 					previousStop = null;
 				}
-
+				
 				currentStop = tripStops.get(i);
 				String arrivalTime = currentStop.getArrival();
 				simDate.set(Calendar.HOUR_OF_DAY, Integer.parseInt(arrivalTime.substring(0, 2), 10));
@@ -175,6 +175,9 @@ public class RouteSimulationModel {
 	private void addBatteryEntry(SimulationResult result, double soc, Calendar cal, String location) {
 		BatteryStateEntry lastEntry = result.getLastBatteryStateEntry();
 		if(lastEntry !=null && lastEntry.getTimestamp().compareTo(cal.getTime()) > 0) {
+//			Logger.info("Increment day");
+//			Logger.info("last entry "+lastEntry.getStringTimestamp());
+//			Logger.info("new candidate" + (new SimpleDateFormat("d-MM HH:mm")).format(cal.getTime()));
 			//increment day
 			cal.add(Calendar.DATE, 1);
 		}

@@ -66,7 +66,7 @@ define([ 'jquery',
     },
     
     clearRoute: function(route) {
-        this.map.removeLayer(this.drawRoutes[route.routeId]);
+        this.map.removeLayer(this.drawnRoutes[route]);
     },
     
 //    createBusStop: function(stop, isEndstop) {
@@ -133,6 +133,19 @@ define([ 'jquery',
     },
     
     highlightRoute: function(route, isHighlighted) {
+      
+      var polyline = this.getPolyline(route);
+      
+      if(_.isUndefined(polyline)) {
+        return;
+      }
+      
+      style = this.getRouteStyle(polyline.userData.route, isHighlighted);
+      polyline.setStyle(style);
+      polyline.bringToFront(); 
+    },
+    
+    getPolyline: function(route) {
       var polyline, style, routeName;
       
       if(_.isString(route)) {
@@ -143,17 +156,7 @@ define([ 'jquery',
         routeName = route.userData.name;
       }
       
-      if(_.isUndefined(polyline)) {
-        return;
-      }
-      
-      var routeObj = _.find(this.routes, function(r){
-        return r.name === routeName;
-      });
-      
-      style = this.getRouteStyle(routeObj, isHighlighted);
-      polyline.setStyle(style);
-      polyline.bringToFront(); 
+      return polyline;
     },
     
     unhighlightAllRoutes: function() {

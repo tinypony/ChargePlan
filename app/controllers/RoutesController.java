@@ -13,8 +13,8 @@ import model.dataset.DetailedBusRoute;
 import model.dataset.RouteDirection;
 import model.dataset.aggregation.BusRouteAggregation;
 
-import org.emn.calculate.Euro6EmissionModel;
-import org.emn.calculate.IEmissionModel;
+import org.emn.calculate.route.Euro6EmissionModel;
+import org.emn.calculate.route.IEmissionModel;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.AggregationPipeline;
 import org.mongodb.morphia.aggregation.Group;

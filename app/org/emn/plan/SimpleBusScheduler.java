@@ -104,7 +104,7 @@ public class SimpleBusScheduler {
 					calB.set(Calendar.SECOND, 0);
 					pA++;
 					
-					if(this.isOvernight(candidateA)) {
+					if(this.isOvernight(candidateA, calB)) {
 						break whileloop;
 					}
 					
@@ -124,7 +124,8 @@ public class SimpleBusScheduler {
 				candidateTime = DateUtils.stringToCalendar(firstStop.getArrival());
 				
 				if(candidateTime.compareTo(calB) >= 0) {
-					dirB.add(candidateB);ScheduleStop lastStop = stopsB.get(stopsB.size() - 1);
+					dirB.add(candidateB);
+					ScheduleStop lastStop = stopsB.get(stopsB.size() - 1);
 					Calendar tripLastStopTime = DateUtils.stringToCalendar(lastStop.getArrival());
 					
 					int chargingTime = this.getChargingTime(candidateB.getRouteId(), lastStop, eStops);
@@ -135,7 +136,7 @@ public class SimpleBusScheduler {
 					calA.set(Calendar.SECOND, 0);
 					pB++;
 					
-					if(this.isOvernight(candidateB)) {
+					if(this.isOvernight(candidateB, calA)) {
 						break whileloop;
 					}
 					
@@ -150,13 +151,13 @@ public class SimpleBusScheduler {
 		}
 	}
 
-	private boolean isOvernight(BusTrip candidateA) {
+	private boolean isOvernight(BusTrip candidateA, Calendar calB) {
 		ScheduleStop stopOne = candidateA.getStops().get(0);
 		ScheduleStop lastStop = candidateA.getStops().get(candidateA.getStops().size() - 1);
 		Calendar calFirst = DateUtils.stringToCalendar(stopOne.getArrival());
 		Calendar calLast = DateUtils.stringToCalendar(lastStop.getArrival());
 		
-		return calFirst.compareTo(calLast) > 0;
+		return (calFirst.compareTo(calLast) > 0 || calLast.compareTo(calB) > 0);
 	}
 
 	private int getChargingTime(String routeId, final ScheduleStop lastStop,

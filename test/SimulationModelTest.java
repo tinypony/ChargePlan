@@ -14,8 +14,8 @@ import model.planning.ElectrifiedBusStop;
 import model.planning.solutions.BusCharger;
 import model.planning.solutions.ElectricBus;
 
-import org.emn.calculate.StaticConsumptionProfile;
-import org.emn.plan.RouteSimulationModel;
+import org.emn.calculate.bus.StaticConsumptionProfile;
+import org.emn.calculate.route.RouteSimulationModel;
 import org.emn.plan.SimulationResult;
 import org.junit.Before;
 import org.junit.Test;

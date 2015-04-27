@@ -16,10 +16,10 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     
     removeRoute: function(route) {
       var routes = this.get('routes');
-      routes = _.without(routes, function(r){
-        return r.routeId === route.routeId;
+      routes = _.reject(routes, function(r) {
+        return r.routeId === route;
       });
-      
+
       this.set('routes', routes);
       this.save();
     },

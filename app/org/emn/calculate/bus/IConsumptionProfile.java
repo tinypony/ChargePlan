@@ -1,4 +1,4 @@
-package org.emn.calculate;
+package org.emn.calculate.bus;
 
 import java.util.Map;
 

@@ -74,9 +74,23 @@ define([ 'jquery', 'jquery-ui', 'underscore', 'backbone', 'config-manager', 'amc
     runSimulation : function(opts) {
       var self = this;
       this.$('.simulation-results').append(loading());
+      
+      $.ajax({
+        url : '/api/projects/' + this.project.get('id') + '/cost',
+        data : JSON.stringify({
+          routeId : this.route.routeId,
+          date : opts.date,
+          busType : opts.busType,
+          minWaitingTime : opts.minWaitingTime
+        }),
+        method: 'POST',
+        contentType : 'application/json'
+      }).done(function(data){
+        console.log(data);
+      });
 
       $.ajax({
-        url : '/api/projects/' + this.project.get('id') + '/simulate',
+        url : '/api/projects/' + this.project.get('id') + '/feasibility',
         data : JSON.stringify({
           routeId : this.route.routeId,
           date : opts.date,

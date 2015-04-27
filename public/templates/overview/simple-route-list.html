@@ -2,7 +2,9 @@
 	<div class="route-list nano-content">
 		{{#each routes}}
 			<div class="route-list-item" data-routeid="{{this.routeId}}">
-				<span class="route-name">{{this.name}}</span> <span class="route-ends">{{this.longName}}</span>
+				<span class="route-name">{{this.name}}</span> 
+				<span class="route-ends">{{this.longName}}</span>
+				<i class="fa fa-remove remove" data-routeid="{{this.routeId}}"></i>
 			</div>
 		{{/each}}
 	</div>

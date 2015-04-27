@@ -1,5 +1,5 @@
-import org.emn.calculate.Euro6EmissionModel;
-import org.emn.calculate.IEmissionModel;
+import org.emn.calculate.route.Euro6EmissionModel;
+import org.emn.calculate.route.IEmissionModel;
 import org.junit.Before;
 import org.junit.Test;
 

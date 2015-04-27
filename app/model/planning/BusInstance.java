@@ -1,6 +1,6 @@
 package model.planning;
 
-import org.emn.calculate.IConsumptionProfile;
+import org.emn.calculate.bus.IConsumptionProfile;
 
 import model.planning.solutions.ElectricBus;
 

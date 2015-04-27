@@ -5,6 +5,7 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
 
     events : {
       'click .route-list-item' : 'onClickRoute',
+      'click .route-list-item .remove': 'onClickRemove',
       'mouseover .route-list-item' : 'onMouseover',
       'mouseout .route-list-item' : 'onMouseout'
     },
@@ -41,7 +42,8 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
     
     removeRoute: function(route) {
       this.project.removeRoute(route);
-      this.$('.route-list-item[data-routeid="'+route.routeId+'"]').remove();
+      this.$('.route-list-item[data-routeid="'+route+'"]').remove();
+      EventBus.trigger('route:remove', route);
     },
 
 //    onClickAdd : function() {
@@ -79,6 +81,13 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
         $targ.addClass('active').siblings().removeClass('active');
         EventBus.trigger('route:select', routeId);
       }
+    },
+    
+    onClickRemove: function(ev) {
+      var $targ = $(ev.currentTarget);
+      var routeId = $targ.attr('data-routeid');
+      this.removeRoute(routeId);
+      ev.stopPropagation();
     },
 
     onMouseout : function(ev) {

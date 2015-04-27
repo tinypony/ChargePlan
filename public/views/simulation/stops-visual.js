@@ -12,6 +12,7 @@ define([ 'jquery',
       this.route = options.route;
       this.project = options.project;
       this.chargers = options.chargers;
+      this.firstTime = true;
       
       this.visual = {};
       _.bindAll(this, ['onStopClick']);
@@ -98,8 +99,11 @@ define([ 'jquery',
       stops1[0].endstop = true;
       stops1[stops1.length-1].endstop = true;
       
-      stops1.reverse();
-
+      if(this.firstTime) {
+        stops1.reverse();
+        this.firstTime = false;
+      }
+      
       var x0 = d3.scale.linear().domain([ 0, stops0.length ]).range([ 0, this.visual.width - this.visual.offset.right - this.visual.offset.left ]);
       this.visual.x0 = x0;
       var x1 = d3.scale.linear().domain([ 0, stops1.length ]).range([ 0, this.visual.width - this.visual.offset.right - this.visual.offset.left ]);
@@ -111,7 +115,6 @@ define([ 'jquery',
       var getColor = function(d) {
         var elStop = _.findWhere(self.project.get('stops'), {stopId: d.stopId}); 
         if(elStop && elStop.charger) {
-          console.log(elStop);
           return 'green';
         }
         return 'steelblue';
