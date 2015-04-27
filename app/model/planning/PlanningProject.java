@@ -13,9 +13,14 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Transient;
 
 import serialization.ObjectIdSerializer;
+import akka.util.Collections;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 
 @Entity("projects")
@@ -91,5 +96,17 @@ public class PlanningProject {
 			}
 		}
 		return stop;
+	}
+	
+	@JsonIgnore
+	public BusRouteAggregationLight getBusRoute(final String routeId) {
+		return Iterables.find(this.getRoutes(), new Predicate<BusRouteAggregationLight>() {
+
+			@Override
+			public boolean apply(BusRouteAggregationLight arg0) {
+				return routeId.equals(arg0.getRouteId());
+			}
+			
+		}, null);
 	}
 }

@@ -5,8 +5,9 @@ define([ 'jquery',
          'event-bus',
          'api-config',
          'chroma',
+         'const',
          'hbs!templates/overview/endstop-popup'], 
-         function($, _, Backbone, Mapbox, EventBus, ApiConfig, chroma, endstopPopupTemplate) {
+         function($, _, Backbone, Mapbox, EventBus, ApiConfig, chroma, Constants, endstopPopupTemplate) {
   
   var MapView = Backbone.View.extend({
     initialize: function() {
@@ -54,7 +55,7 @@ define([ 'jquery',
           });
           
           //Create polyline
-          var polyline = L.polyline( coordinates, self.getRouteStyle(false)).addTo(self.map);
+          var polyline = L.polyline( coordinates, self.getRouteStyle(route, false)).addTo(self.map);
           polyline.userData = {
               route: route
           };
@@ -106,12 +107,29 @@ define([ 'jquery',
 //      });
 //    },
     
-    getRouteStyle: function(isHighlighted) {
-      if(isHighlighted) {
-        return {color: 'steelblue', opacity: 1};
-      } else {
-        return {color: 'grey', opacity: 0.5};
+    getRouteStyle: function(route, isHighlighted) {
+      var style = {
+          color: 'grey',
+          opacity: 0.5
       }
+      
+      if(route.state === Constants.RouteState.UNSIMULATED) {
+        style.color = 'grey';
+      } else if(route.state === Constants.RouteState.SIMULATED_OK) {
+        style.color = 'green';
+      } else if(route.state === Constants.RouteState.SIMULATED_FAIL) {
+        style.color = 'red';
+      } else if(route.state === Constants.RouteState.RESIMULATE ) {
+        style.color = 'orange';
+      }
+      
+      if(isHighlighted) {
+        style.opacity = 1;
+      } else {
+        style.opacity = 0.5;
+      }
+      
+      return style;
     },
     
     highlightRoute: function(route, isHighlighted) {
@@ -133,7 +151,7 @@ define([ 'jquery',
         return r.name === routeName;
       });
       
-      style = this.getRouteStyle(isHighlighted);
+      style = this.getRouteStyle(routeObj, isHighlighted);
       polyline.setStyle(style);
       polyline.bringToFront(); 
     },
