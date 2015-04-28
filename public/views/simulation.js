@@ -1,4 +1,9 @@
-define([ 'jquery', 'jquery-ui', 'underscore', 'backbone', 'config-manager', 'amcharts.serial', 'views/simulation/stops-visual', 'views/simulation/bus-details', 'views/simulation/charger-details', 'collections/chargers', 'collections/buses', 'hbs!templates/simulation',
+define([ 'jquery', 
+         'jquery-ui', 
+         'underscore', 
+         'backbone', 
+         'config-manager', 
+         'amcharts.serial', 'views/simulation/stops-visual', 'views/simulation/bus-details', 'views/simulation/charger-details', 'collections/chargers', 'collections/buses', 'hbs!templates/simulation',
     'hbs!templates/misc/loading' ], function($, JUI, _, Backbone, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, ChargerDetailsView, Chargers, Buses, template, loading) {
 
   var SimulationView = Backbone.View.extend({
@@ -101,7 +106,6 @@ define([ 'jquery', 'jquery-ui', 'underscore', 'backbone', 'config-manager', 'amc
         contentType : 'application/json'
       }).done(function(data) {
         self.$('.simulation-results .loading-container').remove();
-
 
         var chart = amRef.makeChart('simulation-result-chart', {
           'theme' : 'none',

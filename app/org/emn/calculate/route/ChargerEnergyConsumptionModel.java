@@ -26,19 +26,19 @@ public class ChargerEnergyConsumptionModel {
 		this.electrifiedStop = electrifiedStop;
 		this.simDate = simDate;
 		this.trips = trips;
+		System.out.println(trips.size()+"");
 	}
 
 	public Map<Long, Double> getEnergyConsumption() {
 		Map<Long, Double> energyProfile = new HashMap<Long, Double>();
 		this.simDate = DateUtils.rewindCalendar(this.simDate);
 
-		System.out.println(this.simDate.get(Calendar.DAY_OF_MONTH));
+		
 		for(int i=0; i < 60 * 24-1; i++ ) {
 			energyProfile.put(this.simDate.getTime().getTime(), 0.0);
 			this.simDate.add(Calendar.MINUTE, 1);
 		}
 		this.simDate = DateUtils.rewindCalendar(this.simDate);
-		System.out.println(this.simDate.get(Calendar.DAY_OF_MONTH));
 		final ElectrifiedBusStop elStop = this.electrifiedStop;
 		
 		for(BusTrip trip: this.getTrips()) {

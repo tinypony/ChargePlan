@@ -1,20 +1,29 @@
-<h4>Charger</h4>
-<select class="available-chargers" name="available-chargers">
-	<option value="-1">Select charger</option>
-	{{#each chargerTypes}}
-	<option value="{{this.id}}">{{this.manufacturer}} {{this.model}} {{this.power}}</option> 
-	{{/each}}
-</select>
-
-<!-- <button class="btn btn-primary add-charger">Add</button> -->
-<!-- <ul class="existing-chargers"> -->
-<!-- 	{{#each stop.chargers}} -->
-<!-- 	<li>{{this.type.manufacturer}} {{this.type.model}} {{this.type.power}}</li> -->
-<!-- 	{{/each}} -->
-<!-- </ul> -->
-<h4>Min charging time</h4>
-{{#if isEndStop}}
-<input class="min-charging-time" type="number" value="{{minChargingTime}}"/>
-{{else}}
-<input class="min-charging-time" type="number" value="10" disabled/>
-{{/if}}
+<div class="charging-parameters">
+	<div class="parameter">
+		<h4>Charger</h4>
+		<select class="available-chargers" name="available-chargers">
+			<option value="-1">Select charger</option>
+			{{#each chargerTypes}}
+			<option value="{{this.id}}">{{this.manufacturer}} {{this.model}} {{this.power}}</option> 
+			{{/each}}
+		</select>
+	</div>
+	
+	<!-- <button class="btn btn-primary add-charger">Add</button> -->
+	<!-- <ul class="existing-chargers"> -->
+	<!-- 	{{#each stop.chargers}} -->
+	<!-- 	<li>{{this.type.manufacturer}} {{this.type.model}} {{this.type.power}}</li> -->
+	<!-- 	{{/each}} -->
+	<!-- </ul> -->
+	<div class="parameter">
+		<h4>Charging time</h4>
+		{{#if isEndStop}}
+		<input class="min-charging-time" type="number" value="{{minChargingTime}}"/>
+		{{else}}1
+		<input class="min-charging-time" type="number" value="10" disabled/>
+		{{/if}}
+	</div>
+</div>
+<div id="stop-consumption-chart" class="stop-consumption">
+	
+</div>

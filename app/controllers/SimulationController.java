@@ -17,7 +17,9 @@ import model.planning.ElectrifiedBusStop;
 import model.planning.PlanningProject;
 
 import org.emn.calculate.EnergyPricingModel;
+import org.emn.calculate.IEnergyPriceProvider;
 import org.emn.calculate.bus.StaticConsumptionProfile;
+import org.emn.calculate.route.DailyConsumptionModel;
 import org.emn.calculate.route.RouteSimulationModel;
 import org.emn.plan.SimpleBusScheduler;
 import org.emn.plan.SimulationResult;
@@ -78,6 +80,7 @@ public class SimulationController extends Controller {
 		return ok(""+simulateRouteCost(projectId, simreq));
 	}
 	
+	//cost
 	public static Double simulateRouteCost(String projectId, final SimulationRequest simreq) throws Exception {
 		Datastore ds = MongoUtils.ds();
 		
@@ -86,18 +89,23 @@ public class SimulationController extends Controller {
 		//Get all electrified bus stops on the route
 		List<ElectrifiedBusStop> elStops =  Lists.newArrayList(Iterables.filter(proj.getStops(), new Predicate<ElectrifiedBusStop>() {
 			public boolean apply(ElectrifiedBusStop stop) {
-				return stop.getChargingTimes().keySet().contains(simreq.getRouteId());
+				return stop.getCharger()!=null && stop.getChargingTimes().keySet().contains(simreq.getRouteId());
 			}
 		}));
 		Calendar cal = DatatypeConverter.parseDate(simreq.getDate());
-		EnergyPricingModel enModel = new EnergyPricingModel();
+		EnergyPricingModel enModel = new EnergyPricingModel(new IEnergyPriceProvider() {
+			@Override
+			public Double getMWhPrice(Date time) {
+				return 220.0;
+			}
+		});
 		Double result = 0.0;
 		
 		for(ElectrifiedBusStop stop: elStops) {
 			Set<String> routes = new HashSet<String>();
 			routes.add(simreq.getRouteId());
-			Map<Long, Double> consumptionMap = StopsController.getStopConsumptionMap(stop, cal, routes);
-			result += enModel.getEnergyCost(consumptionMap);
+			DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, routes);
+			result += enModel.getEnergyCost(Arrays.asList(consumptionModel));
 		}
 		
 		return result;

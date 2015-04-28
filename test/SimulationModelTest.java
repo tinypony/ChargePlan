@@ -247,7 +247,7 @@ public class SimulationModelTest {
 		chargerType1.setPower(200);
 		BusChargerInstance chargerInst1 = new BusChargerInstance();
 		chargerInst1.setType(chargerType1);
-		stop1.addCharger(chargerInst1);
+		stop1.setCharger(chargerInst1);
 		stop1.getChargingTimes().put("route-1", 60);
 		
 		ElectrifiedBusStop stop2 = new ElectrifiedBusStop();
@@ -256,7 +256,7 @@ public class SimulationModelTest {
 		chargerType2.setPower(200);
 		BusChargerInstance chargerInst2 = new BusChargerInstance();
 		chargerInst2.setType(chargerType2);
-		stop2.addCharger(chargerInst2);
+		stop2.setCharger(chargerInst2);
 		stop2.getChargingTimes().put("route-1", 30);
 		electrifiedStops.add(stop1);
 		electrifiedStops.add(stop2);

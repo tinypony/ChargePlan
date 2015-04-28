@@ -706,3 +706,84 @@ Found existing projects
 2015-04-28 09:26:13,193 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
+2015-04-28 10:21:47,365 - [INFO] - from application in play-internal-execution-context-27 
+Found ruter
+
+2015-04-28 10:21:48,824 - [INFO] - from application in play-internal-execution-context-27 
+Found existing projects
+
+2015-04-28 10:21:48,827 - [INFO] - from play in play-internal-execution-context-27 
+Application started (Dev)
+
+2015-04-28 11:07:47,799 - [INFO] - from application in play-internal-execution-context-27 
+Application shutdown...
+
+2015-04-28 11:07:48,416 - [INFO] - from application in play-internal-execution-context-27 
+Found ruter
+
+2015-04-28 11:07:48,654 - [INFO] - from application in play-internal-execution-context-27 
+Found existing projects
+
+2015-04-28 11:07:48,657 - [INFO] - from play in play-internal-execution-context-27 
+Application started (Dev)
+
+2015-04-28 12:15:59,436 - [INFO] - from application in play-internal-execution-context-31 
+Application shutdown...
+
+2015-04-28 12:16:02,722 - [INFO] - from application in play-internal-execution-context-31 
+Found ruter
+
+2015-04-28 12:16:05,470 - [INFO] - from application in play-internal-execution-context-31 
+Found existing projects
+
+2015-04-28 12:16:05,490 - [INFO] - from play in play-internal-execution-context-31 
+Application started (Dev)
+
+2015-04-28 12:27:44,742 - [INFO] - from application in play-internal-execution-context-31 
+Application shutdown...
+
+2015-04-28 12:27:45,269 - [INFO] - from application in play-internal-execution-context-31 
+Found ruter
+
+2015-04-28 12:27:45,695 - [INFO] - from application in play-internal-execution-context-31 
+Found existing projects
+
+2015-04-28 12:27:45,695 - [INFO] - from play in play-internal-execution-context-31 
+Application started (Dev)
+
+2015-04-28 12:29:41,190 - [INFO] - from application in play-internal-execution-context-31 
+Application shutdown...
+
+2015-04-28 12:29:41,400 - [INFO] - from application in play-internal-execution-context-31 
+Found ruter
+
+2015-04-28 12:29:41,656 - [INFO] - from application in play-internal-execution-context-31 
+Found existing projects
+
+2015-04-28 12:29:41,657 - [INFO] - from play in play-internal-execution-context-31 
+Application started (Dev)
+
+2015-04-28 12:30:46,487 - [INFO] - from application in play-internal-execution-context-31 
+Application shutdown...
+
+2015-04-28 12:30:46,572 - [INFO] - from application in play-internal-execution-context-31 
+Found ruter
+
+2015-04-28 12:30:46,742 - [INFO] - from application in play-internal-execution-context-31 
+Found existing projects
+
+2015-04-28 12:30:46,743 - [INFO] - from play in play-internal-execution-context-31 
+Application started (Dev)
+
+2015-04-28 12:35:40,700 - [INFO] - from application in play-internal-execution-context-31 
+Application shutdown...
+
+2015-04-28 12:35:40,942 - [INFO] - from application in play-internal-execution-context-31 
+Found ruter
+
+2015-04-28 12:35:41,116 - [INFO] - from application in play-internal-execution-context-31 
+Found existing projects
+
+2015-04-28 12:35:41,118 - [INFO] - from play in play-internal-execution-context-31 
+Application started (Dev)
+

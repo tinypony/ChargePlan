@@ -18,6 +18,7 @@ import model.planning.ElectrifiedBusStop;
 import model.planning.PlanningProject;
 
 import org.emn.calculate.route.ChargerEnergyConsumptionModel;
+import org.emn.calculate.route.DailyConsumptionModel;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -70,10 +71,10 @@ public class StopsController  extends Controller {
 		Calendar cal = Calendar.getInstance();
 		cal.set(2015, 3, 23);
 		
-		Map<Long, Double> consumptionMap = getStopConsumptionMap(elStop, cal, elBusRoutes);
+		Map<Long, Double> consumptionMap = getStopConsumptionModel(elStop, cal, elBusRoutes).getConsumptionMap();
 		List<Entry<Long, Double>> entries = Lists.newArrayList(consumptionMap.entrySet());
+		
 		Collections.sort(entries, new Comparator<Entry<Long, Double>>() {
-
 			@Override
 			public int compare(Entry<Long, Double> o1, Entry<Long, Double> o2) {
 				return o1.getKey().compareTo(o2.getKey());
@@ -83,21 +84,27 @@ public class StopsController  extends Controller {
 		return ok(om.valueToTree(entries));
 	}
 	
-	public static Map<Long, Double> getStopConsumptionMap(ElectrifiedBusStop elStop, Calendar cal, Set<String> elBusRoutes) {
+	public static DailyConsumptionModel getStopConsumptionModel(ElectrifiedBusStop elStop, Calendar cal, Set<String> elBusRoutes) {
 		Datastore ds = MongoUtils.ds();
 		Query<BusTrip> q = ds.createQuery(BusTrip.class);
-		q.field("dates").equal((new SimpleDateFormat("yyyy-MM-d").format(cal.getTime())));
+		System.out.println((new SimpleDateFormat("yyyy-M-d").format(cal.getTime())));
+		q.field("dates").equal((new SimpleDateFormat("yyyy-M-d").format(cal.getTime())));
 		q.field("routeId").in(elBusRoutes);
 		
+		List<BusTrip> trips = q.asList();
+		System.out.println(elBusRoutes);
+		System.out.println(elStop.getName());
+		System.out.println("Trips total "+trips.size());
 		ChargerEnergyConsumptionModel consumptionModel = 
-				new ChargerEnergyConsumptionModel(elStop, cal, q.asList());
+				new ChargerEnergyConsumptionModel(elStop, cal, trips);
 		
-		return consumptionModel.getEnergyConsumption();
+		DailyConsumptionModel dailyConsumption = new DailyConsumptionModel();
+		dailyConsumption.setDate(cal.getTime());
+		dailyConsumption.setConsumptionMap(consumptionModel.getEnergyConsumption());
+		return dailyConsumption;
 	}
 	
 	public static Set<String> getBusRoutesThroughStop(PlanningProject project, ElectrifiedBusStop elStop) {
-
-		
 		Set<String> busRoutes = Sets.newHashSet(Iterables.transform(project.getRoutes(), 
 				new Function<BusRouteAggregationLight, String>() {
 
