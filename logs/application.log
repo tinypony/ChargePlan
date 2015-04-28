@@ -1,1374 +1,708 @@
-2015-04-24 18:43:07,781 - [INFO] - from play in pool-4-thread-1 
+2015-04-28 08:59:51,072 - [INFO] - from play in pool-4-thread-5 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2015-04-24 18:43:38,646 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-28 09:00:09,217 - [INFO] - from application in play-internal-execution-context-1 
 Found ruter
 
-2015-04-24 18:43:40,330 - [INFO] - from play in play-internal-execution-context-1 
-Application started (Dev)
-
-2015-04-27 10:02:40,734 - [INFO] - from application in play-internal-execution-context-1 
-Application shutdown...
-
-2015-04-27 10:02:41,333 - [INFO] - from application in play-internal-execution-context-1 
-Found ruter
-
-2015-04-27 10:02:42,144 - [INFO] - from application in play-internal-execution-context-1 
+2015-04-28 09:00:09,513 - [INFO] - from application in play-internal-execution-context-1 
 Found existing projects
 
-2015-04-27 10:02:42,145 - [INFO] - from play in play-internal-execution-context-1 
+2015-04-28 09:00:09,516 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
-2015-04-27 10:03:53,501 - [ERROR] - from play in play-akka.actor.default-dispatcher-4 
-Cannot invoke the action, eventually got an error: java.lang.NullPointerException
-
-2015-04-27 10:03:53,969 - [ERROR] - from application in play-akka.actor.default-dispatcher-4 
-
-
-! @6m1c9nje4 - Internal server error, for (POST) [/api/projects/553a64ac44ae8a62b46490ee/simulate] ->
-
-play.api.Application$$anon$1: Execution exception[[NullPointerException: null]]
-	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
-	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
-	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
-Caused by: java.lang.NullPointerException: null
-	at controllers.SimulationController.simulateRoute(SimulationController.java:51) ~[classes/:2.3.8]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$12$$anonfun$apply$12.apply(routes_routing.scala:266) ~[classes/:na]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$12$$anonfun$apply$12.apply(routes_routing.scala:266) ~[classes/:na]
-	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
-	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	... 6 common frames omitted
-
-2015-04-27 10:05:29,408 - [INFO] - from application in play-internal-execution-context-1 
-Application shutdown...
-
-2015-04-27 10:05:29,850 - [INFO] - from application in play-internal-execution-context-1 
-Found ruter
-
-2015-04-27 10:05:30,039 - [INFO] - from application in play-internal-execution-context-1 
-Found existing projects
-
-2015-04-27 10:05:30,042 - [INFO] - from play in play-internal-execution-context-1 
-Application started (Dev)
-
-2015-04-27 11:05:16,066 - [INFO] - from application in play-internal-execution-context-7 
-Application shutdown...
-
-2015-04-27 11:05:16,476 - [INFO] - from application in play-internal-execution-context-7 
-Found ruter
-
-2015-04-27 11:05:16,707 - [INFO] - from application in play-internal-execution-context-7 
-Found existing projects
-
-2015-04-27 11:05:16,708 - [INFO] - from play in play-internal-execution-context-7 
-Application started (Dev)
-
-2015-04-27 11:05:56,863 - [INFO] - from application in play-internal-execution-context-7 
-Application shutdown...
-
-2015-04-27 11:05:57,031 - [INFO] - from application in play-internal-execution-context-7 
-Found ruter
-
-2015-04-27 11:05:57,105 - [INFO] - from application in play-internal-execution-context-7 
-Found existing projects
-
-2015-04-27 11:05:57,106 - [INFO] - from play in play-internal-execution-context-7 
-Application started (Dev)
-
-2015-04-27 11:06:04,147 - [INFO] - from application in play-akka.actor.default-dispatcher-8 
-Increment day
-
-2015-04-27 11:06:04,499 - [INFO] - from application in play-akka.actor.default-dispatcher-8 
-Increment day
-
-2015-04-27 11:06:04,854 - [INFO] - from application in play-akka.actor.default-dispatcher-8 
-Increment day
-
-2015-04-27 11:06:05,114 - [INFO] - from application in play-akka.actor.default-dispatcher-8 
-Increment day
-
-2015-04-27 11:08:28,206 - [INFO] - from application in play-internal-execution-context-7 
-Application shutdown...
-
-2015-04-27 11:08:28,496 - [INFO] - from application in play-internal-execution-context-7 
-Found ruter
-
-2015-04-27 11:08:28,565 - [INFO] - from application in play-internal-execution-context-7 
-Found existing projects
-
-2015-04-27 11:08:28,565 - [INFO] - from play in play-internal-execution-context-7 
-Application started (Dev)
-
-2015-04-27 11:09:13,105 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-Increment day
-
-2015-04-27 11:09:13,107 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-last entry 2015-06-11 23:58
-
-2015-04-27 11:09:13,107 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-new candidate11-06 22:07
-
-2015-04-27 11:09:13,762 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-Increment day
-
-2015-04-27 11:09:13,762 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-last entry 2015-06-12 23:58
-
-2015-04-27 11:09:13,762 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-new candidate12-06 22:07
-
-2015-04-27 11:09:14,211 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-Increment day
-
-2015-04-27 11:09:14,211 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-last entry 2015-06-13 23:58
-
-2015-04-27 11:09:14,212 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-new candidate13-06 22:37
-
-2015-04-27 11:09:14,591 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-Increment day
-
-2015-04-27 11:09:14,591 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-last entry 2015-06-14 23:58
-
-2015-04-27 11:09:14,591 - [INFO] - from application in play-akka.actor.default-dispatcher-17 
-new candidate14-06 00:00
-
-2015-04-27 11:14:02,650 - [INFO] - from application in play-internal-execution-context-7 
-Application shutdown...
-
-2015-04-27 11:14:02,918 - [INFO] - from application in play-internal-execution-context-7 
-Found ruter
-
-2015-04-27 11:14:03,020 - [INFO] - from application in play-internal-execution-context-7 
-Found existing projects
-
-2015-04-27 11:14:03,025 - [INFO] - from play in play-internal-execution-context-7 
-Application started (Dev)
-
-2015-04-27 11:14:29,061 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0017 ---> 0052
-
-2015-04-27 11:14:29,199 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0607 ---> 0648
-
-2015-04-27 11:14:29,487 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0712 ---> 0754
-
-2015-04-27 11:14:29,611 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0807 ---> 0840
-
-2015-04-27 11:14:29,843 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0857 ---> 0939
-
-2015-04-27 11:14:29,958 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0952 ---> 1033
-
-2015-04-27 11:14:30,269 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1057 ---> 1139
-
-2015-04-27 11:14:30,420 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1152 ---> 1233
-
-2015-04-27 11:14:30,677 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1257 ---> 1339
-
-2015-04-27 11:14:30,793 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1352 ---> 1433
-
-2015-04-27 11:14:31,021 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1457 ---> 1539
-
-2015-04-27 11:14:31,154 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1552 ---> 1633
-
-2015-04-27 11:14:31,423 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1657 ---> 1739
-
-2015-04-27 11:14:31,553 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1752 ---> 1833
-
-2015-04-27 11:14:31,774 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1857 ---> 1939
-
-2015-04-27 11:14:31,899 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2007 ---> 2048
-
-2015-04-27 11:14:32,128 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2117 ---> 2152
-
-2015-04-27 11:14:32,349 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2207 ---> 2240
-
-2015-04-27 11:14:32,592 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2317 ---> 2352
-
-2015-04-27 11:14:32,712 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2207 ---> 2240
-
-2015-04-27 11:14:32,713 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Increment day
-
-2015-04-27 11:14:32,713 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-last entry 2015-06-11 23:58
-
-2015-04-27 11:14:32,713 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-new candidate11-06 22:07
-
-2015-04-27 11:14:32,937 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2317 ---> 2352
-
-2015-04-27 11:14:33,056 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2207 ---> 2240
-
-2015-04-27 11:14:33,056 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Increment day
-
-2015-04-27 11:14:33,056 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-last entry 2015-06-12 23:58
-
-2015-04-27 11:14:33,056 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-new candidate12-06 22:07
-
-2015-04-27 11:14:33,355 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2317 ---> 2352
-
-2015-04-27 11:14:33,520 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2237 ---> 2310
-
-2015-04-27 11:14:33,521 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Increment day
-
-2015-04-27 11:14:33,521 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-last entry 2015-06-13 23:58
-
-2015-04-27 11:14:33,521 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-new candidate13-06 22:37
-
-2015-04-27 11:14:33,797 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2347 ---> 0022
-
-2015-04-27 11:14:33,824 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Increment day
-
-2015-04-27 11:14:33,825 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-last entry 2015-06-14 23:58
-
-2015-04-27 11:14:33,825 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-new candidate14-06 00:00
-
-2015-04-27 11:21:44,768 - [INFO] - from application in play-internal-execution-context-7 
-Application shutdown...
-
-2015-04-27 11:21:44,905 - [INFO] - from application in play-internal-execution-context-7 
-Found ruter
-
-2015-04-27 11:21:44,948 - [INFO] - from application in play-internal-execution-context-7 
-Found existing projects
-
-2015-04-27 11:21:44,948 - [INFO] - from play in play-internal-execution-context-7 
-Application started (Dev)
-
-2015-04-27 11:21:53,878 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0017 ---> 0052
-
-2015-04-27 11:21:54,024 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0607 ---> 0648
-
-2015-04-27 11:21:54,223 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0712 ---> 0754
-
-2015-04-27 11:21:54,330 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0807 ---> 0840
-
-2015-04-27 11:21:54,539 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0857 ---> 0939
-
-2015-04-27 11:21:54,656 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 0952 ---> 1033
-
-2015-04-27 11:21:54,854 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1057 ---> 1139
-
-2015-04-27 11:21:54,988 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1152 ---> 1233
-
-2015-04-27 11:21:55,230 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1257 ---> 1339
-
-2015-04-27 11:21:55,355 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1352 ---> 1433
-
-2015-04-27 11:21:55,557 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1457 ---> 1539
-
-2015-04-27 11:21:55,668 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1552 ---> 1633
-
-2015-04-27 11:21:55,875 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1657 ---> 1739
-
-2015-04-27 11:21:55,996 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1752 ---> 1833
-
-2015-04-27 11:21:56,331 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 1857 ---> 1939
-
-2015-04-27 11:21:56,476 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2007 ---> 2048
-
-2015-04-27 11:21:56,717 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2117 ---> 2152
-
-2015-04-27 11:21:56,831 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2207 ---> 2240
-
-2015-04-27 11:21:57,049 - [INFO] - from application in play-akka.actor.default-dispatcher-10 
-Current trip: 2317 ---> 2352
-
-2015-04-27 11:24:59,393 - [INFO] - from application in play-internal-execution-context-7 
-Application shutdown...
-
-2015-04-27 11:24:59,709 - [INFO] - from application in play-internal-execution-context-7 
-Found ruter
-
-2015-04-27 11:24:59,762 - [INFO] - from application in play-internal-execution-context-7 
-Found existing projects
-
-2015-04-27 11:24:59,763 - [INFO] - from play in play-internal-execution-context-7 
-Application started (Dev)
-
-2015-04-27 11:28:18,097 - [INFO] - from application in play-internal-execution-context-7 
-Application shutdown...
-
-2015-04-27 11:28:18,200 - [INFO] - from application in play-internal-execution-context-7 
-Found ruter
-
-2015-04-27 11:28:18,251 - [INFO] - from application in play-internal-execution-context-7 
-Found existing projects
-
-2015-04-27 11:28:18,252 - [INFO] - from play in play-internal-execution-context-7 
-Application started (Dev)
-
-2015-04-27 11:28:32,348 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0000 ---> 0037
-
-2015-04-27 11:28:32,577 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0510 ---> 0547
-
-2015-04-27 11:29:06,183 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0000 ---> 0037
-
-2015-04-27 11:29:06,374 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0510 ---> 0547
-
-2015-04-27 11:29:17,624 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0000 ---> 0037
-
-2015-04-27 11:29:17,929 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0510 ---> 0547
-
-2015-04-27 11:29:21,247 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0000 ---> 0037
-
-2015-04-27 11:29:21,565 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0510 ---> 0547
-
-2015-04-27 11:29:21,686 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0620 ---> 0657
-
-2015-04-27 11:29:21,985 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0720 ---> 0806
-
-2015-04-27 11:29:22,128 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0830 ---> 0919
-
-2015-04-27 11:29:22,430 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0940 ---> 1017
-
-2015-04-27 11:29:22,547 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1040 ---> 1129
-
-2015-04-27 11:29:22,823 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1150 ---> 1227
-
-2015-04-27 11:29:22,962 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1250 ---> 1339
-
-2015-04-27 11:29:23,275 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1400 ---> 1446
-
-2015-04-27 11:29:23,388 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1510 ---> 1559
-
-2015-04-27 11:29:23,701 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1620 ---> 1706
-
-2015-04-27 11:29:23,841 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1730 ---> 1819
-
-2015-04-27 11:29:24,307 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1850 ---> 1936
-
-2015-04-27 11:29:24,452 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 2000 ---> 2037
-
-2015-04-27 11:29:24,766 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 2110 ---> 2147
-
-2015-04-27 11:29:24,880 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 2220 ---> 2257
-
-2015-04-27 11:29:25,181 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 2330 ---> 0007
-
-2015-04-27 11:29:57,969 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0012 ---> 0038
-
-2015-04-27 11:29:58,052 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0549 ---> 0616
-
-2015-04-27 11:29:58,245 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0627 ---> 0653
-
-2015-04-27 11:29:58,306 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0704 ---> 0731
-
-2015-04-27 11:29:58,484 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0742 ---> 0808
-
-2015-04-27 11:29:58,540 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0819 ---> 0849
-
-2015-04-27 11:29:58,707 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0910 ---> 0938
-
-2015-04-27 11:29:58,773 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 0949 ---> 1019
-
-2015-04-27 11:29:58,916 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1040 ---> 1108
-
-2015-04-27 11:29:58,962 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1119 ---> 1149
-
-2015-04-27 11:29:59,143 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1210 ---> 1238
-
-2015-04-27 11:29:59,235 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1249 ---> 1319
-
-2015-04-27 11:29:59,408 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1340 ---> 1408
-
-2015-04-27 11:29:59,487 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1419 ---> 1449
-
-2015-04-27 11:29:59,638 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1500 ---> 1528
-
-2015-04-27 11:29:59,684 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1539 ---> 1609
-
-2015-04-27 11:29:59,826 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1620 ---> 1648
-
-2015-04-27 11:29:59,880 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1659 ---> 1729
-
-2015-04-27 11:30:00,034 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1740 ---> 1808
-
-2015-04-27 11:30:00,086 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1819 ---> 1849
-
-2015-04-27 11:30:00,257 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 1910 ---> 1938
-
-2015-04-27 11:30:00,314 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 2004 ---> 2034
-
-2015-04-27 11:30:00,452 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 2110 ---> 2138
-
-2015-04-27 11:30:00,508 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 2204 ---> 2231
-
-2015-04-27 11:30:00,664 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 2242 ---> 2308
-
-2015-04-27 11:30:00,727 - [INFO] - from application in play-akka.actor.default-dispatcher-19 
-Current trip: 2334 ---> 0001
-
-2015-04-27 11:31:50,616 - [INFO] - from application in play-akka.actor.default-dispatcher-24 
-Current trip: 0000 ---> 0037
-
-2015-04-27 11:31:50,873 - [INFO] - from application in play-akka.actor.default-dispatcher-24 
-Current trip: 0510 ---> 0547
-
-2015-04-27 11:31:57,045 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0536 ---> 0603
-
-2015-04-27 11:31:57,259 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0622 ---> 0651
-
-2015-04-27 11:31:57,374 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0701 ---> 0731
-
-2015-04-27 11:31:57,545 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0742 ---> 0811
-
-2015-04-27 11:31:57,663 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0821 ---> 0848
-
-2015-04-27 11:31:57,844 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0859 ---> 0928
-
-2015-04-27 11:31:57,991 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 0941 ---> 1011
-
-2015-04-27 11:31:58,166 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1022 ---> 1051
-
-2015-04-27 11:31:58,303 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1101 ---> 1131
-
-2015-04-27 11:31:58,479 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1149 ---> 1218
-
-2015-04-27 11:31:58,604 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1231 ---> 1301
-
-2015-04-27 11:31:58,779 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1319 ---> 1348
-
-2015-04-27 11:31:58,900 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1401 ---> 1431
-
-2015-04-27 11:31:59,081 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1442 ---> 1511
-
-2015-04-27 11:31:59,202 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1521 ---> 1551
-
-2015-04-27 11:31:59,386 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1602 ---> 1631
-
-2015-04-27 11:31:59,509 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1641 ---> 1711
-
-2015-04-27 11:31:59,682 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1722 ---> 1751
-
-2015-04-27 11:31:59,800 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1801 ---> 1831
-
-2015-04-27 11:31:59,998 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1849 ---> 1918
-
-2015-04-27 11:32:00,249 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 1931 ---> 2001
-
-2015-04-27 11:32:00,459 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 2019 ---> 2048
-
-2015-04-27 11:32:00,584 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 2101 ---> 2131
-
-2015-04-27 11:32:00,754 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 2153 ---> 2217
-
-2015-04-27 11:32:00,876 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 2236 ---> 2303
-
-2015-04-27 11:32:01,052 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
-Current trip: 2323 ---> 2347
-
-2015-04-27 11:32:45,941 - [INFO] - from application in play-akka.actor.default-dispatcher-24 
-Current trip: 0000 ---> 0037
-
-2015-04-27 11:32:46,166 - [INFO] - from application in play-akka.actor.default-dispatcher-24 
-Current trip: 0510 ---> 0547
-
-2015-04-27 15:57:29,436 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 15:57:29,896 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 15:57:30,231 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 15:57:30,232 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 16:59:23,682 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 16:59:23,847 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 16:59:23,971 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 16:59:23,971 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 17:42:21,227 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 17:42:21,367 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 17:42:21,428 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 17:42:21,428 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 17:43:08,047 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 17:43:08,242 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 17:43:08,347 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 17:43:08,347 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 17:43:43,822 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 17:43:43,921 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 17:43:44,006 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 17:43:44,008 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 17:44:28,572 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 17:44:28,748 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 17:44:29,077 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 17:44:29,078 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 17:51:36,558 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 17:51:36,685 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 17:51:36,840 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 17:51:36,840 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 17:51:37,334 - [ERROR] - from play in play-akka.actor.default-dispatcher-37 
-Cannot invoke the action, eventually got an error: java.lang.NullPointerException
-
-2015-04-27 17:51:37,389 - [ERROR] - from application in play-akka.actor.default-dispatcher-37 
-
-
-! @6m1ej8bfc - Internal server error, for (GET) [/api/projects/553a64ac44ae8a62b46490ee/stop/consumption/3010640] ->
-
-play.api.Application$$anon$1: Execution exception[[NullPointerException: null]]
-	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
-	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
-	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
-Caused by: java.lang.NullPointerException: null
-	at org.emn.calculate.route.ChargerEnergyConsumptionModel.consume(ChargerEnergyConsumptionModel.java:88) ~[classes/:na]
-	at org.emn.calculate.route.ChargerEnergyConsumptionModel.getEnergyConsumption(ChargerEnergyConsumptionModel.java:62) ~[classes/:na]
-	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:80) ~[classes/:2.3.8]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:281) ~[classes/:na]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:281) ~[classes/:na]
-	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
-	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	... 6 common frames omitted
-
-2015-04-27 17:54:24,829 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 17:54:24,969 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 17:54:25,123 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 17:54:25,131 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 17:54:25,704 - [ERROR] - from play in play-akka.actor.default-dispatcher-37 
-Cannot invoke the action, eventually got an error: java.lang.NullPointerException
-
-2015-04-27 17:54:25,718 - [ERROR] - from application in play-akka.actor.default-dispatcher-37 
-
-
-! @6m1eji0ge - Internal server error, for (GET) [/api/projects/553a64ac44ae8a62b46490ee/stop/consumption/3010640] ->
-
-play.api.Application$$anon$1: Execution exception[[NullPointerException: null]]
-	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
-	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
-	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
-Caused by: java.lang.NullPointerException: null
-	at org.emn.calculate.route.ChargerEnergyConsumptionModel.consume(ChargerEnergyConsumptionModel.java:90) ~[classes/:na]
-	at org.emn.calculate.route.ChargerEnergyConsumptionModel.getEnergyConsumption(ChargerEnergyConsumptionModel.java:62) ~[classes/:na]
-	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:80) ~[classes/:2.3.8]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:281) ~[classes/:na]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:281) ~[classes/:na]
-	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
-	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	... 6 common frames omitted
-
-2015-04-27 17:54:50,386 - [ERROR] - from play in play-akka.actor.default-dispatcher-48 
-Cannot invoke the action, eventually got an error: java.lang.NullPointerException
-
-2015-04-27 17:54:50,389 - [ERROR] - from application in play-akka.actor.default-dispatcher-48 
-
-
-! @6m1ejjb3i - Internal server error, for (GET) [/api/projects/553a64ac44ae8a62b46490ee/stop/consumption/3010640] ->
-
-play.api.Application$$anon$1: Execution exception[[NullPointerException: null]]
-	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
-	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
-	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
-Caused by: java.lang.NullPointerException: null
-	at org.emn.calculate.route.ChargerEnergyConsumptionModel.consume(ChargerEnergyConsumptionModel.java:90) ~[classes/:na]
-	at org.emn.calculate.route.ChargerEnergyConsumptionModel.getEnergyConsumption(ChargerEnergyConsumptionModel.java:62) ~[classes/:na]
-	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:80) ~[classes/:2.3.8]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:281) ~[classes/:na]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:281) ~[classes/:na]
-	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
-	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	... 6 common frames omitted
-
-2015-04-27 17:56:33,666 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 17:56:33,782 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 17:56:33,827 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 17:56:33,828 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 17:56:34,275 - [ERROR] - from play in play-akka.actor.default-dispatcher-48 
-Cannot invoke the action, eventually got an error: java.lang.NullPointerException
-
-2015-04-27 17:56:34,300 - [ERROR] - from application in play-akka.actor.default-dispatcher-48 
-
-
-! @6m1ejp8m0 - Internal server error, for (GET) [/api/projects/553a64ac44ae8a62b46490ee/stop/consumption/3010640] ->
-
-play.api.Application$$anon$1: Execution exception[[NullPointerException: null]]
-	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
-	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
-	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
-	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
-Caused by: java.lang.NullPointerException: null
-	at org.emn.calculate.route.ChargerEnergyConsumptionModel.consume(ChargerEnergyConsumptionModel.java:90) ~[classes/:na]
-	at org.emn.calculate.route.ChargerEnergyConsumptionModel.getEnergyConsumption(ChargerEnergyConsumptionModel.java:62) ~[classes/:na]
-	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:80) ~[classes/:2.3.8]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:281) ~[classes/:na]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:281) ~[classes/:na]
-	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
-	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
-	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
-	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
-	... 6 common frames omitted
-
-2015-04-27 17:57:29,938 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 17:57:30,106 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 17:57:30,159 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 17:57:30,160 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 17:58:34,611 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 17:58:34,728 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 17:58:34,797 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 17:58:34,798 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 18:02:49,471 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 18:02:49,679 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 18:02:49,896 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 18:02:49,903 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 18:03:11,714 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 18:03:11,864 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 18:03:11,949 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 18:03:11,950 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 18:08:20,694 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 18:08:20,959 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 18:08:21,035 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 18:08:21,036 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 18:08:42,295 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 18:08:42,465 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 18:08:42,688 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 18:08:42,688 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 18:10:58,397 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 18:10:58,515 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 18:10:58,590 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 18:10:58,591 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 18:11:27,257 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 18:11:27,332 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 18:11:27,420 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 18:11:27,421 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 18:12:58,405 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 18:12:58,537 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 18:12:58,627 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 18:12:58,627 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 19:33:06,070 - [INFO] - from application in play-internal-execution-context-27 
-Application shutdown...
-
-2015-04-27 19:33:06,426 - [INFO] - from application in play-internal-execution-context-27 
-Found ruter
-
-2015-04-27 19:33:06,676 - [INFO] - from application in play-internal-execution-context-27 
-Found existing projects
-
-2015-04-27 19:33:06,677 - [INFO] - from play in play-internal-execution-context-27 
-Application started (Dev)
-
-2015-04-27 19:33:35,172 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
+2015-04-28 09:01:39,973 - [INFO] - from application in play-akka.actor.default-dispatcher-18 
 Current trip: 0001 ---> 0029
 
-2015-04-27 19:33:35,847 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
+2015-04-28 09:01:40,027 - [INFO] - from application in play-akka.actor.default-dispatcher-18 
 Current trip: 0539 ---> 0608
 
-2015-04-27 19:33:35,886 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
+2015-04-28 09:01:40,031 - [INFO] - from application in play-akka.actor.default-dispatcher-18 
 Current trip: 0631 ---> 0659
 
-2015-04-27 19:33:36,053 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
+2015-04-28 09:01:40,051 - [INFO] - from application in play-akka.actor.default-dispatcher-18 
 Current trip: 0710 ---> 0742
 
-2015-04-27 19:33:36,084 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
+2015-04-28 09:01:40,056 - [INFO] - from application in play-akka.actor.default-dispatcher-18 
 Current trip: 0753 ---> 0825
 
-2015-04-27 19:33:36,243 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
+2015-04-28 09:01:40,074 - [INFO] - from application in play-akka.actor.default-dispatcher-18 
 Current trip: 0839 ---> 0908
 
-2015-04-27 19:33:36,271 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 0921 ---> 0953
-
-2015-04-27 19:33:36,397 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1010 ---> 1042
-
-2015-04-27 19:33:36,425 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1054 ---> 1126
-
-2015-04-27 19:33:36,557 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1140 ---> 1212
-
-2015-04-27 19:33:36,586 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1229 ---> 1301
-
-2015-04-27 19:33:36,725 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1312 ---> 1344
-
-2015-04-27 19:33:36,764 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1359 ---> 1431
-
-2015-04-27 19:33:36,915 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1442 ---> 1514
-
-2015-04-27 19:33:36,945 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1528 ---> 1600
-
-2015-04-27 19:33:37,079 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1612 ---> 1644
-
-2015-04-27 19:33:37,105 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1658 ---> 1730
-
-2015-04-27 19:33:37,258 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1742 ---> 1814
-
-2015-04-27 19:33:37,287 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1832 ---> 1904
-
-2015-04-27 19:33:37,485 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1922 ---> 1954
-
-2015-04-27 19:33:37,522 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2012 ---> 2044
-
-2015-04-27 19:33:37,688 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2055 ---> 2127
-
-2015-04-27 19:33:37,732 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2139 ---> 2211
-
-2015-04-27 19:33:37,882 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2224 ---> 2253
-
-2015-04-27 19:33:37,915 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2316 ---> 2344
-
-2015-04-27 19:34:33,842 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
+2015-04-28 09:01:42,770 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
 Current trip: 0001 ---> 0029
 
-2015-04-27 19:34:34,074 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
+2015-04-28 09:01:42,792 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
 Current trip: 0539 ---> 0608
 
-2015-04-27 19:34:34,105 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
+2015-04-28 09:01:42,797 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
 Current trip: 0631 ---> 0659
 
-2015-04-27 19:34:34,242 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 0710 ---> 0742
-
-2015-04-27 19:34:34,300 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 0753 ---> 0825
-
-2015-04-27 19:34:34,524 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 0839 ---> 0908
-
-2015-04-27 19:34:34,556 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 0921 ---> 0953
-
-2015-04-27 19:34:34,717 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1010 ---> 1042
-
-2015-04-27 19:34:34,744 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1054 ---> 1126
-
-2015-04-27 19:34:34,872 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1140 ---> 1212
-
-2015-04-27 19:34:34,907 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1229 ---> 1301
-
-2015-04-27 19:34:35,040 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1312 ---> 1344
-
-2015-04-27 19:34:35,071 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1359 ---> 1431
-
-2015-04-27 19:34:35,233 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1442 ---> 1514
-
-2015-04-27 19:34:35,257 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1528 ---> 1600
-
-2015-04-27 19:34:35,407 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1612 ---> 1644
-
-2015-04-27 19:34:35,446 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1658 ---> 1730
-
-2015-04-27 19:34:35,605 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1742 ---> 1814
-
-2015-04-27 19:34:35,631 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1832 ---> 1904
-
-2015-04-27 19:34:35,810 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 1922 ---> 1954
-
-2015-04-27 19:34:35,845 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2012 ---> 2044
-
-2015-04-27 19:34:36,030 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2055 ---> 2127
-
-2015-04-27 19:34:36,063 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2139 ---> 2211
-
-2015-04-27 19:34:36,233 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2224 ---> 2253
-
-2015-04-27 19:34:36,263 - [INFO] - from application in play-akka.actor.default-dispatcher-33 
-Current trip: 2316 ---> 2344
-
-2015-04-27 19:34:41,606 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:03,008 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
 Current trip: 0001 ---> 0029
 
-2015-04-27 19:34:41,760 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:03,027 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
 Current trip: 0539 ---> 0608
 
-2015-04-27 19:34:41,790 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:03,032 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
 Current trip: 0631 ---> 0659
 
-2015-04-27 19:34:41,967 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:03,051 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
 Current trip: 0710 ---> 0742
 
-2015-04-27 19:34:42,018 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:03,056 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
 Current trip: 0753 ---> 0825
 
-2015-04-27 19:34:42,200 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:03,074 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
 Current trip: 0839 ---> 0908
 
-2015-04-27 19:34:42,266 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:18,929 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0001 ---> 0029
+
+2015-04-28 09:02:18,949 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0539 ---> 0608
+
+2015-04-28 09:02:18,954 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0631 ---> 0659
+
+2015-04-28 09:02:18,973 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0710 ---> 0742
+
+2015-04-28 09:02:18,978 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0753 ---> 0825
+
+2015-04-28 09:02:18,997 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0839 ---> 0908
+
+2015-04-28 09:02:19,001 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 0921 ---> 0953
 
-2015-04-27 19:34:42,465 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,020 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1010 ---> 1042
 
-2015-04-27 19:34:42,515 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,024 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1054 ---> 1126
 
-2015-04-27 19:34:42,702 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,043 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1140 ---> 1212
 
-2015-04-27 19:34:42,735 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,048 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1229 ---> 1301
 
-2015-04-27 19:34:42,932 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,068 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1312 ---> 1344
 
-2015-04-27 19:34:42,978 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,072 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1359 ---> 1431
 
-2015-04-27 19:34:43,169 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,090 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1442 ---> 1514
 
-2015-04-27 19:34:43,212 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,095 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1528 ---> 1600
 
-2015-04-27 19:34:43,469 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,113 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1612 ---> 1644
 
-2015-04-27 19:34:43,538 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,117 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1658 ---> 1730
 
-2015-04-27 19:34:43,798 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,136 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1742 ---> 1814
 
-2015-04-27 19:34:43,852 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,140 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1832 ---> 1904
 
-2015-04-27 19:34:44,015 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,158 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 1922 ---> 1954
 
-2015-04-27 19:34:44,044 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,163 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 2012 ---> 2044
 
-2015-04-27 19:34:44,211 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,181 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 2055 ---> 2127
 
-2015-04-27 19:34:44,245 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,186 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 2139 ---> 2211
 
-2015-04-27 19:34:44,439 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,204 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 2224 ---> 2253
 
-2015-04-27 19:34:44,481 - [INFO] - from application in play-akka.actor.default-dispatcher-38 
+2015-04-28 09:02:19,208 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
 Current trip: 2316 ---> 2344
+
+2015-04-28 09:02:52,338 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0001 ---> 0029
+
+2015-04-28 09:02:52,358 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0539 ---> 0608
+
+2015-04-28 09:02:52,363 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0631 ---> 0659
+
+2015-04-28 09:02:52,382 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0710 ---> 0742
+
+2015-04-28 09:02:52,387 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0753 ---> 0825
+
+2015-04-28 09:02:52,406 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0839 ---> 0908
+
+2015-04-28 09:02:52,411 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0921 ---> 0953
+
+2015-04-28 09:02:52,430 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1010 ---> 1042
+
+2015-04-28 09:02:52,435 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1054 ---> 1126
+
+2015-04-28 09:02:52,454 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1140 ---> 1212
+
+2015-04-28 09:02:52,458 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1229 ---> 1301
+
+2015-04-28 09:02:52,477 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1312 ---> 1344
+
+2015-04-28 09:02:52,481 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1359 ---> 1431
+
+2015-04-28 09:02:52,499 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1442 ---> 1514
+
+2015-04-28 09:02:52,504 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1528 ---> 1600
+
+2015-04-28 09:02:52,523 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1612 ---> 1644
+
+2015-04-28 09:02:52,527 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1658 ---> 1730
+
+2015-04-28 09:02:52,546 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1742 ---> 1814
+
+2015-04-28 09:02:52,551 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1832 ---> 1904
+
+2015-04-28 09:02:52,570 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1922 ---> 1954
+
+2015-04-28 09:02:52,574 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 2012 ---> 2044
+
+2015-04-28 09:02:52,593 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 2055 ---> 2127
+
+2015-04-28 09:02:52,597 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 2139 ---> 2211
+
+2015-04-28 09:02:52,615 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 2224 ---> 2253
+
+2015-04-28 09:02:52,620 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 2316 ---> 2344
+
+2015-04-28 09:03:03,432 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0003 ---> 0035
+
+2015-04-28 09:03:03,440 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0052 ---> 0124
+
+2015-04-28 09:03:03,470 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0200 ---> 0232
+
+2015-04-28 09:03:03,475 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0252 ---> 0324
+
+2015-04-28 09:03:03,505 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0400 ---> 0432
+
+2015-04-28 09:03:03,511 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0452 ---> 0524
+
+2015-04-28 09:03:03,551 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0552 ---> 0621
+
+2015-04-28 09:03:09,330 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0003 ---> 0035
+
+2015-04-28 09:03:09,338 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0052 ---> 0124
+
+2015-04-28 09:03:09,369 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0200 ---> 0232
+
+2015-04-28 09:03:09,375 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0252 ---> 0324
+
+2015-04-28 09:03:09,404 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0400 ---> 0432
+
+2015-04-28 09:03:09,410 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0452 ---> 0524
+
+2015-04-28 09:03:09,440 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0552 ---> 0621
+
+2015-04-28 09:03:12,810 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0003 ---> 0035
+
+2015-04-28 09:03:12,819 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0052 ---> 0124
+
+2015-04-28 09:03:12,848 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0200 ---> 0232
+
+2015-04-28 09:03:12,854 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0252 ---> 0324
+
+2015-04-28 09:03:12,883 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0400 ---> 0432
+
+2015-04-28 09:03:12,888 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0452 ---> 0524
+
+2015-04-28 09:03:12,919 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0552 ---> 0621
+
+2015-04-28 09:03:12,925 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0639 ---> 0716
+
+2015-04-28 09:03:20,261 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0003 ---> 0035
+
+2015-04-28 09:03:20,268 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0052 ---> 0124
+
+2015-04-28 09:03:20,298 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0200 ---> 0232
+
+2015-04-28 09:03:20,304 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0252 ---> 0324
+
+2015-04-28 09:03:20,334 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0400 ---> 0432
+
+2015-04-28 09:03:20,340 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0452 ---> 0524
+
+2015-04-28 09:03:20,370 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0552 ---> 0621
+
+2015-04-28 09:03:20,377 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0639 ---> 0716
+
+2015-04-28 09:03:20,416 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0727 ---> 0759
+
+2015-04-28 09:03:27,364 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0003 ---> 0035
+
+2015-04-28 09:03:27,371 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0052 ---> 0124
+
+2015-04-28 09:03:27,401 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0200 ---> 0232
+
+2015-04-28 09:03:27,406 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0252 ---> 0324
+
+2015-04-28 09:03:27,436 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0400 ---> 0432
+
+2015-04-28 09:03:27,442 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0452 ---> 0524
+
+2015-04-28 09:03:27,473 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0552 ---> 0621
+
+2015-04-28 09:03:27,480 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0639 ---> 0716
+
+2015-04-28 09:03:27,518 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0727 ---> 0759
+
+2015-04-28 09:04:02,117 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:04:02,123 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:04:02,136 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:04:02,141 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:04:09,225 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:04:09,230 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:04:09,242 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:04:09,247 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:04:21,152 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:04:21,158 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:04:21,170 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:04:21,175 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:04:47,003 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:04:47,009 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:04:47,021 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:04:47,027 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:04:51,048 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:04:51,054 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:04:51,066 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:04:51,072 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:05:00,729 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:05:00,734 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:05:00,746 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:05:00,751 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:05:10,641 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:05:10,646 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:05:10,659 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:05:10,664 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:05:28,574 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:05:28,579 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:05:28,590 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:05:28,595 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:05:28,607 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0701 ---> 0724
+
+2015-04-28 09:05:28,613 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0738 ---> 0810
+
+2015-04-28 09:05:28,629 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0821 ---> 0854
+
+2015-04-28 09:05:28,638 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0918 ---> 0940
+
+2015-04-28 09:05:28,649 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1001 ---> 1024
+
+2015-04-28 09:05:28,654 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 1048 ---> 1110
+
+2015-04-28 09:05:30,285 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:05:30,290 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:05:30,302 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:05:30,307 - [INFO] - from application in play-akka.actor.default-dispatcher-2 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:05:45,800 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:05:45,806 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:05:45,819 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:05:45,829 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:05:45,841 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0701 ---> 0724
+
+2015-04-28 09:05:45,847 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0738 ---> 0810
+
+2015-04-28 09:05:45,863 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0821 ---> 0854
+
+2015-04-28 09:05:45,872 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 0918 ---> 0940
+
+2015-04-28 09:05:45,883 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1001 ---> 1024
+
+2015-04-28 09:05:45,888 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1048 ---> 1110
+
+2015-04-28 09:05:45,899 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1129 ---> 1152
+
+2015-04-28 09:05:45,904 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1203 ---> 1225
+
+2015-04-28 09:05:45,915 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1246 ---> 1309
+
+2015-04-28 09:05:45,920 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1333 ---> 1355
+
+2015-04-28 09:05:45,931 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1416 ---> 1439
+
+2015-04-28 09:05:45,937 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1453 ---> 1525
+
+2015-04-28 09:05:45,953 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1536 ---> 1609
+
+2015-04-28 09:05:45,962 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1623 ---> 1655
+
+2015-04-28 09:05:45,978 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1706 ---> 1739
+
+2015-04-28 09:05:45,987 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1753 ---> 1825
+
+2015-04-28 09:05:46,003 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1836 ---> 1909
+
+2015-04-28 09:05:46,012 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 1933 ---> 1955
+
+2015-04-28 09:05:46,023 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 2016 ---> 2039
+
+2015-04-28 09:05:46,027 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 2103 ---> 2125
+
+2015-04-28 09:05:46,039 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 2146 ---> 2209
+
+2015-04-28 09:05:46,044 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 2248 ---> 2310
+
+2015-04-28 09:05:46,055 - [INFO] - from application in play-akka.actor.default-dispatcher-3 
+Current trip: 2346 ---> 0009
+
+2015-04-28 09:05:51,572 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:05:51,577 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:05:51,590 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:05:51,595 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:05:51,607 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0701 ---> 0724
+
+2015-04-28 09:05:51,612 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0738 ---> 0810
+
+2015-04-28 09:05:51,628 - [INFO] - from application in play-akka.actor.default-dispatcher-16 
+Current trip: 0821 ---> 0854
+
+2015-04-28 09:05:56,193 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0016 ---> 0039
+
+2015-04-28 09:05:56,199 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0448 ---> 0510
+
+2015-04-28 09:05:56,211 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0531 ---> 0554
+
+2015-04-28 09:05:56,217 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0618 ---> 0640
+
+2015-04-28 09:05:56,229 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0701 ---> 0724
+
+2015-04-28 09:05:56,233 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0738 ---> 0810
+
+2015-04-28 09:05:56,250 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0821 ---> 0854
+
+2015-04-28 09:05:56,259 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 0918 ---> 0940
+
+2015-04-28 09:05:56,270 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1001 ---> 1024
+
+2015-04-28 09:05:56,276 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1048 ---> 1110
+
+2015-04-28 09:05:56,287 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1129 ---> 1152
+
+2015-04-28 09:05:56,292 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1203 ---> 1225
+
+2015-04-28 09:05:56,303 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1246 ---> 1309
+
+2015-04-28 09:05:56,308 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1333 ---> 1355
+
+2015-04-28 09:05:56,320 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1416 ---> 1439
+
+2015-04-28 09:05:56,325 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1453 ---> 1525
+
+2015-04-28 09:05:56,340 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1536 ---> 1609
+
+2015-04-28 09:05:56,349 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1623 ---> 1655
+
+2015-04-28 09:05:56,365 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1706 ---> 1739
+
+2015-04-28 09:05:56,374 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1753 ---> 1825
+
+2015-04-28 09:05:56,390 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1836 ---> 1909
+
+2015-04-28 09:05:56,399 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 1933 ---> 1955
+
+2015-04-28 09:05:56,411 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 2016 ---> 2039
+
+2015-04-28 09:05:56,415 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 2103 ---> 2125
+
+2015-04-28 09:05:56,427 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 2146 ---> 2209
+
+2015-04-28 09:05:56,432 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 2248 ---> 2310
+
+2015-04-28 09:05:56,443 - [INFO] - from application in play-akka.actor.default-dispatcher-7 
+Current trip: 2346 ---> 0009
+
+2015-04-28 09:10:31,291 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-04-28 09:10:31,611 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-04-28 09:10:31,994 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-04-28 09:10:31,994 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-04-28 09:12:47,059 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-04-28 09:12:47,192 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-04-28 09:12:47,282 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-04-28 09:12:47,283 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-04-28 09:14:38,598 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-04-28 09:14:38,625 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-04-28 09:14:38,644 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-04-28 09:14:38,645 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-04-28 09:17:36,745 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-04-28 09:17:36,770 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-04-28 09:17:36,777 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-04-28 09:17:36,777 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-04-28 09:25:57,262 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-04-28 09:25:57,317 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-04-28 09:25:57,349 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-04-28 09:25:57,349 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-04-28 09:26:13,163 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-04-28 09:26:13,185 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-04-28 09:26:13,193 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-04-28 09:26:13,193 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
 

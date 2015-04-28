@@ -86,7 +86,7 @@ define([ 'jquery', 'jquery-ui', 'underscore', 'backbone', 'config-manager', 'amc
         method: 'POST',
         contentType : 'application/json'
       }).done(function(data){
-        console.log(data);
+        self.$('.daily-cost').text(data+" NOK");
       });
 
       $.ajax({

@@ -43,7 +43,6 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
     removeRoute: function(route) {
       this.project.removeRoute(route);
       this.$('.route-list-item[data-routeid="'+route+'"]').remove();
-      EventBus.trigger('route:remove', route);
     },
 
 //    onClickAdd : function() {
@@ -86,7 +85,7 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
     onClickRemove: function(ev) {
       var $targ = $(ev.currentTarget);
       var routeId = $targ.attr('data-routeid');
-      this.removeRoute(routeId);
+      EventBus.trigger('route:remove', routeId);
       ev.stopPropagation();
     },
 

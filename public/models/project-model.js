@@ -16,7 +16,9 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     
     removeRoute: function(route) {
       var routes = this.get('routes');
+      console.log(routes);
       routes = _.reject(routes, function(r) {
+        console.log('paw');
         return r.routeId === route;
       });
 

@@ -108,7 +108,7 @@ public class RouteSimulationModel {
 				canRun = false;
 				break;
 			} 
-			Logger.info("Current trip: " + trip.getStops().get(0).getArrival() +" ---> "+ trip.getStops().get(trip.getStops().size()-1).getArrival());
+		//	Logger.info("Current trip: " + trip.getStops().get(0).getArrival() +" ---> "+ trip.getStops().get(trip.getStops().size()-1).getArrival());
 			
 			List<ScheduleStop> tripStops = trip.getStops();
 			
