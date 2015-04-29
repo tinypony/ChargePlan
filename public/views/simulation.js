@@ -91,7 +91,8 @@ define([ 'jquery',
         method: 'POST',
         contentType : 'application/json'
       }).done(function(data){
-        self.$('.daily-cost').text(data+" NOK");
+        self.$('.daily-energy-cost').text("Daily energy cost of route operation (electricity):" + data.energyPrice+" NOK");
+        self.$('.daily-diesel-cost').text("Daily energy cost of route operation (diesel):" + data.dieselPrice+" NOK");
       });
 
       $.ajax({

@@ -16,9 +16,11 @@ import model.planning.BusInstance;
 import model.planning.ElectrifiedBusStop;
 import model.planning.PlanningProject;
 
+import org.emn.calculate.DieselPricingModel;
 import org.emn.calculate.EnergyPricingModel;
 import org.emn.calculate.IEnergyPriceProvider;
 import org.emn.calculate.bus.StaticConsumptionProfile;
+import org.emn.calculate.route.CostSimulationResult;
 import org.emn.calculate.route.DailyConsumptionModel;
 import org.emn.calculate.route.RouteSimulationModel;
 import org.emn.plan.SimpleBusScheduler;
@@ -77,13 +79,13 @@ public class SimulationController extends Controller {
 		ObjectMapper om = new ObjectMapper();	
 		JsonNode bodyJson = request().body().asJson();
 		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
-		return ok(""+simulateRouteCost(projectId, simreq));
+		return ok(om.valueToTree(simulateRouteCost(projectId, simreq)));
 	}
 	
 	//cost
-	public static Double simulateRouteCost(String projectId, final SimulationRequest simreq) throws Exception {
+	public static CostSimulationResult simulateRouteCost(String projectId, final SimulationRequest simreq) throws Exception {
 		Datastore ds = MongoUtils.ds();
-		
+		CostSimulationResult result = new CostSimulationResult();
 		PlanningProject proj = ProjectController.getProjectObject(projectId);
 		
 		//Get all electrified bus stops on the route
@@ -92,6 +94,7 @@ public class SimulationController extends Controller {
 				return stop.getCharger()!=null && stop.getChargingTimes().keySet().contains(simreq.getRouteId());
 			}
 		}));
+		
 		Calendar cal = DatatypeConverter.parseDate(simreq.getDate());
 		EnergyPricingModel enModel = new EnergyPricingModel(new IEnergyPriceProvider() {
 			@Override
@@ -99,16 +102,29 @@ public class SimulationController extends Controller {
 				return 220.0;
 			}
 		});
-		Double result = 0.0;
+		
+		Double energyPrice = 0.0;
 		
 		for(ElectrifiedBusStop stop: elStops) {
 			Set<String> routes = new HashSet<String>();
 			routes.add(simreq.getRouteId());
 			DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, routes);
-			result += enModel.getEnergyCost(Arrays.asList(consumptionModel));
+			energyPrice += enModel.getEnergyCost(Arrays.asList(consumptionModel));
 		}
 		
+		result.setMetersDriven(getTotalDistanceDriven(simreq));
+		result.setEnergyPrice(energyPrice);
+		result.setDieselPrice(DieselPricingModel.getCost(result.getMetersDriven()));
 		return result;
+	}
+	
+	private static int getTotalDistanceDriven(SimulationRequest simreq) {
+		List<BusTrip> trips = getTrips(simreq.getRouteId(), simreq.getDate());
+		int metersDriven = 0;
+		for(BusTrip trip: trips) {
+			metersDriven += trip.getTripLength();
+		}
+		return metersDriven;
 	}
 	
 	private static List<BusTrip> getTrips(String routeId, String date) {

@@ -87,14 +87,15 @@ public class StopsController  extends Controller {
 	public static DailyConsumptionModel getStopConsumptionModel(ElectrifiedBusStop elStop, Calendar cal, Set<String> elBusRoutes) {
 		Datastore ds = MongoUtils.ds();
 		Query<BusTrip> q = ds.createQuery(BusTrip.class);
-		System.out.println((new SimpleDateFormat("yyyy-M-d").format(cal.getTime())));
+		//System.out.println((new SimpleDateFormat("yyyy-M-d").format(cal.getTime())));
 		q.field("dates").equal((new SimpleDateFormat("yyyy-M-d").format(cal.getTime())));
 		q.field("routeId").in(elBusRoutes);
 		
 		List<BusTrip> trips = q.asList();
-		System.out.println(elBusRoutes);
-		System.out.println(elStop.getName());
-		System.out.println("Trips total "+trips.size());
+		//System.out.println(elBusRoutes);
+	//	System.out.println(elStop.getName());
+	//	System.out.println("Trips total "+trips.size());
+		
 		ChargerEnergyConsumptionModel consumptionModel = 
 				new ChargerEnergyConsumptionModel(elStop, cal, trips);
 		
