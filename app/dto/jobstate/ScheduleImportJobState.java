@@ -29,6 +29,9 @@ public class ScheduleImportJobState extends JobState {
 			this.stateName = stateName;
 		}
 	}
+	
+	private boolean failed;
+	private JobFailure failure;
 
 	public ScheduleImportJobState() {
 		this.setStates(Arrays.asList(JobState.UPLOAD.stateName,
@@ -80,5 +83,18 @@ public class ScheduleImportJobState extends JobState {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode node = objectMapper.valueToTree(this);
 		return node;
+	}
+
+	public boolean isFailed() {
+		return failed;
+	}
+
+	public void setFailed(boolean failed) {
+		this.failed = failed;
+	}
+	
+	public void setFailure(JobFailure failure) {
+		this.failure = failure;
+		this.failed = true;
 	}
 }

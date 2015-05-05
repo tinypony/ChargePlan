@@ -34,8 +34,6 @@ import play.mvc.Result;
 import utils.MongoUtils;
 
 public class RoutesController extends Controller {
-	
-	
 
 	public static Result getRoutes() {
 		Datastore ds = MongoUtils.ds();

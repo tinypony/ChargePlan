@@ -9,8 +9,8 @@ import java.util.Queue;
 import javax.xml.bind.DatatypeConverter;
 
 import org.emn.calculate.bus.IConsumptionProfile;
+import org.emn.calculate.bus.FeasibilitySimulationResult;
 import org.emn.plan.BatteryStateEntry;
-import org.emn.plan.SimulationResult;
 
 import play.Logger;
 
@@ -93,10 +93,10 @@ public class RouteSimulationModel {
 		this.consumptionProfile = consumptionProfile;
 	}
 
-	public SimulationResult simulate() throws Exception {
+	public FeasibilitySimulationResult simulate() throws Exception {
 		boolean canRun = true;
 		Queue<BusTrip> direction = this.getDirectionA();
-		SimulationResult result = new SimulationResult();
+		FeasibilitySimulationResult result = new FeasibilitySimulationResult();
 		ScheduleStop previousStop = null;
 		ScheduleStop currentStop = null;
 		int directionIdx = 0;
@@ -172,12 +172,9 @@ public class RouteSimulationModel {
 		return result;
 	}
 	
-	private void addBatteryEntry(SimulationResult result, double soc, Calendar cal, String location) {
+	private void addBatteryEntry(FeasibilitySimulationResult result, double soc, Calendar cal, String location) {
 		BatteryStateEntry lastEntry = result.getLastBatteryStateEntry();
 		if(lastEntry !=null && lastEntry.getTimestamp().compareTo(cal.getTime()) > 0) {
-//			Logger.info("Increment day");
-//			Logger.info("last entry "+lastEntry.getStringTimestamp());
-//			Logger.info("new candidate" + (new SimpleDateFormat("d-MM HH:mm")).format(cal.getTime()));
 			//increment day
 			cal.add(Calendar.DATE, 1);
 		}

@@ -118,18 +118,22 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
       var self = this;
 
       ConfigManager.getProject().done(function(project) {
+        self.project = project;
         var routes = project.get('routes');
-        self.project= project;
+        
+        routes = _.map(routes, function(r) {
+        	var longName = r.longName.split('/');
+        	r.firstStop = longName[0];
+        	r.lastStop = longName[1];
+        	return r;
+        });
+        
         self.$el.html(routeListTemplate({
-          routes : routes
+          routes: routes
         }));
         
         self.listenTo(EventBus, 'route:add', self.addRoute);
         self.listenTo(EventBus, 'route:remove', self.removeRoute);
-
-        _.each(routes, function(routeBag) {
-          self.drawRoute(routeBag);
-        });
 
         _.defer(function() {
           self.$('.nano').nanoScroller({

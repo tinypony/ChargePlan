@@ -13,6 +13,7 @@ define([ 'jquery',
          'views/overview/raw-route-list', 
          'views/simulation', 
          'hbs!templates/overview' ], 
+         
          function( $, _, Backbone, Mapbox, Mocks,
              ApiConfig, bootstrap, sidebar, ConfigManager, EventBus,
              DetailsView, MapView, RouteList, SimulationView, template ) {
@@ -72,32 +73,34 @@ define([ 'jquery',
     render : function() {
       var self = this;
       this.$el.html(template());
-
-      this.mapView = new MapView({
-        el : this.$('#map')
-      });
-
-      this.mapView.setData(this.data);
       this.detailsView = new DetailsView({el: this.$('.retractable-container')});
+     
       this.listView = new RouteList({
         el : this.$('.side-list'),
         project : this.data.project
       });
+      
       this.renderSubviews();
+    },
+    
+    createMap: function() {
+    	this.mapView = new MapView();
+    	this.mapView.setData(this.data);
+    	this.mapView.render();
+    	this.$('.details-view').prepend(this.mapView.$el);
+    	this.mapView.displayMap();
+    },
+    
+    destroyMap: function() {
+    	this.mapView.remove({empty: true});
     },
 
     renderSubviews : function() {
       var self = this;
-      this.mapView.render();
+      this.createMap();
       this.detailsView.render();
 
-      this.mapView.displayData({
-        routes : this.data.routes,
-        stops : this.data.stops
-      });
-
       this.listView.render();
-      
       this.registerListeners();
     },
     
@@ -105,7 +108,8 @@ define([ 'jquery',
       var self = this;
       
       this.listenTo(EventBus, 'route:select', function(routeId) {
-        self.$('#map').addClass('hidden');
+        self.destroyMap();
+        
         if(self.routeDetails) {
           self.routeDetails.remove();
         }
@@ -119,7 +123,7 @@ define([ 'jquery',
       
       this.listenTo(EventBus, 'route:unselect', function(routeId) {
         self.routeDetails.remove();
-        self.$('#map').removeClass('hidden');
+        self.createMap();
       });
     }
 

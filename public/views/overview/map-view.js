@@ -6,12 +6,16 @@ define([ 'jquery',
          'api-config',
          'chroma',
          'const',
+         'views/simulation/stop-details',
+         'collections/chargers',
          'hbs!templates/overview/endstop-popup'], 
-         function($, _, Backbone, Mapbox, EventBus, ApiConfig, chroma, Constants, endstopPopupTemplate) {
+         function($, _, Backbone, Mapbox, EventBus, ApiConfig, chroma, 
+        		 Constants, StopDetails, ChargersCollection, endstopPopupTemplate) {
   
   var MapView = Backbone.View.extend({
     initialize: function() {
       this.drawnRoutes = {};
+      this.drawnStops = {};
       this.listenTo(EventBus, 'route:draw', this.drawRoute);
       this.listenTo(EventBus, 'route:add', this.drawRoute);
       this.listenTo(EventBus, 'route:remove', this.clearRoute);
@@ -22,6 +26,9 @@ define([ 'jquery',
     setData: function(data) {
       this.data = {};
       this.data.stops = data.stops;
+      this.data.routes = data.routes;
+      this.data.project = data.project;
+      console.log(this.data);
     },
     
     getRouteWaypoints: function(routeBag) {
@@ -43,11 +50,13 @@ define([ 'jquery',
       
       $.get('/api/routes/'+routeId+'/stops').done(function(data) {
           var stops;
+          var direction0 = data['0'];
+          var direction1 = data['1'];
           
-          if(data['0']) {
-            stops = data['0'].stops;
+          if(direction0) {
+            stops = direction0.stops;
           } else {
-            stops = data['1'].stops;
+            stops = direction1.stops;
           }
           
           var coordinates = _.map(stops, function(stop) {
@@ -61,6 +70,16 @@ define([ 'jquery',
           };
           
           self.drawnRoutes[routeId] = polyline;
+          
+          if(direction0) {
+        	  self.drawBusStop(_.first(direction0.stops), true);
+        	  self.drawBusStop(_.last(direction0.stops), true);
+          }
+          
+          if(direction1) {
+        	  self.drawBusStop(_.first(direction1.stops), true);
+        	  self.drawBusStop(_.last(direction1.stops), true);
+          }
       });
 
     },
@@ -69,29 +88,31 @@ define([ 'jquery',
         this.map.removeLayer(this.drawnRoutes[route]);
     },
     
-//    createBusStop: function(stop, isEndstop) {
-//      var self = this;
+    drawBusStop: function(stop, isEndstop) {
+      var self = this;
+//      
 //      var routesWithEndStop = _.filter(this.data.routes, function(route){
 //        return _.first(route.waypoints).stopId === stop.stopId || _.last(route.waypoints).stopId === stop.stopId;
 //      });
 //      
 //      if(!routesWithEndStop.length) return;
 //      
-//      var marker = L.marker([stop.y, stop.x]);
+      var marker = L.marker([stop.y, stop.x]);
 //      marker.bindPopup(endstopPopupTemplate({
 //        stopname: stop.name+"("+stop.stopId+")",
 //        routes: _.uniq(routesWithEndStop, false, function(route){
 //          return route.name;
 //        })
 //      }));
-//      
-//      marker.addTo(self.map);
-//      self.endStops[stop.stopId] = marker;
-//      
-//      marker.on('click', function(e) {
-//        self.map.panTo(e.latlng);
-//        self.trigger('show:endstop', stop.id);
-//      });
+      
+      marker.addTo(self.map);
+      self.drawnStops[stop.stopId] = marker;
+      
+      marker.on('click', function(e) {
+        self.map.panTo(e.latlng);
+        
+        self.onStopClick(stop);
+      });
 //      
 //      marker.on('mouseover', function(e) {
 //        _.each(routesWithEndStop, function(routeFound) {
@@ -105,7 +126,38 @@ define([ 'jquery',
 //        self.unhighlightAllRoutes();
 //        e.target.closePopup();
 //      });
-//    },
+      marker.userData = {
+    	stop: stop
+      };
+    },
+    
+    onStopClick : function(scheduleStop) {
+        var self = this;
+        var electrifiedStop = _.findWhere(this.data.project.get('stops'), {'stopId': scheduleStop.stopId});
+        
+        if(!electrifiedStop) {
+          electrifiedStop = scheduleStop;
+          electrifiedStop.charger = null;
+        }
+        
+        var chargers = new ChargersCollection();
+        chargers.fetch().done(function(collection){
+            var stopDetails = new StopDetails({
+                stop: electrifiedStop,
+                chargers: chargers,
+                project: self.data.project,
+               // routeId: this.route.routeId,
+              });
+              
+              stopDetails.render();
+              self.listenTo(stopDetails, 'close', function(){
+                stopDetails.remove();
+                self.stopListening(stopDetails);
+              });
+        });
+        
+
+    },
     
     getRouteStyle: function(route, isHighlighted) {
       var style = {
@@ -240,10 +292,37 @@ define([ 'jquery',
     },
     
     render: function() {
-      L.mapbox.accessToken = ApiConfig.tokens.mapbox;
-      this.map = L.mapbox.map('map', 'tinypony.l8cdckm5',  { zoomControl: false }).setView([ 59.914, 10.748 ], 12);
-      new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
+    	this.$el.append('<div id="map" class="map-view"></div>');
+    },
+    
+    displayMap: function() {
+    	var self = this;
+        L.mapbox.accessToken = ApiConfig.tokens.mapbox;
+        this.map = L.mapbox.map('map', 'tinypony.l8cdckm5',  { zoomControl: false }).setView([ 59.914, 10.748 ], 12);
+        new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
+        
+        this.displayRoutes(this.data.project.get('routes'));
+     //   this.displayEndstops(this.data.project.get('routes'), this.data.stops, this.data.project.get('stops'));
+    //    this.getRoutes();
+    },
+    
+    getRoutes: function() {
+    	console.log(this.data.routes);
+    },
+    
+    displayRoutes: function(routes) {
+    	var self = this;
+    	_.each(routes, function(route) {
+        	self.drawRoute(route);
+        });
     }
+    
+//    displayEndstops: function(routes, stops, electrifiedStops) {
+//    	console.log(routes);
+//    	console.log(stops);
+//    	console.log(electrifiedStops);
+//    }
+    
   });
   
   return MapView;

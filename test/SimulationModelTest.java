@@ -14,9 +14,9 @@ import model.planning.ElectrifiedBusStop;
 import model.planning.solutions.BusCharger;
 import model.planning.solutions.ElectricBus;
 
+import org.emn.calculate.bus.FeasibilitySimulationResult;
 import org.emn.calculate.bus.StaticConsumptionProfile;
 import org.emn.calculate.route.RouteSimulationModel;
-import org.emn.plan.SimulationResult;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,7 +69,7 @@ public class SimulationModelTest {
 
 	@Test
 	public void testSimpleSuccessfulTrip() throws Exception {
-		SimulationResult result = model.simulate();
+		FeasibilitySimulationResult result = model.simulate();
 		assertTrue(result.isSurvived());
 		assertEquals("1000", result.getBatteryHistory().get(0).getSimpleTimestamp());
 		assertEquals(100, result.getBatteryHistory().get(0).getCharge(), 0.1);
@@ -88,7 +88,7 @@ public class SimulationModelTest {
 	public void testRoundSuccessfulTrip() throws Exception {
 		setupDirectionB();
 		
-		SimulationResult result = model.simulate();
+		FeasibilitySimulationResult result = model.simulate();
 		assertTrue(result.isSurvived());
 		
 		assertEquals("1000", result.getBatteryHistory().get(0).getSimpleTimestamp());
@@ -127,7 +127,7 @@ public class SimulationModelTest {
 	public void testSimpleFailedTrip() throws Exception {
 		bus.drive(990, 100);
 		model.setBus(bus);
-		SimulationResult result = model.simulate();
+		FeasibilitySimulationResult result = model.simulate();
 		assertTrue(!result.isSurvived());
 		
 		assertEquals("1000", result.getBatteryHistory().get(0).getSimpleTimestamp());
@@ -142,7 +142,7 @@ public class SimulationModelTest {
 		this.setupDirectionC();
 		model.setBus(bus);
 		model.setDirectionA(directionC);
-		SimulationResult result = model.simulate();
+		FeasibilitySimulationResult result = model.simulate();
 		assertTrue(result.isSurvived());
 		Calendar cal = Calendar.getInstance();
 		

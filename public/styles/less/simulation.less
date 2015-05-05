@@ -18,6 +18,7 @@
   	padding-bottom: 40px;
   	
 	.defaults-selection {
+	
 		.form-group {
 			display: flex;
 		}
@@ -67,15 +68,26 @@
 			.equip-selection {
 				display: flex;
 				
-				.well {
+				.well-well {
 				  width: 400px;
 				  height: 300px;
-				  cursor: pointer;
-				  border-right: 1px solid black;
+				  border-right: 1px solid #ddd;
+				  
+				  > * {
+				  	width: 80%;
+				  }
 				}
 				
-				.route-path-visualization {
+				.route-path-visualization-container {
 					width: 100%;
+					
+					label {
+						margin-left: 50px;
+					}
+					
+					.route-path-visualization {
+						width: 100%;
+					}
 				}
 			}
 		}
@@ -90,6 +102,8 @@
 				.prompt {
 					font-size: 24px;
 					color: #AAA;
+					margin: 0 auto;
+					margin-top: 50px;
 				}
 			}
 			

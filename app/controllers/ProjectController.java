@@ -64,6 +64,13 @@ public class ProjectController extends Controller {
 		q.field("id").equals(id);
 		PlanningProject project = q.get();
 		
+		project = addCharger(project, stopId, chargerId);
+		
+		ds.save(project);
+		return ok();
+	}
+	
+	public static PlanningProject addCharger(PlanningProject project, String stopId, String chargerId) {
 		ElectrifiedBusStop stop = project.getElectrifiedStop(stopId);
 		
 		if(stop == null) {
@@ -80,9 +87,7 @@ public class ProjectController extends Controller {
 		BusChargerInstance chargerInstance = new BusChargerInstance();
 		chargerInstance.setType(chargerType);
 		stop.setCharger(chargerInstance);
-		
-		ds.save(project);
-		return ok("added");
+		return project;
 	}
 	
 	public static Result updateStop(String projectId) throws JsonProcessingException {

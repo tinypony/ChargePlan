@@ -21,10 +21,10 @@ public class SimpleBusScheduler {
 	Queue<BusTrip> dirA;
 	Queue<BusTrip> dirB;
 	int minWaitingTime;
-	public static final int DEFAULT__END_STOP_WAITING_TIME = 600;
+	public static final int DEFAULT_END_STOP_WAITING_TIME = 600;
 	
 	public SimpleBusScheduler() {
-		this(DEFAULT__END_STOP_WAITING_TIME);
+		this(DEFAULT_END_STOP_WAITING_TIME);
 	}
 	
 	public SimpleBusScheduler(int minWaitingTime) {
@@ -32,7 +32,7 @@ public class SimpleBusScheduler {
 	}
 
 	public void schedule(List<BusTrip> trips, List<ElectrifiedBusStop> eStops) {
-		int first = 0;
+
 		dirA = new LinkedBlockingQueue<BusTrip>();
 		dirB = new LinkedBlockingQueue<BusTrip>();
 		

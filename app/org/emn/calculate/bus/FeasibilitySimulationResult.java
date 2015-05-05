@@ -1,15 +1,17 @@
-package org.emn.plan;
+package org.emn.calculate.bus;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class SimulationResult {
+import org.emn.plan.BatteryStateEntry;
+
+public class FeasibilitySimulationResult {
 	private boolean survived;
 	private LinkedList<BatteryStateEntry> batteryHistory;
 	
-	public SimulationResult() {
+	public FeasibilitySimulationResult() {
 		this.setBatteryHistory(new LinkedList<BatteryStateEntry>());
 	}
 

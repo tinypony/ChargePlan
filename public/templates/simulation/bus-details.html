@@ -3,10 +3,22 @@
 	<h5>Bus specifications</h5>
 	<div class="details-table">
 		<div class="details-entry">
+			<div class="details-type">Manufacturer</div>
+			<div class="details-value">{{bus.manufacturer}}</div>
+		</div>
+		
+		<div class="details-entry">
 			<div class="details-type">Model</div>
 			<div class="details-value">{{bus.model}}</div>
 		</div>
+		
 		<div class="details-entry">
+			<div class="details-type">Battery capacity</div>
+			<div class="details-value">{{bus.capacity}} kWh</div>
+		</div>
+		
+		
+<!-- 		<div class="details-entry">
 			<div class="details-type">Dimensions</div>
 			<div class="details-value">12m</div>
 		</div>
@@ -23,12 +35,12 @@
 		
 		<div class="details-entry">
 			<div class="details-type">Advertised range</div>
-			<div class="details-value">250km</div>
+			<div class="details-value">250km</div> -->
 		</div>
 	</div>
 	
-	<h5>Battery Specifications</h5>
+<!-- 	<h5>Battery Specifications</h5>
 	<label>Capacity:</label>
-	<input name="capacity" type="number" value="{{bus.capacity}}"/>
+	<input name="capacity" type="number" value="{{bus.capacity}}"/> -->
 	{{/if}}
 </div>

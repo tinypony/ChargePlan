@@ -3,42 +3,37 @@
 	<h2>Route {{route.name}}</h2>
 
 	<div class="defaults-selection">
-		<h4>Route details</h4>
+		
 		<div class="accordion-body route-details-body">
 			<div class="route-details-table">
+				<h4>Route details</h4>
 				<div class="details-entry">
 					<div class="details-type">Total km driven/Day:</div>
-					<div class="details-value">200.7km</div>
+					<div class="details-value">{{stats.totalDistance}} km</div>
 				</div>
-				<div class="details-entry">
-					<div class="details-type">Estimated travel time:</div>
-					<div class="details-value">30 min</div>
-				</div>
+
 				<div class="details-entry">
 					<div class="details-type">Route length:</div>
-					<div class="details-value">20km</div>
+					<div class="details-value">{{stats.routeLength}} km</div>
 				</div>
 				<div class="details-entry">
 					<div class="details-type">Departures/Day:</div>
-					<div class="details-value">117</div>
-				</div>
-				<div class="details-entry">
-					<div class="details-type">Stops</div>
-					<div class="details-value">30</div>
+					<div class="details-value">{{stats.departures}}</div>
 				</div>
 			</div>
-			<div class="route-details-table">	
+			<div class="route-details-table">
+				<h4>Daily emissions</h4>	
 				<div class="details-entry">
 					<div class="details-type">CO2 emissions/Day:</div>
-					<div class="details-value">19000kg</div>
+					<div class="details-value">{{stats.CO2}} kg</div>
 				</div>
 				<div class="details-entry">
 					<div class="details-type">CO emissions/Day:</div>
-					<div class="details-value">19kg</div>
+					<div class="details-value">{{stats.CO}} kg</div>
 				</div>
 				<div class="details-entry">
 					<div class="details-type">NOx emissions/Day:</div>
-					<div class="details-value">5kg</div>
+					<div class="details-value">{{stats.NOx}} kg</div>
 				</div>
 			</div>
 			<div id="route-map-view" class="route-map-view"></div>
@@ -57,26 +52,34 @@
 <!-- 				</div> -->
 <!-- 			</div> -->
 			
-			<div class="date-selection">
-				<div class="form-group">
-						<label for="route-date" class="control-label">Select date</label> <input type="text" id="route-date" />
-				</div>
-			</div>
+
 			
 			<div class="equip-selection">
-				<div class="well">
-					<select class="bus-select">
-						<option value="-1">Select a bus</option>
-						{{#each buses}}
-							<option value="{{this.id}}">{{this.model}}</option>
-						{{/each}}
-					</select>
+				<div class="well-well">
+					<div class="date-selection form-group">
+						<label class="custom-label">Select date</label> 
+						<input type="text" id="route-date" class="form-control"/>		
+					</div>
+					
+					<div class="bus-selection form-group">
+						<label class="custom-label">Select bus model</label> 
+						<select class="bus-select form-control">
+							<option value="-1">Not selected</option>
+							{{#each buses}}
+								<option value="{{this.id}}">{{this.model}}</option>
+							{{/each}}
+						</select>
+					</div>
+					
 					<div class="bus-details"></div>
 <!-- 					<i class="fa fa-bus fa-4x"></i> -->
 <!-- 					ADD ELECTRIC BUS -->
 				</div>
+				<div class="route-path-visualization-container">
+					<label class="custom-label">Select bus stop to add or change a charger</label>
+					<div class="route-path-visualization"></div>
+				</div>
 				
-				<div class="route-path-visualization"></div>
 			</div>
 		</div>
 	</div>

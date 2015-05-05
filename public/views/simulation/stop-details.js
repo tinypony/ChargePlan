@@ -66,6 +66,9 @@ define(['jquery',
         url: '/api/projects/'+this.project.get('id')+'/stop/consumption/'+this.stop.stopId,
         method: 'GET'
       }).done(function(data) {
+    	  
+    	  console.log(data);
+    	  /*
         self.$('.stop-consumption-chart .loading-container').remove();
         var chart = amRef.makeChart('stop-consumption-chart', {
           'theme' : 'none',
@@ -113,6 +116,7 @@ define(['jquery',
             'minPeriod' : 'mm'
           }
         });
+        */
       });
     }
   });

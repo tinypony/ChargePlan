@@ -158,12 +158,39 @@ define([ 'jquery',
         });
       });
     },
+    
+    getRouteStats: function(route) {
+      var stats = {};
+      var runningAverageStat = function(statName, statName2) {
+        return function(memo, stat, n) {
+          
+          if(_.isUndefined(statName2)) {
+            return (stat[statName] + n * memo) / (n+1);
+          } else {
+            return (stat[statName][statName2] + n * memo) / (n+1);
+          }
+        };
+      };
+      
+     
+      stats.totalDistance = Math.floor(_.reduce(route.stats, runningAverageStat('totalDistance'), 0)) / 1000;
+      stats.departures = Math.round(_.reduce(route.stats, runningAverageStat('departures'), 0));
+      stats.routeLength = Math.round(_.reduce(route.stats, runningAverageStat('length'), 0)) / 1000;
+      
+      stats.CO2 = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'CO2'), 0));
+      stats.CO = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'CO'), 0));
+      stats.NOx = Math.floor(_.reduce(route.stats, runningAverageStat('emissions', 'NOx'), 0));
+      
+      return stats;
+    },
 
     render : function() {
       var self = this;
-
+      var routeInstance = this.getInstance();
+      
       this.$el.html(template({
-        route : this.getInstance(),
+        route : routeInstance,
+        stats : this.getRouteStats(routeInstance),
         chargers : this.chargers.toJSON(),
         buses : this.buses.toJSON()
       }));

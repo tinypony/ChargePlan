@@ -1,30 +1,41 @@
 package org.emn.calculate.route;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import utils.DateUtils;
 
+/**
+ * Aggregates power usage from all electrified routes passing through a specific bus stop
+ * and provides detailed information about power distribution
+ * @author tinypony
+ *
+ */
 public class DailyConsumptionModel {
 	
-	private Date date;
-	private Map<Long, Double> consumptionMap;
+	private Long date;
+	private Map<String, ConsumptionMap> routeConsumptionMaps;
 	
-	public Date getDate() {
-		return date;
+	public DailyConsumptionModel(Calendar date) {
+		this.date = date.getTime().getTime();
+		routeConsumptionMaps = new HashMap<String, ConsumptionMap>();
+		
 	}
 	
-	public void setDate(Date date) {
-		this.date = date;
-	}
 	
-	public Map<Long, Double> getConsumptionMap() {
-		return consumptionMap;
-	}
-	
-	public void setConsumptionMap(Map<Long, Double> consumptionMap) {
-		this.consumptionMap = consumptionMap;
+	public Map<Integer, List<HourlyConsumptionEntry>> getHourlyConsumptionDistribution() {
+		Map<Integer, List<HourlyConsumptionEntry>> hourlyDistribution 
+			= new HashMap<Integer, List<HourlyConsumptionEntry>>();
+		
+		for(int i=0; i<24; i++) {
+			hourlyDistribution.put(i, this.getHourlyEnergy(i));
+		}
+		
+		return hourlyDistribution;
 	}
 	
 	/**
@@ -32,27 +43,96 @@ public class DailyConsumptionModel {
 	 * @param hourOfDay integer from 0 to 23
 	 * @return
 	 */
-	public Double getHourlyEnergy(int hourOfDay) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(getDate());
-		DateUtils.rewindCalendar(cal);
-		cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+	public List<HourlyConsumptionEntry> getHourlyEnergy(int hourOfDay) {
+		List<HourlyConsumptionEntry> result = new ArrayList<HourlyConsumptionEntry>();
 		
-		Double hourlyEnergy = 0.0;
-		for(int i=0; i<60; i++) {
-			Double power = this.getConsumptionMap().get(cal.getTime().getTime());
-			hourlyEnergy += this.integrateMinute(power);
+		for(String routeId: this.routeConsumptionMaps.keySet()) {
+			result.add(this.getHourlyEnergy(hourOfDay, routeId));
 		}
 		
-		return hourlyEnergy;	
+		return result;
 	}
 	
 	/**
-	 * Returns amount of kWh consumed in minute with power
-	 * @param consumption
+	 * Returns the amount of energy consumed in one specified hour in kWh
+	 * @param hourOfDay integer from 0 to 23
 	 * @return
 	 */
-	private Double integrateMinute(Double power) {
-		return power/60;
+	public HourlyConsumptionEntry getHourlyEnergy(int hourOfDay, String routeId) {
+		ConsumptionMap routeConsumptionMap = routeConsumptionMaps.get(routeId);
+		Double averagePower = routeConsumptionMap.getHourlyAveragePower(hourOfDay);
+		HourlyConsumptionEntry newEntry = new HourlyConsumptionEntry();
+		newEntry.setRouteId(routeId);
+		newEntry.setAvgPower(averagePower);
+		newEntry.setTotalEnergy(averagePower);
+		return newEntry;
+	}
+
+
+	/**
+	 * Inserts consumption record
+	 * @param routeId
+	 * @param simDate
+	 * @param chargingDuration
+	 * @param power
+	 */
+	
+	public void consume(String routeId, Calendar simDate, int duration,
+			double power) {
+		ConsumptionMap map = this.routeConsumptionMaps.get(routeId);
+		
+		if(map == null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(simDate.getTime());
+			map = new ConsumptionMap(cal);
+		}
+		
+		map.addChargingEvent(simDate.get(Calendar.HOUR_OF_DAY), simDate.get(Calendar.MINUTE), duration, power);
+		this.routeConsumptionMaps.put(routeId, map);
+	}
+
+
+	public Date getDate() {
+		return new Date(this.date);
+	}
+	
+	public Double getHourlyPower(int hour) {
+		Double result = 0.0;
+		List<HourlyConsumptionEntry> entries = this.getHourlyEnergy(hour);
+		
+		for(HourlyConsumptionEntry e: entries) {
+			result += e.getAvgPower();
+		}
+		
+		return result;
+	}
+	
+	public List<HourlyConsumptionEntry> getDailyPeakPowerContributors() {
+		Double result = 0.0;
+		List<HourlyConsumptionEntry> contributions = new ArrayList<HourlyConsumptionEntry>();
+		
+		for(int i=0; i<24; i++) {
+			Double hourlyPower = this.getHourlyPower(i);
+			if(result < hourlyPower) {
+				result = hourlyPower;
+				contributions = this.getHourlyEnergy(i);
+			}
+		}
+		
+		return contributions;
+	}
+
+
+	public Double getDailyPeakPower() {
+		Double result = 0.0;
+		
+		for(int i=0; i<24; i++) {
+			Double hourlyPower = this.getHourlyPower(i);
+			if(result < hourlyPower) {
+				result = hourlyPower;
+			}
+		}
+		
+		return result;
 	}
 }

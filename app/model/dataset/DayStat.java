@@ -3,6 +3,7 @@ package model.dataset;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.emn.calculate.route.Euro6EmissionModel;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Transient;
@@ -87,7 +88,8 @@ public class DayStat {
 	}
 	
 	public Map<String, Double> getEmissions() {
-		return this.emissions;
+		Euro6EmissionModel model = new Euro6EmissionModel();
+		return model.getDailyEmissions(null, this);
 	}
 
 	public double getLength() {

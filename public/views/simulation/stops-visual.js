@@ -189,6 +189,8 @@ define([ 'jquery',
       this.visual.offset = offset;
       this.visual.width = width;
 
+     // svg.append('text').text('Click bus stop to add or change a charger');
+      
       this.drawStops();
       $('circle[data-toggle="popover"]').popover({
         html : '<h2>Hop hei</h2>'

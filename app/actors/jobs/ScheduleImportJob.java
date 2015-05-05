@@ -51,6 +51,7 @@ import com.mongodb.WriteResult;
 
 import configuration.emn.RuterGTFSHandler;
 import configuration.emn.route.DistanceRetriever;
+import dto.jobstate.JobFailure;
 import dto.jobstate.ScheduleImportJobState;
 import dto.message.StartImportMessage;
 import play.Logger;
@@ -221,6 +222,7 @@ public class ScheduleImportJob extends UntypedActor {
 												// try to use hashed
 												// distances instead
 				Logger.warn("Check your token");
+				state2.setFailure(new JobFailure("Distance API quota exceeded"));
 				continue;
 			}
 

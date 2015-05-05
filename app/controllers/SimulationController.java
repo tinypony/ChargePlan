@@ -1,5 +1,7 @@
 package controllers;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,12 +21,12 @@ import model.planning.PlanningProject;
 import org.emn.calculate.DieselPricingModel;
 import org.emn.calculate.EnergyPricingModel;
 import org.emn.calculate.IEnergyPriceProvider;
+import org.emn.calculate.bus.FeasibilitySimulationResult;
 import org.emn.calculate.bus.StaticConsumptionProfile;
 import org.emn.calculate.route.CostSimulationResult;
 import org.emn.calculate.route.DailyConsumptionModel;
 import org.emn.calculate.route.RouteSimulationModel;
 import org.emn.plan.SimpleBusScheduler;
-import org.emn.plan.SimulationResult;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -46,23 +48,16 @@ public class SimulationController extends Controller {
 	//Feasibility
 	public static Result simulateRouteFeasibility(String projectId) throws Exception {
 		ObjectMapper om = new ObjectMapper();	
-		JsonNode bodyJson = request().body().asJson();
-		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
-		
 		Datastore ds = MongoUtils.ds();
-		PlanningProject proj = ProjectController.getProjectObject(projectId);
+		JsonNode bodyJson = request().body().asJson();
 		
-		SimpleBusScheduler scheduler = new SimpleBusScheduler();
-		scheduler.schedule(getTrips(simreq.getRouteId(), simreq.getDate()), proj.getStops());
+		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
+		PlanningProject proj = ProjectController.getProjectObject(projectId);
 		
 		StaticConsumptionProfile profile = new StaticConsumptionProfile();
 		profile.setConsumption(2.5);
 		
-		RouteSimulationModel simModel = new RouteSimulationModel( profile, new BusInstance(simreq.getBusType()), simreq.getDate());
-		simModel.setElectrifiedStops(proj.getStops());
-		simModel.setDistanceManager(new DistanceRetriever());
-		simModel.setDirections(scheduler.getDirectionA(), scheduler.getDirectionB());
-		SimulationResult result = simModel.simulate();
+		FeasibilitySimulationResult result = simulateRouteFeasibility(proj, simreq, profile);
 		
 		if(result.isSurvived()) {
 			proj.getBusRoute(simreq.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_OK);
@@ -71,23 +66,78 @@ public class SimulationController extends Controller {
 		}
 		
 		ds.save(proj);
-		
 		return ok(om.valueToTree(result));
+	}
+	
+	public static Result simulateAllRoutesFeasibility(String projectId) throws Exception {
+		ObjectMapper om = new ObjectMapper();	
+		Datastore ds = MongoUtils.ds();
+		JsonNode bodyJson = request().body().asJson();
+		
+		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
+		PlanningProject proj = ProjectController.getProjectObject(projectId);
+		
+		StaticConsumptionProfile profile = new StaticConsumptionProfile();
+		profile.setConsumption(2.5);
+		
+		List<FeasibilitySimulationResult> resultList = new ArrayList<FeasibilitySimulationResult>();
+		
+		for(BusRouteAggregationLight route: proj.getRoutes()) {
+			simreq.setRouteId(route.getRouteId());
+			FeasibilitySimulationResult result = simulateRouteFeasibility(proj, simreq, profile);
+			resultList.add(result);
+			
+			if(result.isSurvived()) {
+				proj.getBusRoute(simreq.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_OK);
+			} else {
+				proj.getBusRoute(simreq.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_FAIL);
+			}
+		}
+		
+		ds.save(proj);
+		return ok(om.valueToTree(resultList));
+	}
+	
+	public static FeasibilitySimulationResult simulateRouteFeasibility(PlanningProject proj, SimulationRequest simreq, StaticConsumptionProfile profile) throws Exception {
+		SimpleBusScheduler scheduler = new SimpleBusScheduler();
+		scheduler.schedule(getTrips(simreq.getRouteId(), simreq.getDate()), proj.getStops());
+		
+		RouteSimulationModel simModel = new RouteSimulationModel( profile, new BusInstance(simreq.getBusType()), simreq.getDate());
+		simModel.setElectrifiedStops(proj.getStops());
+		simModel.setDistanceManager(new DistanceRetriever());
+		simModel.setDirections(scheduler.getDirectionA(), scheduler.getDirectionB());
+		FeasibilitySimulationResult result = simModel.simulate();
+		return result;
 	}
 	
 	public static Result simulateRouteCost(String projectId) throws Exception {
 		ObjectMapper om = new ObjectMapper();	
 		JsonNode bodyJson = request().body().asJson();
 		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
-		return ok(om.valueToTree(simulateRouteCost(projectId, simreq)));
+		PlanningProject proj = ProjectController.getProjectObject(projectId);
+		return ok(om.valueToTree(simulateRouteCost(proj, simreq)));
+	}
+	
+	public static Result simulateAllRoutesCost(String projectId) throws Exception {
+		ObjectMapper om = new ObjectMapper();	
+		JsonNode bodyJson = request().body().asJson();
+		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
+		PlanningProject proj = ProjectController.getProjectObject(projectId);
+		List<CostSimulationResult> results = new ArrayList<CostSimulationResult>();
+		
+		for(BusRouteAggregationLight route: proj.getRoutes()) {
+			simreq.setRouteId(route.getRouteId());
+			results.add(simulateRouteCost(proj, simreq));
+		}
+		
+		return ok(om.valueToTree(results));
 	}
 	
 	//cost
-	public static CostSimulationResult simulateRouteCost(String projectId, final SimulationRequest simreq) throws Exception {
-		Datastore ds = MongoUtils.ds();
+	public static CostSimulationResult simulateRouteCost(PlanningProject proj, final SimulationRequest simreq) throws Exception {
 		CostSimulationResult result = new CostSimulationResult();
-		PlanningProject proj = ProjectController.getProjectObject(projectId);
 		
+		result.setRouteId(simreq.getRouteId());
 		//Get all electrified bus stops on the route
 		List<ElectrifiedBusStop> elStops =  Lists.newArrayList(Iterables.filter(proj.getStops(), new Predicate<ElectrifiedBusStop>() {
 			public boolean apply(ElectrifiedBusStop stop) {
@@ -106,10 +156,9 @@ public class SimulationController extends Controller {
 		Double energyPrice = 0.0;
 		
 		for(ElectrifiedBusStop stop: elStops) {
-			Set<String> routes = new HashSet<String>();
-			routes.add(simreq.getRouteId());
-			DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, routes);
-			energyPrice += enModel.getEnergyCost(Arrays.asList(consumptionModel));
+			DailyConsumptionModel consumptionModel = StopsController
+					.getStopConsumptionModel(stop, cal, StopsController.getBusRoutesThroughStop(proj, stop));
+			energyPrice += enModel.getEnergyCost(Arrays.asList(consumptionModel), simreq.getRouteId());
 		}
 		
 		result.setMetersDriven(getTotalDistanceDriven(simreq));
@@ -132,6 +181,9 @@ public class SimulationController extends Controller {
 		Query<BusTrip> tripsQ = ds.createQuery(BusTrip.class);
 		tripsQ.field("routeId").equal(routeId);
 		tripsQ.field("dates").equals(date);
-		return tripsQ.asList();
+		List<BusTrip> trips = tripsQ.asList();
+		
+		System.out.println("Route:"+routeId+", trips:"+trips.size()+", date"+date);
+		return trips;
 	}
 }

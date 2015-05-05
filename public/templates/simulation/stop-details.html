@@ -1,7 +1,7 @@
 <div class="charging-parameters">
 	<div class="parameter">
 		<h4>Charger</h4>
-		<select class="available-chargers" name="available-chargers">
+		<select class="available-chargers form-control" name="available-chargers">
 			<option value="-1">Select charger</option>
 			{{#each chargerTypes}}
 			<option value="{{this.id}}">{{this.manufacturer}} {{this.model}} {{this.power}}</option> 
@@ -18,9 +18,9 @@
 	<div class="parameter">
 		<h4>Charging time</h4>
 		{{#if isEndStop}}
-		<input class="min-charging-time" type="number" value="{{minChargingTime}}"/>
-		{{else}}1
-		<input class="min-charging-time" type="number" value="10" disabled/>
+		<input class="min-charging-time form-control" type="number" value="{{minChargingTime}}"/>
+		{{else}}
+		<input class="min-charging-time form-control" type="number" value="10" disabled/>
 		{{/if}}
 	</div>
 </div>

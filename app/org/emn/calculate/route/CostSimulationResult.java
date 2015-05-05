@@ -2,6 +2,7 @@ package org.emn.calculate.route;
 
 public class CostSimulationResult {
 
+	private String routeId;
 	private int metersDriven;
 	private Double energyPrice;
 	private Double dieselPrice;
@@ -33,6 +34,16 @@ public class CostSimulationResult {
 	public void setEnergyPrice(Double energyPrice) {
 		this.energyPrice = energyPrice;
 	}
+
+	public String getRouteId() {
+		return routeId;
+	}
+
+	public void setRouteId(String routeId) {
+		this.routeId = routeId;
+	}
 	
-	
+	public Double getSavings() {
+		return this.getDieselPrice() - this.getEnergyPrice(); 
+	}
 }

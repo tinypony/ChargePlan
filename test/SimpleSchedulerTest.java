@@ -19,7 +19,7 @@ public class SimpleSchedulerTest {
 	
 	@Before
 	public void setup() {
-		scheduler = new SimpleBusScheduler(5 * 60);
+		scheduler = new SimpleBusScheduler(4 * 60);
 		allTrips = new ArrayList<BusTrip>();
 		
 		allTrips.add(makeBusTrip("0", "1000", "1100"));

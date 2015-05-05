@@ -1,11 +1,19 @@
+<div class="my-routes-toggle">
+	My routes
+</div>
 <div class="nano">
 	<div class="route-list nano-content">
 		{{#each routes}}
 			<div class="route-list-item" data-routeid="{{this.routeId}}">
-				<span class="route-name">{{this.name}}</span> 
-				<span class="route-ends">{{this.longName}}</span>
-				<i class="fa fa-remove remove" data-routeid="{{this.routeId}}"></i>
+				<span class="route-name">{{this.name}}</span>
+				<span class="end-stops">		
+					<div class="route-end">{{this.firstStop}}</div>
+					<div class="route-end">{{this.lastStop}}</div>
+				</span>
+				<!-- <i class="fa fa-remove remove" data-routeid="{{this.routeId}}"></i> -->
 			</div>
+			
+
 		{{/each}}
 	</div>
 </div>

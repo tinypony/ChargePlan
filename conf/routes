@@ -18,7 +18,10 @@ GET		/api/projects/:id								controllers.ProjectController.getProject(id: Strin
 PUT		/api/projects/:id								controllers.ProjectController.updateProject(id: String)
 PUT		/api/projects/:id/update/stop					controllers.ProjectController.updateStop(id: String)
 POST	/api/projects/:id/feasibility					controllers.SimulationController.simulateRouteFeasibility(id: String)
+POST	/api/projects/:id/feasibility/all				controllers.SimulationController.simulateAllRoutesFeasibility(id: String)
 POST	/api/projects/:id/cost							controllers.SimulationController.simulateRouteCost(id: String)
+POST	/api/projects/:id/cost/all						controllers.SimulationController.simulateAllRoutesCost(id: String)
+
 GET		/api/projects/:id/stop/consumption/:stopid		controllers.StopsController.getElectrifiedStopConsumption(id: String, stopid: String)
 
 GET		/api/chargers					controllers.solutions.ChargerController.listChargers()
