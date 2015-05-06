@@ -35,13 +35,13 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
     },
     
     addRoute: function(route) {
-      this.project.addRoute(route);
-      var item = itemTemplate({route:route});
+     // this.project.addRoute(route);
+      var item = itemTemplate({route:this.getRenderableRoute(route)});
       this.$('.route-list').append(item);
     },
     
     removeRoute: function(route) {
-      this.project.removeRoute(route);
+     // this.project.removeRoute(route);
       this.$('.route-list-item[data-routeid="'+route+'"]').remove();
     },
 
@@ -113,6 +113,13 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
         this.routeMenu.showFor(routeName, $target);
       }
     },
+    
+    getRenderableRoute: function(r) {
+		var longName = r.longName.split('/');
+    	r.firstStop = longName[0];
+    	r.lastStop = longName[1];
+    	return r;
+    },
 
     render : function() {
       var self = this;
@@ -121,19 +128,13 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
         self.project = project;
         var routes = project.get('routes');
         
-        routes = _.map(routes, function(r) {
-        	var longName = r.longName.split('/');
-        	r.firstStop = longName[0];
-        	r.lastStop = longName[1];
-        	return r;
-        });
+        routes = _.map(routes, self.getRenderableRoute);
         
         self.$el.html(routeListTemplate({
           routes: routes
         }));
         
-        self.listenTo(EventBus, 'route:add', self.addRoute);
-        self.listenTo(EventBus, 'route:remove', self.removeRoute);
+
 
         _.defer(function() {
           self.$('.nano').nanoScroller({

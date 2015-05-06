@@ -34,8 +34,6 @@ define([ 'jquery',
       this.drawnRoutes = {};
       this.drawnStops = {};
       this.listenTo(EventBus, 'route:draw', this.drawRoute);
-      this.listenTo(EventBus, 'route:add', this.drawRoute);
-      this.listenTo(EventBus, 'route:remove', this.clearRoute);
       this.listenTo(EventBus, 'route:highlight', this.highlightRoute);
       this.listenTo(EventBus, 'clear:routes', this.resetMap);
     },
@@ -102,7 +100,9 @@ define([ 'jquery',
     },
     
     clearRoute: function(route) {
+    	console.log('clear '+route);
         this.map.removeLayer(this.drawnRoutes[route]);
+        this.drawnRoutes[route] = null;
     },
     
     drawBusStop: function(stop, isEndstop) {

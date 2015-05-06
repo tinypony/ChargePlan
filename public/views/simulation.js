@@ -2,9 +2,11 @@ define([ 'jquery',
          'jquery-ui', 
          'underscore', 
          'backbone', 
+         'const',
          'config-manager', 
          'amcharts.serial', 'views/simulation/stops-visual', 'views/simulation/bus-details', 'views/simulation/charger-details', 'collections/chargers', 'collections/buses', 'hbs!templates/simulation',
-    'hbs!templates/misc/loading' ], function($, JUI, _, Backbone, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, ChargerDetailsView, Chargers, Buses, template, loading) {
+    'hbs!templates/misc/loading' ], 
+    function($, JUI, _, Backbone, Const, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, ChargerDetailsView, Chargers, Buses, template, loading) {
 
   var SimulationView = Backbone.View.extend({
 
@@ -107,7 +109,12 @@ define([ 'jquery',
         contentType : 'application/json'
       }).done(function(data) {
         self.$('.simulation-results .loading-container').remove();
-
+        if(data.survived) {
+        	self.project.getRoute(self.route.routeId).state = Const.RouteState.SIMULATED_OK;
+        } else {
+        	self.project.getRoute(self.route.routeId).state = Const.RouteState.SIMULATED_FAIL;
+        }
+        
         var chart = amRef.makeChart('simulation-result-chart', {
           'theme' : 'none',
           'type' : 'serial',
@@ -141,8 +148,9 @@ define([ 'jquery',
             'valueField' : 'charge'
           } ],
           'chartCursor' : {
-            'valueLineEnabled' : true,
-            'valueLineBalloonEnabled' : true
+            'valueLineEnabled' : false,
+            'valueLineBalloonEnabled' : false,
+            'categoryBalloonDateFormat' : 'HH:NN'
           },
           'categoryField' : 'timestamp',
           'categoryAxis' : {

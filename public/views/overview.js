@@ -107,6 +107,18 @@ define([ 'jquery',
     registerListeners: function() {
       var self = this;
       
+      this.listenTo(EventBus, 'route:add', function(route){
+    	  self.data.project.addRoute(route);
+    	  self.listView.addRoute(route);
+    	  self.mapView.drawRoute(route);
+      });
+      
+      this.listenTo(EventBus, 'route:remove', function(routeId){
+    	  self.data.project.removeRoute(routeId);
+    	  self.listView.removeRoute(routeId);
+    	  self.mapView.clearRoute(routeId);
+      });
+      
       this.listenTo(EventBus, 'route:select', function(routeId) {
         self.destroyMap();
         

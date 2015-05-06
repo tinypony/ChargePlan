@@ -16,9 +16,7 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     
     removeRoute: function(route) {
       var routes = this.get('routes');
-      console.log(routes);
       routes = _.reject(routes, function(r) {
-        console.log('paw');
         return r.routeId === route;
       });
 
@@ -29,6 +27,12 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     setRoutes : function(routeBags) {
       this.set('routes', routeBags);
       this.save();
+    },
+    
+    getRoute: function(routeId) {
+    	var routes = this.get('routes');
+    	var r = _.findWhere(routes,{routeId: routeId});
+    	return r;
     },
     
     addCharger: function(opts) {

@@ -110,7 +110,7 @@ define(['jquery',
 	    	if($this.is(':checked')) {
 	    	  EventBus.trigger('route:add', _.findWhere(this.data, {routeId: routeId}));
 	    	} else {
-	    	  EventBus.trigger('route:remove', _.findWhere(this.data, {routeId: routeId}))
+	    	  EventBus.trigger('route:remove', routeId);
 	    	}
 	    },
 	    
