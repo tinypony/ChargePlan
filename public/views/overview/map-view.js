@@ -11,8 +11,25 @@ define([ 'jquery',
          'hbs!templates/overview/endstop-popup'], 
          function($, _, Backbone, Mapbox, EventBus, ApiConfig, chroma, 
         		 Constants, StopDetails, ChargersCollection, endstopPopupTemplate) {
+	
+	var endStopIcon = {
+        iconUrl: "/assets/img/map_pointer_1.png",
+        iconSize: [32, 51],
+        iconAnchor: [16, 51],
+        popupAnchor: [0, -51],
+        className: 'dot'
+	};
+	
+	var endStopChargerIcon = {
+	        iconUrl: "/assets/img/map_pointer_2.png",
+	        iconSize: [32, 51],
+	        iconAnchor: [16, 51],
+	        popupAnchor: [0, -51],
+	        className: 'dot'	
+	};
   
   var MapView = Backbone.View.extend({
+	  
     initialize: function() {
       this.drawnRoutes = {};
       this.drawnStops = {};
@@ -98,6 +115,12 @@ define([ 'jquery',
 //      if(!routesWithEndStop.length) return;
 //      
       var marker = L.marker([stop.y, stop.x]);
+      var elStop = _.findWhere(this.data.project.get('stops'), {stopId: stop.stopId});
+      if(elStop && elStop.charger) {
+          marker.setIcon(L.icon(endStopChargerIcon));  
+      } else {
+    	  marker.setIcon(L.icon(endStopIcon));  
+      }
 //      marker.bindPopup(endstopPopupTemplate({
 //        stopname: stop.name+"("+stop.stopId+")",
 //        routes: _.uniq(routesWithEndStop, false, function(route){

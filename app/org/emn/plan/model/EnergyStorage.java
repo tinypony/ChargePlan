@@ -1,4 +1,4 @@
-package model.planning.solutions;
+package org.emn.plan.model;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;

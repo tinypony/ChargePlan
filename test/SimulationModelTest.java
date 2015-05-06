@@ -8,19 +8,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import model.dataset.BusTrip;
 import model.dataset.ScheduleStop;
-import model.planning.BusChargerInstance;
-import model.planning.BusInstance;
-import model.planning.ElectrifiedBusStop;
-import model.planning.solutions.BusCharger;
-import model.planning.solutions.ElectricBus;
 
-import org.emn.calculate.bus.FeasibilitySimulationResult;
 import org.emn.calculate.bus.StaticConsumptionProfile;
 import org.emn.calculate.route.RouteSimulationModel;
+import org.emn.plan.model.BusCharger;
+import org.emn.plan.model.BusChargerInstance;
+import org.emn.plan.model.BusInstance;
+import org.emn.plan.model.ElectricBus;
+import org.emn.plan.model.ElectrifiedBusStop;
 import org.junit.Before;
 import org.junit.Test;
 
 import configuration.emn.route.StopsDistanceRetriever;
+import dto.message.client.FeasibilitySimulationResult;
 
 
 public class SimulationModelTest {

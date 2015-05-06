@@ -6,8 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.emn.calculate.EnergyPricingModel;
-import org.emn.calculate.IEnergyPriceProvider;
+import org.emn.calculate.price.EnergyPricingModel;
+import org.emn.calculate.price.IEnergyPriceProvider;
 import org.emn.calculate.route.DailyConsumptionModel;
 import org.junit.Before;
 import org.junit.Test;

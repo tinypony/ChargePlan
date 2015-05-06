@@ -5,14 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.emn.plan.model.BusChargerInstance;
+import org.emn.plan.model.ElectrifiedBusStop;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
 import utils.DateUtils;
 import model.dataset.ScheduleStop;
 import model.dataset.BusTrip;
-import model.planning.BusChargerInstance;
-import model.planning.ElectrifiedBusStop;
 
 public class ChargerEnergyConsumptionModel {
 

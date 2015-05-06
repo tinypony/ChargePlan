@@ -4,9 +4,9 @@ import java.util.Queue;
 
 import model.dataset.ScheduleStop;
 import model.dataset.BusTrip;
-import model.planning.ElectrifiedBusStop;
 
 import org.emn.plan.SimpleBusScheduler;
+import org.emn.plan.model.ElectrifiedBusStop;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -9,8 +9,11 @@ import java.util.Queue;
 import javax.xml.bind.DatatypeConverter;
 
 import org.emn.calculate.bus.IConsumptionProfile;
-import org.emn.calculate.bus.FeasibilitySimulationResult;
 import org.emn.plan.BatteryStateEntry;
+import org.emn.plan.model.BusCharger;
+import org.emn.plan.model.BusInstance;
+import org.emn.plan.model.ElectricBus;
+import org.emn.plan.model.ElectrifiedBusStop;
 
 import play.Logger;
 
@@ -18,12 +21,9 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
 import configuration.emn.route.StopsDistanceRetriever;
+import dto.message.client.FeasibilitySimulationResult;
 import model.dataset.BusTrip;
 import model.dataset.ScheduleStop;
-import model.planning.BusInstance;
-import model.planning.ElectrifiedBusStop;
-import model.planning.solutions.BusCharger;
-import model.planning.solutions.ElectricBus;
 
 public class RouteSimulationModel {
 

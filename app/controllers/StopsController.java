@@ -15,12 +15,12 @@ import model.dataset.ScheduleStop;
 import model.dataset.BusStop;
 import model.dataset.BusTrip;
 import model.dataset.aggregation.BusRouteAggregationLight;
-import model.planning.ElectrifiedBusStop;
-import model.planning.PlanningProject;
 
 import org.emn.calculate.route.ChargerEnergyConsumptionModel;
 import org.emn.calculate.route.DailyConsumptionModel;
 import org.emn.calculate.route.HourlyConsumptionEntry;
+import org.emn.plan.model.ElectrifiedBusStop;
+import org.emn.plan.model.PlanningProject;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 

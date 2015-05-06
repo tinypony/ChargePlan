@@ -1,6 +1,6 @@
 import model.ClientConfig;
-import model.planning.PlanningProject;
 
+import org.emn.plan.model.PlanningProject;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 

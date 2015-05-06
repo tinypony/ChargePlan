@@ -1,4 +1,4 @@
-package model.planning;
+package org.emn.plan.model;
 
 import java.util.HashMap;
 import java.util.Map;

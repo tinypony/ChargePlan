@@ -1,4 +1,4 @@
-package org.emn.calculate;
+package org.emn.calculate.price;
 
 public class DieselPricingModel {
 	static final int LITERS_PER_100_KM = 27;

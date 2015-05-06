@@ -14,19 +14,17 @@ import javax.xml.bind.DatatypeConverter;
 
 import model.dataset.BusTrip;
 import model.dataset.aggregation.BusRouteAggregationLight;
-import model.planning.BusInstance;
-import model.planning.ElectrifiedBusStop;
-import model.planning.PlanningProject;
 
-import org.emn.calculate.DieselPricingModel;
-import org.emn.calculate.EnergyPricingModel;
-import org.emn.calculate.IEnergyPriceProvider;
-import org.emn.calculate.bus.FeasibilitySimulationResult;
 import org.emn.calculate.bus.StaticConsumptionProfile;
-import org.emn.calculate.route.CostSimulationResult;
+import org.emn.calculate.price.DieselPricingModel;
+import org.emn.calculate.price.EnergyPricingModel;
+import org.emn.calculate.price.IEnergyPriceProvider;
 import org.emn.calculate.route.DailyConsumptionModel;
 import org.emn.calculate.route.RouteSimulationModel;
 import org.emn.plan.SimpleBusScheduler;
+import org.emn.plan.model.BusInstance;
+import org.emn.plan.model.ElectrifiedBusStop;
+import org.emn.plan.model.PlanningProject;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -37,6 +35,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
 import configuration.emn.route.DistanceRetriever;
+import dto.message.client.CostSimulationResult;
+import dto.message.client.FeasibilitySimulationResult;
 import dto.message.client.SimulationRequest;
 import play.mvc.Controller;
 import play.mvc.Result;

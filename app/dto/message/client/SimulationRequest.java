@@ -1,6 +1,6 @@
 package dto.message.client;
 
-import model.planning.solutions.ElectricBus;
+import org.emn.plan.model.ElectricBus;
 
 public class SimulationRequest {
 

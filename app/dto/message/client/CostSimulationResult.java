@@ -1,4 +1,4 @@
-package org.emn.calculate.route;
+package dto.message.client;
 
 public class CostSimulationResult {
 

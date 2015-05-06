@@ -1,5 +1,9 @@
-define(['jquery', 'underscore', 'backbone', 'hbs!templates/misc/modal'], 
+define(['jquery', 
+        'underscore', 
+        'backbone', 
+        'hbs!templates/misc/modal'], 
     function($, _, Backbone, template) {
+	
   var ModalDialog = Backbone.View.extend({
     
     events: {
@@ -33,6 +37,12 @@ define(['jquery', 'underscore', 'backbone', 'hbs!templates/misc/modal'],
       
       this.$el.on('hidden.bs.modal', function(){
         self.remove();
+      });
+      
+      this.$el.on('shown.bs.modal', function(){
+    	 if(self.config.onShow && _.isFunction(self.config.onShow)) {
+    		 self.config.onShow.call();
+    	 } 
       });
       
       $('body').prepend(this.$el);

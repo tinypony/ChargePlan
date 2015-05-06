@@ -3,12 +3,12 @@ package controllers;
 import java.util.List;
 
 import model.dataset.BusStop;
-import model.planning.BusChargerInstance;
-import model.planning.ElectrifiedBusStop;
-import model.planning.PlanningProject;
-import model.planning.solutions.BusCharger;
 
 import org.bson.types.ObjectId;
+import org.emn.plan.model.BusCharger;
+import org.emn.plan.model.BusChargerInstance;
+import org.emn.plan.model.ElectrifiedBusStop;
+import org.emn.plan.model.PlanningProject;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 

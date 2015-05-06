@@ -1,4 +1,4 @@
-package org.emn.calculate.bus;
+package dto.message.client;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

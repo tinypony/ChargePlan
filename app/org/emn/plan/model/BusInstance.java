@@ -1,8 +1,6 @@
-package model.planning;
+package org.emn.plan.model;
 
 import org.emn.calculate.bus.IConsumptionProfile;
-
-import model.planning.solutions.ElectricBus;
 
 public class BusInstance {
 

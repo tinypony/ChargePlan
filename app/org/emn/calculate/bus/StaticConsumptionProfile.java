@@ -2,7 +2,7 @@ package org.emn.calculate.bus;
 
 import java.util.Map;
 
-import model.planning.solutions.ElectricBus;
+import org.emn.plan.model.ElectricBus;
 
 public class StaticConsumptionProfile implements IConsumptionProfile {
 

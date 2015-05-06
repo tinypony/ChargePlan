@@ -1,7 +1,7 @@
 import static org.junit.Assert.*;
-import model.planning.BusInstance;
-import model.planning.solutions.ElectricBus;
 
+import org.emn.plan.model.BusInstance;
+import org.emn.plan.model.ElectricBus;
 import org.junit.Before;
 import org.junit.Test;
 

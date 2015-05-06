@@ -1,4 +1,4 @@
-package org.emn.calculate;
+package org.emn.calculate.price;
 
 import java.util.ArrayList;
 import java.util.Calendar;

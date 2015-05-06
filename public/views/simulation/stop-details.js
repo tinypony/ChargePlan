@@ -56,68 +56,101 @@ define(['jquery',
             });
             dialog.close();
           }
+        },
+        
+        onShow: function() {
+            self.$('.stop-consumption-chart').html(loading());
+            self.getConsumptionInfo();
         }
       });
       
       dialog.render().content(this.$el);
-      this.$('.stop-consumption-chart').html(loading());
-      
-      $.ajax({
-        url: '/api/projects/'+this.project.get('id')+'/stop/consumption/'+this.stop.stopId,
-        method: 'GET'
-      }).done(function(data) {
-    	  
-    	  console.log(data);
-    	  /*
-        self.$('.stop-consumption-chart .loading-container').remove();
-        var chart = amRef.makeChart('stop-consumption-chart', {
-          'theme' : 'none',
-          'type' : 'serial',
-          'autoMargins' : false,
-          'marginLeft' : 70,
-          'marginRight' : 8,
-          'marginTop' : 10,
-          'marginBottom' : 70,
-          'pathToImages' : 'http://www.amcharts.com/lib/3/images/',
-          'dataProvider' : data,
-          'valueAxes' : [ {
-            'id' : 'v1',
-            'axisAlpha' : 0,
-            'inside' : false,
-            'min' : 0,
-            'minimum' : 0,
-            'gridAlpha' : 0.1,
-            'title' : 'Energy consumption (kW)'
-          } ],
-          'graphs' : [ {
-            'useNegativeColorIfDown' : false,
-            'balloonText' : '[[category]]<br><b>value: [[value]]</b>',
-            'bullet' : 'round',
-            'bulletBorderAlpha' : 1,
-            'bulletBorderColor' : '#FFFFFF',
-            'hideBulletsCount' : 50,
-            'lineThickness' : 2,
-            'lineColor' : '#0088cc',
-            'valueField' : 'value'
-          } ],
-          'chartCursor' : {
-            'valueLineEnabled' : true,
-            'valueLineBalloonEnabled' : true
-          },
-          'categoryField' : 'key',
-          'categoryAxis' : {
-            'axisAlpha' : 0,
-            'gridAlpha' : 0,
-            'maximum' : 110,
-            'max' : 110,
-            'minHorizontalGap' : 60,
-            'title' : 'Time',
-            'parseDates' : true,
-            'minPeriod' : 'mm'
-          }
-        });
-        */
-      });
+
+    },
+    
+    getConsumptionInfo: function() {
+    	var self = this;
+    	$.ajax({
+            url: '/api/projects/'+this.project.get('id')+'/stop/consumption/'+this.stop.stopId,
+            method: 'GET'
+          }).done(function(data) {
+        	  var transformed = self.transformData(data);
+        	  var graphs = self.getGraphs(transformed);
+        	  
+        	  var chart = AmCharts.makeChart('stop-consumption-chart', {
+        		    "type": "serial",
+        			"theme": "light",
+        		    "legend": {
+        		        "horizontalGap": 10,
+        		        "maxColumns": 1,
+        		        "position": "right",
+        				"useGraphSettings": true,
+        				"markerSize": 10
+        		    },
+        		    "dataProvider": transformed,
+        		    "valueAxes": [{
+        		        "stackType": "regular",
+        		        "axisAlpha": 0.3,
+        		        "gridAlpha": 0,
+        		        min: 0,
+        		        maximum: 2000,
+        		        title: 'Power consumption (kW)'
+        		    }],
+        		    "graphs": graphs,
+        		    "categoryField": "hour",
+        		    "categoryAxis": {
+        		        "gridPosition": "start",
+        		        "axisAlpha": 0,
+        		        "gridAlpha": 0,
+        		        "position": "left"
+        		    },
+        		    "export": {
+        		    	"enabled": true,
+        		        "libs": {
+        		         	"path": "http://www.amcharts.com/lib/3/plugins/export/libs/"
+        		      	}
+        		     }
+        		});
+          });
+    },
+    
+    transformData: function(data) {
+    	return _.map(data, function(val, hour){
+    		var retVal = {
+    			hour: hour
+    		};
+    		
+    		_.each(val, function(item){
+    			retVal[item.routeId] = item.avgPower;
+    		});
+    		
+    		return retVal;
+    	});
+    },
+    
+    getGraphs: function(transformedData) {
+    	var routesFound = [];
+    	_.each(transformedData, function(it){
+    		var keys = _.keys(it);
+    		keys = _.without(keys, 'hour');
+    		routesFound = routesFound.concat(keys);
+    	});
+    	routesFound = _.uniq(routesFound);
+    	var graphs = _.map(routesFound, function(r){
+    		return {
+		        "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+		        "fillAlphas": 0.8,
+		        "labelText": "[[value]]",
+		        "lineAlpha": 0.3,
+		        "title": r,
+		        "type": "column",
+				"color": "#000000",
+		        "valueField": r
+		    };
+    	});
+    	
+    	console.log(graphs);
+    	return graphs;
     }
   });
   

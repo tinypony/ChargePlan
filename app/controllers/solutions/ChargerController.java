@@ -1,10 +1,9 @@
 package controllers.solutions;
 
 import org.bson.types.ObjectId;
+import org.emn.plan.model.BusCharger;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
-
-import model.planning.solutions.BusCharger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

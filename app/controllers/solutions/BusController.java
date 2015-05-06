@@ -1,8 +1,7 @@
 package controllers.solutions;
 
-import model.planning.solutions.BusCharger;
-import model.planning.solutions.ElectricBus;
-
+import org.emn.plan.model.BusCharger;
+import org.emn.plan.model.ElectricBus;
 import org.mongodb.morphia.Datastore;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

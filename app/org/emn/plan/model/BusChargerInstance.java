@@ -1,4 +1,4 @@
-package model.planning;
+package org.emn.plan.model;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Embedded;
@@ -7,8 +7,6 @@ import org.mongodb.morphia.annotations.Id;
 import serialization.ObjectIdSerializer;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import model.planning.solutions.BusCharger;
 
 @Embedded
 public class BusChargerInstance {

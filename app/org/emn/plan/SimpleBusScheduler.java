@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.emn.plan.model.ElectrifiedBusStop;
+
 import utils.DateUtils;
 
 import com.google.common.base.Predicate;
@@ -14,7 +16,6 @@ import com.google.common.collect.Lists;
 
 import model.dataset.BusTrip;
 import model.dataset.ScheduleStop;
-import model.planning.ElectrifiedBusStop;
 
 public class SimpleBusScheduler {
 	
