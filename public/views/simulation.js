@@ -4,8 +4,15 @@ define([ 'jquery',
          'backbone', 
          'const',
          'config-manager', 
-         'amcharts.serial', 'views/simulation/stops-visual', 'views/simulation/bus-details', 'views/simulation/charger-details', 'collections/chargers', 'collections/buses', 'hbs!templates/simulation',
-    'hbs!templates/misc/loading' ], 
+         'amcharts.serial', 
+         'views/simulation/stops-visual', 
+         'views/simulation/bus-details', 
+         'views/simulation/charger-details', 
+         'collections/chargers', 
+         'collections/buses', 
+         'hbs!templates/simulation',
+         'hbs!templates/misc/loading',
+         'bsselect'], 
     function($, JUI, _, Backbone, Const, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, ChargerDetailsView, Chargers, Buses, template, loading) {
 
   var SimulationView = Backbone.View.extend({
@@ -108,6 +115,7 @@ define([ 'jquery',
         method : 'POST',
         contentType : 'application/json'
       }).done(function(data) {
+    	  
         self.$('.simulation-results .loading-container').remove();
         if(data.survived) {
         	self.project.getRoute(self.route.routeId).state = Const.RouteState.SIMULATED_OK;
@@ -195,6 +203,8 @@ define([ 'jquery',
     render : function() {
       var self = this;
       var routeInstance = this.getInstance();
+      routeInstance.firstEnd = routeInstance.longName.split('/')[0];
+      routeInstance.lastEnd = routeInstance.longName.split('/')[1];
       
       this.$el.html(template({
         route : routeInstance,
@@ -221,6 +231,7 @@ define([ 'jquery',
         dateFormat : 'yy-mm-dd'
       });
       this.$('#route-date').datepicker('setDate', availableDates[0]);
+      this.$('.selectpicker').selectpicker();
 
       this.routeVis = new RouteVisualizationView({
         el : this.$('.route-path-visualization'),

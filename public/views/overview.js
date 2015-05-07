@@ -20,12 +20,8 @@ define([ 'jquery',
 
   var RoutesOverview = Backbone.View.extend({
 
-    events : {
-      'click .add-routes': 'toggleTable'
-    },
 
     initialize : function(optimize) {
-      _.bindAll(this, ['toggleTable']);
       
       this.date = this.defaultDate;
       this.retrieveData(true);
@@ -60,16 +56,6 @@ define([ 'jquery',
 
     },
     
-    toggleTable: function() {
-      if(this.detailsView.isHidden()) {
-        this.detailsView.show();
-        this.$('.add-routes').removeClass('show').addClass('back');
-      } else {
-        this.detailsView.hide();
-        this.$('.add-routes').removeClass('back').addClass('show');
-      }
-    },
-
     render : function() {
       var self = this;
       this.$el.html(template());

@@ -13,7 +13,8 @@ define(['jquery',
 	    events: {
 	      'mouseover .accordion-toggle': 'onMouseover',
 	      'mouseout .accordion-toggle': 'onMouseout',
-	      'change .route-select-cb': 'onCheckbox'
+	      'change .route-select-cb': 'onCheckbox',
+	      'click .visible-label' : 'onClickLabel'
 	    },
 	    
 	    initialize: function(options) {
@@ -31,6 +32,10 @@ define(['jquery',
 	          self.render();
 	        });
 	      })
+	    },
+	    
+	    onClickLabel: function() {
+	    	this.trigger('open-toggle');
 	    },
 	    
 	    processData: function(data) {
@@ -139,6 +144,12 @@ define(['jquery',
 	          { 'orderable': false, 'targets': 0 }
 	        ]
 	      });
+	      
+	      this.$('#all-routes-table_filter').prepend('<label class="visible-label"><i class="fa fa-chevron-down"></i>Add New Routes</label>')
+	      this.$('#all-routes-table_filter label input').attr('placeholder', 'Search');
+	      this.$("#all-routes-table_filter label").last().contents().filter(function(){
+			    return (this.nodeType == 3);
+		  }).remove();
 	      
 	      return this;
 	    }

@@ -6,9 +6,6 @@ define([ 'jquery',
          function($, _, Backbone, RoutesTableView, template) {
   var EndStop = Backbone.View.extend({
     
-    events: {
-      'click .close-ear' : 'hide'
-    },
     
     initialize: function(options){
       this.hidden = true;
@@ -30,14 +27,22 @@ define([ 'jquery',
       return this.hidden;
     },
     
+    toggle: function() {
+    	if(this.isHidden()) {
+    		this.show();
+    	} else {
+    		this.hide();
+    	}
+    },
+    
     show: function() {
-      this.$el.show();
-      this.hidden = false;
+      this.$el.removeClass('off').addClass('on');
       this.contentView.recalculateTable();
+      this.hidden = false;
     },
     
     hide: function() {
-      this.$el.hide();
+      this.$el.addClass('off').removeClass('on');
       this.hidden = true;
     },
     
@@ -45,6 +50,7 @@ define([ 'jquery',
       this.$el.html(template({}));
       this.contentView = new RoutesTableView({el: this.$('.details-container')});
       this.contentView.render();
+      this.listenTo(this.contentView, 'open-toggle', this.toggle);
       this.hide();
     }
     

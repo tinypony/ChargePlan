@@ -17,8 +17,10 @@
   	padding-right: 30px;
   	padding-bottom: 40px;
   	
+  	
 	.defaults-selection {
-	
+		padding-bottom: 20px;
+ 		border-bottom: 1px solid rgba(0,0,0,0.2);
 		.form-group {
 			display: flex;
 		}
@@ -26,9 +28,37 @@
 		.route-details-body {
 			display: flex;
 			justify-content: space-between;
+
+			
+			.route-names {
+				display: flex;
+				align-items: center;
+				margin: 10px 0 25px;
+				
+				.route-name {
+					font-size: 26px;
+					background: @main-color;
+					padding: 3px 0px;
+					margin-right: 30px;
+					color: white;
+					width: 70px;
+					border-radius: 3px;
+					text-align: center;
+				}
+				
+				.route-ends {
+					font-size: 20px;
+				}
+			}
+			
+			.detail-tables {
+				display: flex;
+				
+			}
 			
 			.route-details-table {
 				margin-bottom: 20px;
+				margin-right: 100px;
 				
 				.details-entry {
 					display: table-row;
@@ -39,6 +69,7 @@
 					
 					> .details-type {
 						padding-right: 30px;
+						font-weight: 600;
 					}
 					
 					&.last {
@@ -75,6 +106,14 @@
 				  
 				  > * {
 				  	width: 80%;
+				  }
+				  
+				  select {
+				  	display: none;
+				  }
+				  
+				  .dropdown-toggle {
+				    text-transform : none;
 				  }
 				}
 				

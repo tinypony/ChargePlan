@@ -80,6 +80,9 @@ define(['jquery',
         	  var chart = AmCharts.makeChart('stop-consumption-chart', {
         		    "type": "serial",
         			"theme": "light",
+        			sequencedAnimation: true,
+        			startEffect: '>',
+        			startDuration: 0.3,
         		    "legend": {
         		        "horizontalGap": 10,
         		        "maxColumns": 1,

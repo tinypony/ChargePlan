@@ -9,6 +9,7 @@ public class DetailedBusRoute extends BusRoute {
 		this.setId(inst.getId());
 		this.setRouteId(inst.getRouteId());
 		this.setName(inst.getName());
+		this.setLongName(inst.getLongName());
 		this.setStats(inst.getStats());
 	}
 

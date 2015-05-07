@@ -43,3 +43,24 @@ Found existing projects
 2015-05-06 13:25:42,775 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
+2015-05-07 09:54:38,194 - [INFO] - from play in play-internal-execution-context-4 
+Starting application default Akka system.
+
+2015-05-07 11:53:03,754 - [INFO] - from application in play-internal-execution-context-14 
+Application shutdown...
+
+2015-05-07 11:53:03,755 - [INFO] - from play in play-internal-execution-context-14 
+Shutdown application default Akka system.
+
+2015-05-07 11:53:04,426 - [INFO] - from application in play-internal-execution-context-14 
+Found ruter
+
+2015-05-07 11:53:04,444 - [INFO] - from application in play-internal-execution-context-14 
+Found existing projects
+
+2015-05-07 11:53:04,444 - [INFO] - from play in play-internal-execution-context-14 
+Application started (Dev)
+
+2015-05-07 12:59:23,279 - [INFO] - from play in play-internal-execution-context-14 
+Starting application default Akka system.
+

@@ -1,15 +1,16 @@
 define(['jquery', 
-        'backbone',  
+        'backbone', 
+        'router',
         'hbs!templates/overtop-menu'], 
-    function($, Backbone, template) {
+    function($, Backbone, router, template) {
   
   var MenuView = Backbone.View.extend({
     events: {
-      'click .add-routes': 'openRoutes'
+      'click .settings': 'openSettings'
     },
     
-    openRoutes: function() {
-
+    openSettings: function() {
+    	router.navigate('/configuration', true);
     },
     
     render: function() {

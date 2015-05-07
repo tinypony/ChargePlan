@@ -1,39 +1,45 @@
 <div class="simulation-container">
-
-	<h2>Route {{route.name}}</h2>
-
+	<h5 class="simulation-header subsection-header">Simulation</h5>
 	<div class="defaults-selection">
 		
 		<div class="accordion-body route-details-body">
-			<div class="route-details-table">
-				<h4>Route details</h4>
-				<div class="details-entry">
-					<div class="details-type">Total km driven/Day:</div>
-					<div class="details-value">{{stats.totalDistance}} km</div>
+			<div class="left-hand">
+				<div class="route-names">
+					<div class="route-name">{{route.name}}</div>
+					<div class="route-ends">{{route.firstEnd}} - {{route.lastEnd}}</div>
 				</div>
-
-				<div class="details-entry">
-					<div class="details-type">Route length:</div>
-					<div class="details-value">{{stats.routeLength}} km</div>
+				
+				<h5 class="subsection-header">Route details</h5>
+				<div class="detail-tables">
+					<div class="route-details-table">
+						<div class="details-entry">
+							<div class="details-type">Total km driven/Day:</div>
+							<div class="details-value">{{stats.totalDistance}} km</div>
+						</div>
+		
+						<div class="details-entry">
+							<div class="details-type">Route length:</div>
+							<div class="details-value">{{stats.routeLength}} km</div>
+						</div>
+						<div class="details-entry">
+							<div class="details-type">Departures/Day:</div>
+							<div class="details-value">{{stats.departures}}</div>
+						</div>
+					</div>
+					<div class="route-details-table">
+					<div class="details-entry">
+						<div class="details-type">CO2 emissions/Day:</div>
+						<div class="details-value">{{stats.CO2}} kg</div>
+					</div>
+					<div class="details-entry">
+						<div class="details-type">CO emissions/Day:</div>
+						<div class="details-value">{{stats.CO}} kg</div>
+					</div>
+					<div class="details-entry">
+						<div class="details-type">NOx emissions/Day:</div>
+						<div class="details-value">{{stats.NOx}} kg</div>
+					</div>
 				</div>
-				<div class="details-entry">
-					<div class="details-type">Departures/Day:</div>
-					<div class="details-value">{{stats.departures}}</div>
-				</div>
-			</div>
-			<div class="route-details-table">
-				<h4>Daily emissions</h4>	
-				<div class="details-entry">
-					<div class="details-type">CO2 emissions/Day:</div>
-					<div class="details-value">{{stats.CO2}} kg</div>
-				</div>
-				<div class="details-entry">
-					<div class="details-type">CO emissions/Day:</div>
-					<div class="details-value">{{stats.CO}} kg</div>
-				</div>
-				<div class="details-entry">
-					<div class="details-type">NOx emissions/Day:</div>
-					<div class="details-value">{{stats.NOx}} kg</div>
 				</div>
 			</div>
 			<div id="route-map-view" class="route-map-view"></div>
@@ -41,7 +47,7 @@
 	</div>
 
 	<div class="simulation-parameters">
-		<h4>Simulation parameters</h4>
+		<h5 class="subsection-header">Simulation parameters</h5>
 
 		<div class="accordion-body">
 <!-- 			<div class="notification-well well"> -->
@@ -62,9 +68,9 @@
 					</div>
 					
 					<div class="bus-selection form-group">
-						<label class="custom-label">Select bus model</label> 
-						<select class="bus-select form-control">
-							<option value="-1">Not selected</option>
+						<label class="custom-label">Select bus</label>
+						<select class="bus-select selectpicker">
+							<option value="-1">Select Bus Model</option>
 							{{#each buses}}
 								<option value="{{this.id}}">{{this.model}}</option>
 							{{/each}}
