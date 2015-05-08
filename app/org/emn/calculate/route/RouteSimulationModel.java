@@ -3,8 +3,10 @@ package org.emn.calculate.route;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -16,6 +18,7 @@ import org.emn.plan.model.ElectricBus;
 import org.emn.plan.model.ElectrifiedBusStop;
 
 import play.Logger;
+import utils.DateUtils;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -108,7 +111,6 @@ public class RouteSimulationModel {
 				canRun = false;
 				break;
 			} 
-		//	Logger.info("Current trip: " + trip.getStops().get(0).getArrival() +" ---> "+ trip.getStops().get(trip.getStops().size()-1).getArrival());
 			
 			List<ScheduleStop> tripStops = trip.getStops();
 			
@@ -146,10 +148,10 @@ public class RouteSimulationModel {
 					if(elStop != null && elStop.getCharger() !=null) {
 						int chargingTimeSeconds = this.getChargingTime(elStop, trip.getRouteId(), i == tripStops.size() - 1);
 						BusCharger chargerType = elStop.getCharger(currentStop.getArrival(), chargingTimeSeconds).getType();
-						int timeSpentCharging = this.bus.charge(chargingTimeSeconds, chargerType.getPower());
+						int availableTime = (int) this.getTimeAvailableForCharging(chargingTimeSeconds, this.isEndstop(i, trip), this.simDate.getTime(), directionIdx);
+						int timeSpentCharging = this.bus.charge(availableTime, chargerType.getPower());
 						
 						this.simDate.add(Calendar.SECOND, timeSpentCharging);
-						
 						this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
 					}
 				} else {
@@ -159,17 +161,55 @@ public class RouteSimulationModel {
 			}
 			
 			directionIdx = (directionIdx + 1) % 2;
+			direction = this.getDirection(directionIdx);
 			
-			if(directionIdx == 0) {
-				direction = this.getDirectionA();
-			} else {
-				direction = this.getDirectionB();
-			}
 		}
 		
 		result.setSurvived(true);
 		
 		return result;
+	}
+	
+	private Queue<BusTrip> getDirection(int directionIdx) {
+		if(directionIdx == 0) {
+			return this.getDirectionA();
+		} else {
+			return this.getDirectionB();
+		}
+	}
+	
+	private Queue<BusTrip> getReverseDirection(int directionIdx) {
+		if(directionIdx != 0) {
+			return this.getDirectionA();
+		} else {
+			return this.getDirectionB();
+		}
+	}
+	
+	private long getTimeAvailableForCharging(int chargingTime, boolean isEndstop, Date now, int directionIdx) {
+		if(!isEndstop) {
+			return chargingTime;
+		} else {
+			Queue<BusTrip> nextDirection = this.getReverseDirection(directionIdx);
+			if(nextDirection != null && nextDirection.peek() != null) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(now);
+				BusTrip nextTrip = nextDirection.peek();
+				cal = DateUtils.stringToCalendar(cal, nextTrip.getStops().get(0).getArrival());
+				
+				System.out.println("now: "+(new SimpleDateFormat("YYYY-M-d, HH:mm")).format(now));
+				System.out.println("next departure "+(new SimpleDateFormat("YYYY-M-d, HH:mm")).format(cal.getTime()));
+				long difference = cal.getTime().getTime() - now.getTime();
+				long result = TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);
+				return result;
+			} else {
+				return Long.MAX_VALUE;
+			}
+		}
+	}
+	
+	private boolean isEndstop(int idx, BusTrip trip) {
+		return idx == 0 || idx == trip.getStops().size() - 1;
 	}
 	
 	private void addBatteryEntry(FeasibilitySimulationResult result, double soc, Calendar cal, String location) {

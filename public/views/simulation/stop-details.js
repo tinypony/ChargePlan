@@ -96,8 +96,7 @@ define(['jquery',
         		        "axisAlpha": 0.3,
         		        "gridAlpha": 0,
         		        min: 0,
-        		        maximum: 2000,
-        		        title: 'Power consumption (kW)'
+        		        title: 'Power demand (kW)'
         		    }],
         		    "graphs": graphs,
         		    "categoryField": "hour",

@@ -23,6 +23,7 @@ require.config({
     d3 : 'lib/d3.min',
     mapbox : 'lib/mapbox',
     bootstrap :  '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min',
+    bsslider: 'lib/rangeslider',
     bsselect: 'lib/bootstrap-select.min',
     datatables : 'lib/datatables/jquery.dataTables'
   },
@@ -48,6 +49,10 @@ require.config({
     },
     
     bsselect : {
+        deps : [ 'jquery' ]
+    },
+    
+    bsslider : {
         deps : [ 'jquery' ]
     },
     

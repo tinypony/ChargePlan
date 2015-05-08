@@ -1,8 +1,12 @@
 package controllers;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import model.dataset.BusStop;
+import model.dataset.BusTrip;
+import model.dataset.aggregation.BusRouteAggregationLight;
 
 import org.bson.types.ObjectId;
 import org.emn.plan.model.BusCharger;
@@ -15,6 +19,9 @@ import org.mongodb.morphia.query.Query;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 import controllers.solutions.ChargerController;
 import play.Logger;
@@ -128,11 +135,73 @@ public class ProjectController extends Controller {
 		return ok();
 	}
 	
+	public static Result addChargers(String projectId) throws JsonProcessingException {
+		Datastore ds = MongoUtils.ds();
+		ObjectMapper om = new ObjectMapper();
+		JsonNode bodyJson = request().body().asJson();
+		String charger = om.treeToValue(bodyJson.get("charger"), String.class);
+		ObjectId id = new ObjectId(projectId);
+		
+		Query<PlanningProject> q = ds.createQuery(PlanningProject.class);
+		q.field("id").equals(id);
+		PlanningProject project = q.get();
+		
+		List<BusRouteAggregationLight> routes = project.getRoutes();
+		List<String> routeNames = Lists.newArrayList(Iterables.transform(routes, new Function<BusRouteAggregationLight, String>() {
+
+			@Override
+			public String apply(BusRouteAggregationLight arg0) {
+				return arg0.getRouteId();
+			}
+		}));
+		
+		for(String rn: routeNames) {
+			Query<BusTrip> trip0q = ds.createQuery(BusTrip.class);
+			trip0q.field("direction").equal("0");
+			trip0q.field("routeId").equal(rn);
+			BusTrip trip0 = trip0q.get();
+			
+			if(trip0 != null) {
+				project = addCharger(project, trip0.getStops().get(0).getStopId(), charger);
+				project = addCharger(project, trip0.getStops().get(trip0.getStops().size()-1).getStopId(), charger);
+			}
+			
+			Query<BusTrip> trip1q = ds.createQuery(BusTrip.class);
+			trip1q.field("direction").equal("1");
+			trip1q.field("routeId").equal(rn);
+			BusTrip trip1 = trip1q.get();
+			
+			if(trip1 != null) {
+				project = addCharger(project, trip1.getStops().get(trip1.getStops().size()-1).getStopId(), charger);
+			}
+		}
+		
+		ds.save(project);
+		return ok();
+	}
+	
 	public static BusChargerInstance getChargerInstance(String chargerId) {
 		BusCharger chargerType = ChargerController.getChargerModel(chargerId);
 		BusChargerInstance chargerInstance = new BusChargerInstance();
 		chargerInstance.setType(chargerType);
 		return chargerInstance;
+	}
+	
+	public static Result getAllRouteDates(String projectId) {
+		Datastore ds = MongoUtils.ds();
+		ObjectMapper om = new ObjectMapper();
+		ObjectId id = new ObjectId(projectId);
+		
+		Query<PlanningProject> q = ds.createQuery(PlanningProject.class);
+		q.field("id").equals(id);
+		PlanningProject project = q.get();
+		HashSet<String> routes = new HashSet<String>();
+		for(BusRouteAggregationLight r: project.getRoutes()) {
+			routes.add(r.getRouteId());
+		}
+		
+		Set<String> dates = RoutesController.getRouteDates(routes);
+		return ok(om.valueToTree(dates));
 	}
 	
 

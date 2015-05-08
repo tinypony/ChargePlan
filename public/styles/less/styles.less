@@ -9,6 +9,7 @@
 @import 'added-routes-list.less';
 @import 'simulation.less';
 @import 'solutions-view.less';
+@import 'datepicker.less';
 
 body {
 	margin-top: 0px !important;
@@ -27,6 +28,34 @@ body {
 	.evade-header {
 		//margin-top: 40px;
 	}
+	
+	.selectpicker {
+		display: none;
+	}
+	
+	input.input-field {
+		.input-field();
+	}
+	
+	.bootstrap-select {
+		width: 100%;
+		outline: none;
+		
+		> button.dropdown-toggle {
+			text-transform : none;
+		}
+		  
+		  .dropdown-menu.open {
+		  		li {
+		  			outline: none;
+		  		}
+		  	  	li:hover {
+		  	  		a {
+			  	  		color: @main-color;
+			  	  	}
+			  	}
+		  }
+	  }
 	
 	.details-table {
 		margin-bottom: 20px;

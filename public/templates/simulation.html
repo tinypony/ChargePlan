@@ -64,7 +64,7 @@
 				<div class="well-well">
 					<div class="date-selection form-group">
 						<label class="custom-label">Select date</label> 
-						<input type="text" id="route-date" class="form-control"/>		
+						<input type="text" id="route-date" class="simulation-date"/>		
 					</div>
 					
 					<div class="bus-selection form-group">
@@ -72,7 +72,7 @@
 						<select class="bus-select selectpicker">
 							<option value="-1">Select Bus Model</option>
 							{{#each buses}}
-								<option value="{{this.id}}">{{this.model}}</option>
+								<option value="{{this.id}}">{{this.model}} {{this.capacity}} kWh</option>
 							{{/each}}
 						</select>
 					</div>
@@ -82,7 +82,7 @@
 <!-- 					ADD ELECTRIC BUS -->
 				</div>
 				<div class="route-path-visualization-container">
-					<label class="custom-label">Select bus stop to add or change a charger</label>
+					<h5 class="subsection-header">Charger location</h5>
 					<div class="route-path-visualization"></div>
 				</div>
 				

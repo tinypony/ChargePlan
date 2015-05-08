@@ -158,6 +158,7 @@ public class SimulationController extends Controller {
 		for(ElectrifiedBusStop stop: elStops) {
 			DailyConsumptionModel consumptionModel = StopsController
 					.getStopConsumptionModel(stop, cal, StopsController.getBusRoutesThroughStop(proj, stop));
+			
 			energyPrice += enModel.getEnergyCost(Arrays.asList(consumptionModel), simreq.getRouteId());
 		}
 		
@@ -182,8 +183,6 @@ public class SimulationController extends Controller {
 		tripsQ.field("routeId").equal(routeId);
 		tripsQ.field("dates").equals(date);
 		List<BusTrip> trips = tripsQ.asList();
-		
-		System.out.println("Route:"+routeId+", trips:"+trips.size()+", date"+date);
 		return trips;
 	}
 }

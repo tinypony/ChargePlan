@@ -1,0 +1,27 @@
+<div>
+	<label class="custom-label">Select solutions</label>
+	<div class="form-group">
+	
+	<select class="bus-select selectpicker">
+		<option value="-1">Select bus model</option>
+		{{#each buses}}
+			<option value="{{this.id}}">{{this.model}} {{this.capacity}} kWh</option>
+		{{/each}}
+
+	</select>
+	<select class="charger-select selectpicker">
+		<option value="-1">Select charger model</option>
+		{{#each chargers}}
+			<option value="{{this.id}}">{{this.manufacturer}} {{this.model}} {{this.power}} kW</option> 
+		{{/each}}
+	</select>
+	</div>
+	 <label class="custom-label">Charging time</label>
+	<div class="slider-wrapper">
+		<div class="slider-container"><div class="charging-time"></div></div>
+		
+		<label class="time-label">600 seconds</label>
+	</div>
+	<label class="custom-label">Select date</label><br/>
+	<input type="text" class="simulation-date input-field" placeholder="Select date"/>
+</div>

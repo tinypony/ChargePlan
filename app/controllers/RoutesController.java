@@ -1,9 +1,14 @@
 package controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import model.dataset.BusTrip;
@@ -138,5 +143,30 @@ public class RoutesController extends Controller {
 
 		ObjectMapper om = new ObjectMapper();
 		return ok(om.valueToTree(inst));
+	}
+	
+	public static Set<String> getRouteDates(Set<String> routeIds) {
+		Set<String> result = new HashSet<String>();
+		Datastore ds = MongoUtils.ds();
+		
+		Query<BusRoute> routesQ = ds.createQuery(BusRoute.class);
+		routesQ.field("routeId").in(routeIds);
+		List<BusRoute> routes = routesQ.asList();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+		
+		
+		for(BusRoute r: routes) {
+			for(DayStat d: r.getStats()) {
+			//	try {
+					result.add(d.getDate());
+					//Date date = sdf.parse(d.getDate());
+					//result.add(date);
+//				} catch (ParseException e) {
+//					e.printStackTrace();
+//				}
+			}
+		}
+		
+		return result;
 	}
 }

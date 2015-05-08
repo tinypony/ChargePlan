@@ -39,11 +39,16 @@ define([ 'jquery',
     },
     
     setData: function(data) {
+      var self = this;
       this.data = {};
       this.data.stops = data.stops;
       this.data.routes = data.routes;
       this.data.project = data.project;
-      console.log(this.data);
+      
+      this.listenTo(this.data.project, 'sync', function(){
+    	  self.resetMap();
+    	  self.displayRoutes(self.data.project.get('routes'));
+      });
     },
     
     getRouteWaypoints: function(routeBag) {
@@ -243,7 +248,7 @@ define([ 'jquery',
     
     resetMap: function(){
       var self = this;
-      _.each(this.endStops, function(stopMarker){
+      _.each(this.drawnStops, function(stopMarker){
         self.map.removeLayer(stopMarker);
       });
       
@@ -252,7 +257,7 @@ define([ 'jquery',
       });
       
 
-      this.endStops = {};
+      this.drawnStops = {};
       this.drawnRoutes = {};
     },
     
@@ -325,8 +330,6 @@ define([ 'jquery',
         new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
         
         this.displayRoutes(this.data.project.get('routes'));
-     //   this.displayEndstops(this.data.project.get('routes'), this.data.stops, this.data.project.get('stops'));
-    //    this.getRoutes();
     },
     
     getRoutes: function() {
@@ -339,13 +342,6 @@ define([ 'jquery',
         	self.drawRoute(route);
         });
     }
-    
-//    displayEndstops: function(routes, stops, electrifiedStops) {
-//    	console.log(routes);
-//    	console.log(stops);
-//    	console.log(electrifiedStops);
-//    }
-    
   });
   
   return MapView;

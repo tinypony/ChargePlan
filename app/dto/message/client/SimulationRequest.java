@@ -2,6 +2,9 @@ package dto.message.client;
 
 import org.emn.plan.model.ElectricBus;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class SimulationRequest {
 
 	private String routeId;

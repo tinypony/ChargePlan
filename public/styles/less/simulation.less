@@ -11,6 +11,22 @@
 	}
 }
 
+#simulation-parameters {
+	.slider-wrapper {
+		display: flex;
+		align-items: baseline;
+		
+		.slider-container {
+			width: 80%;
+		}	
+		
+		.time-label {
+			margin-left: 10px;
+		}	
+	}
+}
+
+
 .simulation-container {
 	padding-top: 10px;
 	padding-left: 30px;
@@ -53,7 +69,6 @@
 			
 			.detail-tables {
 				display: flex;
-				
 			}
 			
 			.route-details-table {
@@ -108,13 +123,17 @@
 				  	width: 80%;
 				  }
 				  
+				  .simulation-date {
+				  	.input-field();
+				  	box-shadow: none;
+				  	width: 100%;
+				  }
+				  
 				  select {
 				  	display: none;
 				  }
 				  
-				  .dropdown-toggle {
-				    text-transform : none;
-				  }
+
 				}
 				
 				.route-path-visualization-container {

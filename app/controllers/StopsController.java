@@ -1,5 +1,6 @@
 package controllers;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
@@ -32,6 +33,7 @@ import com.google.common.collect.Sets;
 
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.DateUtils;
 import utils.MongoUtils;
 
 public class StopsController  extends Controller {
@@ -62,7 +64,7 @@ public class StopsController  extends Controller {
 	}
 
 
-	public static Result getElectrifiedStopConsumption(String projectId, String stopId) {
+	public static Result getElectrifiedStopConsumption(String projectId, String stopId) throws ParseException {
 		ObjectMapper om = new ObjectMapper();
 		
 		PlanningProject project = ProjectController.getProjectObject(projectId);
@@ -70,32 +72,31 @@ public class StopsController  extends Controller {
 		Set<String> elBusRoutes = getBusRoutesThroughStop(project, elStop);
 		
 		
-		Calendar cal = Calendar.getInstance();
-		cal.set(2015, 3, 23);
+
+		Set<String> dates = RoutesController.getRouteDates(elBusRoutes);
+		Calendar cal = DateUtils.getCalendar(dates.iterator().next());
 		
-		Map<Integer, List<HourlyConsumptionEntry>> consumptionMap = getStopConsumptionModel(elStop, cal, elBusRoutes).getHourlyConsumptionDistribution();
+		Map<Integer, List<HourlyConsumptionEntry>> consumptionMap 
+			= getStopConsumptionModel(elStop, cal, elBusRoutes).getHourlyConsumptionDistribution();
 
 		return ok(om.valueToTree(consumptionMap));
 	}
 	
 	public static DailyConsumptionModel getStopConsumptionModel(ElectrifiedBusStop elStop, Calendar cal, Set<String> elBusRoutes) {
-
 		if(elStop == null) {
 			return new DailyConsumptionModel(cal);
 		}
 		
 		Datastore ds = MongoUtils.ds();
 		Query<BusTrip> q = ds.createQuery(BusTrip.class);
-		System.out.println((new SimpleDateFormat("yyyy-M-d").format(cal.getTime())));
-		q.field("dates").equal((new SimpleDateFormat("yyyy-M-d").format(cal.getTime())));
+		System.out.println(DateUtils.toString(cal, "YYYY-M-d"));
+		q.field("dates").equal(DateUtils.toString(cal, "YYYY-M-d"));
 		q.field("routeId").in(elBusRoutes);
 		
-		System.out.println(elBusRoutes.toString());
+		
 		List<BusTrip> trips = q.asList();
-		System.out.println(trips.size() + "");
 		ChargerEnergyConsumptionModel consumptionModel = 
 				new ChargerEnergyConsumptionModel(elStop, cal, trips);
-		
 		
 		return consumptionModel.getEnergyConsumption();
 	}
@@ -111,11 +112,11 @@ public class StopsController  extends Controller {
 			}
 		}));
 		
+		
 		if(elStop==null || elStop.getChargingTimes().keySet().size() == 0) {
 			return new HashSet<String>();
 		} else {
 			return Sets.intersection(busRoutes, elStop.getChargingTimes().keySet());
 		}
-		
 	}
 }

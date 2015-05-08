@@ -4,3 +4,17 @@
 @menu-z: 1012;
 @retractable-z: 1001;
 @list-z: 1011;
+@input-border-color: rgba(0, 0, 0, 0.2);
+
+.border-box() {
+	box-sizing: border-box;
+}
+
+.input-field(@height: 30px) {
+	border: 1px solid @input-border-color;
+	height: @height;
+	padding-left: 10px;
+	margin-right: 15px;
+	box-shadow: none !important;
+	outline: none !important;
+}

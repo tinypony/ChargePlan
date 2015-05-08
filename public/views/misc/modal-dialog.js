@@ -35,6 +35,10 @@ define(['jquery',
         config: this.config
       }));
       
+      if(!_.isString(this.config.title)) {
+    	  this.$('.modal-title').empty().append(this.config.title);
+      }
+      
       this.$el.on('hidden.bs.modal', function(){
         self.remove();
       });

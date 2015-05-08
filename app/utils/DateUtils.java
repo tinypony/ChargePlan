@@ -1,5 +1,7 @@
 package utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -40,6 +42,21 @@ public class DateUtils {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date(timestamp));
 		return cal;
+	}
+	
+	public static Calendar getCalendar(String dateString) throws ParseException {
+		Calendar cal = Calendar.getInstance();
+		String[] tokens = dateString.split("-");
+		int year = Integer.parseInt(tokens[0]);
+		int month = Integer.parseInt(tokens[1]);
+		int date = Integer.parseInt(tokens[2]);
+		cal.set(year, month-1, date);
+		return cal;
+	}
+	
+	public static String toString(Calendar cal, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.format(cal.getTime());
 	}
 	
 }
