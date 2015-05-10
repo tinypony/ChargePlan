@@ -59,11 +59,41 @@ public class SimulationController extends Controller {
 	public static Result simulateBoth(String projectId) throws IllegalArgumentException, JsonProcessingException, Exception {
 		ObjectMapper om = new ObjectMapper();
 		PlanningProject proj = ProjectController.getProjectObject(projectId);
-		
-		return ok( om.valueToTree( simulateBoth(proj, getReq(request())) ) );
+		SimulationResult r = simulateBoth(proj, getReq(request()));
+		proj = updateStat(proj, r);
+		Datastore ds = MongoUtils.ds();
+		ds.save(proj);
+		return ok( om.valueToTree( r ) );
 		
 	}
 	
+	public static Result simulateAll(String projectId) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		Datastore ds = MongoUtils.ds();
+		SimulationRequest simreq = getReq(request());
+		PlanningProject proj = ProjectController.getProjectObject(projectId);
+		
+		List<SimulationResult> resultList = new ArrayList<SimulationResult>();
+		
+		for(BusRouteAggregationLight route: proj.getRoutes()) {
+			simreq.setRouteId(route.getRouteId());
+			SimulationResult r = simulateBoth(proj, simreq);
+			proj = updateStat(proj, r);
+			resultList.add(r);
+		}
+		ds.save(proj);
+		return ok(om.valueToTree(resultList));
+	}
+	
+	public static PlanningProject updateStat(PlanningProject proj, SimulationResult res) {
+		if(res.getFeasibility().isSurvived()) {
+			proj.getBusRoute(res.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_OK);
+		} else {
+			proj.getBusRoute(res.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_FAIL);
+		}
+		
+		return proj;
+	}
 	/**
 	 * Logic that runs both simulations for a route
 	 * @param proj
@@ -73,8 +103,10 @@ public class SimulationController extends Controller {
 	 */
 	public static SimulationResult simulateBoth(PlanningProject proj, SimulationRequest simreq) throws Exception {
 		SimulationResult res = new SimulationResult();
+		res.setRouteId(simreq.getRouteId());
 		res.setFeasibility(simulateRouteFeasibility(proj, simreq, getConsumptionProfile(simreq)));
 		res.setCost(simulateRouteCost(proj, simreq));
+		
 		return res;
 	}
 	
@@ -91,6 +123,7 @@ public class SimulationController extends Controller {
 	}
 	
 	//Feasibility
+	/*
 	public static Result simulateRouteFeasibility(String projectId) throws Exception {
 		ObjectMapper om = new ObjectMapper();	
 		Datastore ds = MongoUtils.ds();
@@ -99,10 +132,8 @@ public class SimulationController extends Controller {
 		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
 		PlanningProject proj = ProjectController.getProjectObject(projectId);
 		
-		StaticConsumptionProfile profile = new StaticConsumptionProfile();
-		profile.setConsumption(2.5);
 		
-		FeasibilitySimulationResult result = simulateRouteFeasibility(proj, simreq, profile);
+		FeasibilitySimulationResult result = simulateRouteFeasibility(proj, simreq, getConsumptionProfile(simreq));
 		
 		if(result.isSurvived()) {
 			proj.getBusRoute(simreq.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_OK);
@@ -113,34 +144,34 @@ public class SimulationController extends Controller {
 		ds.save(proj);
 		return ok(om.valueToTree(result));
 	}
-	
-	public static Result simulateAllRoutesFeasibility(String projectId) throws Exception {
-		ObjectMapper om = new ObjectMapper();	
-		Datastore ds = MongoUtils.ds();
-		JsonNode bodyJson = request().body().asJson();
-		
-		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
-		PlanningProject proj = ProjectController.getProjectObject(projectId);
-		
-		
-		
-		List<FeasibilitySimulationResult> resultList = new ArrayList<FeasibilitySimulationResult>();
-		
-		for(BusRouteAggregationLight route: proj.getRoutes()) {
-			simreq.setRouteId(route.getRouteId());
-			FeasibilitySimulationResult result = simulateRouteFeasibility(proj, simreq, getConsumptionProfile(simreq));
-			resultList.add(result);
-			
-			if(result.isSurvived()) {
-				proj.getBusRoute(simreq.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_OK);
-			} else {
-				proj.getBusRoute(simreq.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_FAIL);
-			}
-		}
-		
-		ds.save(proj);
-		return ok(om.valueToTree(resultList));
-	}
+	*/
+//	public static Result simulateAllRoutesFeasibility(String projectId) throws Exception {
+//		ObjectMapper om = new ObjectMapper();	
+//		Datastore ds = MongoUtils.ds();
+//		JsonNode bodyJson = request().body().asJson();
+//		
+//		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
+//		PlanningProject proj = ProjectController.getProjectObject(projectId);
+//		
+//		
+//		
+//		List<FeasibilitySimulationResult> resultList = new ArrayList<FeasibilitySimulationResult>();
+//		
+//		for(BusRouteAggregationLight route: proj.getRoutes()) {
+//			simreq.setRouteId(route.getRouteId());
+//			FeasibilitySimulationResult result = simulateRouteFeasibility(proj, simreq, getConsumptionProfile(simreq));
+//			resultList.add(result);
+//			
+//			if(result.isSurvived()) {
+//				proj.getBusRoute(simreq.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_OK);
+//			} else {
+//				proj.getBusRoute(simreq.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_FAIL);
+//			}
+//		}
+//		
+//		ds.save(proj);
+//		return ok(om.valueToTree(resultList));
+//	}
 	
 	public static FeasibilitySimulationResult simulateRouteFeasibility(PlanningProject proj, SimulationRequest simreq, IConsumptionProfile profile) throws Exception {
 		SimpleBusScheduler scheduler = new SimpleBusScheduler();
@@ -153,29 +184,29 @@ public class SimulationController extends Controller {
 		FeasibilitySimulationResult result = simModel.simulate();
 		return result;
 	}
-	
-	public static Result simulateRouteCost(String projectId) throws Exception {
-		ObjectMapper om = new ObjectMapper();	
-		JsonNode bodyJson = request().body().asJson();
-		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
-		PlanningProject proj = ProjectController.getProjectObject(projectId);
-		return ok(om.valueToTree(simulateRouteCost(proj, simreq)));
-	}
-	
-	public static Result simulateAllRoutesCost(String projectId) throws Exception {
-		ObjectMapper om = new ObjectMapper();	
-		JsonNode bodyJson = request().body().asJson();
-		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
-		PlanningProject proj = ProjectController.getProjectObject(projectId);
-		List<CostSimulationResult> results = new ArrayList<CostSimulationResult>();
-		
-		for(BusRouteAggregationLight route: proj.getRoutes()) {
-			simreq.setRouteId(route.getRouteId());
-			results.add(simulateRouteCost(proj, simreq));
-		}
-		
-		return ok(om.valueToTree(results));
-	}
+//	
+//	public static Result simulateRouteCost(String projectId) throws Exception {
+//		ObjectMapper om = new ObjectMapper();	
+//		JsonNode bodyJson = request().body().asJson();
+//		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
+//		PlanningProject proj = ProjectController.getProjectObject(projectId);
+//		return ok(om.valueToTree(simulateRouteCost(proj, simreq)));
+//	}
+//	
+//	public static Result simulateAllRoutesCost(String projectId) throws Exception {
+//		ObjectMapper om = new ObjectMapper();	
+//		JsonNode bodyJson = request().body().asJson();
+//		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
+//		PlanningProject proj = ProjectController.getProjectObject(projectId);
+//		List<CostSimulationResult> results = new ArrayList<CostSimulationResult>();
+//		
+//		for(BusRouteAggregationLight route: proj.getRoutes()) {
+//			simreq.setRouteId(route.getRouteId());
+//			results.add(simulateRouteCost(proj, simreq));
+//		}
+//		
+//		return ok(om.valueToTree(results));
+//	}
 	
 	//cost
 	public static CostSimulationResult simulateRouteCost(PlanningProject proj, final SimulationRequest simreq) throws Exception {

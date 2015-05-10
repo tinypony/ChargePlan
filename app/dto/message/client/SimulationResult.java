@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class SimulationResult {
 	
+	private String routeId;
 	private Date simulationDate;
 	private FeasibilitySimulationResult feasibility;
 	private CostSimulationResult cost;
@@ -29,6 +30,14 @@ public class SimulationResult {
 	}
 	public void setCost(CostSimulationResult cost) {
 		this.cost = cost;
+	}
+
+	public String getRouteId() {
+		return routeId;
+	}
+
+	public void setRouteId(String routeId) {
+		this.routeId = routeId;
 	}
 	
 	

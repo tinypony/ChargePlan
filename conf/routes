@@ -21,11 +21,7 @@ PUT		/api/projects/:id/update/stop					controllers.ProjectController.updateStop(
 POST	/api/projects/:id/chargers						controllers.ProjectController.addChargers(id: String)
 
 POST	/api/projects/:id/simulate						controllers.SimulationController.simulateBoth(id: String)
-
-POST	/api/projects/:id/feasibility					controllers.SimulationController.simulateRouteFeasibility(id: String)
-POST	/api/projects/:id/feasibility/all				controllers.SimulationController.simulateAllRoutesFeasibility(id: String)
-POST	/api/projects/:id/cost							controllers.SimulationController.simulateRouteCost(id: String)
-POST	/api/projects/:id/cost/all						controllers.SimulationController.simulateAllRoutesCost(id: String)
+POST 	/api/projects/:id/simulate/all					controllers.SimulationController.simulateAll(id: String)
 
 GET		/api/projects/:id/stop/consumption/:stopid		controllers.StopsController.getElectrifiedStopConsumption(id: String, stopid: String)
 

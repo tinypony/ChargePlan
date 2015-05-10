@@ -45,7 +45,7 @@ define(['jquery',
                   }).done(function(){
                 	  
                 	  $.ajax({
-                		 url: '/api/projects/'+proj.get('id')+'/feasibility/all',
+                		 url: '/api/projects/'+proj.get('id')+'/simulate/all',
                      	 method: 'POST',
                      	 contentType: 'application/json',
                      	 data: JSON.stringify(params)
