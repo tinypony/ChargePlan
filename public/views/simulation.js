@@ -90,7 +90,7 @@ define([ 'jquery',
       this.$('.simulation-results').append(loading());
       
       $.ajax({
-        url : '/api/projects/' + this.project.get('id') + '/cost',
+        url : '/api/projects/' + this.project.get('id') + '/simulate',
         data : JSON.stringify({
           routeId : this.route.routeId,
           date : opts.date,
@@ -100,27 +100,35 @@ define([ 'jquery',
         method: 'POST',
         contentType : 'application/json'
       }).done(function(data){
-        self.$('.daily-energy-cost').text("Daily energy cost of route operation (electricity):" + data.energyPrice+" NOK");
-        self.$('.daily-diesel-cost').text("Daily energy cost of route operation (diesel):" + data.dieselPrice+" NOK");
+    	var costResult = data.cost;
+        var feasibilityResult = data.feasibility;
+        self.showFeasibility(feasibilityResult);
+        self.showCost(costResult);
       });
 
-      $.ajax({
-        url : '/api/projects/' + this.project.get('id') + '/feasibility',
-        data : JSON.stringify({
-          routeId : this.route.routeId,
-          date : opts.date,
-          busType : opts.busType,
-          minWaitingTime : opts.minWaitingTime
-        }),
-        method : 'POST',
-        contentType : 'application/json'
-      }).done(function(data) {
-    	  
-        self.$('.simulation-results .loading-container').remove();
+//      $.ajax({
+//        url : '/api/projects/' + this.project.get('id') + '/feasibility',
+//        data : JSON.stringify({
+//          routeId : this.route.routeId,
+//          date : opts.date,
+//          busType : opts.busType,
+//          minWaitingTime : opts.minWaitingTime
+//        }),
+//        method : 'POST',
+//        contentType : 'application/json'
+//      }).done(function(data) {
+//    	  
+//        
+//      });
+    },
+    
+    showFeasibility: function(data) {
+    	this.$('.simulation-results .loading-container').remove();
+    	
         if(data.survived) {
-        	self.project.getRoute(self.route.routeId).state = Const.RouteState.SIMULATED_OK;
+        	this.project.getRoute(this.route.routeId).state = Const.RouteState.SIMULATED_OK;
         } else {
-        	self.project.getRoute(self.route.routeId).state = Const.RouteState.SIMULATED_FAIL;
+        	this.project.getRoute(this.route.routeId).state = Const.RouteState.SIMULATED_FAIL;
         }
         
         var chart = amRef.makeChart('simulation-result-chart', {
@@ -172,7 +180,11 @@ define([ 'jquery',
             'minPeriod' : 'ss'
           }
         });
-      });
+    },
+    
+    showCost: function(data) {
+    	this.$('.daily-energy-cost').text("Daily energy cost of route operation (electricity):" + data.energyPrice+" NOK");
+        this.$('.daily-diesel-cost').text("Daily energy cost of route operation (diesel):" + data.dieselPrice+" NOK");
     },
     
     getRouteStats: function(route) {

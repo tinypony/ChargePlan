@@ -15,6 +15,7 @@ import javax.xml.bind.DatatypeConverter;
 import model.dataset.BusTrip;
 import model.dataset.aggregation.BusRouteAggregationLight;
 
+import org.emn.calculate.bus.IConsumptionProfile;
 import org.emn.calculate.bus.StaticConsumptionProfile;
 import org.emn.calculate.price.DieselPricingModel;
 import org.emn.calculate.price.EnergyPricingModel;
@@ -28,6 +29,7 @@ import org.emn.plan.model.PlanningProject;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.util.Lists;
@@ -38,13 +40,56 @@ import configuration.emn.route.DistanceRetriever;
 import dto.message.client.CostSimulationResult;
 import dto.message.client.FeasibilitySimulationResult;
 import dto.message.client.SimulationRequest;
+import dto.message.client.SimulationResult;
 import play.mvc.Controller;
+import play.mvc.Http.Request;
 import play.mvc.Result;
-import utils.DateUtils;
 import utils.MongoUtils;
 
 public class SimulationController extends Controller {
 
+	/**
+	 * Endpoint for retrieving result that contains both feasibility and cost simulation results
+	 * @param projectId
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @throws JsonProcessingException
+	 * @throws Exception
+	 */
+	public static Result simulateBoth(String projectId) throws IllegalArgumentException, JsonProcessingException, Exception {
+		ObjectMapper om = new ObjectMapper();
+		PlanningProject proj = ProjectController.getProjectObject(projectId);
+		
+		return ok( om.valueToTree( simulateBoth(proj, getReq(request())) ) );
+		
+	}
+	
+	/**
+	 * Logic that runs both simulations for a route
+	 * @param proj
+	 * @param simreq
+	 * @return
+	 * @throws Exception
+	 */
+	public static SimulationResult simulateBoth(PlanningProject proj, SimulationRequest simreq) throws Exception {
+		SimulationResult res = new SimulationResult();
+		res.setFeasibility(simulateRouteFeasibility(proj, simreq, getConsumptionProfile(simreq)));
+		res.setCost(simulateRouteCost(proj, simreq));
+		return res;
+	}
+	
+	public static IConsumptionProfile getConsumptionProfile(SimulationRequest simreq) {
+		StaticConsumptionProfile profile = new StaticConsumptionProfile();
+		profile.setConsumption(2.5);
+		return profile;
+	}
+	
+	private static SimulationRequest getReq(Request req) throws JsonProcessingException {
+		ObjectMapper om = new ObjectMapper();
+		JsonNode bodyJson = req.body().asJson();
+		return om.treeToValue(bodyJson, SimulationRequest.class);
+	}
+	
 	//Feasibility
 	public static Result simulateRouteFeasibility(String projectId) throws Exception {
 		ObjectMapper om = new ObjectMapper();	
@@ -77,14 +122,13 @@ public class SimulationController extends Controller {
 		SimulationRequest simreq = om.treeToValue(bodyJson, SimulationRequest.class);
 		PlanningProject proj = ProjectController.getProjectObject(projectId);
 		
-		StaticConsumptionProfile profile = new StaticConsumptionProfile();
-		profile.setConsumption(2.5);
+		
 		
 		List<FeasibilitySimulationResult> resultList = new ArrayList<FeasibilitySimulationResult>();
 		
 		for(BusRouteAggregationLight route: proj.getRoutes()) {
 			simreq.setRouteId(route.getRouteId());
-			FeasibilitySimulationResult result = simulateRouteFeasibility(proj, simreq, profile);
+			FeasibilitySimulationResult result = simulateRouteFeasibility(proj, simreq, getConsumptionProfile(simreq));
 			resultList.add(result);
 			
 			if(result.isSurvived()) {
@@ -98,7 +142,7 @@ public class SimulationController extends Controller {
 		return ok(om.valueToTree(resultList));
 	}
 	
-	public static FeasibilitySimulationResult simulateRouteFeasibility(PlanningProject proj, SimulationRequest simreq, StaticConsumptionProfile profile) throws Exception {
+	public static FeasibilitySimulationResult simulateRouteFeasibility(PlanningProject proj, SimulationRequest simreq, IConsumptionProfile profile) throws Exception {
 		SimpleBusScheduler scheduler = new SimpleBusScheduler();
 		scheduler.schedule(getTrips(simreq.getRouteId(), simreq.getDate()), proj.getStops());
 		

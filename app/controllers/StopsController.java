@@ -63,16 +63,12 @@ public class StopsController  extends Controller {
 		return ok(om.valueToTree(getStopModel(stopid)));
 	}
 
-
 	public static Result getElectrifiedStopConsumption(String projectId, String stopId) throws ParseException {
 		ObjectMapper om = new ObjectMapper();
 		
 		PlanningProject project = ProjectController.getProjectObject(projectId);
 		ElectrifiedBusStop elStop = project.getElectrifiedStop(stopId);
 		Set<String> elBusRoutes = getBusRoutesThroughStop(project, elStop);
-		
-		
-
 		Set<String> dates = RoutesController.getRouteDates(elBusRoutes);
 		Calendar cal = DateUtils.getCalendar(dates.iterator().next());
 		
@@ -83,7 +79,7 @@ public class StopsController  extends Controller {
 	}
 	
 	public static DailyConsumptionModel getStopConsumptionModel(ElectrifiedBusStop elStop, Calendar cal, Set<String> elBusRoutes) {
-		if(elStop == null) {
+		if(elStop == null || elBusRoutes.size() == 0) {
 			return new DailyConsumptionModel(cal);
 		}
 		
@@ -91,7 +87,8 @@ public class StopsController  extends Controller {
 		Query<BusTrip> q = ds.createQuery(BusTrip.class);
 		System.out.println(DateUtils.toString(cal, "YYYY-M-d"));
 		q.field("dates").equal(DateUtils.toString(cal, "YYYY-M-d"));
-		q.field("routeId").in(elBusRoutes);
+		System.out.println(elBusRoutes);
+		q.field("routeId").in(Lists.newArrayList(elBusRoutes));
 		
 		
 		List<BusTrip> trips = q.asList();

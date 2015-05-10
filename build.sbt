@@ -20,5 +20,7 @@ libraryDependencies ++= Seq(
   "com.google.guava" % "guava"  % "18.0",
   "com.google.http-client" % "google-http-client" % "1.19.0",
   "com.google.http-client" % "google-http-client-jackson2" % "1.19.0",
-  "org.onebusaway" % "onebusaway-gtfs" % "1.3.3"
+  "org.onebusaway" % "onebusaway-gtfs" % "1.3.3",
+  "org.apache.commons" % "commons-collections4" % "4.0"
+  
 )

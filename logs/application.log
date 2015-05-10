@@ -1,24 +1,58 @@
-2015-05-08 11:22:59,369 - [INFO] - from play in pool-60-thread-4 
+2015-05-10 10:41:32,616 - [INFO] - from play in pool-74-thread-1 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
 
-2015-05-08 11:23:04,214 - [INFO] - from application in play-internal-execution-context-1 
+2015-05-10 12:27:59,595 - [ERROR] - from application in New I/O worker #1 
+
+
+! @6m53gipe2 - Internal server error, for (GET) [/] ->
+
+play.PlayExceptions$CompilationException: Compilation error[error: package org.apache.commons.collections.buffer does not exist]
+	at play.PlayExceptions$CompilationException$.apply(PlayExceptions.scala:27) ~[na:na]
+	at play.PlayExceptions$CompilationException$.apply(PlayExceptions.scala:27) ~[na:na]
+	at scala.Option.map(Option.scala:145) ~[scala-library-2.11.1.jar:na]
+	at play.PlayReload$$anonfun$taskFailureHandler$1.apply(PlayReload.scala:49) ~[na:na]
+	at play.PlayReload$$anonfun$taskFailureHandler$1.apply(PlayReload.scala:44) ~[na:na]
+	at scala.Option.map(Option.scala:145) ~[scala-library-2.11.1.jar:na]
+	at play.PlayReload$.taskFailureHandler(PlayReload.scala:44) ~[na:na]
+	at play.PlayReload$.compileFailure(PlayReload.scala:40) ~[na:na]
+	at play.PlayReload$$anonfun$compile$1.apply(PlayReload.scala:17) ~[na:na]
+	at play.PlayReload$$anonfun$compile$1.apply(PlayReload.scala:17) ~[na:na]
+	at scala.util.Either$LeftProjection.map(Either.scala:377) ~[scala-library-2.11.1.jar:na]
+	at play.PlayReload$.compile(PlayReload.scala:17) ~[na:na]
+	at play.PlayRun$$anonfun$playRunTask$1$$anonfun$apply$2$$anonfun$apply$3$$anonfun$2.apply(PlayRun.scala:61) ~[na:na]
+	at play.PlayRun$$anonfun$playRunTask$1$$anonfun$apply$2$$anonfun$apply$3$$anonfun$2.apply(PlayRun.scala:61) ~[na:na]
+	at play.runsupport.Reloader.reload(Reloader.scala:295) ~[na:na]
+	at play.core.ReloadableApplication$$anonfun$get$1.apply(ApplicationProvider.scala:122) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.ReloadableApplication$$anonfun$get$1.apply(ApplicationProvider.scala:120) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask$AdaptedRunnableAction.exec(ForkJoinTask.java:1361) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) ~[scala-library-2.11.1.jar:na]
+
+2015-05-10 12:27:59,680 - [WARN] - from play in New I/O worker #1 
+No application found at invoker init
+
+2015-05-10 12:29:06,297 - [INFO] - from application in play-internal-execution-context-1 
 Found ruter
 
-2015-05-08 11:23:04,411 - [INFO] - from play in play-internal-execution-context-1 
+2015-05-10 12:29:06,472 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-05-10 12:29:06,476 - [INFO] - from play in play-internal-execution-context-1 
 Application started (Dev)
 
-2015-05-08 11:23:19,943 - [INFO] - from play in play-internal-execution-context-1 
-Starting application default Akka system.
+2015-05-10 12:31:21,646 - [ERROR] - from play in play-akka.actor.default-dispatcher-18 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
 
-2015-05-08 11:37:27,116 - [ERROR] - from play in play-akka.actor.default-dispatcher-5 
-Cannot invoke the action, eventually got an error: java.lang.IllegalArgumentException: invalid ObjectId [-1]
-
-2015-05-08 11:37:27,124 - [ERROR] - from application in play-akka.actor.default-dispatcher-5 
+2015-05-10 12:31:21,651 - [ERROR] - from application in play-akka.actor.default-dispatcher-18 
 
 
-! @6m4elom8o - Internal server error, for (POST) [/api/projects/554c726803642808b5fa052d/chargers] ->
+! @6m53h4cbk - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/3011451] ->
 
-play.api.Application$$anon$1: Execution exception[[IllegalArgumentException: invalid ObjectId [-1]]]
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
 	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
 	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
 	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
@@ -41,14 +75,22 @@ play.api.Application$$anon$1: Execution exception[[IllegalArgumentException: inv
 	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
 	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
 	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
-Caused by: java.lang.IllegalArgumentException: invalid ObjectId [-1]
-	at org.bson.types.ObjectId.<init>(ObjectId.java:200) ~[mongo-java-driver-2.13.0.jar:na]
-	at org.bson.types.ObjectId.<init>(ObjectId.java:186) ~[mongo-java-driver-2.13.0.jar:na]
-	at controllers.solutions.ChargerController.getChargerModel(ChargerController.java:36) ~[classes/:na]
-	at controllers.ProjectController.addCharger(ProjectController.java:93) ~[classes/:2.3.8]
-	at controllers.ProjectController.addChargers(ProjectController.java:165) ~[classes/:2.3.8]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:316) ~[classes/:na]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$13$$anonfun$apply$13.apply(routes_routing.scala:316) ~[classes/:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
 	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
 	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
 	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
@@ -82,15 +124,15 @@ Caused by: java.lang.IllegalArgumentException: invalid ObjectId [-1]
 	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
 	... 6 common frames omitted
 
-2015-05-08 11:37:47,653 - [ERROR] - from play in play-akka.actor.default-dispatcher-2 
-Cannot invoke the action, eventually got an error: java.lang.IllegalArgumentException: 
+2015-05-10 12:31:25,101 - [ERROR] - from play in play-akka.actor.default-dispatcher-23 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
 
-2015-05-08 11:37:47,655 - [ERROR] - from application in play-akka.actor.default-dispatcher-2 
+2015-05-10 12:31:25,103 - [ERROR] - from application in play-akka.actor.default-dispatcher-23 
 
 
-! @6m4em00ij - Internal server error, for (POST) [/api/projects/554c726803642808b5fa052d/feasibility/all] ->
+! @6m53h4hef - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/3011451] ->
 
-play.api.Application$$anon$1: Execution exception[[IllegalArgumentException: ]]
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
 	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
 	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
 	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
@@ -113,18 +155,698 @@ play.api.Application$$anon$1: Execution exception[[IllegalArgumentException: ]]
 	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
 	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
 	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
-Caused by: java.lang.IllegalArgumentException: 
-	at org.apache.xerces.jaxp.datatype.XMLGregorianCalendarImpl$Parser.parseYear(Unknown Source) ~[xercesImpl-2.11.0.jar:na]
-	at org.apache.xerces.jaxp.datatype.XMLGregorianCalendarImpl$Parser.parse(Unknown Source) ~[xercesImpl-2.11.0.jar:na]
-	at org.apache.xerces.jaxp.datatype.XMLGregorianCalendarImpl.<init>(Unknown Source) ~[xercesImpl-2.11.0.jar:na]
-	at org.apache.xerces.jaxp.datatype.DatatypeFactoryImpl.newXMLGregorianCalendar(Unknown Source) ~[xercesImpl-2.11.0.jar:na]
-	at javax.xml.bind.DatatypeConverterImpl.parseDate(DatatypeConverterImpl.java:508) ~[na:1.7.0_79]
-	at javax.xml.bind.DatatypeConverter.parseDate(DatatypeConverter.java:416) ~[na:1.7.0_79]
-	at org.emn.calculate.route.RouteSimulationModel.<init>(RouteSimulationModel.java:47) ~[classes/:na]
-	at controllers.SimulationController.simulateRouteFeasibility(SimulationController.java:105) ~[classes/:2.3.8]
-	at controllers.SimulationController.simulateAllRoutesFeasibility(SimulationController.java:87) ~[classes/:2.3.8]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$15$$anonfun$apply$15.apply(routes_routing.scala:332) ~[classes/:na]
-	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$15$$anonfun$apply$15.apply(routes_routing.scala:332) ~[classes/:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
+	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	... 6 common frames omitted
+
+2015-05-10 12:31:27,153 - [ERROR] - from play in play-akka.actor.default-dispatcher-18 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+
+2015-05-10 12:31:27,156 - [ERROR] - from application in play-akka.actor.default-dispatcher-18 
+
+
+! @6m53h4kfd - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/3012501] ->
+
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
+	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
+	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	... 6 common frames omitted
+
+2015-05-10 12:31:29,645 - [ERROR] - from play in play-akka.actor.default-dispatcher-23 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+
+2015-05-10 12:31:29,647 - [ERROR] - from application in play-akka.actor.default-dispatcher-23 
+
+
+! @6m53h4o79 - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/2190017] ->
+
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
+	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
+	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	... 6 common frames omitted
+
+2015-05-10 12:31:33,887 - [ERROR] - from play in play-akka.actor.default-dispatcher-18 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+
+2015-05-10 12:31:33,891 - [ERROR] - from application in play-akka.actor.default-dispatcher-18 
+
+
+! @6m53h54ed - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/3012501] ->
+
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
+	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
+	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	... 6 common frames omitted
+
+2015-05-10 12:33:02,342 - [ERROR] - from play in play-akka.actor.default-dispatcher-25 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+
+2015-05-10 12:33:02,346 - [ERROR] - from application in play-akka.actor.default-dispatcher-25 
+
+
+! @6m53ha5ah - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/3011451] ->
+
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
+	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
+	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	... 6 common frames omitted
+
+2015-05-10 12:36:18,390 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-05-10 12:36:19,051 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-05-10 12:36:19,068 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-05-10 12:36:19,068 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-05-10 12:36:23,548 - [ERROR] - from play in play-akka.actor.default-dispatcher-35 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+
+2015-05-10 12:36:23,552 - [ERROR] - from application in play-akka.actor.default-dispatcher-35 
+
+
+! @6m53hlh19 - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/3011451] ->
+
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
+	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
+	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	... 6 common frames omitted
+
+2015-05-10 12:36:28,750 - [ERROR] - from play in play-akka.actor.default-dispatcher-30 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+
+2015-05-10 12:36:28,752 - [ERROR] - from application in play-akka.actor.default-dispatcher-30 
+
+
+! @6m53hloja - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/3011451] ->
+
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
+	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
+	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	... 6 common frames omitted
+
+2015-05-10 12:40:21,254 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-05-10 12:40:21,894 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-05-10 12:40:21,909 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-05-10 12:40:21,910 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-05-10 12:40:25,810 - [ERROR] - from play in play-akka.actor.default-dispatcher-38 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+
+2015-05-10 12:40:25,813 - [ERROR] - from application in play-akka.actor.default-dispatcher-38 
+
+
+! @6m53i9bb3 - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/3011451] ->
+
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
+	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.GlobalSettings$1.call(GlobalSettings.java:67) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.JavaAction$$anonfun$11.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at play.core.j.HttpExecutionContext$$anon$2.run(HttpExecutionContext.scala:40) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.core.j.HttpExecutionContext.execute(HttpExecutionContext.scala:32) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$.apply(Future.scala:31) ~[scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$.apply(Future.scala:492) ~[scala-library-2.11.1.jar:na]
+	at play.core.j.JavaAction$class.apply(JavaAction.scala:82) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.apply(Router.scala:252) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:130) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:21) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:129) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:128) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:121) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$mapM$1.apply(Iteratee.scala:483) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMapM$1.apply(Iteratee.scala:519) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1$$anonfun$apply$14.apply(Iteratee.scala:496) ~[play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library-2.11.1.jar:na]
+	... 6 common frames omitted
+
+2015-05-10 12:41:21,685 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-05-10 12:41:21,745 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-05-10 12:41:21,762 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-05-10 12:41:21,762 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-05-10 12:41:26,889 - [ERROR] - from play in play-akka.actor.default-dispatcher-48 
+Cannot invoke the action, eventually got an error: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+
+2015-05-10 12:41:26,892 - [ERROR] - from application in play-akka.actor.default-dispatcher-48 
+
+
+! @6m53icnk8 - Internal server error, for (GET) [/api/projects/554c726803642808b5fa052d/stop/consumption/3011451] ->
+
+play.api.Application$$anon$1: Execution exception[[MongoException: Can't canonicalize query: BadValue $in needs an array]]
+	at play.api.Application$class.handleError(Application.scala:296) ~[play_2.11-2.3.8.jar:2.3.8]
+	at play.api.DefaultApplication.handleError(Application.scala:402) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3$$anonfun$applyOrElse$4.apply(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.Option.map(Option.scala:145) [scala-library-2.11.1.jar:na]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:320) [play_2.11-2.3.8.jar:2.3.8]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$3.applyOrElse(PlayDefaultUpstreamHandler.scala:316) [play_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:344) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Future$$anonfun$recoverWith$1.apply(Future.scala:343) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:32) [scala-library-2.11.1.jar:na]
+	at play.api.libs.iteratee.Execution$trampoline$.execute(Execution.scala:46) [play-iteratees_2.11-2.3.8.jar:2.3.8]
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:40) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:248) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.Promise$class.complete(Promise.scala:55) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Promise$DefaultPromise.complete(Promise.scala:153) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:23) [scala-library-2.11.1.jar:na]
+	at akka.dispatch.TaskInvocation.run(AbstractDispatcher.scala:41) [akka-actor_2.11-2.3.4.jar:na]
+	at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec(AbstractDispatcher.scala:393) [akka-actor_2.11-2.3.4.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979) [scala-library-2.11.1.jar:na]
+	at scala.concurrent.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107) [scala-library-2.11.1.jar:na]
+Caused by: com.mongodb.MongoException: Can't canonicalize query: BadValue $in needs an array
+	at com.mongodb.QueryResultIterator.throwOnQueryFailure(QueryResultIterator.java:246) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.init(QueryResultIterator.java:224) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.initFromQueryResponse(QueryResultIterator.java:184) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.QueryResultIterator.<init>(QueryResultIterator.java:62) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:86) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCollectionImpl.find(DBCollectionImpl.java:66) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._check(DBCursor.java:498) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor._hasNext(DBCursor.java:621) ~[mongo-java-driver-2.13.0.jar:na]
+	at com.mongodb.DBCursor.hasNext(DBCursor.java:657) ~[mongo-java-driver-2.13.0.jar:na]
+	at org.mongodb.morphia.query.MorphiaIterator.hasNext(MorphiaIterator.java:50) ~[morphia-0.110.jar:na]
+	at org.mongodb.morphia.query.QueryImpl.asList(QueryImpl.java:312) ~[morphia-0.110.jar:na]
+	at controllers.RoutesController.getRouteDates(RoutesController.java:154) ~[na:na]
+	at controllers.StopsController.getElectrifiedStopConsumption(StopsController.java:76) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
+	at Routes$$anonfun$routes$1$$anonfun$applyOrElse$19$$anonfun$apply$19.apply(routes_routing.scala:371) ~[na:na]
 	at play.core.Router$HandlerInvokerFactory$$anon$4.resultCall(Router.scala:264) ~[play_2.11-2.3.8.jar:2.3.8]
 	at play.core.Router$HandlerInvokerFactory$JavaActionInvokerFactory$$anon$15$$anon$1.invocation(Router.scala:255) ~[play_2.11-2.3.8.jar:2.3.8]
 	at play.core.j.JavaAction$$anon$1.call(JavaAction.scala:55) ~[play_2.11-2.3.8.jar:2.3.8]
