@@ -1,13 +1,14 @@
 package dto.message.client;
 
 import java.util.Date;
+import java.util.List;
 
 public class SimulationResult {
 	
 	private String routeId;
 	private Date simulationDate;
 	private FeasibilitySimulationResult feasibility;
-	private CostSimulationResult cost;
+	private List<CostSimulationResult> cost;
 	
 	public SimulationResult() {
 		this.simulationDate = new Date();
@@ -25,10 +26,10 @@ public class SimulationResult {
 	public void setFeasibility(FeasibilitySimulationResult feasibility) {
 		this.feasibility = feasibility;
 	}
-	public CostSimulationResult getCost() {
+	public List<CostSimulationResult> getCost() {
 		return cost;
 	}
-	public void setCost(CostSimulationResult cost) {
+	public void setCost(List<CostSimulationResult> cost) {
 		this.cost = cost;
 	}
 
@@ -39,8 +40,4 @@ public class SimulationResult {
 	public void setRouteId(String routeId) {
 		this.routeId = routeId;
 	}
-	
-	
-	
-
 }

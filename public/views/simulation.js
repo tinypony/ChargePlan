@@ -3,17 +3,19 @@ define([ 'jquery',
          'underscore', 
          'backbone', 
          'const',
+         'moment',
          'config-manager', 
          'amcharts.serial', 
          'views/simulation/stops-visual', 
          'views/simulation/bus-details', 
          'views/simulation/charger-details', 
+         'views/simulation/mini-map-view',
          'collections/chargers', 
          'collections/buses', 
          'hbs!templates/simulation',
          'hbs!templates/misc/loading',
          'bsselect'], 
-    function($, JUI, _, Backbone, Const, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, ChargerDetailsView, Chargers, Buses, template, loading) {
+    function($, JUI, _, Backbone, Const, moment, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, ChargerDetailsView, MiniMap, Chargers, Buses, template, loading) {
 
   var SimulationView = Backbone.View.extend({
 
@@ -26,7 +28,7 @@ define([ 'jquery',
       var opts = {
         date : this.$('#route-date').val(),
         busType : this.buses.get(this.$('.bus-select').val()),
-        minWaitingTime : 12 * 60
+        minWaitingTime : 10 * 60
       };
 
       if (!_.isUndefined(opts.date) && opts.date.length && !_.isUndefined(opts.busType)) {
@@ -105,21 +107,6 @@ define([ 'jquery',
         self.showFeasibility(feasibilityResult);
         self.showCost(costResult);
       });
-
-//      $.ajax({
-//        url : '/api/projects/' + this.project.get('id') + '/feasibility',
-//        data : JSON.stringify({
-//          routeId : this.route.routeId,
-//          date : opts.date,
-//          busType : opts.busType,
-//          minWaitingTime : opts.minWaitingTime
-//        }),
-//        method : 'POST',
-//        contentType : 'application/json'
-//      }).done(function(data) {
-//    	  
-//        
-//      });
     },
     
     showFeasibility: function(data) {
@@ -183,8 +170,66 @@ define([ 'jquery',
     },
     
     showCost: function(data) {
-    	this.$('.daily-energy-cost').text("Daily energy cost of route operation (electricity):" + data.energyPrice+" NOK");
-        this.$('.daily-diesel-cost').text("Daily energy cost of route operation (diesel):" + data.dieselPrice+" NOK");
+    	data = _.sortBy(data, function(entry){
+    		return moment(entry.date, 'YYYY-M-D').unix();
+    	});
+    	
+        var chart = amRef.makeChart('cost-chart', {
+            'theme' : 'none',
+            'type' : 'serial',
+            'autoMargins' : false,
+            'marginLeft' : 70,
+            'marginRight' : 8,
+            'marginTop' : 10,
+            'marginBottom' : 70,
+            'pathToImages' : 'http://www.amcharts.com/lib/3/images/',
+            'dataProvider' : data,
+            'valueAxes' : [ {
+              'id' : 'v1',
+              'axisAlpha' : 0,
+              'inside' : false,
+              'min' : 0,
+              'minimum' : 0,
+              'gridAlpha' : 0.1,
+              'title' : 'Cost (NOK)'
+            } ],
+            
+            'graphs' : [ {
+              'useNegativeColorIfDown' : false,
+              'balloonText' : '[[category]]<br><b>value: [[value]]</b>',
+              'bullet' : 'round',
+              'bulletBorderAlpha' : 1,
+              'bulletBorderColor' : '#FFFFFF',
+              'hideBulletsCount' : 50,
+              'lineThickness' : 2,
+              'lineColor' : '#0088cc',
+              'valueField' : 'energyPrice'
+            }, {
+                'useNegativeColorIfDown' : false,
+                'balloonText' : '[[category]]<br><b>value: [[value]]</b>',
+                'bullet' : 'round',
+                'bulletBorderAlpha' : 1,
+                'bulletBorderColor' : '#FFFFFF',
+                'hideBulletsCount' : 50,
+                'lineThickness' : 2,
+                'lineColor' : '#000',
+                'valueField' : 'dieselPrice'
+              } ],
+            'chartCursor' : {
+              'valueLineEnabled' : false,
+              'valueLineBalloonEnabled' : false,
+              'categoryBalloonDateFormat' : 'DD, MMM'
+            },
+            'categoryField' : 'date',
+            'categoryAxis' : {
+              'axisAlpha' : 0,
+              'gridAlpha' : 0,
+              'minHorizontalGap' : 60,
+              'title' : 'Date',
+              'parseDates' : true,
+              'minPeriod' : 'DD'
+            }
+          });
     },
     
     getRouteStats: function(route) {
@@ -199,7 +244,6 @@ define([ 'jquery',
           }
         };
       };
-      
      
       stats.totalDistance = Math.floor(_.reduce(route.stats, runningAverageStat('totalDistance'), 0)) / 1000;
       stats.departures = Math.round(_.reduce(route.stats, runningAverageStat('departures'), 0));
@@ -224,6 +268,9 @@ define([ 'jquery',
         chargers : this.chargers.toJSON(),
         buses : this.buses.toJSON()
       }));
+      
+      this.miniMap = new MiniMap({el: this.$('#route-map-view'), route: routeInstance.routeId});
+      this.miniMap.render();
 
       var availableDates = _.map(this.getInstance().stats, function(stat) {
         return stat.date;
@@ -242,6 +289,7 @@ define([ 'jquery',
         beforeShowDay : available,
         dateFormat : 'yy-mm-dd'
       });
+      
       this.$('#route-date').datepicker('setDate', availableDates[0]);
       this.$('.selectpicker').selectpicker();
 

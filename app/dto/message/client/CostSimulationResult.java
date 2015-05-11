@@ -3,12 +3,21 @@ package dto.message.client;
 public class CostSimulationResult {
 
 	private String routeId;
+	private String date;
 	private int metersDriven;
 	private Double energyPrice;
 	private Double dieselPrice;
-	
+
 	public CostSimulationResult() {
-		
+
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public Double getDieselPrice() {
@@ -42,8 +51,9 @@ public class CostSimulationResult {
 	public void setRouteId(String routeId) {
 		this.routeId = routeId;
 	}
-	
+
 	public Double getSavings() {
-		return this.getDieselPrice() - this.getEnergyPrice(); 
+		return this.getDieselPrice() - this.getEnergyPrice();
 	}
+
 }

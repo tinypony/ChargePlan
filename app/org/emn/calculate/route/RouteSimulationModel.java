@@ -18,6 +18,7 @@ import org.emn.plan.model.ElectricBus;
 import org.emn.plan.model.ElectrifiedBusStop;
 
 import play.Logger;
+import utils.Constants;
 import utils.DateUtils;
 
 import com.google.common.base.Predicate;
@@ -38,8 +39,6 @@ public class RouteSimulationModel {
 	private StopsDistanceRetriever distanceManager;
 	private IConsumptionProfile consumptionProfile;
 	
-	public static final int DEFAULT_END_STOP_CHARGING_TIME = 600;
-	public static final int DEFAULT_STOP_CHARGING_TIME = 10;
 	
 	public RouteSimulationModel(IConsumptionProfile profile, BusInstance bus, String simDate) throws ParseException {
 		this.consumptionProfile = profile;
@@ -197,8 +196,8 @@ public class RouteSimulationModel {
 				BusTrip nextTrip = nextDirection.peek();
 				cal = DateUtils.stringToCalendar(cal, nextTrip.getStops().get(0).getArrival());
 				
-				System.out.println("now: "+(new SimpleDateFormat("YYYY-M-d, HH:mm")).format(now));
-				System.out.println("next departure "+(new SimpleDateFormat("YYYY-M-d, HH:mm")).format(cal.getTime()));
+//				System.out.println("now: "+(new SimpleDateFormat("YYYY-M-d, HH:mm")).format(now));
+//				System.out.println("next departure "+(new SimpleDateFormat("YYYY-M-d, HH:mm")).format(cal.getTime()));
 				long difference = cal.getTime().getTime() - now.getTime();
 				long result = TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);
 				return result;
@@ -223,8 +222,8 @@ public class RouteSimulationModel {
 	
 	public int getChargingTime(ElectrifiedBusStop elStop, String routeId, boolean isEndStop) {
 		if(elStop.getChargingTimes().get(routeId) == null) {
-			if(isEndStop)	return DEFAULT_END_STOP_CHARGING_TIME;
-			else			return DEFAULT_STOP_CHARGING_TIME;
+			if(isEndStop)	return Constants.DEFAULT_END_STOP_CHARGING_TIME;
+			else			return Constants.DEFAULT_STOP_CHARGING_TIME;
 		} else {
 			return elStop.getChargingTimes().get(routeId);
 		}

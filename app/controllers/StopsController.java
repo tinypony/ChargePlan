@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -70,10 +71,16 @@ public class StopsController  extends Controller {
 		ElectrifiedBusStop elStop = project.getElectrifiedStop(stopId);
 		Set<String> elBusRoutes = getBusRoutesThroughStop(project, elStop);
 		Set<String> dates = RoutesController.getRouteDates(elBusRoutes);
-		Calendar cal = DateUtils.getCalendar(dates.iterator().next());
-		
-		Map<Integer, List<HourlyConsumptionEntry>> consumptionMap 
-			= getStopConsumptionModel(elStop, cal, elBusRoutes).getHourlyConsumptionDistribution();
+		Iterator<String> it =  dates.iterator();
+		Map<Integer, List<HourlyConsumptionEntry>> consumptionMap = new HashMap<Integer, List<HourlyConsumptionEntry>>();
+
+		//TODO supply date selected by user
+		if(it.hasNext()) {
+			Calendar cal = DateUtils.getCalendar(it.next());
+			consumptionMap = getStopConsumptionModel(elStop, cal, elBusRoutes).getHourlyConsumptionDistribution();
+		} else {
+			consumptionMap = new HashMap<Integer, List<HourlyConsumptionEntry>>();
+		}
 
 		return ok(om.valueToTree(consumptionMap));
 	}
@@ -83,17 +90,10 @@ public class StopsController  extends Controller {
 			return new DailyConsumptionModel(cal);
 		}
 		
-		Datastore ds = MongoUtils.ds();
-		Query<BusTrip> q = ds.createQuery(BusTrip.class);
-		System.out.println(DateUtils.toString(cal, "YYYY-M-d"));
-		q.field("dates").equal(DateUtils.toString(cal, "YYYY-M-d"));
-		System.out.println(elBusRoutes);
-		q.field("routeId").in(Lists.newArrayList(elBusRoutes));
+		List<BusTrip> trips = RoutesController.getTrips(Lists.newArrayList(elBusRoutes), DateUtils.toString(cal, "YYYY-M-d"));
+		System.out.println("Trips "+trips.size());
 		
-		
-		List<BusTrip> trips = q.asList();
-		ChargerEnergyConsumptionModel consumptionModel = 
-				new ChargerEnergyConsumptionModel(elStop, cal, trips);
+		ChargerEnergyConsumptionModel consumptionModel = new ChargerEnergyConsumptionModel(elStop, cal, trips);
 		
 		return consumptionModel.getEnergyConsumption();
 	}

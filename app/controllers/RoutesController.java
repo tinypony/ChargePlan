@@ -36,6 +36,7 @@ import com.google.common.collect.Lists;
 
 import play.mvc.Controller;
 import play.mvc.Result;
+import utils.DateUtils;
 import utils.MongoUtils;
 
 public class RoutesController extends Controller {
@@ -145,25 +146,37 @@ public class RoutesController extends Controller {
 		return ok(om.valueToTree(inst));
 	}
 	
+	public static List<BusTrip> getTrips(String routeId, String date) {
+		Datastore ds = MongoUtils.ds();
+		Query<BusTrip> q = ds.createQuery(BusTrip.class);
+		q.field("dates").equal(date);
+		q.field("routeId").equal(routeId);
+		return q.asList();
+	}
+	
+	public static List<BusTrip> getTrips(List<String> routeIds, String date) {
+		Datastore ds = MongoUtils.ds();
+		Query<BusTrip> q = ds.createQuery(BusTrip.class);
+		q.field("dates").equal(date);
+		q.field("routeId").in(routeIds);
+		return q.asList();
+	}
+	
 	public static Set<String> getRouteDates(Set<String> routeIds) {
 		Set<String> result = new HashSet<String>();
 		Datastore ds = MongoUtils.ds();
+		if(routeIds.size() == 0) {
+			return result;
+		}
 		
 		Query<BusRoute> routesQ = ds.createQuery(BusRoute.class);
-		routesQ.field("routeId").in(routeIds);
+		routesQ.field("routeId").in(Lists.newArrayList(routeIds));
 		List<BusRoute> routes = routesQ.asList();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
 		
 		
 		for(BusRoute r: routes) {
 			for(DayStat d: r.getStats()) {
-			//	try {
 					result.add(d.getDate());
-					//Date date = sdf.parse(d.getDate());
-					//result.add(date);
-//				} catch (ParseException e) {
-//					e.printStackTrace();
-//				}
 			}
 		}
 		

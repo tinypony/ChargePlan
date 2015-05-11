@@ -8,6 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.emn.plan.model.ElectrifiedBusStop;
 
+import utils.Constants;
 import utils.DateUtils;
 
 import com.google.common.base.Predicate;
@@ -22,10 +23,10 @@ public class SimpleBusScheduler {
 	Queue<BusTrip> dirA;
 	Queue<BusTrip> dirB;
 	int minWaitingTime;
-	public static final int DEFAULT_END_STOP_WAITING_TIME = 600;
+
 	
 	public SimpleBusScheduler() {
-		this(DEFAULT_END_STOP_WAITING_TIME);
+		this(Constants.DEFAULT_END_STOP_WAITING_TIME);
 	}
 	
 	public SimpleBusScheduler(int minWaitingTime) {

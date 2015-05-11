@@ -1,16 +1,13 @@
 package controllers;
 
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-import javax.xml.bind.DatatypeConverter;
 
 import model.dataset.BusTrip;
 import model.dataset.aggregation.BusRouteAggregationLight;
@@ -44,6 +41,7 @@ import dto.message.client.SimulationResult;
 import play.mvc.Controller;
 import play.mvc.Http.Request;
 import play.mvc.Result;
+import utils.DateUtils;
 import utils.MongoUtils;
 
 public class SimulationController extends Controller {
@@ -105,7 +103,15 @@ public class SimulationController extends Controller {
 		SimulationResult res = new SimulationResult();
 		res.setRouteId(simreq.getRouteId());
 		res.setFeasibility(simulateRouteFeasibility(proj, simreq, getConsumptionProfile(simreq)));
-		res.setCost(simulateRouteCost(proj, simreq));
+		Set<String> dates = RoutesController.getRouteDates(new HashSet<String>(Arrays.asList(simreq.getRouteId())));
+		List<CostSimulationResult> costs = new ArrayList<CostSimulationResult>();
+		
+		for(String date: dates) {
+			simreq.setDate(date);
+			CostSimulationResult cres = simulateRouteCost(proj, simreq);
+			costs.add(cres);
+		}
+		res.setCost(costs);
 		
 		return res;
 	}
@@ -211,16 +217,21 @@ public class SimulationController extends Controller {
 	//cost
 	public static CostSimulationResult simulateRouteCost(PlanningProject proj, final SimulationRequest simreq) throws Exception {
 		CostSimulationResult result = new CostSimulationResult();
-		
 		result.setRouteId(simreq.getRouteId());
+		result.setDate(simreq.getDate());
+		
 		//Get all electrified bus stops on the route
-		List<ElectrifiedBusStop> elStops =  Lists.newArrayList(Iterables.filter(proj.getStops(), new Predicate<ElectrifiedBusStop>() {
+		List<ElectrifiedBusStop> elStops = Lists.newArrayList(Iterables.filter(proj.getStops(), new Predicate<ElectrifiedBusStop>() {
 			public boolean apply(ElectrifiedBusStop stop) {
 				return stop.getCharger()!=null && stop.getChargingTimes().keySet().contains(simreq.getRouteId());
 			}
 		}));
 		
-		Calendar cal = DatatypeConverter.parseDate(simreq.getDate());
+		
+		Calendar cal = DateUtils.getCalendar(simreq.getDate());
+		System.out.println(simreq.getDate());
+		System.out.println("Cost for date "+(new SimpleDateFormat("YYYY-MM-DD")).format(cal.getTime()));
+		
 		EnergyPricingModel enModel = new EnergyPricingModel(new IEnergyPriceProvider() {
 			@Override
 			public Double getMWhPrice(Date time) {
@@ -231,9 +242,7 @@ public class SimulationController extends Controller {
 		Double energyPrice = 0.0;
 		
 		for(ElectrifiedBusStop stop: elStops) {
-			DailyConsumptionModel consumptionModel = StopsController
-					.getStopConsumptionModel(stop, cal, StopsController.getBusRoutesThroughStop(proj, stop));
-			
+			DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, StopsController.getBusRoutesThroughStop(proj, stop));
 			energyPrice += enModel.getEnergyCost(Arrays.asList(consumptionModel), simreq.getRouteId());
 		}
 		

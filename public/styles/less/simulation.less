@@ -96,7 +96,6 @@
 			#route-map-view {
 				height: 240px;
 				width: 600px;
-				background-image: url('https://www.somersethouse.org.uk/images/mi/visit/map.jpg');
 			}
 		}		
 		
@@ -133,14 +132,19 @@
 				  	display: none;
 				  }
 				  
-
+				  select + .bus-select {
+				  	width: 100%;
+				  }
 				}
 				
 				.route-path-visualization-container {
 					width: 100%;
 					
-					label {
-						margin-left: 50px;
+					.charger-header {
+						margin-left: 40px;
+						i {
+							color: @main-color;
+						}
 					}
 					
 					.route-path-visualization {
@@ -152,6 +156,11 @@
 		
 		.simulation-results {
 			position: relative;
+			
+			#cost-chart {
+				height: 300px;
+				position: realtive;
+			}
 			
 			#simulation-result-chart {
 				height: 500px;

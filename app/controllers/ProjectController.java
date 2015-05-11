@@ -60,24 +60,7 @@ public class ProjectController extends Controller {
 		return created((new ObjectMapper()).valueToTree(proj)).as("application/json");
 	}
 	
-	public static Result addCharger(String projectId) {
-		Datastore ds = MongoUtils.ds();
-		JsonNode bodyJson = request().body().asJson();
-		String chargerId = bodyJson.get("chargerType").asText();
-		String stopId = bodyJson.get("stop").asText();
-		ObjectId id = new ObjectId(projectId);
-		
-		Query<PlanningProject> q = ds.createQuery(PlanningProject.class);
-		q.field("id").equals(id);
-		PlanningProject project = q.get();
-		
-		project = addCharger(project, stopId, chargerId);
-		
-		ds.save(project);
-		return ok();
-	}
-	
-	public static PlanningProject addCharger(PlanningProject project, String stopId, String chargerId) {
+	public static PlanningProject addCharger(PlanningProject project, String stopId, String chargerId, String routeId, Integer minChargingTime) {
 		ElectrifiedBusStop stop = project.getElectrifiedStop(stopId);
 		
 		if(stop == null) {
@@ -94,6 +77,7 @@ public class ProjectController extends Controller {
 		BusChargerInstance chargerInstance = new BusChargerInstance();
 		chargerInstance.setType(chargerType);
 		stop.setCharger(chargerInstance);
+		stop.getChargingTimes().put(routeId, minChargingTime);
 		return project;
 	}
 	
@@ -140,6 +124,7 @@ public class ProjectController extends Controller {
 		ObjectMapper om = new ObjectMapper();
 		JsonNode bodyJson = request().body().asJson();
 		String charger = om.treeToValue(bodyJson.get("charger"), String.class);
+		Integer minChargingTime = om.treeToValue(bodyJson.get("minChargingTime"), Integer.class);
 		ObjectId id = new ObjectId(projectId);
 		
 		Query<PlanningProject> q = ds.createQuery(PlanningProject.class);
@@ -162,8 +147,8 @@ public class ProjectController extends Controller {
 			BusTrip trip0 = trip0q.get();
 			
 			if(trip0 != null) {
-				project = addCharger(project, trip0.getStops().get(0).getStopId(), charger);
-				project = addCharger(project, trip0.getStops().get(trip0.getStops().size()-1).getStopId(), charger);
+				project = addCharger(project, trip0.getStops().get(0).getStopId(), charger, rn, minChargingTime);
+				project = addCharger(project, trip0.getStops().get(trip0.getStops().size()-1).getStopId(), charger, rn, minChargingTime);
 			}
 			
 			Query<BusTrip> trip1q = ds.createQuery(BusTrip.class);
@@ -172,7 +157,8 @@ public class ProjectController extends Controller {
 			BusTrip trip1 = trip1q.get();
 			
 			if(trip1 != null) {
-				project = addCharger(project, trip1.getStops().get(trip1.getStops().size()-1).getStopId(), charger);
+				project = addCharger(project, trip1.getStops().get(0).getStopId(), charger, rn, minChargingTime);
+				project = addCharger(project, trip1.getStops().get(trip1.getStops().size()-1).getStopId(), charger, rn, minChargingTime);
 			}
 		}
 		

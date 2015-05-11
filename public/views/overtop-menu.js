@@ -40,7 +40,8 @@ define(['jquery',
                 	 method: 'POST',
                 	 contentType: 'application/json',
                 	 data: JSON.stringify({
-                		 charger: params.charger
+                		 charger: params.charger,
+                		 minChargingTime: params.minChargingTime
                 	 })
                   }).done(function(){
                 	  
