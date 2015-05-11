@@ -23,7 +23,7 @@ public class DailyConsumptionModelTest {
 		cal = DateUtils.rewindCalendar(cal);
 		model = new DailyConsumptionModel(cal);
 		Calendar cal1 = Calendar.getInstance();
-		cal1 = DateUtils.stringToCalendar(cal1, "0030");
+		cal1 = DateUtils.arrivalToCalendar(cal1, "0030");
 		model.consume("1", cal1, 600, 100.0);
 		model.consume("2", cal1, 300, 400.0);
 	

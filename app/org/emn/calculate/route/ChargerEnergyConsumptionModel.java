@@ -53,7 +53,7 @@ public class ChargerEnergyConsumptionModel {
 			}
 			
 			int chargingDuration = this.electrifiedStop.getChargingTime(busRoute);
-			this.simDate = DateUtils.stringToCalendar(simDate, sStop.getArrival());
+			this.simDate = DateUtils.arrivalToCalendar(simDate, sStop.getArrival());
 			//Store consumption info
 			dcm.consume(trip.getRouteId(), this.simDate, chargingDuration, this.electrifiedStop.getCharger().getType().getPower());
 		}

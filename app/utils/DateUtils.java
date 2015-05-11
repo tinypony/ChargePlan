@@ -17,7 +17,7 @@ public class DateUtils {
 		return cal;
 	}
 	
-	public static Calendar stringToCalendar(Calendar cal, String timeString) {
+	public static Calendar arrivalToCalendar(Calendar cal, String timeString) {
 		cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeString.substring(0, 2), 10));
 		cal.set(Calendar.MINUTE, Integer.parseInt(timeString.substring(2, 4), 10));
 		cal.set(Calendar.SECOND, 0);
@@ -44,7 +44,7 @@ public class DateUtils {
 		return cal;
 	}
 	
-	public static Calendar getCalendar(String dateString) throws ParseException {
+	public static Calendar getCalendar(String dateString) {
 		Calendar cal = Calendar.getInstance();
 		String[] tokens = dateString.split("-");
 		int year = Integer.parseInt(tokens[0]);

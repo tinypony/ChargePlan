@@ -1,10 +1,10 @@
 #stop-info {
 	.modal-body {
 		.charging-parameters {
-			  display: flex;
-  			  justify-content: space-around;
+			display: flex;
+			justify-content: space-around;
 		}
-		
+
 		#stop-consumption-chart {
 			height: 300px;
 		}
@@ -18,39 +18,31 @@
 		
 		.slider-container {
 			width: 80%;
-		}	
-		
+		}
+
 		.time-label {
 			margin-left: 10px;
-		}	
+		}
 	}
 }
-
 
 .simulation-container {
 	padding-top: 10px;
 	padding-left: 30px;
-  	padding-right: 30px;
-  	padding-bottom: 40px;
-  	
-  	
+	padding-right: 30px;
+	padding-bottom: 40px;
+	
 	.defaults-selection {
 		padding-bottom: 20px;
- 		border-bottom: 1px solid rgba(0,0,0,0.2);
-		.form-group {
-			display: flex;
-		}
 		
 		.route-details-body {
 			display: flex;
 			justify-content: space-between;
-
 			
 			.route-names {
 				display: flex;
 				align-items: center;
 				margin: 10px 0 25px;
-				
 				.route-name {
 					font-size: 26px;
 					background: @main-color;
@@ -61,121 +53,134 @@
 					border-radius: 3px;
 					text-align: center;
 				}
-				
+
 				.route-ends {
 					font-size: 20px;
 				}
 			}
-			
+
 			.detail-tables {
 				display: flex;
 			}
-			
+
 			.route-details-table {
 				margin-bottom: 20px;
-				margin-right: 100px;
+				margin-right: 50px;
 				
 				.details-entry {
 					display: table-row;
-					
 					> * {
 						display: table-cell;
 					}
-					
+
 					> .details-type {
 						padding-right: 30px;
 						font-weight: 600;
 					}
-					
+
 					&.last {
 						margin-bottom: 20px;
 					}
 				}
 			}
-			
-			#route-map-view {
-				height: 240px;
-				width: 600px;
-			}
-		}		
-		
 
-	}	
-	
-		.simulation-parameters {
-			.notification-well {
-				display: flex;
-				i {
-					margin-right: 40px;
+			#route-map-view {
+				height: 540px;
+				width: 80%;
+			}
+		}
+
+		.equip-selection {
+			display: flex;
+			
+			.well-well {
+				width: 400px;
+				height: 250px;
+
+				label {
+					display: block;
+				}
+
+				> * {
+					width: 80%;
+				}
+
+
+
+				select {
+					display: none;
+				}
+
+				select + .bus-select {
+					width: 100%;
 				}
 			}
-			
-			.equip-selection {
-				display: flex;
+
+			.route-path-visualization-container {
+				width: 100%;
 				
-				.well-well {
-				  width: 400px;
-				  height: 300px;
-				  border-right: 1px solid #ddd;
-				  
-				  > * {
-				  	width: 80%;
-				  }
-				  
-				  .simulation-date {
-				  	.input-field();
-				  	box-shadow: none;
-				  	width: 100%;
-				  }
-				  
-				  select {
-				  	display: none;
-				  }
-				  
-				  select + .bus-select {
-				  	width: 100%;
-				  }
+				.charger-header {
+					margin-left: 40px;
+					i {
+						color: @main-color;
+					}
 				}
-				
-				.route-path-visualization-container {
+
+				.route-path-visualization {
 					width: 100%;
-					
-					.charger-header {
-						margin-left: 40px;
-						i {
-							color: @main-color;
-						}
-					}
-					
-					.route-path-visualization {
-						width: 100%;
-					}
 				}
+			}
+		}
+	}
+
+	.simulation-results {
+		position: relative;
+
+		ul {
+			border-bottom: 1px solid #ddd;
+		}
+		.form-group {
+			margin-left: 25px;
+			
+			.simulation-date {
+				.input-field ();
+				box-shadow: none;
+				width: 150px;
 			}
 		}
 		
-		.simulation-results {
-			position: relative;
+		.route-summary {
+			display: flex;
+			margin-bottom: 60px;
 			
-			#cost-chart {
-				height: 300px;
-				position: realtive;
+			.summary-entry {
+				margin-right: 40px;
 			}
 			
-			#simulation-result-chart {
-				height: 500px;
-				position: relative;
-				
-				.prompt {
-					font-size: 24px;
-					color: #AAA;
-					margin: 0 auto;
-					margin-top: 50px;
-				}
-			}
-			
-			.loading {
-				margin-top: 200px;
+			label {
+				font-size: 40px;
 			}
 		}
+				
+		#cost-chart {
+			height: 300px;
+			position: realtive;
+		}
+
+		#simulation-result-chart {
+			height: 500px;
+			position: relative;
+			.prompt {
+				font-size: 24px;
+				color: #AAA;
+				margin: 0 auto;
+				margin-top: 50px;
+			}
+		}
+
+		.loading {
+			margin-top: 200px;
+		}
+	}
 }
+

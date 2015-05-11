@@ -25,75 +25,53 @@
 							<div class="details-type">Departures/Day:</div>
 							<div class="details-value">{{stats.departures}}</div>
 						</div>
-					</div>
-					<div class="route-details-table">
-					<div class="details-entry">
-						<div class="details-type">CO2 emissions/Day:</div>
-						<div class="details-value">{{stats.CO2}} kg</div>
-					</div>
-					<div class="details-entry">
-						<div class="details-type">CO emissions/Day:</div>
-						<div class="details-value">{{stats.CO}} kg</div>
-					</div>
-					<div class="details-entry">
-						<div class="details-type">NOx emissions/Day:</div>
-						<div class="details-value">{{stats.NOx}} kg</div>
+						<div class="details-entry">
+							<div class="details-type">CO2 emissions/Day:</div>
+							<div class="details-value">{{stats.CO2}} kg</div>
+						</div>
+						<div class="details-entry">
+							<div class="details-type">CO emissions/Day:</div>
+							<div class="details-value">{{stats.CO}} kg</div>
+						</div>
+						<div class="details-entry">
+							<div class="details-type">NOx emissions/Day:</div>
+							<div class="details-value">{{stats.NOx}} kg</div>
+						</div>
 					</div>
 				</div>
+				<h5 class="subsection-header">Simulation parameters</h5>
+				<div class="equip-selection">
+					<div class="well-well">
+
+						
+						<div class="bus-selection form-group">
+							<label class="custom-label">Select bus</label>
+							<select class="bus-select selectpicker">
+								<option value="-1">Select Bus Model</option>
+								{{#each buses}}
+									<option value="{{this.id}}">{{this.model}} {{this.capacity}} kWh</option>
+								{{/each}}
+							</select>
+						</div>
+						
+						<div class="bus-details"></div>
+					</div>
+<!-- 					<div class="route-path-visualization-container">
+						<div class="icon-header charger-header">
+							<i class="fa fa-bolt fa-2x"></i>
+							<h5 class="subsection-header">Charger location</h5>
+						</div>
+						<div class="route-path-visualization"></div>
+					</div> -->
+					
 				</div>
 			</div>
 			<div id="route-map-view" class="route-map-view"></div>
 		</div>
 	</div>
 
-	<div class="simulation-parameters">
-		<h5 class="subsection-header">Simulation parameters</h5>
-
-		<div class="accordion-body">
-<!-- 			<div class="notification-well well"> -->
-<!-- 				<i class="fa fa-exclamation-triangle fa-5x"></i> -->
-<!-- 				<div class="notification-text"> -->
-<!-- 					<h5>This route has not been simulated yet!</h5> -->
-<!-- 					<p>The first step to start simulating your route is to choose and add an electric bus to your simulation</p> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-			
-
-			
-			<div class="equip-selection">
-				<div class="well-well">
-					<div class="date-selection form-group">
-						<label class="custom-label">Select date</label> 
-						<input type="text" id="route-date" class="simulation-date"/>		
-					</div>
-					
-					<div class="bus-selection form-group">
-						<label class="custom-label">Select bus</label>
-						<select class="bus-select selectpicker">
-							<option value="-1">Select Bus Model</option>
-							{{#each buses}}
-								<option value="{{this.id}}">{{this.model}} {{this.capacity}} kWh</option>
-							{{/each}}
-						</select>
-					</div>
-					
-					<div class="bus-details"></div>
-<!-- 					<i class="fa fa-bus fa-4x"></i> -->
-<!-- 					ADD ELECTRIC BUS -->
-				</div>
-				<div class="route-path-visualization-container">
-					<div class="icon-header charger-header">
-						<i class="fa fa-bolt fa-2x"></i>
-						<h5 class="subsection-header">Charger location</h5>
-					</div>
-					<div class="route-path-visualization"></div>
-				</div>
-				
-			</div>
-		</div>
-	</div>
 	<div class="simulation-results">
-		<div class="header">
+<!-- 		<div class="header">
 			<h4>Simulation result</h4>
 		</div>
 		<div id="cost-chart"></div>
@@ -105,6 +83,45 @@
 					<li>Electrify bus stops</li>
 				</ul>
 			</div>
+		</div> -->
+		
+		<div role="tabpanel">
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+		    <li class="tab" role="presentation" data-tab="1" class="active"><a href="#feasibility" aria-controls="home" role="tab" data-toggle="tab">Feasibility</a></li>
+		    <li class="tab" role="presentation" data-tab="2"><a href="#costs" aria-controls="profile" role="tab" data-toggle="tab">Energy cost</a></li>
+		    <li class="tab" role="presentation" data-tab="3"><a href="#emissions" aria-controls="messages" role="tab" data-toggle="tab">Emission reductions</a></li>
+		  </ul>
+		
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+		    <div role="tabpanel" class="tab-pane active" id="feasibility">
+		    	<div class="date-selection form-group">
+					<label class="custom-label">Select date</label> 
+					<input type="text" id="route-date" class="simulation-date"/>		
+				</div>
+				<h5 class="subsection-header">Battery level during daily operation</h5>
+				<div id="simulation-result-chart" class="simulation-result-chart"></div>
+			</div>
+		    <div role="tabpanel" class="tab-pane" id="costs">
+		    	<div class="route-summary">
+		    		<div class="summary-entry">
+		    			<label class="summary-label">Days:</label>
+		    			<label class="summary-value days"></label>
+		    		</div>
+		    		<div class="summary-entry">
+		    			<label class="summary-label">Electricity price:</label>
+		    			<label class="summary-value electricity"></label>
+		    		</div>
+		    		<div class="summary-entry">
+		    			<label class="summary-label">Diesel price:</label>
+		    			<label class="summary-value diesel"></label>
+		    		</div>
+		    	</div>
+		    	<div id="cost-chart"></div>
+		    </div>
+		    <div role="tabpanel" class="tab-pane" id="emissions">asdasdasd</div>
+		  </div>
 		</div>
 	</div>
 </div>

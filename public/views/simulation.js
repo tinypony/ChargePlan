@@ -21,7 +21,8 @@ define([ 'jquery',
 
     events : {
       'change .bus-select' : 'onBusSelect',
-      'change #route-date' : 'onParamChange'
+      'change #route-date' : 'onParamChange',
+      'click li.tab': 'onTabChange'
     },
 
     onParamChange : function() {
@@ -101,16 +102,40 @@ define([ 'jquery',
         }),
         method: 'POST',
         contentType : 'application/json'
-      }).done(function(data){
-    	var costResult = data.cost;
-        var feasibilityResult = data.feasibility;
-        self.showFeasibility(feasibilityResult);
-        self.showCost(costResult);
+      }).done(function(data) {
+        self.data = data;
+    	self.$('.simulation-results .loading-container').remove();
+        self.showData(data);
       });
     },
     
+    onTabChange: function() {
+    	if(this.data) this.showData(this.data);
+    },
+    
+    showData: function(data, dataTab) {
+    	var order;
+    	if(!dataTab) {
+    		order = this.getActiveTab();
+    	} else {
+    		order = dataTab;
+    	}
+    	
+    	if(order === '1') {
+    		this.showFeasibility(data.feasibility);
+    	} else if(order === '2') {
+    		this.showCost(data.cost);
+    	} else if(order === '3') {
+    		
+    	}
+    },
+    
+    getActiveTab: function() {
+    	return this.$('.nav-tabs li.active').attr('data-tab');
+    },
+    
     showFeasibility: function(data) {
-    	this.$('.simulation-results .loading-container').remove();
+
     	
         if(data.survived) {
         	this.project.getRoute(this.route.routeId).state = Const.RouteState.SIMULATED_OK;
@@ -122,7 +147,7 @@ define([ 'jquery',
           'theme' : 'none',
           'type' : 'serial',
           'autoMargins' : false,
-          'marginLeft' : 70,
+          'marginLeft' : 60,
           'marginRight' : 8,
           'marginTop' : 10,
           'marginBottom' : 70,
@@ -148,7 +173,8 @@ define([ 'jquery',
             'hideBulletsCount' : 50,
             'lineThickness' : 2,
             'lineColor' : '#0088cc',
-            'valueField' : 'charge'
+            'valueField' : 'charge',
+            fillAlphas: 0.5
           } ],
           'chartCursor' : {
             'valueLineEnabled' : false,
@@ -174,11 +200,24 @@ define([ 'jquery',
     		return moment(entry.date, 'YYYY-M-D').unix();
     	});
     	
+    	var days = data.length;
+    	var totalElectricity = _.reduce(data, function(memo, item){
+    		return memo + item.energyPrice;
+    	}, 0);
+    	
+    	var totalDiesel = _.reduce(data, function(memo, item){
+    		return memo + item.dieselPrice;
+    	}, 0);
+    	
+    	this.$('label.summary-value.days').text(days);
+    	this.$('label.summary-value.diesel').text( Math.floor(totalDiesel) + ' NOK');
+    	this.$('label.summary-value.electricity').text(Math.floor(totalElectricity) + ' NOK');
+    	
         var chart = amRef.makeChart('cost-chart', {
             'theme' : 'none',
             'type' : 'serial',
             'autoMargins' : false,
-            'marginLeft' : 70,
+            'marginLeft' : 80,
             'marginRight' : 8,
             'marginTop' : 10,
             'marginBottom' : 70,
@@ -193,7 +232,9 @@ define([ 'jquery',
               'gridAlpha' : 0.1,
               'title' : 'Cost (NOK)'
             } ],
-            
+            'legend': {
+            	data: [{title: 'Electricity price', color: '#0088cc'}, {title: 'Diesel equivalent price', color: "#777"}]
+            },
             'graphs' : [ {
               'useNegativeColorIfDown' : false,
               'balloonText' : '[[category]]<br><b>value: [[value]]</b>',
@@ -212,7 +253,7 @@ define([ 'jquery',
                 'bulletBorderColor' : '#FFFFFF',
                 'hideBulletsCount' : 50,
                 'lineThickness' : 2,
-                'lineColor' : '#000',
+                'lineColor' : '#777',
                 'valueField' : 'dieselPrice'
               } ],
             'chartCursor' : {
@@ -293,12 +334,12 @@ define([ 'jquery',
       this.$('#route-date').datepicker('setDate', availableDates[0]);
       this.$('.selectpicker').selectpicker();
 
-      this.routeVis = new RouteVisualizationView({
-        el : this.$('.route-path-visualization'),
-        route : this.getInstance(),
-        project : this.project,
-        chargers : this.chargers
-      });
+//      this.routeVis = new RouteVisualizationView({
+//        el : this.$('.route-path-visualization'),
+//        route : this.getInstance(),
+//        project : this.project,
+//        chargers : this.chargers
+//      });
 
       this.busDetails = new BusDetailsView({
         el : this.$('.bus-details')
@@ -309,7 +350,17 @@ define([ 'jquery',
       });
 
       this.busDetails.render();
-      this.routeVis.render();
+      
+      this.$('li.tab[data-tab="1"] a').on('shown.bs.tab', function (e) {
+    	  self.showData(self.data, '1')
+      });
+      
+      this.$('li.tab[data-tab="2"] a').on('shown.bs.tab', function (e) {
+    	  self.showData(self.data, '2')
+      });
+      
+      this.$('li.tab[data-tab="1"]').addClass('active');
+      //this.routeVis.render();
     }
   });
 

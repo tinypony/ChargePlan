@@ -29,10 +29,10 @@ public class EnergyPricingModelTest {
 		cal = DateUtils.rewindCalendar(cal);
 		
 		consumptionModel = new DailyConsumptionModel(cal);
-		cal = DateUtils.stringToCalendar(cal, "0030");
+		cal = DateUtils.arrivalToCalendar(cal, "0030");
 		consumptionModel.consume("1", cal, 600, 100);
 		
-		cal = DateUtils.stringToCalendar(cal, "0040");
+		cal = DateUtils.arrivalToCalendar(cal, "0040");
 		consumptionModel.consume("2", cal, 400, 100);
 		
 		history = Arrays.asList(consumptionModel);

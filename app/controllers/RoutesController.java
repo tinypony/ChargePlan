@@ -149,7 +149,9 @@ public class RoutesController extends Controller {
 	public static List<BusTrip> getTrips(String routeId, String date) {
 		Datastore ds = MongoUtils.ds();
 		Query<BusTrip> q = ds.createQuery(BusTrip.class);
-		q.field("dates").equal(date);
+		if(date != null) {
+			q.field("dates").equal(date);
+		}
 		q.field("routeId").equal(routeId);
 		return q.asList();
 	}

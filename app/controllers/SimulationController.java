@@ -70,7 +70,6 @@ public class SimulationController extends Controller {
 		Datastore ds = MongoUtils.ds();
 		SimulationRequest simreq = getReq(request());
 		PlanningProject proj = ProjectController.getProjectObject(projectId);
-		
 		List<SimulationResult> resultList = new ArrayList<SimulationResult>();
 		
 		for(BusRouteAggregationLight route: proj.getRoutes()) {
@@ -105,10 +104,12 @@ public class SimulationController extends Controller {
 		res.setFeasibility(simulateRouteFeasibility(proj, simreq, getConsumptionProfile(simreq)));
 		Set<String> dates = RoutesController.getRouteDates(new HashSet<String>(Arrays.asList(simreq.getRouteId())));
 		List<CostSimulationResult> costs = new ArrayList<CostSimulationResult>();
+		List<BusTrip> allTrips = RoutesController.getTrips(simreq.getRouteId(), null);
 		
 		for(String date: dates) {
+			System.out.println("Sim cost for "+date);
 			simreq.setDate(date);
-			CostSimulationResult cres = simulateRouteCost(proj, simreq);
+			CostSimulationResult cres = simulateRouteCost(proj, simreq, allTrips);
 			costs.add(cres);
 		}
 		res.setCost(costs);
@@ -181,7 +182,10 @@ public class SimulationController extends Controller {
 	
 	public static FeasibilitySimulationResult simulateRouteFeasibility(PlanningProject proj, SimulationRequest simreq, IConsumptionProfile profile) throws Exception {
 		SimpleBusScheduler scheduler = new SimpleBusScheduler();
-		scheduler.schedule(getTrips(simreq.getRouteId(), simreq.getDate()), proj.getStops());
+		List<BusTrip> trips = getTrips(simreq.getRouteId(), simreq.getDate());
+		System.out.println(trips.size());
+		if(trips.size() == 0) return null;	
+		scheduler.schedule(trips, proj.getStops());
 		
 		RouteSimulationModel simModel = new RouteSimulationModel( profile, new BusInstance(simreq.getBusType()), simreq.getDate());
 		simModel.setElectrifiedStops(proj.getStops());
@@ -215,7 +219,7 @@ public class SimulationController extends Controller {
 //	}
 	
 	//cost
-	public static CostSimulationResult simulateRouteCost(PlanningProject proj, final SimulationRequest simreq) throws Exception {
+	public static CostSimulationResult simulateRouteCost(PlanningProject proj, final SimulationRequest simreq, List<BusTrip> trips) throws Exception {
 		CostSimulationResult result = new CostSimulationResult();
 		result.setRouteId(simreq.getRouteId());
 		result.setDate(simreq.getDate());
@@ -229,8 +233,6 @@ public class SimulationController extends Controller {
 		
 		
 		Calendar cal = DateUtils.getCalendar(simreq.getDate());
-		System.out.println(simreq.getDate());
-		System.out.println("Cost for date "+(new SimpleDateFormat("YYYY-MM-DD")).format(cal.getTime()));
 		
 		EnergyPricingModel enModel = new EnergyPricingModel(new IEnergyPriceProvider() {
 			@Override
@@ -238,15 +240,22 @@ public class SimulationController extends Controller {
 				return 220.0;
 			}
 		});
-		
+		System.out.println(simreq.getDate() + " date in simreq");
 		Double energyPrice = 0.0;
+		//List<BusTrip> trips = getTrips(simreq.getRouteId(), simreq.getDate());
+		List<BusTrip> dateTrips = Lists.newArrayList(Iterables.filter(trips, new Predicate<BusTrip>() {
+			@Override
+			public boolean apply(BusTrip arg0) {
+				return arg0.getDates().contains(simreq.getDate());
+			}
+		}));
 		
 		for(ElectrifiedBusStop stop: elStops) {
-			DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, StopsController.getBusRoutesThroughStop(proj, stop));
+			DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, dateTrips);
 			energyPrice += enModel.getEnergyCost(Arrays.asList(consumptionModel), simreq.getRouteId());
 		}
 		
-		result.setMetersDriven(getTotalDistanceDriven(simreq));
+		result.setMetersDriven(getTotalDistanceDriven(dateTrips));
 		result.setEnergyPrice(energyPrice);
 		result.setDieselPrice(DieselPricingModel.getCost(result.getMetersDriven()));
 		return result;
@@ -254,19 +263,28 @@ public class SimulationController extends Controller {
 	
 	private static int getTotalDistanceDriven(SimulationRequest simreq) {
 		List<BusTrip> trips = getTrips(simreq.getRouteId(), simreq.getDate());
+		return getTotalDistanceDriven(trips);
+	}
+	
+	private static int getTotalDistanceDriven(List<BusTrip> trips) {
 		int metersDriven = 0;
+		
 		for(BusTrip trip: trips) {
 			metersDriven += trip.getTripLength();
 		}
 		return metersDriven;
 	}
 	
+	
 	private static List<BusTrip> getTrips(String routeId, String date) {
+		String formattedDate = (new SimpleDateFormat("YYYY-M-d")).format(DateUtils.getCalendar(date).getTime());
 		Datastore ds = MongoUtils.ds();
 		Query<BusTrip> tripsQ = ds.createQuery(BusTrip.class);
 		tripsQ.field("routeId").equal(routeId);
-		tripsQ.field("dates").equals(date);
+		tripsQ.field("dates").equal(formattedDate);
 		List<BusTrip> trips = tripsQ.asList();
+		
+		System.out.println("Got " + trips.size()+ " trips for "+formattedDate);
 		return trips;
 	}
 }

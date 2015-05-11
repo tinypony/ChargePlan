@@ -64,7 +64,7 @@ public class StopsController  extends Controller {
 		return ok(om.valueToTree(getStopModel(stopid)));
 	}
 
-	public static Result getElectrifiedStopConsumption(String projectId, String stopId) throws ParseException {
+	public static Result getElectrifiedStopConsumption(String projectId, String stopId) {
 		ObjectMapper om = new ObjectMapper();
 		
 		PlanningProject project = ProjectController.getProjectObject(projectId);
@@ -91,10 +91,11 @@ public class StopsController  extends Controller {
 		}
 		
 		List<BusTrip> trips = RoutesController.getTrips(Lists.newArrayList(elBusRoutes), DateUtils.toString(cal, "YYYY-M-d"));
-		System.out.println("Trips "+trips.size());
-		
+		return getStopConsumptionModel(elStop, cal, trips);
+	}
+	
+	public static DailyConsumptionModel getStopConsumptionModel(ElectrifiedBusStop elStop, Calendar cal, List<BusTrip> trips) {
 		ChargerEnergyConsumptionModel consumptionModel = new ChargerEnergyConsumptionModel(elStop, cal, trips);
-		
 		return consumptionModel.getEnergyConsumption();
 	}
 	

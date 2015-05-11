@@ -43,7 +43,7 @@ public class RouteSimulationModel {
 	public RouteSimulationModel(IConsumptionProfile profile, BusInstance bus, String simDate) throws ParseException {
 		this.consumptionProfile = profile;
 		this.bus = bus;
-		this.simDate = DatatypeConverter.parseDate(simDate);
+		this.simDate = DateUtils.getCalendar(simDate);
 		
 		this.simDate.set(Calendar.HOUR_OF_DAY, 0);
 		this.simDate.set(Calendar.MINUTE, 0);
@@ -137,7 +137,7 @@ public class RouteSimulationModel {
 						result.setSurvived(false);
 						return result;
 					} finally {
-						this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
+						//this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
 					}
 				}
 				
@@ -145,6 +145,9 @@ public class RouteSimulationModel {
 					ElectrifiedBusStop elStop = this.getElectrified(currentStop.getStopId());
 					
 					if(elStop != null && elStop.getCharger() !=null) {
+						//Add battery entry pre-charge
+						this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
+						
 						int chargingTimeSeconds = this.getChargingTime(elStop, trip.getRouteId(), i == tripStops.size() - 1);
 						BusCharger chargerType = elStop.getCharger(currentStop.getArrival(), chargingTimeSeconds).getType();
 						int availableTime = (int) this.getTimeAvailableForCharging(chargingTimeSeconds, this.isEndstop(i, trip), this.simDate.getTime(), directionIdx);
@@ -194,10 +197,8 @@ public class RouteSimulationModel {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(now);
 				BusTrip nextTrip = nextDirection.peek();
-				cal = DateUtils.stringToCalendar(cal, nextTrip.getStops().get(0).getArrival());
+				cal = DateUtils.arrivalToCalendar(cal, nextTrip.getStops().get(0).getArrival());
 				
-//				System.out.println("now: "+(new SimpleDateFormat("YYYY-M-d, HH:mm")).format(now));
-//				System.out.println("next departure "+(new SimpleDateFormat("YYYY-M-d, HH:mm")).format(cal.getTime()));
 				long difference = cal.getTime().getTime() - now.getTime();
 				long result = TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);
 				return result;

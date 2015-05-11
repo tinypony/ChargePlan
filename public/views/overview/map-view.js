@@ -112,13 +112,6 @@ define([ 'jquery',
     
     drawBusStop: function(stop, isEndstop) {
       var self = this;
-//      
-//      var routesWithEndStop = _.filter(this.data.routes, function(route){
-//        return _.first(route.waypoints).stopId === stop.stopId || _.last(route.waypoints).stopId === stop.stopId;
-//      });
-//      
-//      if(!routesWithEndStop.length) return;
-//      
       var marker = L.marker([stop.y, stop.x]);
       var elStop = _.findWhere(this.data.project.get('stops'), {stopId: stop.stopId});
       if(elStop && elStop.charger) {
