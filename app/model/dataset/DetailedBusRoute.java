@@ -2,8 +2,11 @@ package model.dataset;
 
 import java.util.List;
 
+import dto.message.client.SimulationResult;
+
 public class DetailedBusRoute extends BusRoute {
-	List<BusTrip> trips;
+	private List<BusTrip> trips;
+	private SimulationResult latestSimulation;
 	
 	public DetailedBusRoute(BusRoute inst) {
 		this.setId(inst.getId());
@@ -19,5 +22,13 @@ public class DetailedBusRoute extends BusRoute {
 
 	public void setTrips(List<BusTrip> trips) {
 		this.trips = trips;
+	}
+
+	public SimulationResult getLatestSimulation() {
+		return latestSimulation;
+	}
+
+	public void setLatestSimulation(SimulationResult latestSimulation) {
+		this.latestSimulation = latestSimulation;
 	}
 }

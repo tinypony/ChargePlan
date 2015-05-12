@@ -1,5 +1,8 @@
 package dto.message.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CostSimulationResult {
 
 	private String routeId;
@@ -7,9 +10,10 @@ public class CostSimulationResult {
 	private int metersDriven;
 	private Double energyPrice;
 	private Double dieselPrice;
+	private Map<String, Double> emissions;
 
 	public CostSimulationResult() {
-
+		
 	}
 
 	public String getDate() {
@@ -54,6 +58,14 @@ public class CostSimulationResult {
 
 	public Double getSavings() {
 		return this.getDieselPrice() - this.getEnergyPrice();
+	}
+
+	public Map<String, Double> getEmissions() {
+		return emissions;
+	}
+
+	public void setEmissions(Map<String, Double> emissions) {
+		this.emissions = emissions;
 	}
 
 }

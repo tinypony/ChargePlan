@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import model.dataset.BusTrip;
+import model.dataset.DayStat;
 import model.dataset.aggregation.BusRouteAggregationLight;
 
 import org.emn.calculate.bus.IConsumptionProfile;
@@ -18,6 +19,8 @@ import org.emn.calculate.price.DieselPricingModel;
 import org.emn.calculate.price.EnergyPricingModel;
 import org.emn.calculate.price.IEnergyPriceProvider;
 import org.emn.calculate.route.DailyConsumptionModel;
+import org.emn.calculate.route.Euro6EmissionModel;
+import org.emn.calculate.route.IEmissionModel;
 import org.emn.calculate.route.RouteSimulationModel;
 import org.emn.plan.SimpleBusScheduler;
 import org.emn.plan.model.BusInstance;
@@ -62,7 +65,6 @@ public class SimulationController extends Controller {
 		Datastore ds = MongoUtils.ds();
 		ds.save(proj);
 		return ok( om.valueToTree( r ) );
-		
 	}
 	
 	public static Result simulateAll(String projectId) throws Exception {
@@ -83,11 +85,15 @@ public class SimulationController extends Controller {
 	}
 	
 	public static PlanningProject updateStat(PlanningProject proj, SimulationResult res) {
+		
 		if(res.getFeasibility().isSurvived()) {
 			proj.getBusRoute(res.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_OK);
 		} else {
 			proj.getBusRoute(res.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_FAIL);
 		}
+		
+		Datastore ds = MongoUtils.ds();
+		ds.save(res);
 		
 		return proj;
 	}
@@ -107,13 +113,12 @@ public class SimulationController extends Controller {
 		List<BusTrip> allTrips = RoutesController.getTrips(simreq.getRouteId(), null);
 		
 		for(String date: dates) {
-			System.out.println("Sim cost for "+date);
 			simreq.setDate(date);
 			CostSimulationResult cres = simulateRouteCost(proj, simreq, allTrips);
 			costs.add(cres);
 		}
 		res.setCost(costs);
-		
+		res.setType(simreq.getBusType());
 		return res;
 	}
 	
@@ -220,6 +225,10 @@ public class SimulationController extends Controller {
 	//cost
 	public static CostSimulationResult simulateRouteCost(PlanningProject proj, final SimulationRequest simreq, List<BusTrip> trips) throws Exception {
 		CostSimulationResult result = new CostSimulationResult();
+		Calendar cal = DateUtils.getCalendar(simreq.getDate());
+		IEmissionModel emissionsModel = new Euro6EmissionModel();
+		Double energyPrice = 0.0;
+		
 		result.setRouteId(simreq.getRouteId());
 		result.setDate(simreq.getDate());
 		
@@ -231,7 +240,6 @@ public class SimulationController extends Controller {
 		}));
 		
 		
-		Calendar cal = DateUtils.getCalendar(simreq.getDate());
 		
 		EnergyPricingModel enModel = new EnergyPricingModel(new IEnergyPriceProvider() {
 			@Override
@@ -240,8 +248,6 @@ public class SimulationController extends Controller {
 			}
 		});
 
-		Double energyPrice = 0.0;
-		//List<BusTrip> trips = getTrips(simreq.getRouteId(), simreq.getDate());
 		List<BusTrip> dateTrips = Lists.newArrayList(Iterables.filter(trips, new Predicate<BusTrip>() {
 			@Override
 			public boolean apply(BusTrip arg0) {
@@ -251,7 +257,6 @@ public class SimulationController extends Controller {
 		
 		for(ElectrifiedBusStop stop: elStops) {
 			DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, dateTrips);
-			
 			Double tmp = enModel.getEnergyCost(Arrays.asList(consumptionModel), simreq.getRouteId());
 			energyPrice += tmp;
 		}
@@ -259,12 +264,11 @@ public class SimulationController extends Controller {
 		result.setMetersDriven(getTotalDistanceDriven(dateTrips));
 		result.setEnergyPrice(energyPrice);
 		result.setDieselPrice(DieselPricingModel.getCost(result.getMetersDriven()));
+		
+		DayStat st = new DayStat();
+		st.setTotalDistance(result.getMetersDriven());
+		result.setEmissions(emissionsModel.getDailyEmissions(null, st));
 		return result;
-	}
-	
-	private static int getTotalDistanceDriven(SimulationRequest simreq) {
-		List<BusTrip> trips = getTrips(simreq.getRouteId(), simreq.getDate());
-		return getTotalDistanceDriven(trips);
 	}
 	
 	private static int getTotalDistanceDriven(List<BusTrip> trips) {
@@ -285,7 +289,6 @@ public class SimulationController extends Controller {
 		tripsQ.field("dates").equal(formattedDate);
 		List<BusTrip> trips = tripsQ.asList();
 		
-		System.out.println("Got " + trips.size()+ " trips for "+formattedDate);
 		return trips;
 	}
 }

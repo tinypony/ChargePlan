@@ -92,12 +92,12 @@ public class SimpleBusScheduler {
 				
 				List<ScheduleStop> stopsA = candidateA.getStops();
 				ScheduleStop firstStop = stopsA.get(0);
-				candidateTime = DateUtils.stringToCalendar(firstStop.getArrival());
+				candidateTime = DateUtils.arrivalToCalendar(firstStop.getArrival());
 				
 				if(candidateTime.compareTo(calA) >= 0) {
 					dirA.add(candidateA);
 					ScheduleStop lastStop = stopsA.get(stopsA.size() - 1);
-					Calendar tripLastStopTime = DateUtils.stringToCalendar(lastStop.getArrival());
+					Calendar tripLastStopTime = DateUtils.arrivalToCalendar(lastStop.getArrival());
 					int chargingTime = this.getChargingTime(candidateA.getRouteId(), lastStop, eStops);
 					tripLastStopTime.add(Calendar.SECOND, chargingTime);
 
@@ -123,12 +123,12 @@ public class SimpleBusScheduler {
 				BusTrip candidateB = tripsB.get(pB);
 				List<ScheduleStop> stopsB = candidateB.getStops();
 				ScheduleStop firstStop = stopsB.get(0);
-				candidateTime = DateUtils.stringToCalendar(firstStop.getArrival());
+				candidateTime = DateUtils.arrivalToCalendar(firstStop.getArrival());
 				
 				if(candidateTime.compareTo(calB) >= 0) {
 					dirB.add(candidateB);
 					ScheduleStop lastStop = stopsB.get(stopsB.size() - 1);
-					Calendar tripLastStopTime = DateUtils.stringToCalendar(lastStop.getArrival());
+					Calendar tripLastStopTime = DateUtils.arrivalToCalendar(lastStop.getArrival());
 					
 					int chargingTime = this.getChargingTime(candidateB.getRouteId(), lastStop, eStops);
 					tripLastStopTime.add(Calendar.SECOND, chargingTime);
@@ -156,8 +156,8 @@ public class SimpleBusScheduler {
 	private boolean isOvernight(BusTrip candidateA, Calendar calB) {
 		ScheduleStop stopOne = candidateA.getStops().get(0);
 		ScheduleStop lastStop = candidateA.getStops().get(candidateA.getStops().size() - 1);
-		Calendar calFirst = DateUtils.stringToCalendar(stopOne.getArrival());
-		Calendar calLast = DateUtils.stringToCalendar(lastStop.getArrival());
+		Calendar calFirst = DateUtils.arrivalToCalendar(stopOne.getArrival());
+		Calendar calLast = DateUtils.arrivalToCalendar(lastStop.getArrival());
 		
 		return (calFirst.compareTo(calLast) > 0 || calLast.compareTo(calB) > 0);
 	}

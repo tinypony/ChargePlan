@@ -116,19 +116,22 @@ public class RouteSimulationModel {
 			for(int i=0; i<tripStops.size(); i++) {
 				if(i != 0) {
 					previousStop = currentStop;
+					currentStop = tripStops.get(i);
 				} else {
 					previousStop = null;
+					currentStop = tripStops.get(i);
+					this.simDate = DateUtils.arrivalToCalendar(this.simDate, currentStop.getArrival());
 				}
 				
-				currentStop = tripStops.get(i);
-				String arrivalTime = currentStop.getArrival();
-				simDate.set(Calendar.HOUR_OF_DAY, Integer.parseInt(arrivalTime.substring(0, 2), 10));
-				simDate.set(Calendar.MINUTE, Integer.parseInt(arrivalTime.substring(2, 4), 10));
-				simDate.set(Calendar.SECOND, 0);
+				String arrivalTimeCurrent = currentStop.getArrival();
 				
 				if( currentStop != null && previousStop != null ) {
+					String arrivalTimePrevious = previousStop.getArrival();
+					long timeDiff = this.getInterval(arrivalTimePrevious, arrivalTimeCurrent);
 					int meters = this.getDistanceManager().getDistanceBetweenStops(previousStop, currentStop);
 					double consumption = this.consumptionProfile.getConsumption(bus.getType(), null);
+					System.out.println("Advance by: "+timeDiff);
+					this.simDate.add(Calendar.SECOND, (int) timeDiff);
 					
 					try {
 						this.bus.drive(meters, consumption);
@@ -137,7 +140,7 @@ public class RouteSimulationModel {
 						result.setSurvived(false);
 						return result;
 					} finally {
-						//this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
+					//	this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
 					}
 				}
 				
@@ -147,13 +150,16 @@ public class RouteSimulationModel {
 					if(elStop != null && elStop.getCharger() !=null) {
 						//Add battery entry pre-charge
 						this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
-						
+						System.out.println("Precharge: ");
+						printCal(this.simDate);
 						int chargingTimeSeconds = this.getChargingTime(elStop, trip.getRouteId(), i == tripStops.size() - 1);
 						BusCharger chargerType = elStop.getCharger(currentStop.getArrival(), chargingTimeSeconds).getType();
 						int availableTime = (int) this.getTimeAvailableForCharging(chargingTimeSeconds, this.isEndstop(i, trip), this.simDate.getTime(), directionIdx);
 						int timeSpentCharging = this.bus.charge(availableTime, chargerType.getPower());
 						
 						this.simDate.add(Calendar.SECOND, timeSpentCharging);
+						System.out.println("POstcharge: ");
+						printCal(this.simDate);
 						this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
 					}
 				} else {
@@ -170,6 +176,23 @@ public class RouteSimulationModel {
 		result.setSurvived(true);
 		
 		return result;
+	}
+	
+	private void printCal(Calendar cal) {
+		System.out.println((new SimpleDateFormat("YYYY-MMM-dd, HH:mm:ss")).format(cal.getTime()));
+	}
+	
+	private long getInterval(String first, String second) {
+		Calendar cal1 = DateUtils.arrivalToCalendar(first);
+		Calendar cal2 = DateUtils.arrivalToCalendar(second);
+		long interval = DateUtils.getDateDiff(cal1.getTime(), cal2.getTime(), TimeUnit.SECONDS);
+		
+		if(interval < 0) {
+			cal2.add(Calendar.DAY_OF_MONTH, 1);
+			interval = DateUtils.getDateDiff(cal1.getTime(), cal2.getTime(), TimeUnit.SECONDS);
+		}
+		
+		return interval;
 	}
 	
 	private Queue<BusTrip> getDirection(int directionIdx) {
@@ -200,10 +223,10 @@ public class RouteSimulationModel {
 				cal = DateUtils.arrivalToCalendar(cal, nextTrip.getStops().get(0).getArrival());
 				
 				long difference = cal.getTime().getTime() - now.getTime();
-				long result = TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);
+				long result = TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS) - 5L;
 				return result;
 			} else {
-				return Long.MAX_VALUE;
+				return Integer.MAX_VALUE-1;
 			}
 		}
 	}
@@ -215,6 +238,7 @@ public class RouteSimulationModel {
 	private void addBatteryEntry(FeasibilitySimulationResult result, double soc, Calendar cal, String location) {
 		BatteryStateEntry lastEntry = result.getLastBatteryStateEntry();
 		if(lastEntry !=null && lastEntry.getTimestamp().compareTo(cal.getTime()) > 0) {
+			System.out.println("Last entry: "+lastEntry.getTimestamp() + ", now:"+cal.getTime());
 			//increment day
 			cal.add(Calendar.DATE, 1);
 		}

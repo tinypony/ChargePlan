@@ -9,6 +9,10 @@ public class BatteryStateEntry {
 	private Date timestamp;
 	private String location;
 	
+	public BatteryStateEntry() {
+		
+	}
+	
 	public BatteryStateEntry(double charge, Date timestamp) {
 		this.charge = charge;
 		this.timestamp = timestamp;
@@ -26,7 +30,6 @@ public class BatteryStateEntry {
 	public void setCharge(double charge) {
 		this.charge = charge;
 	}
-
 	
 	public String getSimpleTimestamp() {
 		return (new SimpleDateFormat("HHmm")).format(getTimestamp());

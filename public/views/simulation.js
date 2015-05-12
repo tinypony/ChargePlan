@@ -8,14 +8,13 @@ define([ 'jquery',
          'amcharts.serial', 
          'views/simulation/stops-visual', 
          'views/simulation/bus-details', 
-         'views/simulation/charger-details', 
          'views/simulation/mini-map-view',
          'collections/chargers', 
          'collections/buses', 
          'hbs!templates/simulation',
          'hbs!templates/misc/loading',
          'bsselect'], 
-    function($, JUI, _, Backbone, Const, moment, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, ChargerDetailsView, MiniMap, Chargers, Buses, template, loading) {
+    function($, JUI, _, Backbone, Const, moment, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, MiniMap, Chargers, Buses, template, loading) {
 
   var SimulationView = Backbone.View.extend({
 
@@ -75,11 +74,14 @@ define([ 'jquery',
       return this.route;
     },
 
-    onBusSelect : function() {
+    onBusSelect : function(ev, isSilent) {
       var selectedbusid = this.$('.bus-select').val();
       var busModel = this.buses.get(selectedbusid);
       this.busDetails.showModel(busModel);
-      this.onParamChange();
+      
+      if(!isSilent) {
+    	  this.onParamChange();
+      }
     },
 
     onChargerSelect : function() {
@@ -107,12 +109,7 @@ define([ 'jquery',
         self.data = data;
     	self.$('.simulation-results .loading-container').remove();
         self.showData(data);
-      }).fail(function(data){
-    	  console.log(arguments);
-    	  console.log('just fail');
-      }).always(function(data){
-    	  console.log('always');
-      });
+      })
     },
     
     onTabChange: function() {
@@ -130,9 +127,25 @@ define([ 'jquery',
     	if(order === '1') {
     		this.showFeasibility(data.feasibility);
     	} else if(order === '2') {
-    		this.showCost(data.cost);
+    		var cost = _.sortBy(data.cost, function(item){
+    			return moment(item.date, 'YYYY-M-D').unix();
+    		});
+    		this.showCost(cost);
     	} else if(order === '3') {
+    		var cost = _.sortBy(data.cost, function(item){
+    			return moment(item.date, 'YYYY-M-D').unix();
+    		});
     		
+    		var emis = _.map(cost, function(entr){
+    			return {
+    				date: entr.date,
+    				CO: entr.emissions.CO,
+    				CO2: entr.emissions.CO2,
+    				NOx: entr.emissions.NOx,
+    				total: entr.emissions.CO + entr.emissions.CO2 + entr.emissions.NOx
+    			};
+    		});
+    		this.showEmissions(emis);
     	}
     },
     
@@ -164,19 +177,19 @@ define([ 'jquery',
             'min' : 0,
             'minimum' : 0,
             'max' : 100,
-            'maximum' : 110,
+            'maximum' : 100,
             'gridAlpha' : 0.1,
             'title' : 'Battery level (%)'
           } ],
           'graphs' : [ {
             'useNegativeColorIfDown' : false,
-            'balloonText' : '[[category]]<br><b>value: [[value]]</b>',
+            'balloonText' : 'Time: [[category]]<br><b>Battery: [[value]]</b>',
             'bullet' : 'round',
             'bulletBorderAlpha' : 1,
             'bulletBorderColor' : '#FFFFFF',
             'hideBulletsCount' : 50,
             'lineThickness' : 2,
-            'lineColor' : '#0088cc',
+            'lineColor' : data.survived ? '#0088cc' : '#ef1a2d',
             'valueField' : 'charge',
             fillAlphas: 0.5
           } ],
@@ -278,6 +291,67 @@ define([ 'jquery',
           });
     },
     
+    showEmissions: function(data) {
+    	
+    	var totalCO2 = _.reduce(data, function(memo, item){
+    		return memo + item.CO2;
+    	}, 0);
+    	
+    	var totalCO = _.reduce(data, function(memo, item){
+    		return memo + item.CO;
+    	}, 0);
+    	
+    	var totalNOx = _.reduce(data, function(memo, item){
+    		return memo + item.NOx;
+    	}, 0);
+    	
+    	this.$('.route-summary').removeClass('hidden');
+    	this.$('label.summary-value.co2').text(Math.floor(totalCO2) + ' kg');
+    	this.$('label.summary-value.co').text( Math.floor(totalCO) + ' kg');
+    	this.$('label.summary-value.nox').text(Math.floor(totalNOx) + ' kg');
+    	
+    	var chart = amRef.makeChart('emissions-chart', {
+		    type: 'serial',
+			theme: 'light',
+			sequencedAnimation: true,
+		    dataProvider: data,
+		    valueAxes: [{
+		        stackType: 'regular',
+		        axisAlpha: 0.3,
+		        gridAlpha: 0,
+		        min: 0,
+		        gridAlpha : 0.1,
+		        title: 'Emissions (Kg)'
+		    }],
+		    graphs: [{
+              useNegativeColorIfDown : false,
+              balloonText : '[[category]]<br><b>Total emissions cut: [[value]]</b>',
+              bullet : 'round',
+              bulletBorderAlpha : 1,
+              bulletBorderColor : '#FFFFFF',
+              hideBulletsCount : 50,
+              lineThickness : 2,
+              lineColor : '#0088cc',
+		      valueField: 'total'
+		    }],
+		    chartCursor: {
+              'valueLineEnabled' : false,
+              'valueLineBalloonEnabled' : false,
+              'categoryBalloonDateFormat' : 'DD MMMM'
+            },
+		    categoryField: 'date',
+		    categoryAxis: {
+		        gridPosition: 'start',
+		        axisAlpha: 0,
+		        gridAlpha: 0,
+		        position: 'left',
+		        minPeriod: 'DD',
+		        title: 'Date',
+		        parseDates: true
+		    }
+		});
+    },
+    
     getRouteStats: function(route) {
       var stats = {};
       var runningAverageStat = function(statName, statName2) {
@@ -317,6 +391,12 @@ define([ 'jquery',
       
       this.miniMap = new MiniMap({el: this.$('#route-map-view'), route: routeInstance.routeId});
       this.miniMap.render();
+      
+      this.busDetails = new BusDetailsView({
+    	  el: this.$('.bus-details')
+	  });
+	
+	  this.busDetails.render();
 
       var availableDates = _.map(this.getInstance().stats, function(stat) {
         return stat.date;
@@ -338,23 +418,13 @@ define([ 'jquery',
       
       this.$('#route-date').datepicker('setDate', availableDates[0]);
       this.$('.selectpicker').selectpicker();
-
-//      this.routeVis = new RouteVisualizationView({
-//        el : this.$('.route-path-visualization'),
-//        route : this.getInstance(),
-//        project : this.project,
-//        chargers : this.chargers
-//      });
-
-      this.busDetails = new BusDetailsView({
-        el : this.$('.bus-details')
-      });
-
-      this.chargerDetails = new ChargerDetailsView({
-        el : this.$('.charger-details')
-      });
-
-      this.busDetails.render();
+      
+      if(routeInstance.latestSimulation) {
+    	  this.$('.selectpicker').selectpicker('val', routeInstance.latestSimulation.type.id);
+    	  this.onBusSelect(null, true);
+    	  self.showData(routeInstance.latestSimulation, '1');
+    	  
+      }
       
       this.$('li.tab[data-tab="1"] a').on('shown.bs.tab', function (e) {
     	  self.showData(self.data, '1');
@@ -362,6 +432,10 @@ define([ 'jquery',
       
       this.$('li.tab[data-tab="2"] a').on('shown.bs.tab', function (e) {
     	  self.showData(self.data, '2');
+      });
+      
+      this.$('li.tab[data-tab="3"] a').on('shown.bs.tab', function (e) {
+    	  self.showData(self.data, '3');
       });
       
       this.$('li.tab[data-tab="1"]').addClass('active');

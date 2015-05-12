@@ -73,17 +73,12 @@ define(['jquery',
 	        var self = this;
 	        var marker = L.marker([stop.y, stop.x]);
 	        var elStop = _.findWhere(this.project.get('stops'), {stopId: stop.stopId});
+	        
 	        if(elStop && elStop.charger) {
 	            marker.setIcon(L.icon(endStopChargerIcon));  
 	        } else {
 	      	  marker.setIcon(L.icon(endStopIcon));  
 	        }
-//	        marker.bindPopup(endstopPopupTemplate({
-//	          stopname: stop.name+"("+stop.stopId+")",
-//	          routes: _.uniq(routesWithEndStop, false, function(route){
-//	            return route.name;
-//	          })
-//	        }));
 	        
 	        marker.addTo(self.map);
 	        self.drawnStops[stop.stopId] = marker;
@@ -113,7 +108,6 @@ define(['jquery',
 	    drawTransformers: function() {
 	    	var self = this;
 	    	this.transformers.each(function(trans){
-	        	console.log(trans);
 	        	var marker = L.marker([trans.get('lat'), trans.get('lon')]);
 	        	marker.addTo(self.map);
 	        });
