@@ -5,7 +5,8 @@ define(['jquery',
         'mapbox',
         'api-config',
         'views/simulation/stop-details',
-        'collections/chargers'], function($, _, Backbone, ConfigManager, Mapbox, ApiConfig, StopDetails, Chargers){
+        'collections/chargers',
+        'collections/transformers'], function($, _, Backbone, ConfigManager, Mapbox, ApiConfig, StopDetails, Chargers, Transformers) {
 	'use strict';
 	
 	var endStopIcon = {
@@ -109,6 +110,15 @@ define(['jquery',
 	        };
 	    },
 	    
+	    drawTransformers: function() {
+	    	var self = this;
+	    	this.transformers.each(function(trans){
+	        	console.log(trans);
+	        	var marker = L.marker([trans.get('lat'), trans.get('lon')]);
+	        	marker.addTo(self.map);
+	        });
+	    },
+	    
 	    onStopClick : function(stop) {
 	        var self = this;
 	        var electrifiedStop = _.findWhere(this.project.get('stops'), {stopId: stop.stopId});
@@ -119,7 +129,9 @@ define(['jquery',
 	        }
 	        
 	        var chargers = new Chargers();
-	        chargers.fetch().done(function(){
+	        
+	        
+	        var ready = function(){
 		        var stopDetails = new StopDetails({
 		          stop: electrifiedStop,
 		          chargers: chargers,
@@ -134,8 +146,9 @@ define(['jquery',
 		          stopDetails.remove();
 		          self.stopListening(stopDetails);
 		        });
-	        });
+	        };
 	        
+	        chargers.fetch().done(ready);
 
 	      },
 	    
@@ -146,7 +159,12 @@ define(['jquery',
 	        
 	        ConfigManager.getProject().done(function(proj) {
 	        	self.project = proj;
-		        self.drawRoute();
+	        	self.transformers = new Transformers();
+		        self.transformers.fetch().done(function(){
+		        	self.drawRoute();
+		        	self.drawTransformers();
+		        });
+		       
 	        });
 		}
 	});

@@ -32,6 +32,8 @@ PUT		/api/chargers/:id				controllers.solutions.ChargerController.updateCharger(
 GET		/api/buses						controllers.solutions.BusController.listBuses()
 POST	/api/buses						controllers.solutions.BusController.createBus()
 
+GET		/api/transformers				controllers.TransformerController.getTransformers()
+
 
 GET     /ws/jobmonitor                 	controllers.JobMonitorController.socket()
 

@@ -769,3 +769,15 @@ Found existing projects
 2015-05-12 10:18:35,821 - [INFO] - from play in play-internal-execution-context-2 
 Application started (Dev)
 
+2015-05-12 13:30:31,003 - [INFO] - from application in play-internal-execution-context-7 
+Application shutdown...
+
+2015-05-12 13:30:31,649 - [INFO] - from application in play-internal-execution-context-7 
+Found ruter
+
+2015-05-12 13:30:31,672 - [INFO] - from application in play-internal-execution-context-7 
+Found existing projects
+
+2015-05-12 13:30:31,672 - [INFO] - from play in play-internal-execution-context-7 
+Application started (Dev)
+
