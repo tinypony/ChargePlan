@@ -154,6 +154,9 @@ define([ 'jquery',
     },
     
     showFeasibility: function(data) {
+    	if(!data) {
+    		return;
+    	}
         if(data.survived) {
         	this.project.getRoute(this.route.routeId).state = Const.RouteState.SIMULATED_OK;
         } else {

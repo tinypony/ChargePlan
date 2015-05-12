@@ -151,7 +151,6 @@ define(['jquery',
 		    };
     	});
     	
-    	console.log(graphs);
     	return graphs;
     }
   });

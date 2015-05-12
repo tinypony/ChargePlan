@@ -86,9 +86,9 @@ public class SimulationController extends Controller {
 	
 	public static PlanningProject updateStat(PlanningProject proj, SimulationResult res) {
 		
-		if(res.getFeasibility().isSurvived()) {
+		if(res.getFeasibility() != null && res.getFeasibility().isSurvived()) {
 			proj.getBusRoute(res.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_OK);
-		} else {
+		} else if(res.getFeasibility() != null && !res.getFeasibility().isSurvived()) {
 			proj.getBusRoute(res.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_FAIL);
 		}
 		
@@ -108,6 +108,7 @@ public class SimulationController extends Controller {
 		SimulationResult res = new SimulationResult();
 		res.setRouteId(simreq.getRouteId());
 		res.setFeasibility(simulateRouteFeasibility(proj, simreq, getConsumptionProfile(simreq)));
+		
 		Set<String> dates = RoutesController.getRouteDates(new HashSet<String>(Arrays.asList(simreq.getRouteId())));
 		List<CostSimulationResult> costs = new ArrayList<CostSimulationResult>();
 		List<BusTrip> allTrips = RoutesController.getTrips(simreq.getRouteId(), null);
