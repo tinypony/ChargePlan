@@ -21,7 +21,7 @@ public class Global extends GlobalSettings {
         }
         
         //Automatically create test project to work with
-        if(app.isDev()) {
+   
         	if(MongoUtils.ds().createQuery(PlanningProject.class).asList().size() == 0){
         		PlanningProject project = new PlanningProject();
         		project.setName("TestProject");
@@ -32,7 +32,7 @@ public class Global extends GlobalSettings {
         	} else {
         		Logger.info("Found existing projects");
         	}
-        }
+        
     }
 
     public void onStop(Application app) {
