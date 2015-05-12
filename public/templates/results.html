@@ -1,0 +1,76 @@
+<div class="summary-screen list-details-flow">
+	<div id="side-list-container" class="side-list-container summary-list evade-header">
+		<div id="side-list" class="side-list nano"></div>
+	</div>
+
+	
+	<div class="details-view evade-header summary-details">
+		<div role="tabpanel">
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+		    <li class="tab" role="presentation" data-tab="1" class="active"><a href="#cost" aria-controls="home" role="tab" data-toggle="tab">Cost</a></li>
+		    <li class="tab" role="presentation" data-tab="2"><a href="#energy" aria-controls="profile" role="tab" data-toggle="tab">Energy usage</a></li>
+		    <li class="tab" role="presentation" data-tab="3"><a href="#emissions" aria-controls="messages" role="tab" data-toggle="tab">Emission reductions</a></li>
+		  </ul>
+		
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+		    <div role="tabpanel" class="tab-pane active" id="cost">
+		    	<div class="date-selection form-group">
+					<label class="custom-label">Inspect period</label> 
+					<div class="flex-box">
+						<span class="field-wrapper">
+							<input type="text" id="cost-date-start" class="simulation-date input-field start"/>
+							<i class="fa fa-calendar-o"></i>
+						</span>
+						<span class="field-wrapper">
+							<input type="text" id="cost-date-end" class="simulation-date input-field end"/>
+							<i class="fa fa-calendar-o"></i>
+						</span>
+					</div>
+				</div>
+				
+				<div id="cost-chart">
+				</div>
+			</div>
+		    <div role="tabpanel" class="tab-pane" id="energy">
+		    	<div class="date-selection form-group">
+					<label class="custom-label">Inspect period</label> 
+					<div class="flex-box">
+						<span class="field-wrapper">
+							<input type="text" id="energy-date-start" class="simulation-date input-field start"/>
+							<i class="fa fa-calendar-o"></i>
+						</span>
+						<span class="field-wrapper">
+							<input type="text" id="energy-date-end" class="simulation-date input-field end"/>
+							<i class="fa fa-calendar-o"></i>
+						</span>
+					</div>
+				</div>
+				
+				<div id="energy-chart">
+				</div>
+		    </div>
+		    <div role="tabpanel" class="tab-pane" id="emissions">
+		    	<div class="date-selection form-group">
+					<label class="custom-label">Inspect period</label> 
+					<div class="flex-box">
+						<span class="field-wrapper">
+							<input type="text" id="emissions-date-start" class="simulation-date input-field start"/>
+							<i class="fa fa-calendar-o"></i>
+						</span>
+						<span class="field-wrapper">
+							<input type="text" id="emissions-date-end" class="simulation-date input-field end"/>
+							<i class="fa fa-calendar-o"></i>
+						</span>
+					</div>
+				</div>
+				
+				<div>
+					Chart with summed emissions reductions of selected routes
+				</div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</div>

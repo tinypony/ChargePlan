@@ -1,0 +1,20 @@
+<div class="my-routes-toggle">
+	Successful routes
+</div>
+<div class="nano">
+	<div class="route-list nano-content">
+		{{#each routes}}
+			{{#if this.display}}
+			<div class="route-list-item" data-routeid="{{this.routeId}}">
+				<span class="route-name">{{this.name}}</span>
+				<span class="end-stops">		
+					<div class="route-end">{{this.firstStop}}</div>
+					<div class="route-end">{{this.lastStop}}</div>
+				</span>
+				<!-- <i class="fa fa-remove remove" data-routeid="{{this.routeId}}"></i> -->
+			</div>
+			
+			{{/if}}
+		{{/each}}
+	</div>
+</div>

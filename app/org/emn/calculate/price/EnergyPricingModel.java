@@ -47,8 +47,7 @@ public class EnergyPricingModel {
 				Double totalHourEnergy = this.getTotalEnergy(tmp, routeId);
 				cal.set(Calendar.HOUR_OF_DAY, i);
 				totalEnergyCost += this.getHourlyProductionCost(cal.getTime(), totalHourEnergy) 
-						+ this.getHourlyTransmissionCost(cal.getTime(), totalHourEnergy);
-				
+						+ this.getHourlyTransmissionCost(cal.getTime(), totalHourEnergy);				
 			}
 		}
 		
@@ -78,6 +77,8 @@ public class EnergyPricingModel {
 					contributors = test;
 				}
 			}
+			
+
 			
 			Double myPortion = this.getPeakPowerContribution(contributors, routeId);
 			Double totalCost = SEASON_PEAK_FEE * tmp * (days / 31.0);
@@ -123,6 +124,10 @@ public class EnergyPricingModel {
 	
 	public Double getPeakPowerContribution(List<HourlyConsumptionEntry> peakPowerContributions, final String routeId) {
 		Double totalPower = this.getTotalPower(peakPowerContributions);
+		if(totalPower < 0.1) {
+			return 0.0;
+		}
+		
 		List<HourlyConsumptionEntry> myContributions 
 			= Lists.newArrayList(Iterables.filter(peakPowerContributions, new Predicate<HourlyConsumptionEntry>() {
 
@@ -131,6 +136,7 @@ public class EnergyPricingModel {
 				return routeId.equals(arg0.getRouteId());
 			}
 		}));
+		
 		Double myPower = this.getTotalPower(myContributions);
 		return myPower / totalPower;
 	}

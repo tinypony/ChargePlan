@@ -139,6 +139,7 @@
 		ul {
 			border-bottom: 1px solid #ddd;
 		}
+		
 		.form-group {
 			margin-left: 25px;
 			
@@ -150,15 +151,23 @@
 		}
 		
 		.route-summary {
-			display: flex;
 			margin-bottom: 60px;
 			
 			.summary-entry {
-				margin-right: 40px;
+ 				  display: table-row;
 			}
 			
 			label {
-				font-size: 40px;
+				display: table-cell;
+				font-size: 30px;
+				
+				&.summary-label {
+ 				  padding-left: 35px;
+				}
+				
+				&.summary-value {
+					padding-left: 20px;
+				}
 			}
 		}
 				

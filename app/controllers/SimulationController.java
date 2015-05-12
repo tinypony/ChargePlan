@@ -183,7 +183,6 @@ public class SimulationController extends Controller {
 	public static FeasibilitySimulationResult simulateRouteFeasibility(PlanningProject proj, SimulationRequest simreq, IConsumptionProfile profile) throws Exception {
 		SimpleBusScheduler scheduler = new SimpleBusScheduler();
 		List<BusTrip> trips = getTrips(simreq.getRouteId(), simreq.getDate());
-		System.out.println(trips.size());
 		if(trips.size() == 0) return null;	
 		scheduler.schedule(trips, proj.getStops());
 		
@@ -240,7 +239,7 @@ public class SimulationController extends Controller {
 				return 220.0;
 			}
 		});
-		System.out.println(simreq.getDate() + " date in simreq");
+
 		Double energyPrice = 0.0;
 		//List<BusTrip> trips = getTrips(simreq.getRouteId(), simreq.getDate());
 		List<BusTrip> dateTrips = Lists.newArrayList(Iterables.filter(trips, new Predicate<BusTrip>() {
@@ -252,7 +251,9 @@ public class SimulationController extends Controller {
 		
 		for(ElectrifiedBusStop stop: elStops) {
 			DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, dateTrips);
-			energyPrice += enModel.getEnergyCost(Arrays.asList(consumptionModel), simreq.getRouteId());
+			
+			Double tmp = enModel.getEnergyCost(Arrays.asList(consumptionModel), simreq.getRouteId());
+			energyPrice += tmp;
 		}
 		
 		result.setMetersDriven(getTotalDistanceDriven(dateTrips));

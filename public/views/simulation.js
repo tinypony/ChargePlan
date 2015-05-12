@@ -103,9 +103,15 @@ define([ 'jquery',
         method: 'POST',
         contentType : 'application/json'
       }).done(function(data) {
+    	console.log(data);
         self.data = data;
     	self.$('.simulation-results .loading-container').remove();
         self.showData(data);
+      }).fail(function(data){
+    	  console.log(arguments);
+    	  console.log('just fail');
+      }).always(function(data){
+    	  console.log('always');
       });
     },
     
@@ -135,8 +141,6 @@ define([ 'jquery',
     },
     
     showFeasibility: function(data) {
-
-    	
         if(data.survived) {
         	this.project.getRoute(this.route.routeId).state = Const.RouteState.SIMULATED_OK;
         } else {
@@ -209,6 +213,7 @@ define([ 'jquery',
     		return memo + item.dieselPrice;
     	}, 0);
     	
+    	this.$('.route-summary').removeClass('hidden');
     	this.$('label.summary-value.days').text(days);
     	this.$('label.summary-value.diesel').text( Math.floor(totalDiesel) + ' NOK');
     	this.$('label.summary-value.electricity').text(Math.floor(totalElectricity) + ' NOK');
@@ -352,15 +357,14 @@ define([ 'jquery',
       this.busDetails.render();
       
       this.$('li.tab[data-tab="1"] a').on('shown.bs.tab', function (e) {
-    	  self.showData(self.data, '1')
+    	  self.showData(self.data, '1');
       });
       
       this.$('li.tab[data-tab="2"] a').on('shown.bs.tab', function (e) {
-    	  self.showData(self.data, '2')
+    	  self.showData(self.data, '2');
       });
       
       this.$('li.tab[data-tab="1"]').addClass('active');
-      //this.routeVis.render();
     }
   });
 

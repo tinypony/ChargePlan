@@ -11,7 +11,12 @@ define(['jquery',
   var MenuView = Backbone.View.extend({
     events: {
       'click .settings': 'openSettings',
+      'click .project-main' : 'goMain',
       'click .all-routes-simulation': 'openSimulationDialog'
+    },
+    
+    goMain: function() {
+    	router.navigate('/', true);
     },
     
     openSettings: function() {
