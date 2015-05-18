@@ -1,0 +1,21 @@
+<div class="flex-box">
+	<div class="charging-parameters">
+		<div class="parameter">
+			<h5>Charger</h5>
+			<select class="available-chargers form-control" name="available-chargers">
+				<option value="-1">Select charger</option>
+				{{#each chargerTypes}}
+				<option value="{{this.id}}">{{this.manufacturer}} {{this.model}} {{this.power}}</option> 
+				{{/each}}
+			</select>
+		</div>
+		<div class="parameter">
+			<h5>Charging times</h5>
+			<div class="charging-time-wrapper">
+				<div class="charging-time-slider"></div>
+				<div class="charging-time-label"></div>
+			</div>
+		</div>
+	</div>
+	<div id="stop-consumption-chart" class="stop-consumption"></div>
+</div>

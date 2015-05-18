@@ -91,6 +91,7 @@ public class StopsController  extends Controller {
 		}
 		
 		List<BusTrip> trips = RoutesController.getTrips(Lists.newArrayList(elBusRoutes), DateUtils.toString(cal, "YYYY-M-d"));
+		System.out.println("Size:"+trips.size());
 		return getStopConsumptionModel(elStop, cal, trips);
 	}
 	

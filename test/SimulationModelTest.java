@@ -9,7 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import model.dataset.BusTrip;
 import model.dataset.ScheduleStop;
 
-import org.emn.calculate.bus.StaticConsumptionProfile;
+import org.emn.calculate.bus.DumbConsumptionProfile;
 import org.emn.calculate.route.RouteSimulationModel;
 import org.emn.plan.model.BusCharger;
 import org.emn.plan.model.BusChargerInstance;
@@ -32,7 +32,7 @@ public class SimulationModelTest {
 	Queue<BusTrip> directionC;
 	
 	List<ElectrifiedBusStop> electrifiedStops;
-	StaticConsumptionProfile profile;
+	DumbConsumptionProfile profile;
 	
 	
 	public class StubDistanceRetriever implements StopsDistanceRetriever {
@@ -59,7 +59,7 @@ public class SimulationModelTest {
 		
 		setupDirectionA();
 		
-		profile = new StaticConsumptionProfile();
+		profile = new DumbConsumptionProfile();
 		profile.setConsumption(2.0);
 		model = new RouteSimulationModel(profile, bus, "2015-05-01");
 		model.setDistanceManager(new StubDistanceRetriever());

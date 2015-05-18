@@ -1,6 +1,6 @@
-<div class="charging-parameters">
+<div class="charging-parameters flex-box">
 	<div class="parameter">
-		<h4>Charger</h4>
+		<h5>Charger</h5>
 		<select class="available-chargers form-control" name="available-chargers">
 			<option value="-1">Select charger</option>
 			{{#each chargerTypes}}
@@ -16,12 +16,17 @@
 	<!-- 	{{/each}} -->
 	<!-- </ul> -->
 	<div class="parameter">
-		<h4>Charging time</h4>
-		{{#if isEndStop}}
+		<h5>Charging time</h5>
+		<div class="charging-time-wrapper">
+			<div class="charging-time-slider"></div>
+			<div class="charging-time-label"></div>
+		</div>
+<!-- 		{{#if isEndStop}}
+		
 		<input class="min-charging-time form-control" type="number" placeholder="Seconds" value="{{minChargingTime}}"/>
 		{{else}}
 		<input class="min-charging-time form-control" type="number" value="10" disabled/>
-		{{/if}}
+		{{/if}} -->
 	</div>
 </div>
 <div id="stop-consumption-chart" class="stop-consumption">

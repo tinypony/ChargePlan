@@ -1,4 +1,13 @@
-define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scroller', 'views/overview/raw-route-table', 'views/overview/route-list/route-list-menu', 'hbs!templates/overview/simple-route-list', 'hbs!templates/overview/simple-route-list-item' ], function($, _,
+define([ 'jquery', 
+         'underscore', 
+         'backbone', 
+         'config-manager', 
+         'event-bus', 
+         'scroller', 
+         'views/overview/raw-route-table', 
+         'views/overview/route-list/route-list-menu', 
+         'hbs!templates/overview/simple-route-list', 
+         'hbs!templates/overview/simple-route-list-item' ], function($, _,
     Backbone, ConfigManager, EventBus, scroller, RouteTable, RouteMenu, routeListTemplate, itemTemplate) {
 
   var RawRouteList = Backbone.View.extend({
@@ -7,7 +16,8 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
       'click .route-list-item' : 'onClickRoute',
       'click .route-list-item .remove': 'onClickRemove',
       'mouseover .route-list-item' : 'onMouseover',
-      'mouseout .route-list-item' : 'onMouseout'
+      'mouseout .route-list-item' : 'onMouseout',
+      'click .back' : 'onBack'
     },
 
     initialize : function(options) {
@@ -34,52 +44,42 @@ define([ 'jquery', 'underscore', 'backbone', 'config-manager', 'event-bus', 'scr
       });
     },
     
+    onBack: function() {
+        EventBus.trigger('route:unselect');
+    },
+    
+    onUnselect: function() {
+    	this.selected = false;
+    	 this.$('.cube').removeClass('back');
+         this.$('.route-list-item').removeClass('active');
+    },
+    
     addRoute: function(route) {
-     // this.project.addRoute(route);
       var item = itemTemplate({route:this.getRenderableRoute(route)});
+      this.$('.no-message').remove();
       this.$('.route-list').append(item);
     },
     
     removeRoute: function(route) {
-     // this.project.removeRoute(route);
       this.$('.route-list-item[data-routeid="'+route+'"]').remove();
     },
-
-//    onClickAdd : function() {
-//      var self = this;
-//      var tableView = new RouteTable();
-//
-//      var modal = $('#myModal').modal();
-//      $('#myModal .modal-body').append(tableView.render().$el);
-//
-//      $('#myModal .add-selected-routes').click(function() {
-//        self.setRoutes(tableView.getSelectedRoutes());
-//        modal.modal('hide');
-//      });
-//
-//      $('#myModal').on('shown.bs.modal', function() {
-//        tableView.recalculateTable();
-//      });
-//
-//      $('#myModal').on('hide.bs.modal', function() {
-//        $(this).off('click');
-//        $(this).off('hide.bs.modal');
-//        $(this).off('shown.bs.modal');
-//        tableView.remove();
-//      });
-//    },
     
     onClickRoute: function(ev) {
       var $targ = $(ev.currentTarget);
       var routeId = $targ.attr('data-routeid');
       
       if($targ.hasClass('active')) {
-        $targ.removeClass('active');
-        EventBus.trigger('route:unselect', routeId);
+        this.onBack();
       } else {
         $targ.addClass('active').siblings().removeClass('active');
         EventBus.trigger('route:select', routeId);
+        this.selected=true;
+        this.$('.cube').addClass('back');
       }
+    },
+    
+    isSelected: function() {
+    	return this.selected;
     },
     
     onClickRemove: function(ev) {

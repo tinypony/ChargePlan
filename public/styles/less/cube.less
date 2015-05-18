@@ -1,0 +1,82 @@
+@import "lesshat.less";
+@cube-width: 300px;
+@cube-height: 60px;
+
+
+/* Container box to set the sides relative to */
+.cube {
+	  width: @cube-width;
+  		height: @cube-height;
+	  .transition(all 250ms ease);
+	  .transform-style(preserve-3d);
+}
+
+/* The two faces of the cube */
+.default-state, .active-state {
+  	height: @cube-height;
+}
+
+/* Position the faces */
+.default-state {
+	  .translateZ(@cube-height/2);
+}
+
+.flip-to-top .active-state {
+	  .transform(rotateX(90deg) translateZ(@cube-height*1.5));
+}
+
+.flip-to-bottom .active-state {
+	  .transform(rotateX(-90deg) translateZ(-50px));
+}
+
+/* Rotate the cube */
+.cube.flip-to-top.back {
+	  .rotateX(-89deg);
+
+}
+
+.cube.flip-to-bottom.back {
+	  .rotateX(89deg);
+}
+/* END CORE CSS */
+
+
+/* Demo styling */
+
+
+h1 {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.cube {
+	  text-align: center;
+  	margin: 0 auto;
+}
+
+.default-state, .active-state {
+  background: @main-color;
+  font-size: 22px;
+  color: #fff;
+  line-height: @cube-height;
+  .transition(background 250ms ease);
+}
+
+
+.active-state {
+  background: darken(@main-color, 7%);
+  
+  .fa {
+  	font-size: 18px;
+  	margin-right: 15px;
+  }
+}
+
+#flipto {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 20px;
+  color: #ccc;
+}

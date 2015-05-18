@@ -6,7 +6,7 @@ define([ 'jquery',
          'api-config',
          'chroma',
          'const',
-         'views/simulation/stop-details',
+         'views/overview/mapview/stop-details',
          'collections/chargers',
          'hbs!templates/overview/endstop-popup'], 
          function($, _, Backbone, Mapbox, EventBus, ApiConfig, chroma, 
@@ -65,10 +65,14 @@ define([ 'jquery',
       var self = this;
       
       if(this.drawnRoutes[routeId]) {
-        return;
+    	return;
       }
       
       $.get('/api/routes/'+routeId+'/stops').done(function(data) {
+          if(self.drawnRoutes[routeId]) {
+        	return;
+          }
+          
           var stops;
           var direction0 = data['0'];
           var direction1 = data['1'];
@@ -78,6 +82,7 @@ define([ 'jquery',
           } else {
             stops = direction1.stops;
           }
+          
           
           var coordinates = _.map(stops, function(stop) {
         	  return L.latLng( parseFloat(stop.y, 10), parseFloat(stop.x, 10) );
@@ -90,7 +95,6 @@ define([ 'jquery',
           };
           
           self.drawnRoutes[routeId] = polyline;
-          
           if(direction0) {
         	  self.drawBusStop(_.first(direction0.stops), true);
         	  self.drawBusStop(_.last(direction0.stops), true);
@@ -105,8 +109,11 @@ define([ 'jquery',
     },
     
     clearRoute: function(route) {
-    	console.log('clear '+route);
-        this.map.removeLayer(this.drawnRoutes[route]);
+    	var pl = this.drawnRoutes[route];
+    	if(!pl) {
+    		return;
+    	}
+        this.map.removeLayer(pl);
         this.drawnRoutes[route] = null;
     },
     
@@ -166,8 +173,7 @@ define([ 'jquery',
             var stopDetails = new StopDetails({
                 stop: electrifiedStop,
                 chargers: chargers,
-                project: self.data.project,
-               // routeId: this.route.routeId,
+                project: self.data.project
               });
               
               stopDetails.render();
@@ -245,8 +251,8 @@ define([ 'jquery',
         self.map.removeLayer(stopMarker);
       });
       
-      _.each(this.drawnRoutes, function(routeLayer){
-        self.map.removeLayer(routeLayer);
+      _.each(this.drawnRoutes, function(routeLayer, routeId){
+    	self.clearRoute(routeId);
       });
       
 
@@ -254,65 +260,10 @@ define([ 'jquery',
       this.drawnRoutes = {};
     },
     
-    displayData: function(data) {
-      this.resetMap();
-      this.setData(data);
-      
-      var self = this;
-      
-      
-      var drawRoute = function( route, fitToMap ) {        
-        var coordinates = _.map(route.waypoints, function(waypoint){
-          var stop = data.stops[waypoint.stopId];
-          return L.latLng(parseFloat(stop.y, 10), parseFloat(stop.x, 10));
-        });
-        
-        //Create polyline
-        var polyline = L.polyline( coordinates, self.getRouteStyle(route, false)).addTo(self.map);
-        polyline.userData = {
-            route: route
-        };
-        
-        polyline.on('mouseover', function(e){
-          self.highlightRoute(e.target, true);
-        });
-        
-        polyline.on('mouseout', function(e){
-          self.highlightRoute(e.target, false);
-        });
-        
-        self.drawnRoutes[route.name] = polyline;
-      }
-      
-//      _.each(data.routes, function(route) {
-//        var first = _.first(route.waypoints);
-//        var last = _.last(route.waypoints);
-//        
-//        drawRoute(route);
-//        
-//        if(_.isUndefined(self.endStops[first.stopId])) {
-//          var firstStop = _.find(data.stops, function(stop){
-//            return stop.stopId === first.stopId;
-//          });
-//          createMarker(firstStop);
-//        }
-//        
-//        if(_.isUndefined(self.endStops[last.stopId])) {
-//          var lastStop = _.find(data.stops, function(stop){
-//            return stop.stopId === last.stopId;
-//          });
-//          createMarker(lastStop);
-//        }
-//      });
-      
-//      _.each(this.stops, function(stop) {
-//        if(stop.last || stop.first) {
-//          createMarker(stop);
-//        }
-//      });
-    },
+
     
     render: function() {
+    	this.$el.addClass('map-container-boom');
     	this.$el.append('<div id="map" class="map-view"></div>');
     },
     

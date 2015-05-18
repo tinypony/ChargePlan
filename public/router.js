@@ -1,11 +1,13 @@
 define(['jquery', 
+        'underscore',
         'backbone', 
         'views/configure',
         'views/overview',
         'views/simulation',
         'views/solutions',
-        'views/summary'], 
-        function($, Backbone, ConfigurationView, Overview, SimulationView, SolutionsView, SummaryView) {
+        'views/summary',
+        'hbs!templates/landing'], 
+        function($, _, Backbone, ConfigurationView, Overview, SimulationView, SolutionsView, SummaryView, landing) {
   
   var EMNRouter = Backbone.Router.extend({
     routes: {
@@ -13,7 +15,9 @@ define(['jquery',
       '': 'routesOverview',
       'simulation/:route': 'simulation',
       'solutions' : 'solutions',
-      'summary': 'summary'
+      'summary': 'summary',
+      
+      'landing': 'land'
     },
     
     init: function() {
@@ -51,6 +55,15 @@ define(['jquery',
     summary: function() {
     	this.init();
     	this.view = new SummaryView({el: this.container()});
+    },
+    
+    land: function() {
+    	$('body').empty().append(landing());
+    	_.defer(function(){
+
+        	$('.feature').addClass('loaded');
+        	$('.buttons').addClass('loaded');
+    	});
     }
     
   });

@@ -22,7 +22,7 @@ public class GaussianConsumptionProfile implements IConsumptionProfile {
 	}
 	
 	@Override
-	public double getConsumption(ElectricBus bus, Map<String, Double> params) {
+	public double getConsumption(ElectricBus bus, Map<String, Object> params) {
 		return this.mean + gen.nextGaussian() * this.variance;
 	}
 

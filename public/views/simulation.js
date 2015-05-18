@@ -6,7 +6,6 @@ define([ 'jquery',
          'moment',
          'config-manager', 
          'amcharts.serial', 
-         'views/simulation/stops-visual', 
          'views/simulation/bus-details', 
          'views/simulation/mini-map-view',
          'collections/chargers', 
@@ -14,7 +13,7 @@ define([ 'jquery',
          'hbs!templates/simulation',
          'hbs!templates/misc/loading',
          'bsselect'], 
-    function($, JUI, _, Backbone, Const, moment, ConfigManager, amRef, RouteVisualizationView, BusDetailsView, MiniMap, Chargers, Buses, template, loading) {
+    function($, JUI, _, Backbone, Const, moment, ConfigManager, amRef, BusDetailsView, MiniMap, Chargers, Buses, template, loading) {
 
   var SimulationView = Backbone.View.extend({
 
@@ -425,7 +424,8 @@ define([ 'jquery',
       if(routeInstance.latestSimulation) {
     	  this.$('.selectpicker').selectpicker('val', routeInstance.latestSimulation.type.id);
     	  this.onBusSelect(null, true);
-    	  self.showData(routeInstance.latestSimulation, '1');
+    	  this.data = routeInstance.latestSimulation;
+    	  this.showData(this.data, '1');
     	  
       }
       

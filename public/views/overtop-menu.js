@@ -1,18 +1,23 @@
 define(['jquery', 
         'backbone', 
         'router',
+        'event-bus',
         'config-manager',
         'views/misc/modal-dialog',
         'views/misc/sim-parameters',
         'hbs!templates/menu/sim-parameters',
         'hbs!templates/overtop-menu'], 
-    function($, Backbone, router, ConfigManager, Dialog, SimParameters, simTemplate, template) {
+    function($, Backbone, router, EventBus, ConfigManager, Dialog, SimParameters, simTemplate, template) {
   
   var MenuView = Backbone.View.extend({
     events: {
       'click .settings': 'openSettings',
       'click .project-main' : 'goMain',
       'click .all-routes-simulation': 'openSimulationDialog'
+    },
+    
+    intialize: function() {
+    	this.simulationParams = {};
     },
     
     goMain: function() {
@@ -25,10 +30,10 @@ define(['jquery',
     
     openSimulationDialog: function() {
     	var self = this;
-
+    	
     	ConfigManager.getProject().done(function(proj) {
     		
-            var simParams = new SimParameters();
+            var simParams = new SimParameters({ simParams: self.simulationParams});
             
             var dialog = new Dialog({
               title: $('<h5 class="subsection-header">Simulation parameters</h5>'),
@@ -38,24 +43,24 @@ define(['jquery',
               
               clickHandlers: {
                 'primary': function(ev) {
-                  var params = simParams.getParams();
+                  self.simulationParams = simParams.getParams();
                   
                   $.ajax({
                 	 url: '/api/projects/'+proj.get('id')+'/chargers',
                 	 method: 'POST',
                 	 contentType: 'application/json',
                 	 data: JSON.stringify({
-                		 charger: params.charger,
-                		 minChargingTime: params.minChargingTime
+                		 charger: self.simulationParams.charger,
+                		 minChargingTime: self.simulationParams.minChargingTime
                 	 })
                   }).done(function(){
-                	  
                 	  $.ajax({
                 		 url: '/api/projects/'+proj.get('id')+'/simulate/all',
                      	 method: 'POST',
                      	 contentType: 'application/json',
-                     	 data: JSON.stringify(params)
+                     	 data: JSON.stringify(self.simulationParams)
                 	  }).done(function(){
+                          EventBus.trigger('simulation:all');
                 		  proj.fetch();
                           dialog.close();
                 	  });

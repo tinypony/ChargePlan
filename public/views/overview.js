@@ -78,13 +78,16 @@ define([ 'jquery',
     },
     
     destroyMap: function() {
-    	this.mapView.remove({empty: true});
+    	this.mapView.remove();
     },
 
     renderSubviews : function() {
       var self = this;
       this.createMap();
       this.detailsView.render();
+      if(!this.data.project.get('routes').length) {
+    	  this.detailsView.show();
+      }
 
       this.listView.render();
       this.registerListeners();
@@ -119,7 +122,14 @@ define([ 'jquery',
         self.$('#route-details').append(self.routeDetails.$el);
       });
       
-      this.listenTo(EventBus, 'route:unselect', function(routeId) {
+      this.listenTo(EventBus, 'simulation:all', function() {
+    	  if(self.listView.isSelected()) {
+    		  EventBus.trigger('route:unselect');
+    	  }
+      }); 
+      
+      this.listenTo(EventBus, 'route:unselect', function() {
+    	self.listView.onUnselect();
         self.routeDetails.remove();
         self.createMap();
       });

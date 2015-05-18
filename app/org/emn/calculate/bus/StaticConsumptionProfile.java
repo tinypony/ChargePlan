@@ -18,7 +18,7 @@ public class StaticConsumptionProfile implements IConsumptionProfile {
 	}
 
 	@Override
-	public double getConsumption(ElectricBus bus, Map<String, Double> params) {
+	public double getConsumption(ElectricBus bus, Map<String, Object> params) {
 		return this.getConsumption();
 	}
 

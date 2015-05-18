@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
@@ -112,7 +113,9 @@ public class RouteSimulationModel {
 			} 
 			
 			List<ScheduleStop> tripStops = trip.getStops();
-			
+
+			HashMap<String, Object> consumptionParams = new HashMap<String, Object>();
+					
 			for(int i=0; i<tripStops.size(); i++) {
 				if(i != 0) {
 					previousStop = currentStop;
@@ -129,8 +132,9 @@ public class RouteSimulationModel {
 					String arrivalTimePrevious = previousStop.getArrival();
 					long timeDiff = this.getInterval(arrivalTimePrevious, arrivalTimeCurrent);
 					int meters = this.getDistanceManager().getDistanceBetweenStops(previousStop, currentStop);
-					double consumption = this.consumptionProfile.getConsumption(bus.getType(), null);
-					System.out.println("Advance by: "+timeDiff);
+					consumptionParams.put("date", this.simDate.getTime());
+					double consumption = this.consumptionProfile.getConsumption(bus.getType(), consumptionParams);
+					
 					this.simDate.add(Calendar.SECOND, (int) timeDiff);
 					
 					try {
@@ -150,7 +154,6 @@ public class RouteSimulationModel {
 					if(elStop != null && elStop.getCharger() !=null) {
 						//Add battery entry pre-charge
 						this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
-						System.out.println("Precharge: ");
 						printCal(this.simDate);
 						int chargingTimeSeconds = this.getChargingTime(elStop, trip.getRouteId(), i == tripStops.size() - 1);
 						BusCharger chargerType = elStop.getCharger(currentStop.getArrival(), chargingTimeSeconds).getType();
@@ -158,7 +161,6 @@ public class RouteSimulationModel {
 						int timeSpentCharging = this.bus.charge(availableTime, chargerType.getPower());
 						
 						this.simDate.add(Calendar.SECOND, timeSpentCharging);
-						System.out.println("POstcharge: ");
 						printCal(this.simDate);
 						this.addBatteryEntry(result, this.bus.getPercentageBatteryState(), this.simDate, currentStop.getStopId());
 					}

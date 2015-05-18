@@ -14,7 +14,7 @@ import model.dataset.DayStat;
 import model.dataset.aggregation.BusRouteAggregationLight;
 
 import org.emn.calculate.bus.IConsumptionProfile;
-import org.emn.calculate.bus.StaticConsumptionProfile;
+import org.emn.calculate.bus.DumbConsumptionProfile;
 import org.emn.calculate.price.DieselPricingModel;
 import org.emn.calculate.price.EnergyPricingModel;
 import org.emn.calculate.price.IEnergyPriceProvider;
@@ -124,8 +124,8 @@ public class SimulationController extends Controller {
 	}
 	
 	public static IConsumptionProfile getConsumptionProfile(SimulationRequest simreq) {
-		StaticConsumptionProfile profile = new StaticConsumptionProfile();
-		profile.setConsumption(2.5);
+		DumbConsumptionProfile profile = new DumbConsumptionProfile();
+		profile.setConsumption(1.5);
 		return profile;
 	}
 	
@@ -242,12 +242,7 @@ public class SimulationController extends Controller {
 		
 		
 		
-		EnergyPricingModel enModel = new EnergyPricingModel(new IEnergyPriceProvider() {
-			@Override
-			public Double getMWhPrice(Date time) {
-				return 220.0;
-			}
-		});
+		EnergyPricingModel enModel = new EnergyPricingModel(getPriceProvider());
 
 		List<BusTrip> dateTrips = Lists.newArrayList(Iterables.filter(trips, new Predicate<BusTrip>() {
 			@Override
@@ -270,6 +265,95 @@ public class SimulationController extends Controller {
 		st.setTotalDistance(result.getMetersDriven());
 		result.setEmissions(emissionsModel.getDailyEmissions(null, st));
 		return result;
+	}
+	
+	private static IEnergyPriceProvider getPriceProvider() {
+
+		return new IEnergyPriceProvider() {
+			@Override
+			public Double getMWhPrice(Date time) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(time);
+				
+				switch(cal.get(Calendar.HOUR_OF_DAY)) {
+				case 0:
+					return 180.18;
+					
+				case 1:
+					return 178.17;
+					
+				case 2:
+					return 177.76;
+					
+				case 3:
+					return 172.65;
+					
+				case 4:
+					return 171.73;
+					
+				case 5:
+					return 172.07;
+					
+				case 6:
+					return 170.90;
+					
+				case 7:
+					return 177.25;
+					
+				case 8:
+					return 180.27;
+					
+				case 9:
+					return 181.27;
+					
+				case 10:
+					return 179.18;
+					
+				case 11:
+					return 178.09;
+					
+				case 12:
+					return 168.47;
+					
+				case 13:
+					return 156.84;
+					
+				case 14:
+					return 144.13;
+					
+				case 15:
+					return 136.43;
+					
+				case 16:
+					return 134.51;
+					
+				case 17:
+					return 147.14;
+					
+				case 18:
+					return 167.72;
+					
+				case 19:
+					return 175.0;
+					
+				case 20:
+					return 162.53;
+					
+				case 21:
+					return 164.04;
+					
+				case 22:
+					return 154.84;
+					
+				case 23:
+					return 131.16;
+					
+				default:
+					return 165.10;
+					
+				}
+			}
+		};
 	}
 	
 	private static int getTotalDistanceDriven(List<BusTrip> trips) {

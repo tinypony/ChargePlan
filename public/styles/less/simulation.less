@@ -1,7 +1,6 @@
 #stop-info {
 	.modal-body {
-		.charging-parameters {
-			display: flex;
+		.charging-parameters.flex-box {
 			justify-content: space-around;
 		}
 
@@ -12,12 +11,22 @@
 }
 
 #simulation-parameters {
-	.slider-wrapper {
+	.form-group {
 		display: flex;
-		align-items: baseline;
 		
+		> div {
+			margin-right: 70px;
+		}
+		
+		.simulation-date {
+			width: 220px;
+		}
+	}
+	.slider-wrapper {
+		
+		width: 220px;
 		.slider-container {
-			width: 80%;
+			width: 100%;
 		}
 
 		.time-label {

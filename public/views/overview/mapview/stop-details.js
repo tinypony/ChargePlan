@@ -2,7 +2,7 @@ define(['jquery',
         'backbone', 
         'views/misc/modal-dialog', 
         'amcharts.serial',
-        'hbs!templates/simulation/stop-details',
+        'hbs!templates/overview/stop-details',
         'hbs!templates/misc/loading'], 
     function($, Backbone, ModalDialog, amRef, template, loading) {
   
@@ -90,7 +90,7 @@ define(['jquery',
       
       var dialog = new ModalDialog({
         title: this.stop.name,
-        id: 'stop-info',
+        id: 'stop-info-map',
         buttonText: 'Save changes',
         showClose: true,
         
@@ -134,17 +134,17 @@ define(['jquery',
         	  var graphs = self.getGraphs(transformed);
         	  
         	  var chart = AmCharts.makeChart('stop-consumption-chart', {
-        		    "type": "serial",
-        			"theme": "light",
+        		    type: "serial",
+        			theme: "light",
         			sequencedAnimation: true,
         			startEffect: '>',
         			startDuration: 0.3,
-        		    "legend": {
-        		        "horizontalGap": 10,
-        		        "maxColumns": 1,
-        		        "position": "right",
-        				"useGraphSettings": true,
-        				"markerSize": 10
+        		    legend: {
+        		        horizontalGap: 10,
+        		        maxColumns: 1,
+        		        position: 'bottom',
+        				useGraphSettings: true,
+        				markerSize: 10
         		    },
         		    "dataProvider": transformed,
         		    "valueAxes": [{

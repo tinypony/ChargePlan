@@ -1,19 +1,31 @@
 <div class="my-routes-toggle">
-	My routes
+	<div class="cube flip-to-top">
+		  <div class="default-state">
+			    <span>My routes</span>
+		  </div>
+		  <div class="active-state">
+	  		  <span><i class="fa fa-chevron-left"></i>Go back</span>
+	  	</div>
+	</div>
 </div>
 <div class="nano">
 	<div class="route-list nano-content">
-		{{#each routes}}
-			<div class="route-list-item" data-routeid="{{this.routeId}}">
-				<span class="route-name">{{this.name}}</span>
-				<span class="end-stops">		
-					<div class="route-end">{{this.firstStop}}</div>
-					<div class="route-end">{{this.lastStop}}</div>
-				</span>
-				<!-- <i class="fa fa-remove remove" data-routeid="{{this.routeId}}"></i> -->
+		{{#if routes.length}}
+			{{#each routes}}
+				<div class="route-list-item" data-routeid="{{this.routeId}}">
+					<span class="route-name">{{this.name}}</span>
+					<span class="end-stops">		
+						<div class="route-end">{{this.firstStop}}</div>
+						<div class="route-end">{{this.lastStop}}</div>
+					</span>
+					<!-- <i class="fa fa-remove remove" data-routeid="{{this.routeId}}"></i> -->
+				</div>
+			{{/each}}
+		{{else}}
+			<div class="no-message">
+				<div class="main-text">No routes in the project</div>
+				<div class="prompt-text">Add routes from the list</div>
 			</div>
-			
-
-		{{/each}}
+		{{/if}}
 	</div>
 </div>
