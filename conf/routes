@@ -19,11 +19,13 @@ GET		/api/projects/:id/dates							controllers.ProjectController.getAllRouteDate
 PUT		/api/projects/:id								controllers.ProjectController.updateProject(id: String)
 PUT		/api/projects/:id/update/stop					controllers.ProjectController.updateStop(id: String)
 POST	/api/projects/:id/chargers						controllers.ProjectController.addChargers(id: String)
+POST	/api/projects/:id/routes						controllers.ProjectController.addRoute(id: String)
 
 POST	/api/projects/:id/simulate						controllers.SimulationController.simulateBoth(id: String)
 POST 	/api/projects/:id/simulate/all					controllers.SimulationController.simulateAll(id: String)
 
-GET		/api/projects/:id/stop/consumption/:stopid		controllers.StopsController.getElectrifiedStopConsumption(id: String, stopid: String)
+GET		/api/projects/:id/stop/:stopid					controllers.StopsController.getElectrifiedStop(id: String, stopid: String)
+GET		/api/projects/:id/stop/:stopid/consumption		controllers.StopsController.getElectrifiedStopConsumption(id: String, stopid: String)
 
 GET		/api/chargers					controllers.solutions.ChargerController.listChargers()
 POST 	/api/chargers					controllers.solutions.ChargerController.createCharger()

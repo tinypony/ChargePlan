@@ -20,6 +20,7 @@ import model.dataset.aggregation.BusRouteAggregation;
 
 import org.emn.calculate.route.Euro6EmissionModel;
 import org.emn.calculate.route.IEmissionModel;
+import org.emn.plan.model.PlanningProject;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.aggregation.AggregationPipeline;
 import org.mongodb.morphia.aggregation.Group;
@@ -72,8 +73,13 @@ public class RoutesController extends Controller {
 	}
 
 	public static Result getRouteWaypoints(String routeId) {
+		Map<String, RouteDirection> directions = getRouteWaypoints(routeId, true);
+		ObjectMapper om = new ObjectMapper();
+		return ok(om.valueToTree(directions));
+	}
+	
+	public static Map<String, RouteDirection> getRouteWaypoints(String routeId, boolean palceholder) {
 		Datastore ds = MongoUtils.ds();
-
 		Query<BusTrip> trip0Q = ds.createQuery(BusTrip.class);
 		trip0Q.field("routeId").equal(routeId);
 		trip0Q.field("direction").equal("0");
@@ -103,10 +109,9 @@ public class RoutesController extends Controller {
 
 		HashMap<String, RouteDirection> directions = new HashMap<String, RouteDirection>();
 		directions.put("0", dir0);
-
 		directions.put("1", dir1);
-		ObjectMapper om = new ObjectMapper();
-		return ok(om.valueToTree(directions));
+		
+		return directions;
 	}
 
 	public static Result getRouteDetails(String routeId) {

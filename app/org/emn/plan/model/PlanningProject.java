@@ -3,6 +3,7 @@ package org.emn.plan.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.dataset.BusStop;
 import model.dataset.aggregation.BusRouteAggregation;
 import model.dataset.aggregation.BusRouteAggregationLight;
 
@@ -13,6 +14,7 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Transient;
 
 import serialization.ObjectIdSerializer;
+import utils.Constants;
 import akka.util.Collections;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -108,5 +110,23 @@ public class PlanningProject {
 			}
 			
 		}, null);
+	}
+
+	public void addStop(BusStop bs, boolean endStop, String routeId) {
+		ElectrifiedBusStop ebs = this.getElectrifiedStop(bs.getStopId());
+		
+		if(ebs == null) {
+			ebs = new ElectrifiedBusStop();
+			ebs.setCharger(null);
+			ebs.setStopId(bs.getStopId());
+			ebs.setX(bs.getX());
+			ebs.setY(bs.getY());
+		}
+		
+		if(endStop) {
+			ebs.getChargingTimes().put(routeId, Constants.DEFAULT_END_STOP_CHARGING_TIME);
+		} else {
+			ebs.getChargingTimes().put(routeId, 0);
+		}
 	}
 }

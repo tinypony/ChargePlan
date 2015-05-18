@@ -1,8 +1,10 @@
 package org.emn.plan.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.emn.calculate.route.HourlyConsumptionEntry;
 import org.mongodb.morphia.annotations.Embedded;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,23 +17,11 @@ public class ElectrifiedBusStop extends BusStop {
 	private BusChargerInstance charger;
 	
 	private Map<String, Integer> chargingTimes; // tuple (routeId, charging time in seconds) 
+	private Map<Integer, List<HourlyConsumptionEntry>> consumption;
 	
 	public ElectrifiedBusStop () {
-//		charger = new ArrayList<BusChargerInstance>();
 		chargingTimes = new HashMap<String, Integer>();
 	}
-
-//	public List<BusChargerInstance> getChargers() {
-//		return chargers;
-//	}
-//	
-//	public void addCharger(BusChargerInstance charger) {
-//		this.chargers.add(charger);
-//	}
-//
-//	public void setChargers(List<BusChargerInstance> chargers) {
-//		this.chargers = chargers;
-//	}
 
 	@Override
 	@JsonIgnore
@@ -67,5 +57,13 @@ public class ElectrifiedBusStop extends BusStop {
 
 	public void setChargingTimes(Map<String, Integer> chargingTimes) {
 		this.chargingTimes = chargingTimes;
+	}
+
+	public Map<Integer, List<HourlyConsumptionEntry>> getConsumption() {
+		return consumption;
+	}
+
+	public void setConsumption(Map<Integer, List<HourlyConsumptionEntry>> consumption) {
+		this.consumption = consumption;
 	}
 }

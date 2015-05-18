@@ -1,10 +1,12 @@
 define(['jquery', 
         'backbone', 
+        'moment',
         'views/misc/modal-dialog', 
         'amcharts.serial',
         'hbs!templates/overview/stop-details',
+        'hbs!templates/overview/charging-time',
         'hbs!templates/misc/loading'], 
-    function($, Backbone, ModalDialog, amRef, template, loading) {
+    function($, Backbone, moment, ModalDialog, amRef, template, times, loading) {
   
   var StopDetailsView = Backbone.View.extend({
     
@@ -35,58 +37,12 @@ define(['jquery',
         isEndStop: this.isEndStop
       }));
       
-      if(this.isEndStop) {
-          this.$('.charging-time-slider').slider({
-    		min: 1,
-    		max: 60,
-    		step: 1,
-    		value: minTime ? minTime/60 : 10,
-    		slide: function(event, ui) {
-    			self.$('.charging-time-label').text(ui.value + ' minutes');
-    		},
-      		stop: function(event, ui) {
-                self.project.updateStop({
-                  stop: self.stop.stopId,
-                  route: self.routeId,
-                  chargersToAdd: self.$('.available-chargers').val(),
-                  minChargingTime: self.getChargingTime()
-                }).done(function(){
-              	  self.getConsumptionInfo();
-                });
-        	}
-          });
-          
-          self.$('.charging-time-label').text((minTime ? minTime/60 : 10) + ' minutes');
-          
-      } else {
-          this.$('.charging-time-slider').slider({
-      		min: 1,
-      		max: 60,
-      		step: 1,
-      		disabled: true,
-      		value: minTime ? minTime : 10,
-      		slide: function(event, ui) {
-      			self.$('.charging-time-label').text(ui.value + ' seconds');
-      		},
-      		stop: function(event, ui) {
-              self.project.updateStop({
-                stop: self.stop.stopId,
-                route: self.routeId,
-                chargersToAdd: self.$('.available-chargers').val(),
-                minChargingTime: self.getChargingTime()
-              }).done(function(){
-            	  self.getConsumptionInfo();
-              });
-      		}
-          });
-          
-          self.$('.charging-time-label').text(minTime ? minTime : 10 + ' seconds');
-      }
+      this.$('.available-chargers').selectpicker();
       
       if(this.stop.charger) {
         this.$('.available-chargers').val(this.stop.charger.type.id);
+        this.$('.available-chargers').selectpicker('refresh');
       }
-      
       
       var dialog = new ModalDialog({
         title: this.stop.name,
@@ -113,7 +69,6 @@ define(['jquery',
       });
       
       dialog.render().content(this.$el);
-
     },
     
     getChargingTime: function() {
@@ -127,11 +82,13 @@ define(['jquery',
     getConsumptionInfo: function() {
     	var self = this;
     	$.ajax({
-            url: '/api/projects/'+this.project.get('id')+'/stop/consumption/'+this.stop.stopId,
+            url: '/api/projects/'+this.project.get('id')+'/stop/'+this.stop.stopId,
             method: 'GET'
           }).done(function(data) {
-        	  var transformed = self.transformData(data);
+        	  var transformed = self.transformData(data.consumption);
+        	  var peakDemand = self.getPeakDemand(transformed);
         	  var graphs = self.getGraphs(transformed);
+        	  self.$('.peak-demand-label span').text(Math.ceil(peakDemand) + ' kW');
         	  
         	  var chart = AmCharts.makeChart('stop-consumption-chart', {
         		    type: "serial",
@@ -139,12 +96,14 @@ define(['jquery',
         			sequencedAnimation: true,
         			startEffect: '>',
         			startDuration: 0.3,
+        			dataDateFormat: 'HH',
         		    legend: {
         		        horizontalGap: 10,
         		        maxColumns: 1,
         		        position: 'bottom',
         				useGraphSettings: true,
-        				markerSize: 10
+        				markerSize: 10,
+        				maxColumns: 3
         		    },
         		    "dataProvider": transformed,
         		    "valueAxes": [{
@@ -157,10 +116,11 @@ define(['jquery',
         		    "graphs": graphs,
         		    "categoryField": "hour",
         		    "categoryAxis": {
-        		        "gridPosition": "start",
-        		        "axisAlpha": 0,
-        		        "gridAlpha": 0,
-        		        "position": "left"
+        		        gridPosition: 'start',
+        		        axisAlpha: 0,
+        		        gridAlpha: 0,
+        		        position: 'left'
+        	
         		    },
         		    "export": {
         		    	"enabled": true,
@@ -169,28 +129,46 @@ define(['jquery',
         		      	}
         		     }
         		});
+        	  
+        	  var chargingTimes = _.map(data.chargingTimes, function(time, routeId){
+        		  return {
+        			  time: time,
+        			  routeId: routeId
+        		  };
+        	  });
+        	  
+        	  self.$('.charging-time-list').append(times({chargingTimes: chargingTimes}));
           });
     },
     
     transformData: function(data) {
+
     	return _.map(data, function(val, hour){
     		var retVal = {
-    			hour: hour
+    			hour: moment().set('hour', hour).format('H:00'),
+    			total: 0
     		};
     		
     		_.each(val, function(item){
     			retVal[item.routeId] = item.avgPower;
+    			retVal.total += item.avgPower;
     		});
     		
     		return retVal;
     	});
     },
     
+    getPeakDemand: function(transformedData) {
+    	return _.max(transformedData, function(item){
+    		return item.total;
+    	}).total;
+    },
+    
     getGraphs: function(transformedData) {
     	var routesFound = [];
     	_.each(transformedData, function(it){
     		var keys = _.keys(it);
-    		keys = _.without(keys, 'hour');
+    		keys = _.without(keys, 'hour', 'total');
     		routesFound = routesFound.concat(keys);
     	});
     	routesFound = _.uniq(routesFound);

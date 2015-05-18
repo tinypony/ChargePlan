@@ -35,6 +35,8 @@ define(['jquery',
         isEndStop: this.isEndStop
       }));
       
+      this.$('.available-chargers').selectpicker();
+      
       if(this.isEndStop) {
           this.$('.charging-time-slider').slider({
     		min: 1,
@@ -85,6 +87,7 @@ define(['jquery',
       
       if(this.stop.charger) {
         this.$('.available-chargers').val(this.stop.charger.type.id);
+        this.$('.available-chargers').selectpicker('refresh');
       }
       
       
@@ -127,7 +130,7 @@ define(['jquery',
     getConsumptionInfo: function() {
     	var self = this;
     	$.ajax({
-            url: '/api/projects/'+this.project.get('id')+'/stop/consumption/'+this.stop.stopId,
+            url: '/api/projects/'+this.project.get('id')+'/stop/'+this.stop.stopId + '/consumption',
             method: 'GET'
           }).done(function(data) {
         	  var transformed = self.transformData(data);

@@ -1,13 +1,59 @@
-
-
 #stop-info-map {
 	.modal-dialog {
-		width: 800px;
+		width: 924px;
 		
-		#stop-consumption-chart {
-			width: 540px;
-			margin-left: 30px;
-			height: 300px;
+		.modal-header {
+			padding-bottom: 0px;
+		}
+		
+		.charging-parameters {
+			min-width: 250px;
+			
+			.charging-time-row {
+				display: table-row;
+				
+				> * {
+					display: table-cell;
+					padding-bottom: 5px;
+					height: 30px;
+				}
+				
+				label {
+					font-size: 16px;
+					font-weight: 600;
+					padding-right: 20px;
+				}
+				
+				input.input-field {
+					width: 70px;
+					margin-right: 0px;
+				}
+				
+				.input-group-addon {
+					background: #f4f4f4;
+					  border: 1px solid #BBB;
+					  border-left: none;
+					  height: 30px;
+					  padding: 6px;
+				}
+			}
+		}
+		
+		select {
+			display: none;
+		}
+		
+		.chart-wrapper {
+  			margin-left: 60px;
+  			
+  			h5 {
+  				margin-left: 15px;
+  			}
+		
+			#stop-consumption-chart {
+				width: 570px;
+				height: 400px;
+			}
 		}
 	}	
 }

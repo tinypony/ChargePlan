@@ -2,10 +2,13 @@ package controllers;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import model.dataset.BusStop;
 import model.dataset.BusTrip;
+import model.dataset.RouteDirection;
 import model.dataset.aggregation.BusRouteAggregationLight;
 
 import org.bson.types.ObjectId;
@@ -174,13 +177,8 @@ public class ProjectController extends Controller {
 	}
 	
 	public static Result getAllRouteDates(String projectId) {
-		Datastore ds = MongoUtils.ds();
 		ObjectMapper om = new ObjectMapper();
-		ObjectId id = new ObjectId(projectId);
-		
-		Query<PlanningProject> q = ds.createQuery(PlanningProject.class);
-		q.field("id").equals(id);
-		PlanningProject project = q.get();
+		PlanningProject project = getProjectObject(projectId);
 		HashSet<String> routes = new HashSet<String>();
 		for(BusRouteAggregationLight r: project.getRoutes()) {
 			routes.add(r.getRouteId());
@@ -190,6 +188,32 @@ public class ProjectController extends Controller {
 		return ok(om.valueToTree(dates));
 	}
 	
+	public static Result addRoute(String projectId) throws JsonProcessingException {
+		PlanningProject project = getProjectObject(projectId);
+		Datastore ds = MongoUtils.ds();
+		ObjectMapper om = new ObjectMapper();
+		
+		JsonNode bodyJson = request().body().asJson();
+		BusRouteAggregationLight route = om.treeToValue(bodyJson, BusRouteAggregationLight.class);
+		Map<String, RouteDirection> dirs = RoutesController.getRouteWaypoints(route.getRouteId(), true);
+		
+		Set<Entry<String, RouteDirection>> entrs = dirs.entrySet();
+		for(Entry<String, RouteDirection> e: entrs) {
+			RouteDirection dir = e.getValue();
+			if(dir == null) {
+				continue;
+			}
+			
+			for(int i=0; i<dir.getStops().size(); i++) {
+				BusStop bs = dir.getStops().get(i);
+				boolean endStop = i==0 || i==dir.getStops().size()-1;
+				project.addStop(bs, endStop, route.getRouteId());
+			}
+		}
+		project.getRoutes().add(route);
+		ds.save(project);
+		return ok();
+	}
 
 	public static Result updateProject(String projectId) {
 		RequestBody body = request().body();

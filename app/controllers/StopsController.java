@@ -63,12 +63,28 @@ public class StopsController  extends Controller {
 		ObjectMapper om = new ObjectMapper();
 		return ok(om.valueToTree(getStopModel(stopid)));
 	}
+	
+	public static Result getElectrifiedStop(String projectId, String stopId) {
+		ObjectMapper om = new ObjectMapper();
+		
+		PlanningProject project = ProjectController.getProjectObject(projectId);
+		ElectrifiedBusStop elStop = project.getElectrifiedStop(stopId);
+		elStop.setConsumption(getElectrifiedStopConsumption(project, elStop));
+
+		return ok(om.valueToTree(elStop));
+	}
 
 	public static Result getElectrifiedStopConsumption(String projectId, String stopId) {
 		ObjectMapper om = new ObjectMapper();
 		
 		PlanningProject project = ProjectController.getProjectObject(projectId);
 		ElectrifiedBusStop elStop = project.getElectrifiedStop(stopId);
+
+		Map<Integer, List<HourlyConsumptionEntry>> consumptionMap = getElectrifiedStopConsumption(project, elStop);
+		return ok(om.valueToTree(consumptionMap));
+	}
+	
+	public static Map<Integer, List<HourlyConsumptionEntry>> getElectrifiedStopConsumption(PlanningProject project, ElectrifiedBusStop elStop)  {
 		Set<String> elBusRoutes = getBusRoutesThroughStop(project, elStop);
 		Set<String> dates = RoutesController.getRouteDates(elBusRoutes);
 		Iterator<String> it =  dates.iterator();
@@ -82,7 +98,7 @@ public class StopsController  extends Controller {
 			consumptionMap = new HashMap<Integer, List<HourlyConsumptionEntry>>();
 		}
 
-		return ok(om.valueToTree(consumptionMap));
+		return consumptionMap;
 	}
 	
 	public static DailyConsumptionModel getStopConsumptionModel(ElectrifiedBusStop elStop, Calendar cal, Set<String> elBusRoutes) {

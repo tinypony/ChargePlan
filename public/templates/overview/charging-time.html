@@ -1,0 +1,12 @@
+{{#each chargingTimes}}
+	<div class="charging-time-row">
+		<div>
+			<label class="routeid">{{this.routeId}}</label>
+		</div>
+		
+		<div class="input-group">
+			<input data-routeid="{{this.routeId}}" value="{{this.time}}" class="input-field form-control" type="number"/>
+			<span class="input-group-addon">seconds</span>
+		</div>
+	</div>
+{{/each}}

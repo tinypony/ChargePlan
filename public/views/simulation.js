@@ -125,6 +125,7 @@ define([ 'jquery',
     	
     	if(order === '1') {
     		this.showFeasibility(data.feasibility);
+    		
     	} else if(order === '2') {
     		var cost = _.sortBy(data.cost, function(item){
     			return moment(item.date, 'YYYY-M-D').unix();
@@ -425,8 +426,10 @@ define([ 'jquery',
     	  this.$('.selectpicker').selectpicker('val', routeInstance.latestSimulation.type.id);
     	  this.onBusSelect(null, true);
     	  this.data = routeInstance.latestSimulation;
+    	  if(this.data.simulationDate) {
+    		  this.$('#route-date').datepicker('setDate', new Date(this.data.simulationDate));
+  		  }
     	  this.showData(this.data, '1');
-    	  
       }
       
       this.$('li.tab[data-tab="1"] a').on('shown.bs.tab', function (e) {

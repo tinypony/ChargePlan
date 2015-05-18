@@ -10,9 +10,21 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     },
     
     addRoute: function(route) {
-      this.get('routes').push(route);
-      this.save();
+      var self = this;
+      
+      return $.ajax({
+    	  url: '/api/projects/'+this.get('id')+'/routes',
+    	  method : 'POST',
+    	  data: JSON.stringify(route),
+    	  contentType: 'application/json'
+      }).done(function(){
+    	  self.fetch();
+      });
+//    	var routes = this.get('routes');
+//    	routes.push(route);
+//    	return this.save();
     },
+    
     
     removeRoute: function(route) {
       var routes = this.get('routes');
