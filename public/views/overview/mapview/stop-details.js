@@ -51,13 +51,14 @@ define(['jquery',
         showClose: true,
         
         clickHandlers: {
-          'primary': function(ev) {
+          primary: function(ev) {
             self.project.updateStop({
               stop: self.stop.stopId,
               route: self.routeId,
               chargersToAdd: self.$('.available-chargers').val(),
-              minChargingTime: self.getChargingTime()
+              minChargingTime: self.getChargingTimes()
             });
+            
             dialog.close();
           }
         },
@@ -71,16 +72,22 @@ define(['jquery',
       dialog.render().content(this.$el);
     },
     
-    getChargingTime: function() {
-    	if(this.isEndStop) {
-    		return this.$('.charging-time-slider').slider('option', 'value') * 60
-    	} else {
-    		return this.$('.charging-time-slider').slider('option', 'value');
-    	}
+    getChargingTimes: function() {
+    	chargingTimes = {};
+    	
+    	this.$('.charging-time-input').each(function(){
+    		var $this = $(this);
+    		var routeId = $this.attr('data-routeid');
+    		var time = Number.parseInt($this.val(), 10);
+    		chargingTimes[routeId] = time;
+    	});
+    	
+    	return chargingTimes;
     },
     
     getConsumptionInfo: function() {
     	var self = this;
+    	
     	$.ajax({
             url: '/api/projects/'+this.project.get('id')+'/stop/'+this.stop.stopId,
             method: 'GET'

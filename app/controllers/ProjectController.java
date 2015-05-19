@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -88,11 +89,8 @@ public class ProjectController extends Controller {
 		Datastore ds = MongoUtils.ds();
 		ObjectMapper om = new ObjectMapper();
 		JsonNode bodyJson = request().body().asJson();
-		String routeId = bodyJson.get("route").asText();
 		String stopId = bodyJson.get("stop").asText();
 		String charger = om.treeToValue(bodyJson.get("chargersToAdd"), String.class);
-		int minChargingTime = bodyJson.get("minChargingTime").asInt();		
-		
 		ObjectId id = new ObjectId(projectId);
 		
 		Query<PlanningProject> q = ds.createQuery(PlanningProject.class);
@@ -111,6 +109,24 @@ public class ProjectController extends Controller {
 			project.addStop(stop);
 		}
 		
+		if(bodyJson.get("route") != null && bodyJson.get("minChargingTime").isNumber()) {
+			String routeId="x";
+			routeId = bodyJson.get("route").asText();
+			int minChargingTime = bodyJson.get("minChargingTime").asInt();		
+
+			ds.save(updateStop(project, stop, charger, routeId, minChargingTime));
+			return ok();
+		} else if(bodyJson.get("route") == null && bodyJson.get("minChargingTime").isObject()) {
+			HashMap<String, Integer> chargingTimes = (HashMap<String, Integer>) om.treeToValue(bodyJson.get("minChargingTime"), HashMap.class);
+			ds.save(updateStop(project, stop, charger, chargingTimes));
+			return ok();
+		} else {
+			return badRequest();
+		}
+	}
+	
+	public static PlanningProject updateStop(PlanningProject project, ElectrifiedBusStop stop, String charger, String routeId, int minChargingTime) {
+		
 		if(!"-1".equals(charger)) {
 			stop.setCharger(getChargerInstance(charger));
 			stop.getChargingTimes().put(routeId, minChargingTime);
@@ -118,8 +134,19 @@ public class ProjectController extends Controller {
 			stop.setCharger(null);
 		}
 		
-		ds.save(project);
-		return ok();
+		return project;
+	}
+	
+	public static PlanningProject updateStop(PlanningProject project, ElectrifiedBusStop stop, String charger, Map<String, Integer> chargingTimes) {
+
+		if(!"-1".equals(charger)) {
+			stop.setCharger(getChargerInstance(charger));
+			stop.setChargingTimes(chargingTimes);
+		} else {
+			stop.setCharger(null);
+		}
+		
+		return project;
 	}
 	
 	public static Result addChargers(String projectId) throws JsonProcessingException {
@@ -200,6 +227,7 @@ public class ProjectController extends Controller {
 		Set<Entry<String, RouteDirection>> entrs = dirs.entrySet();
 		for(Entry<String, RouteDirection> e: entrs) {
 			RouteDirection dir = e.getValue();
+			
 			if(dir == null) {
 				continue;
 			}

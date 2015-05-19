@@ -64,7 +64,7 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     
     updateStop: function(opts) {
       var self = this;
-      
+      console.log(opts);
       return $.ajax('/api/projects/'+this.id+'/update/stop', {
         method: 'PUT',
         data: JSON.stringify(opts),
