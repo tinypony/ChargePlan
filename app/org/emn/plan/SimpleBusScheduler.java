@@ -55,11 +55,20 @@ public class SimpleBusScheduler {
 		Collections.sort(trips0);
 		Collections.sort(trips1);
 		
-		if(trips0.get(0).compareTo(trips1.get(0)) < 0) {
-			this.process(trips0, trips1, eStops);
-		} else {
-			this.process(trips1, trips0, eStops);
+		if(trips0.size() == 0) {
+			this.process(trips1, trips1, eStops);
+		} else if(trips1.size() == 0) {
+			this.process(trips0, trips0, eStops);
+		} else  {
+		
+			if(trips0.get(0).compareTo(trips1.get(0)) < 0) {
+				this.process(trips0, trips1, eStops);
+			} else {
+				this.process(trips1, trips0, eStops);
+			}
 		}
+		
+
 	}
 	
 	private void process(List<BusTrip> tripsA, List<BusTrip> tripsB, List<ElectrifiedBusStop> eStops) {

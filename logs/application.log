@@ -841,3 +841,15 @@ Found existing projects
 2015-05-19 14:33:25,409 - [INFO] - from play in play-internal-execution-context-5 
 Application started (Dev)
 
+2015-05-19 16:45:26,976 - [INFO] - from application in play-internal-execution-context-5 
+Application shutdown...
+
+2015-05-19 16:45:27,619 - [INFO] - from application in play-internal-execution-context-5 
+Found ruter
+
+2015-05-19 16:45:27,639 - [INFO] - from application in play-internal-execution-context-5 
+Found existing projects
+
+2015-05-19 16:45:27,639 - [INFO] - from play in play-internal-execution-context-5 
+Application started (Dev)
+
