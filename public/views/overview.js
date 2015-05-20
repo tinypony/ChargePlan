@@ -19,10 +19,8 @@ define([ 'jquery',
              DetailsView, MapView, RouteList, SimulationView, template ) {
 
   var RoutesOverview = Backbone.View.extend({
-
-
-    initialize : function(optimize) {
-      
+	  
+	initialize : function(optimize) {   
       this.date = this.defaultDate;
       this.retrieveData(true);
     },
@@ -126,6 +124,8 @@ define([ 'jquery',
     	  if(self.listView.isSelected()) {
     		  EventBus.trigger('route:unselect');
     	  }
+
+		  self.listView.render();
       }); 
       
       this.listenTo(EventBus, 'route:unselect', function() {

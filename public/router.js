@@ -6,8 +6,9 @@ define(['jquery',
         'views/simulation',
         'views/solutions',
         'views/summary',
+        'views/report',
         'hbs!templates/landing'], 
-        function($, _, Backbone, ConfigurationView, Overview, SimulationView, SolutionsView, SummaryView, landing) {
+        function($, _, Backbone, ConfigurationView, Overview, SimulationView, SolutionsView, SummaryView, ReportView, landing) {
   
   var EMNRouter = Backbone.Router.extend({
     routes: {
@@ -16,7 +17,7 @@ define(['jquery',
       'simulation/:route': 'simulation',
       'solutions' : 'solutions',
       'summary': 'summary',
-      
+      'report': 'report',
       'landing': 'land'
     },
     
@@ -55,6 +56,12 @@ define(['jquery',
     summary: function() {
     	this.init();
     	this.view = new SummaryView({el: this.container()});
+    },
+    
+    report: function() {
+    	this.init();
+    	this.view = new ReportView({el: this.container()});
+    	this.view.render();
     },
     
     land: function() {

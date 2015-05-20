@@ -56,16 +56,19 @@ h1 {
 }
 
 .default-state, .active-state {
-  background: @main-color;
   font-size: 22px;
-  color: #fff;
   line-height: @cube-height;
   .transition(background 250ms ease);
 }
 
+.default-state {
+	background: #EEEEEE;
+	color: #444;
+}
 
 .active-state {
-  background: darken(@main-color, 7%);
+  background: darken(#EEEEEE, 7%);
+  color: #444;
   
   .fa {
   	font-size: 18px;

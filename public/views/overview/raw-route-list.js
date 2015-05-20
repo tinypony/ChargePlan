@@ -120,6 +120,16 @@ define([ 'jquery',
     	r.lastStop = longName[1];
     	return r;
     },
+    
+    updateStates: function() {
+    	var self = this;
+    	this.$('.route-list-item').each(function(){
+    		var $listItem = $(this);
+    		var routeId = $listItem.attr('data-routeid');
+    		var route = self.project.getRoute(routeId);
+    		$('.route-name', $listItem).attr('data-state', route.state);
+    	});
+    },
 
     render : function() {
       var self = this;
@@ -127,28 +137,18 @@ define([ 'jquery',
       ConfigManager.getProject().done(function(project) {
         self.project = project;
         var routes = project.get('routes');
-        
         routes = _.map(routes, self.getRenderableRoute);
         
         self.$el.html(routeListTemplate({
           routes: routes
         }));
         
-
+        self.listenTo(project, 'state:changed', self.updateStates);
 
         _.defer(function() {
           self.$('.nano').nanoScroller({
             flash : true
           });
-
-          var toggleHandler = function(ev) {
-            var $tar = $(ev.currentTarget);
-            $tar.toggleClass('toggle-on');
-            ev.stopPropagation();
-          };
-
-          self.$('.accordion-group').on('show.bs.collapse', toggleHandler);
-          self.$('.accordion-group').on('hide.bs.collapse', toggleHandler);
         });
       });
 

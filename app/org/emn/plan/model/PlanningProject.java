@@ -128,5 +128,6 @@ public class PlanningProject {
 		} else {
 			ebs.getChargingTimes().put(routeId, 0);
 		}
+		this.getStops().add(ebs);
 	}
 }

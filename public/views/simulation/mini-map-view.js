@@ -25,6 +25,14 @@ define(['jquery',
 		        className: 'dot'	
 		};
 		
+		var stopIcon = {
+		        iconUrl: "/assets/img/reddot.png",
+		        iconSize: [20, 20],
+		        iconAnchor: [15, 15],
+		        popupAnchor: [0, -20],
+		        className: 'dot'	
+		};
+		
 	var MiniMapView = Backbone.View.extend({
 		initialize: function(options){
 			this.routeId = options.route;
@@ -49,8 +57,9 @@ define(['jquery',
 		            var polyline = L.polyline( coordinates, {color: 'steelblue', opacity: 0.6}).addTo(self.map);
 		            self.map.fitBounds(polyline.getBounds());
 		            
-		            self.drawBusStop(_.first(direction0.stops), true);
-		          	self.drawBusStop(_.last(direction0.stops), true);
+		            _.each(direction0.stops, function(stop, arr, idx){
+		            	self.drawBusStop(stop, idx===0 || idx === arr.length-1);
+		            });
 	            }
 	            
 	            if(direction1) {
@@ -61,31 +70,37 @@ define(['jquery',
 		            //Create polyline
 		            var polyline = L.polyline( coordinates, {color: 'steelblue', opacity: 0.6}).addTo(self.map);
 		            self.map.fitBounds(polyline.getBounds());
-		            self.drawBusStop(_.first(direction1.stops), true);
-		          	self.drawBusStop(_.last(direction1.stops), true);
+		            
+		            _.each(direction1.stops, function(stop, idx, arr){
+		            	self.drawBusStop(stop, idx===0 || idx === arr.length-1 );
+		            });
 	            }
 	            
 	        });
 
 	    },
 	    
-	    drawBusStop: function(stop) {
+	    drawBusStop: function(stop, isLastStop) {
 	        var self = this;
 	        var marker = L.marker([stop.y, stop.x]);
 	        var elStop = _.findWhere(this.project.get('stops'), {stopId: stop.stopId});
 	        
-	        if(elStop && elStop.charger) {
-	            marker.setIcon(L.icon(endStopChargerIcon));  
+	        if(isLastStop) {
+		        if(elStop && elStop.charger) {
+		            marker.setIcon(L.icon(endStopChargerIcon));  
+		        } else {
+		      	  marker.setIcon(L.icon(endStopIcon));  
+		        }
 	        } else {
-	      	  marker.setIcon(L.icon(endStopIcon));  
+	        	marker.setIcon(L.icon(stopIcon));  
+	        	marker.setOpacity(0);
 	        }
 	        
 	        marker.addTo(self.map);
-	        self.drawnStops[stop.stopId] = marker;
 	        
 	        marker.on('click', function(e) {
 	          self.map.panTo(e.latlng);
-	          self.onStopClick(stop);
+	          self.onStopClick(stop, isLastStop);
 	        });
 //	        
 //	        marker.on('mouseover', function(e) {
@@ -101,8 +116,11 @@ define(['jquery',
 //	          e.target.closePopup();
 //	        });
 	        marker.userData = {
-	        		stop: stop
+	        	stop: stop,
+	        	isLast: isLastStop
 	        };
+
+	        this.drawnStops[stop.stopId] = marker;
 	    },
 	    
 	    drawTransformers: function() {
@@ -113,7 +131,7 @@ define(['jquery',
 	        });
 	    },
 	    
-	    onStopClick : function(stop) {
+	    onStopClick : function(stop, isEndStop) {
 	        var self = this;
 	        var electrifiedStop = _.findWhere(this.project.get('stops'), {stopId: stop.stopId});
 	        
@@ -131,7 +149,7 @@ define(['jquery',
 		          chargers: chargers,
 		          project: self.project,
 		          routeId: self.routeId,
-		          isEndStop: true
+		          isEndStop: isEndStop
 		        });
 		        
 		        stopDetails.render();
@@ -151,6 +169,22 @@ define(['jquery',
 	        L.mapbox.accessToken = ApiConfig.tokens.mapbox;
 	        this.map = L.mapbox.map('route-map-view', 'tinypony.l8cdckm5',  { zoomControl: false }).setView([ 59.914, 10.748 ], 12);
 	        
+	        this.map.on('zoomend', function(){
+	        	if(self.map.getZoom() >= 15) {
+	        		_.each(self.drawnStops, function(marker, stopId){
+	        			if(!marker.userData.isLast) {
+	        				marker.setOpacity(1);
+	        			}
+	        		});
+	        	} else if(self.map.getZoom() <= 14) {
+	        		_.each(self.drawnStops, function(marker, stopId){
+	        			if(!marker.userData.isLast) {
+	        				marker.setOpacity(0);
+	        			}
+	        		});
+	        	}
+	        });
+	        
 	        ConfigManager.getProject().done(function(proj) {
 	        	self.project = proj;
 	        	self.transformers = new Transformers();
@@ -158,7 +192,6 @@ define(['jquery',
 		        	self.drawRoute();
 		        	self.drawTransformers();
 		        });
-		       
 	        });
 		}
 	});

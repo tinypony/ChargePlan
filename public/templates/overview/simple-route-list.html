@@ -13,7 +13,7 @@
 		{{#if routes.length}}
 			{{#each routes}}
 				<div class="route-list-item" data-routeid="{{this.routeId}}">
-					<span class="route-name">{{this.name}}</span>
+					<span class="route-name" data-state="{{this.state}}">{{this.name}}</span>
 					<span class="end-stops">		
 						<div class="route-end">{{this.firstStop}}</div>
 						<div class="route-end">{{this.lastStop}}</div>

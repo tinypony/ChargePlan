@@ -35,6 +35,7 @@
 			width: 220px;
 		}
 	}
+	
 	.slider-wrapper {
 		
 		width: 220px;
@@ -172,6 +173,14 @@
 			}
 		}
 		
+		.date-selection {
+			margin-left: 58px;
+		}
+		
+		.feasibility-header {
+			margin-left: 58px;
+		}
+		
 		.route-summary {
 			margin-bottom: 40px;
 			
@@ -189,6 +198,24 @@
 				
 				&.summary-value {
 					padding-left: 20px;
+				}
+			}
+		}
+		
+		
+		
+		li.tab {
+			a[href="#feasibility"].failed {
+			color: @main-color;
+			
+				&:hover {
+					box-shadow: inset 0 -2px 0 @main-color;
+				}
+			}
+			
+			&.active {
+				a[href="#feasibility"].failed {
+					box-shadow: inset 0 -2px 0 @main-color;
 				}
 			}
 		}

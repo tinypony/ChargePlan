@@ -66,6 +66,7 @@ public class ProjectController extends Controller {
 	
 	public static PlanningProject addCharger(PlanningProject project, String stopId, String chargerId, String routeId, Integer minChargingTime) {
 		ElectrifiedBusStop stop = project.getElectrifiedStop(stopId);
+		System.out.println("Adding charger to");
 		
 		if(stop == null) {
 			stop = new ElectrifiedBusStop();
@@ -233,6 +234,7 @@ public class ProjectController extends Controller {
 			}
 			
 			for(int i=0; i<dir.getStops().size(); i++) {
+				
 				BusStop bs = dir.getStops().get(i);
 				boolean endStop = i==0 || i==dir.getStops().size()-1;
 				project.addStop(bs, endStop, route.getRouteId());

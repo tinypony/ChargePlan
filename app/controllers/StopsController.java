@@ -1,19 +1,14 @@
 package controllers;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import model.dataset.ScheduleStop;
 import model.dataset.BusStop;
 import model.dataset.BusTrip;
 import model.dataset.aggregation.BusRouteAggregationLight;
@@ -66,7 +61,6 @@ public class StopsController  extends Controller {
 	
 	public static Result getElectrifiedStop(String projectId, String stopId) {
 		ObjectMapper om = new ObjectMapper();
-		
 		PlanningProject project = ProjectController.getProjectObject(projectId);
 		ElectrifiedBusStop elStop = project.getElectrifiedStop(stopId);
 		elStop.setConsumption(getElectrifiedStopConsumption(project, elStop));
@@ -92,10 +86,20 @@ public class StopsController  extends Controller {
 
 		//TODO supply date selected by user
 		if(it.hasNext()) {
+			System.out.println("Found date and trips");
+			System.out.println(elStop);
 			Calendar cal = DateUtils.getCalendar(it.next());
 			consumptionMap = getStopConsumptionModel(elStop, cal, elBusRoutes).getHourlyConsumptionDistribution();
 		} else {
+			System.out.println("No dates, emptyyy");
 			consumptionMap = new HashMap<Integer, List<HourlyConsumptionEntry>>();
+			for(int i=0; i< 24; i++ ) {
+				HourlyConsumptionEntry entr = new HourlyConsumptionEntry();
+				entr.setAvgPower(0.0);
+				entr.setRouteId(null);
+				entr.setTotalEnergy(0.0);
+				consumptionMap.put(i, Arrays.asList(entr));
+			}
 		}
 
 		return consumptionMap;

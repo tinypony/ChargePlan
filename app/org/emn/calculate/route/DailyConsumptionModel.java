@@ -23,7 +23,6 @@ public class DailyConsumptionModel {
 	public DailyConsumptionModel(Calendar date) {
 		this.date = date.getTime().getTime();
 		routeConsumptionMaps = new HashMap<String, ConsumptionMap>();
-		
 	}
 	
 	
@@ -79,6 +78,7 @@ public class DailyConsumptionModel {
 	
 	public void consume(String routeId, Calendar simDate, int duration,
 			double power) {
+		System.out.println("Consume route:"+routeId+", duration:"+duration);
 		ConsumptionMap map = this.routeConsumptionMaps.get(routeId);
 		
 		if(map == null) {

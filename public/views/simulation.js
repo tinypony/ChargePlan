@@ -104,9 +104,10 @@ define([ 'jquery',
         method: 'POST',
         contentType : 'application/json'
       }).done(function(data) {
-    	console.log(data);
+    	
         self.data = data;
     	self.$('.simulation-results .loading-container').remove();
+    	
         self.showData(data);
       })
     },
@@ -117,15 +118,21 @@ define([ 'jquery',
     
     showData: function(data, dataTab) {
     	var order;
+    	
     	if(!dataTab) {
     		order = this.getActiveTab();
     	} else {
     		order = dataTab;
     	}
     	
+    	if(!data.feasibility.survived) {
+    		this.$('a[href="#feasibility"]').addClass('failed');
+    	} else {
+    		this.$('a[href="#feasibility"]').removeClass('failed');
+    	}
+    	
     	if(order === '1') {
     		this.showFeasibility(data.feasibility);
-    		
     	} else if(order === '2') {
     		var cost = _.sortBy(data.cost, function(item){
     			return moment(item.date, 'YYYY-M-D').unix();
@@ -158,9 +165,9 @@ define([ 'jquery',
     		return;
     	}
         if(data.survived) {
-        	this.project.getRoute(this.route.routeId).state = Const.RouteState.SIMULATED_OK;
+        	this.project.setRouteState(this.route.routeId, Const.RouteState.SIMULATED_OK);
         } else {
-        	this.project.getRoute(this.route.routeId).state = Const.RouteState.SIMULATED_FAIL;
+        	this.project.setRouteState(this.route.routeId, Const.RouteState.SIMULATED_FAIL);
         }
         
         var chart = amRef.makeChart('simulation-result-chart', {
@@ -426,9 +433,11 @@ define([ 'jquery',
     	  this.$('.selectpicker').selectpicker('val', routeInstance.latestSimulation.type.id);
     	  this.onBusSelect(null, true);
     	  this.data = routeInstance.latestSimulation;
+    	  
     	  if(this.data.simulationDate) {
     		  this.$('#route-date').datepicker('setDate', new Date(this.data.simulationDate));
   		  }
+    	  
     	  this.showData(this.data, '1');
       }
       

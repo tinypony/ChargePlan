@@ -74,9 +74,15 @@
 		<div role="tabpanel">
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist">
-		    <li class="tab" role="presentation" data-tab="1" class="active"><a href="#feasibility" aria-controls="home" role="tab" data-toggle="tab">Feasibility</a></li>
-		    <li class="tab" role="presentation" data-tab="2"><a href="#costs" aria-controls="profile" role="tab" data-toggle="tab">Energy cost</a></li>
-		    <li class="tab" role="presentation" data-tab="3"><a href="#emissions" aria-controls="messages" role="tab" data-toggle="tab">Emission reductions</a></li>
+		    <li class="tab" role="presentation" data-tab="1" class="feasibility-tab active">
+		    	<a href="#feasibility" aria-controls="home" role="tab" data-toggle="tab">Feasibility</a>
+		    </li>
+		    <li class="tab" role="presentation" data-tab="2">
+		    	<a href="#costs" aria-controls="profile" role="tab" data-toggle="tab">Energy cost</a>
+		    </li>
+		    <li class="tab" role="presentation" data-tab="3">
+		    	<a href="#emissions" aria-controls="messages" role="tab" data-toggle="tab">Emission cuts</a>
+		    </li>
 		  </ul>
 		
 		  <!-- Tab panes -->
@@ -86,7 +92,7 @@
 					<label class="custom-label">Select date</label> 
 					<input type="text" id="route-date" class="simulation-date"/>		
 				</div>
-				<h5 class="subsection-header">Battery level during daily operation</h5>
+				<h5 class="feasibility-header">Battery level during daily operation</h5>
 				<div id="simulation-result-chart" class="simulation-result-chart"></div>
 			</div>
 		    <div role="tabpanel" class="tab-pane" id="costs">

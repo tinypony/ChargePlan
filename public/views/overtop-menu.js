@@ -1,13 +1,14 @@
 define(['jquery', 
         'backbone', 
         'router',
+        'const',
         'event-bus',
         'config-manager',
         'views/misc/modal-dialog',
         'views/misc/sim-parameters',
         'hbs!templates/menu/sim-parameters',
         'hbs!templates/overtop-menu'], 
-    function($, Backbone, router, EventBus, ConfigManager, Dialog, SimParameters, simTemplate, template) {
+    function($, Backbone, router, Constants, EventBus, ConfigManager, Dialog, SimParameters, simTemplate, template) {
   
   var MenuView = Backbone.View.extend({
     events: {
@@ -59,8 +60,21 @@ define(['jquery',
                      	 method: 'POST',
                      	 contentType: 'application/json',
                      	 data: JSON.stringify(self.simulationParams)
-                	  }).done(function(){
+                	  }).done(function(data){
+                		  
+                		  var stateUpdate = _.map(data, function(routeSimResult) {
+                			 if(routeSimResult.feasibility) {
+	                			 return {
+	                				 routeId: routeSimResult.routeId,
+	                				 state: routeSimResult.feasibility.survived ? Constants.RouteState.SIMULATED_OK : Constants.RouteState.SIMULATED_FAIL
+	                			 };
+	                		  } else {
+	                			  return null;
+	                		  }
+                		  });
+                		  
                           EventBus.trigger('simulation:all');
+                          proj.setRouteStates(stateUpdate);
                 		  proj.fetch();
                           dialog.close();
                 	  });

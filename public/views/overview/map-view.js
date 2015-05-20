@@ -33,6 +33,7 @@ define([ 'jquery',
     initialize: function() {
       this.drawnRoutes = {};
       this.drawnStops = {};
+      
       this.listenTo(EventBus, 'route:draw', this.drawRoute);
       this.listenTo(EventBus, 'route:highlight', this.highlightRoute);
       this.listenTo(EventBus, 'clear:routes', this.resetMap);
@@ -182,8 +183,6 @@ define([ 'jquery',
                 self.stopListening(stopDetails);
               });
         });
-        
-
     },
     
     getRouteStyle: function(route, isHighlighted) {
@@ -211,8 +210,11 @@ define([ 'jquery',
       return style;
     },
     
+    pulsateRoute: function(route) {
+    	
+    },
+    
     highlightRoute: function(route, isHighlighted) {
-      
       var polyline = this.getPolyline(route);
       
       if(_.isUndefined(polyline)) {
@@ -259,8 +261,6 @@ define([ 'jquery',
       this.drawnStops = {};
       this.drawnRoutes = {};
     },
-    
-
     
     render: function() {
     	this.$el.addClass('map-container-boom');

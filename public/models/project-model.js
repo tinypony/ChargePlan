@@ -9,6 +9,10 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
 
     },
     
+    notifyChangedStates: function() {
+    	this.trigger('state:changed');
+    },
+    
     addRoute: function(route) {
       var self = this;
       
@@ -17,14 +21,28 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     	  method : 'POST',
     	  data: JSON.stringify(route),
     	  contentType: 'application/json'
-      }).done(function(){
+      }).done(function() {
     	  self.fetch();
       });
-//    	var routes = this.get('routes');
-//    	routes.push(route);
-//    	return this.save();
     },
     
+    setRouteState: function(routeId, state) {
+    	this.getRoute(routeId).state = state;
+    	this.notifyChangedStates();
+    },
+    
+    setRouteStates: function(array) {
+    	var self = this;
+    	
+    	_.each(array, function(item) {
+    		if(!item) {
+    			return;
+    		}
+    		self.getRoute(item.routeId).state = item.state;
+    	});
+    	
+    	this.notifyChangedStates();
+    },
     
     removeRoute: function(route) {
       var routes = this.get('routes');

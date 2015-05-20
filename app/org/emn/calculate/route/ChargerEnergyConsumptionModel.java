@@ -48,14 +48,20 @@ public class ChargerEnergyConsumptionModel {
 				
 			}, null);
 			
-			if(sStop == null || this.electrifiedStop.getCharger() == null) {
+			if(sStop == null) {
 				continue;
 			}
 			
 			int chargingDuration = this.electrifiedStop.getChargingTime(busRoute);
 			this.simDate = DateUtils.arrivalToCalendar(simDate, sStop.getArrival());
+			
 			//Store consumption info
-			dcm.consume(trip.getRouteId(), this.simDate, chargingDuration, this.electrifiedStop.getCharger().getType().getPower());
+			if(this.electrifiedStop.getCharger() == null) {
+				dcm.consume(trip.getRouteId(), this.simDate, chargingDuration, 0.0);
+			} else {
+				dcm.consume(trip.getRouteId(), this.simDate, chargingDuration, this.electrifiedStop.getCharger().getType().getPower());
+		
+			}
 		}
 		
 		return dcm;

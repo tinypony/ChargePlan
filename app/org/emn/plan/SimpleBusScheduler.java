@@ -60,7 +60,6 @@ public class SimpleBusScheduler {
 		} else if(trips1.size() == 0) {
 			this.process(trips0, trips0, eStops);
 		} else  {
-		
 			if(trips0.get(0).compareTo(trips1.get(0)) < 0) {
 				this.process(trips0, trips1, eStops);
 			} else {
