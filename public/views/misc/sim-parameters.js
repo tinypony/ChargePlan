@@ -39,6 +39,14 @@ define([ 'jquery',
 			this.$('.selectpicker').selectpicker('refresh');
 		},
 		
+		isValid: function() {
+			var params = this.getParams();
+			return !_.isUndefined(params.date) &&
+			!_.isUndefined(params.charger) &&
+			!_.isUndefined(params.busType) &&
+			!_.isUndefined(params.minChargingTime)
+		},
+		
 		getParams: function() {
 			return {
 				date: this.$('.simulation-date').val(),

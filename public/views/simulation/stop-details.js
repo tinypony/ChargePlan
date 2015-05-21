@@ -63,9 +63,8 @@ define(['jquery',
       } else {
           this.$('.charging-time-slider').slider({
       		min: 1,
-      		max: 60,
+      		max: 59,
       		step: 1,
-      		disabled: true,
       		value: minTime ? minTime : 10,
       		slide: function(event, ui) {
       			self.$('.charging-time-label').text(ui.value + ' seconds');

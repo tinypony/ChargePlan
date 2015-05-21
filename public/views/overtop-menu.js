@@ -43,9 +43,12 @@ define(['jquery',
               showClose: true,
               
               clickHandlers: {
-                'primary': function(ev) {
+                primary: function(ev) {
+                  if(!simParams.isValid()) {
+                	  return;
+                  }
                   self.simulationParams = simParams.getParams();
-                  
+                  $(this.target).addClass('active');
                   $.ajax({
                 	 url: '/api/projects/'+proj.get('id')+'/chargers',
                 	 method: 'POST',

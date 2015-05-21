@@ -97,31 +97,50 @@ define([ 'jquery',
           
           self.drawnRoutes[routeId] = polyline;
           if(direction0) {
-        	  self.drawBusStop(_.first(direction0.stops), true);
-        	  self.drawBusStop(_.last(direction0.stops), true);
+        	  self.drawBusStop(_.first(direction0.stops), true, routeId);
+        	  self.drawBusStop(_.last(direction0.stops), true, routeId);
           }
           
           if(direction1) {
-        	  self.drawBusStop(_.first(direction1.stops), true);
-        	  self.drawBusStop(_.last(direction1.stops), true);
+        	  self.drawBusStop(_.first(direction1.stops), true, routeId);
+        	  self.drawBusStop(_.last(direction1.stops), true, routeId);
           }
       });
 
     },
     
     clearRoute: function(route) {
+    	var self = this;
     	var pl = this.drawnRoutes[route];
     	if(!pl) {
     		return;
     	}
         this.map.removeLayer(pl);
-        this.drawnRoutes[route] = null;
+        this.drawnRoutes = _.omit(this.drawnRoutes, route);
+        _.each(this.drawnStops, function(stop) {
+        	stop.userData.routes = _.without(stop.userData.routes = route);
+        	if(stop.userData.routes.length === 0) {
+        		self.clearRoute(route)
+        	}
+        });
     },
     
-    drawBusStop: function(stop, isEndstop) {
+    clearStop: function(stopId) {
+    	var marker = this.drawnStops[stopId];
+    	this.map.removeLayer(marker);
+    },
+    
+    drawBusStop: function(stop, isEndstop, routeId) {
       var self = this;
+      
+      if(this.drawnStops[stop.stopId]) {
+    	  this.drawnStops[stop.stopId].userData.routes.push(routeId);
+    	  return;
+      }
+    	  
       var marker = L.marker([stop.y, stop.x]);
       var elStop = _.findWhere(this.data.project.get('stops'), {stopId: stop.stopId});
+      
       if(elStop && elStop.charger) {
           marker.setIcon(L.icon(endStopChargerIcon));  
       } else {
@@ -156,7 +175,8 @@ define([ 'jquery',
 //        e.target.closePopup();
 //      });
       marker.userData = {
-    	stop: stop
+    	stop: stop,
+    	routes: [routeId]
       };
     },
     
