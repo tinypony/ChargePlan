@@ -1,4 +1,8 @@
-define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
+define([ 'jquery', 
+         'underscore', 
+         'backbone' ], 
+		function($, _, Backbone) {
+	
   var ProjectModel = Backbone.Model.extend({
     urlRoot : '/api/projects',
     defaults : function() {
@@ -46,12 +50,22 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     
     removeRoute: function(route) {
       var routes = this.get('routes');
+      var routeToRemove = _.findWhere(routes, {routeId: route});
+      var self = this;
+      
       routes = _.reject(routes, function(r) {
         return r.routeId === route;
       });
+      
+      $.ajax('/api/projects/'+this.id+'/routes/remove',{
+    	  method: 'POST',
+          data: JSON.stringify(routeToRemove),
+          contentType: 'application/json',
+    	}).done(function(){
+    	     self.set('routes', routes);
+    	     self.trigger('sync');
+    	});
 
-      this.set('routes', routes);
-      this.save();
     },
 
     setRoutes : function(routeBags) {

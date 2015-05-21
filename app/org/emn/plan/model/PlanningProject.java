@@ -130,4 +130,9 @@ public class PlanningProject {
 		}
 		this.getStops().add(ebs);
 	}
+
+	public void removeRoute(String routeId) {
+		BusRouteAggregationLight bral = this.getBusRoute(routeId);
+		this.routes.remove(bral);
+	}
 }

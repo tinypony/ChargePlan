@@ -20,6 +20,7 @@ PUT		/api/projects/:id								controllers.ProjectController.updateProject(id: St
 PUT		/api/projects/:id/update/stop					controllers.ProjectController.updateStop(id: String)
 POST	/api/projects/:id/chargers						controllers.ProjectController.addChargers(id: String)
 POST	/api/projects/:id/routes						controllers.ProjectController.addRoute(id: String)
+POST	/api/projects/:id/routes/remove					controllers.ProjectController.removeRoute(id: String)
 
 POST	/api/projects/:id/simulate						controllers.SimulationController.simulateBoth(id: String)
 POST 	/api/projects/:id/simulate/all					controllers.SimulationController.simulateAll(id: String)

@@ -66,7 +66,6 @@ public class ProjectController extends Controller {
 	
 	public static PlanningProject addCharger(PlanningProject project, String stopId, String chargerId, String routeId, Integer minChargingTime) {
 		ElectrifiedBusStop stop = project.getElectrifiedStop(stopId);
-		System.out.println("Adding charger to");
 		
 		if(stop == null) {
 			stop = new ElectrifiedBusStop();
@@ -241,6 +240,18 @@ public class ProjectController extends Controller {
 			}
 		}
 		project.getRoutes().add(route);
+		ds.save(project);
+		return ok();
+	}
+	
+	public static Result removeRoute(String projectId) throws JsonProcessingException {
+		PlanningProject project = getProjectObject(projectId);
+		Datastore ds = MongoUtils.ds();
+		ObjectMapper om = new ObjectMapper();
+		
+		JsonNode bodyJson = request().body().asJson();
+		BusRouteAggregationLight route = om.treeToValue(bodyJson, BusRouteAggregationLight.class);
+		project.removeRoute(route.getRouteId());
 		ds.save(project);
 		return ok();
 	}
