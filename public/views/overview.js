@@ -83,6 +83,7 @@ define([ 'jquery',
       var self = this;
       this.createMap();
       this.detailsView.render();
+      
       if(!this.data.project.get('routes').length) {
     	  this.detailsView.show();
       }
@@ -124,7 +125,6 @@ define([ 'jquery',
     	  if(self.listView.isSelected()) {
     		  EventBus.trigger('route:unselect');
     	  }
-
 		  self.listView.render();
       }); 
       

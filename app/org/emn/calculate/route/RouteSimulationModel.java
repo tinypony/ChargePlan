@@ -181,7 +181,7 @@ public class RouteSimulationModel {
 	}
 	
 	private void printCal(Calendar cal) {
-		System.out.println((new SimpleDateFormat("YYYY-MMM-dd, HH:mm:ss")).format(cal.getTime()));
+	//	System.out.println((new SimpleDateFormat("YYYY-MMM-dd, HH:mm:ss")).format(cal.getTime()));
 	}
 	
 	private long getInterval(String first, String second) {
@@ -240,7 +240,6 @@ public class RouteSimulationModel {
 	private void addBatteryEntry(FeasibilitySimulationResult result, double soc, Calendar cal, String location) {
 		BatteryStateEntry lastEntry = result.getLastBatteryStateEntry();
 		if(lastEntry !=null && lastEntry.getTimestamp().compareTo(cal.getTime()) > 0) {
-			System.out.println("Last entry: "+lastEntry.getTimestamp() + ", now:"+cal.getTime());
 			//increment day
 			cal.add(Calendar.DATE, 1);
 		}

@@ -46,10 +46,10 @@ define([ 'jquery',
       this.data.routes = data.routes;
       this.data.project = data.project;
       
-      this.listenTo(this.data.project, 'sync', function(){
-    	  self.resetMap();
-    	  self.displayRoutes(self.data.project.get('routes'));
-      });
+//      this.listenTo(this.data.project, 'sync', function(){
+//    	  self.resetMap();
+//    	  self.displayRoutes(self.data.project.get('routes'));
+//      });
     },
     
     getRouteWaypoints: function(routeBag) {
@@ -115,12 +115,15 @@ define([ 'jquery',
     	if(!pl) {
     		return;
     	}
+    	
+
         this.map.removeLayer(pl);
         this.drawnRoutes = _.omit(this.drawnRoutes, route);
+        
         _.each(this.drawnStops, function(stop) {
-        	stop.userData.routes = _.without(stop.userData.routes = route);
+        	stop.userData.routes = _.without(stop.userData.routes, route);
         	if(stop.userData.routes.length === 0) {
-        		self.clearRoute(route)
+        		self.clearStop(stop.userData.stop.stopId);
         	}
         });
     },
@@ -128,6 +131,7 @@ define([ 'jquery',
     clearStop: function(stopId) {
     	var marker = this.drawnStops[stopId];
     	this.map.removeLayer(marker);
+    	this.drawnStops = _.omit(this.drawnStops, stopId);
     },
     
     drawBusStop: function(stop, isEndstop, routeId) {

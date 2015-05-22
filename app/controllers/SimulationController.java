@@ -250,11 +250,13 @@ public class SimulationController extends Controller {
 				return arg0.getDates().contains(simreq.getDate());
 			}
 		}));
-		
 		for(ElectrifiedBusStop stop: elStops) {
-			DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, dateTrips);
-			Double tmp = enModel.getEnergyCost(Arrays.asList(consumptionModel), simreq.getRouteId());
-			energyPrice += tmp;
+			
+			if(stop.getCharger() != null && stop.getChargingTime(simreq.getRouteId()) > 0) {
+				DailyConsumptionModel consumptionModel = StopsController.getStopConsumptionModel(stop, cal, dateTrips);
+				Double tmp = enModel.getEnergyCost(Arrays.asList(consumptionModel), simreq.getRouteId());
+				energyPrice += tmp;
+			}
 		}
 		
 		result.setMetersDriven(getTotalDistanceDriven(dateTrips));

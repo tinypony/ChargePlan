@@ -1,3 +1,45 @@
-2015-05-21 12:02:01,321 - [INFO] - from play in pool-800-thread-3 
+2015-05-21 16:48:31,721 - [INFO] - from play in pool-4-thread-4 
 Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+2015-05-21 16:48:34,273 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-05-21 16:48:34,474 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-05-21 16:49:42,710 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-05-21 16:49:43,376 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-05-21 16:49:43,402 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-05-21 16:49:43,402 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-05-21 16:50:00,394 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-05-21 16:50:00,455 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-05-21 16:50:00,474 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-05-21 16:50:00,474 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2015-05-21 16:51:31,420 - [INFO] - from application in play-internal-execution-context-1 
+Application shutdown...
+
+2015-05-21 16:51:31,477 - [INFO] - from application in play-internal-execution-context-1 
+Found ruter
+
+2015-05-21 16:51:31,495 - [INFO] - from application in play-internal-execution-context-1 
+Found existing projects
+
+2015-05-21 16:51:31,496 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
 

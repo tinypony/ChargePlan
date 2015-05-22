@@ -86,12 +86,10 @@ public class StopsController  extends Controller {
 
 		//TODO supply date selected by user
 		if(it.hasNext()) {
-			System.out.println("Found date and trips");
-			System.out.println(elStop);
+		//	System.out.println(elStop);
 			Calendar cal = DateUtils.getCalendar(it.next());
 			consumptionMap = getStopConsumptionModel(elStop, cal, elBusRoutes).getHourlyConsumptionDistribution();
 		} else {
-			System.out.println("No dates, emptyyy");
 			consumptionMap = new HashMap<Integer, List<HourlyConsumptionEntry>>();
 			for(int i=0; i< 24; i++ ) {
 				HourlyConsumptionEntry entr = new HourlyConsumptionEntry();
@@ -111,7 +109,6 @@ public class StopsController  extends Controller {
 		}
 		
 		List<BusTrip> trips = RoutesController.getTrips(Lists.newArrayList(elBusRoutes), DateUtils.toString(cal, "YYYY-M-d"));
-		System.out.println("Size:"+trips.size());
 		return getStopConsumptionModel(elStop, cal, trips);
 	}
 	
