@@ -233,7 +233,6 @@ public class ProjectController extends Controller {
 			}
 			
 			for(int i=0; i<dir.getStops().size(); i++) {
-				
 				BusStop bs = dir.getStops().get(i);
 				boolean endStop = i==0 || i==dir.getStops().size()-1;
 				project.addStop(bs, endStop, route.getRouteId());

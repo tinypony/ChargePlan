@@ -297,11 +297,15 @@ define([ 'jquery',
         this.map = L.mapbox.map('map', 'tinypony.l8cdckm5',  { zoomControl: false }).setView([ 59.914, 10.748 ], 12);
         new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
         
-        this.displayRoutes(this.data.project.get('routes'));
+        this.draw();
     },
     
     getRoutes: function() {
     	console.log(this.data.routes);
+    },
+    
+    draw: function() {
+    	this.displayRoutes(this.data.project.get('routes'));
     },
     
     displayRoutes: function(routes) {

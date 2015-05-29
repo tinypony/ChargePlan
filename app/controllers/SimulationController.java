@@ -87,6 +87,9 @@ public class SimulationController extends Controller {
 	public static PlanningProject updateStat(PlanningProject proj, SimulationResult res) {
 		
 		if(res.getFeasibility() != null && res.getFeasibility().isSurvived()) {
+			System.out.println("Result routeId:"+res.getRouteId());
+			System.out.println("Project:"+proj);
+			System.out.println("Porject.getBusRoute():"+proj.getBusRoute(res.getRouteId()));
 			proj.getBusRoute(res.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_OK);
 		} else if(res.getFeasibility() != null && !res.getFeasibility().isSurvived()) {
 			proj.getBusRoute(res.getRouteId()).setState(BusRouteAggregationLight.State.SIMULATED_FAIL);

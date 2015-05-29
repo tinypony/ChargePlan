@@ -121,6 +121,7 @@ public class PlanningProject {
 			ebs.setStopId(bs.getStopId());
 			ebs.setX(bs.getX());
 			ebs.setY(bs.getY());
+			this.getStops().add(ebs);
 		}
 		
 		if(endStop) {
@@ -128,7 +129,6 @@ public class PlanningProject {
 		} else {
 			ebs.getChargingTimes().put(routeId, 0);
 		}
-		this.getStops().add(ebs);
 	}
 
 	public void removeRoute(String routeId) {

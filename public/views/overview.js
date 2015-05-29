@@ -125,7 +125,10 @@ define([ 'jquery',
     	  if(self.listView.isSelected()) {
     		  EventBus.trigger('route:unselect');
     	  }
-		  self.listView.render();
+    	  
+    	  self.mapView.resetMap();
+    	  self.mapView.draw();
+	  self.listView.render();
       }); 
       
       this.listenTo(EventBus, 'route:unselect', function() {
