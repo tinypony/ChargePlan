@@ -190,7 +190,7 @@ define(['jquery',
 	        	self.transformers = new Transformers();
 		        self.transformers.fetch().done(function(){
 		        	self.drawRoute();
-		        	self.drawTransformers();
+		        //	self.drawTransformers();
 		        });
 	        });
 		}
